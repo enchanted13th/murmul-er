@@ -1,12 +1,4 @@
 
-// import swal from 'sweetalert';
-// const Toast = Swal.mixin({
-//     toast: true,
-//     position: 'top-end',
-//     showConfirmButton: false,
-//     timer: 3000
-// });
-
 $(document).ready(function () {
 
     $('#btnLogo').click(function () {
@@ -50,6 +42,17 @@ $.logout = function () {
     });
 }
 
+$.loginCheck = function(flag, url){
+    if (islogin === false) {
+        Swal.fire('','로그인해야 이용가능한 서비스입니다.',"warning")
+            .then(function(){
+                $.showLoginPopup(flag);
+            })
+    } else {
+        location.href = url;
+    }
+}
+
 $.showPopup = function () {
     if ($('#joinPopup').length !== 0 || $('#loginPopup').length !== 0) {
         return;
@@ -74,34 +77,20 @@ $.showPopup = function () {
         });
 
         popup.find('#btnMenuAddRoom').click(function () {
-            if (islogin === false) {
-                $.showLoginPopup("register");
-                alert('로그인해야 이용가능한 서비스입니다.');
-            } else {
-                location.href = '/manage';
-            }
+            $.loginCheck("register", "/manage");
         });
 
         popup.find('#btnMenuReview').click(function () {
-            location.href = '../review.jsp';
+            location.href = '/review?page=1';
         });
 
         popup.find('#btnMenuAccount').click(function () {
-            if (islogin === false) {
-                $.showLoginPopup("mypage");
-                alert('로그인해야 이용가능한 서비스입니다.');
-            } else {
-                location.href = '/mypage/recent';
-            }
+            $.loginCheck("mypage", "/mypage/recent");
         });
 
         popup.find('#btnMenuService').click(function () {
             location.href = '/service/notice?page=1';
         });
-
-//		popup.find('button').click(function(){
-//			popup.remove();
-//		});
 
         let wh = $(window).height();
         let ph = 200;
@@ -116,13 +105,11 @@ $.showPopup = function () {
 
 $.showLoginPopup = function (flag) {
     if ($('#menuPopup').length !== 0 || $('#joinPopup').length !== 0) {
-		$(document.body).css('overflow', '');
+        $(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
-        // console.log('메뉴팝업지워야함');
     }
     if ($('.menuPopup').length === 0) {
-        // console.log('로그인팝업 생성하러옴');
-		$(document.body).css('overflow', 'hidden');
+        $(document.body).css('overflow', 'hidden');
         let popup = $(''
             + '<div id="loginPopup" class="menuPopup">'
             + '	 <div class="loginPopup">'
@@ -147,7 +134,6 @@ $.showLoginPopup = function (flag) {
             + '		</form>'
             + '	 </div>'
             + '</div>').appendTo($('body'));
-        // console.log('생성함');
         popup.find('#login').click(function () {
             //document.loginForm.action = "login";
             //document.loginForm.submit();
@@ -171,21 +157,26 @@ $.showLoginPopup = function (flag) {
                             }).then(function(){
                                 if (flag === "register") location.href = "/manage";
                                 else if (flag === "mypage") location.href = "/mypage/recent";
-                                else if (flag === "reviewWrite") location.href = "/reviewWrite.jsp";
+                                else if (flag === "reviewWrite") location.href = "/review/write";
                                 else location.href = "";
                             })
                             break;
                         case "WRONG_ID":
-                            Swal.fire('로그인 실패','존재하지 않는 아이디입니다.', 'error');
+                            Swal.fire('로그인 실패','존재하지 않는 아이디입니다.', 'error')
+                                .then(function(){
+                                    Swal.close();
+                                    document.loginForm.id.focus();
+                                });
                             // document.loginForm.id.focus();
                             break;
                         case "WRONG_PWD":
-                            Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error');
+                            Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error').then(function(){
+                                document.loginForm.pwd.focus();
+                            });
                             // document.loginForm.pwd.focus();
                             break;
                         case "ADMIN_LOGIN":
-                            // alert('관리자 페이지로 이동합니다.');
-                            // Toast.fire({type: 'success', title: '관리자 페이지로 이동합니다.'});
+                            Swal.fire('','관리자 페이지로 이동합니다.',"success");
                             location.href = "/admin";
                             break;
                     }
@@ -207,7 +198,7 @@ $.showLoginPopup = function (flag) {
 
     } else {
         // console.log("remove");
-		$(document.body).css('overflow', '');
+        $(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }
 }
@@ -317,11 +308,11 @@ $.showJoinPopup = function () {
                     //console.log(data);
                     switch (data.joinResult) {
                         case "SUCCESS":
-                            alert('회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.');
+                            Swal.fire('','회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.',"success");
                             $.showLoginPopup();
                             break;
                         case "JOIN_FAIL":
-                            alert('회원가입에 실패하셨습니다.');
+                            Swal.fire('','회원가입에 실패하셨습니다.',"error");
                             break;
                     }
                     isDuplicatedCheck = false;
@@ -331,7 +322,7 @@ $.showJoinPopup = function () {
         popup.find('#isdupli').click(function () {
             let id = $('#inputId').val();
             if (id.length < 6 || id.length > 20) {
-                alert('아이디는 최소 6자 이상, 최대 20자 이하입니다.');
+                Swal.fire('','아이디는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
                 document.joinForm.id.focus();
                 return;
             }
@@ -341,14 +332,14 @@ $.showJoinPopup = function () {
                 data: {id: id}
             }).then(function (data, status) {
                 if (status === 'success') {
-					console.log(data);
-					console.log(typeof data);
+                    console.log(data);
+                    console.log(typeof data);
                     switch (data.isDuplicatedId) {
                         case true:
-                            alert('이미 존재하는 아이디입니다.');
+                            Swal.fire('','이미 존재하는 아이디입니다.',"warning");
                             break;
                         case false:
-                            alert('아이디 등록이 가능합니다!');
+                            Swal.fire('','아이디 등록이 가능합니다!',"success");
                             isDuplicatedCheck = true;
                             break;
                     }
