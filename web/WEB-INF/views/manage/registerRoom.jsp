@@ -4,34 +4,14 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>방 등록하기 </title>
-	<link rel="stylesheet" href="/resources/css/topbar.css" />
-	<link rel="stylesheet" href="/resources/css/subtitle_rm.css" />
 	<link rel="stylesheet" href="/resources/css/registerRoom.css" />
-	<script src="/resources/js/jquery-3.4.1.min.js"></script>
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<script src="http://t1.daumcdn.net/postcode/api/core/190722/1563776399461/190722.js"></script>
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
-	<script src="http://t1.daumcdn.net/mapjsapi/js/main/4.1.7/kakao.js"></script>
-	<script src="http://s1.daumcdn.net/svc/attach/U03/cssjs/mapapi/libs/1.0.1/1515130215283/services.js"></script>
-	<script src="/resources/js/topbar.js"></script>
-	<script src="/resources/js/registerRoom.js"></script>
-	<!-- <script src="../js/uploadTest.js"></script> -->
+
 </head>
 <body>
 <jsp:include page="../topbar.jsp"/>
 
 <div class="wrap">
-	<div class="addRoomTitle">
-		<div>방 등록</div>
-	</div>
-	<div class="addRoomMenu">
-		<div>
-			<ul>
-				<li class="subtitle"><button id="btnPutRoom">내 방 등록</button></li>
-				<li class="subtitle"><button id="btnManageRoom">내 방 관리</button></li>
-			</ul>
-		</div>
-	</div>
+	<jsp:include page="manageSubtitle.jsp"/>
 	<div class="addRoomForm">
 		<table class="tbRoomType">
 			<tr>
@@ -229,5 +209,12 @@
 		</div>
 	</div>
 </div>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="http://t1.daumcdn.net/postcode/api/core/190722/1563776399461/190722.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
+<script src="http://t1.daumcdn.net/mapjsapi/js/main/4.1.7/kakao.js"></script>
+<script src="http://s1.daumcdn.net/svc/attach/U03/cssjs/mapapi/libs/1.0.1/1515130215283/services.js"></script>
+<script src="/resources/js/registerRoom.js"></script>
+<!-- <script src="../js/uploadTest.js"></script> -->
 </body>
 </html>

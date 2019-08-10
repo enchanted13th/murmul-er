@@ -6,31 +6,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>내 방 관리</title>
-    <link rel="stylesheet" href="/resources/css/topbar.css"/>
-    <link rel="stylesheet" href="/resources/css/subtitle_rm.css"/>
+
     <link rel="stylesheet" href="/resources/css/manageRoom.css"/>
-    <script src="/resources/js/jquery-3.4.1.min.js"></script>
-    <script src="/resources/js/topbar.js"></script>
-    <script src="/resources/js/manageRoom.js"></script>
+
 </head>
 <body>
 <jsp:include page="../topbar.jsp"/>
 <div class="wrap">
-    <div class="addRoomTitle">
-        <div>방 등록</div>
-    </div>
-    <div class="addRoomMenu">
-        <div>
-            <ul>
-                <li class="subtitle">
-                    <button id="btnPutRoom">내 방 등록</button>
-                </li>
-                <li class="subtitle">
-                    <button id="btnManageRoom">내 방 관리</button>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <jsp:include page="manageSubtitle.jsp"/>
 
     <c:forEach var="data" items="${myRooms}" varStatus="status">
         <table class="tbList" id="tblist${status.index}">
@@ -100,5 +83,6 @@
         <br><br>
     </c:forEach>
 </div>
+<script src="/resources/js/manageRoom.js"></script>
 </body>
 </html>
