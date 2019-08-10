@@ -1,0 +1,361 @@
+@charset "UTF-8";
+
+html.open {
+	overflow: hidden;
+}
+	
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.wrap {
+	position: absolute;
+	width: 100%;
+	height: 94%;
+}
+
+.mapWrap {
+	position: relative;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+
+.map {
+	float: left;
+	display: inline-block;
+	width: 80%;
+	height: 100%;
+	z-index: 1;
+}
+
+.sub {
+	position: relative;
+	float: left;
+	width: 19%;
+	height: 100%;
+}
+
+.itemsList {
+	position: relative;
+	float: left;
+	display: inline-block;
+	padding-left: 10px;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	z-index: 510;
+	background-color: white;
+	border-left: 2px solid gray;
+}
+
+.item {
+	padding: 10px;
+	width: 100%;
+}
+
+.divRoomImage {
+	width: 100%;
+}
+
+.roomImage {
+	width: 98%;
+}
+
+#mapInputBox {
+	width: 260px;
+	height: 30px;
+	outline: 0;
+	margin: 10px 0px 10px 5px;
+	font-size: 15px;
+	border: 1px solid #B6E2F8;
+	border-radius: 5px;
+}
+
+#btnMapSearch {
+	width: 35px;
+	height: 35px;
+	outline: 0;
+	background-image: url("../img/etc/search.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	border: 1px solid #B6E2F8;
+	border-radius: 5px;
+}
+
+#btnFilter {
+	width: 70px;
+	height: 35px;
+	outline: 0;
+	margin-right: 7px;
+	text-align: left;
+	font-size: 15px;
+	font-weight: bold;
+	background-image: url("../img/etc/filter.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: right;
+	border: 1px solid #B6E2F8;
+	border-radius: 5px;
+}
+
+.wrap>button {
+	border: 0;
+	background-color: #B6E2F8;
+	outline: 0;
+}
+
+.wrap>button:hover {
+	cursor: pointer;
+}
+
+.searchWrap {
+	position: absolute;
+	display: block;
+	margin: 15px 0px 0px 20px;
+	background-color: white;
+	border-radius: 5px;
+	z-index: 10;
+}
+
+.slideMenu {
+    width: 20px;
+    height: 50px;
+    position: absolute;
+    top: 40%;
+    left: -18px;
+    z-index: 511;
+    padding: 0;
+    outline: 0;
+    border: 2px solid gray;
+    border-right: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: rgba(0, 0.18, 0, 0) 2px -1px 2px 1px;
+    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+@media ( max-width :1400px) {
+	.sub {
+		width: 260px;
+	}
+	.map {
+		width: calc(100% - 265px);
+	}
+}
+
+ .filterWrap {
+ 	position: absolute;
+ 	width: 800px;
+	height: 650px;
+	display: none;
+	top: 150px;
+	left: 15px;
+   	z-index: 0;
+}
+.filterMenuWrap {
+	position: relative;
+	float: left;
+    display: inline-block;
+    text-align: center;
+    margin: 0px 10px 0px 0px;
+    z-index: 0;
+}
+
+.filterMenu {
+    margin: 0 auto;
+    width: 350px;
+    height: 350px;
+    border-collapse: collapse;
+    background: #B6E2F8;
+    z-index: 0;
+}
+
+.filterMenu td {
+    border: 2px solid #4B88CC;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.range {
+	font-size: 13px;
+	margin: 0px 5px;
+}
+
+.filterMenu td:first-child {
+    font-weight: bold;
+}
+
+.filterMenu td:nth-child(2) {
+    background: white;
+}
+
+.tbAddress {
+    width: 170px;
+    height: 35px;
+    border: 0;
+}
+
+.buildingType {
+    height: 30px;
+    outline: 0;
+    border: 0;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: #B6E2F8;
+    color: black;
+}
+
+.optionButton {
+    float: left;
+    width: 50%;
+    height: 100%;
+    border: 0;
+    background-color: #B6E2F8;
+    outline: 0;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.optionButton:first-child {
+    border-right: 2px solid #4B88CC;
+}
+
+#btnMyFilter {
+    width: 20px;
+    height: 50px;
+    outline: 0;
+    font-size: 20px;
+    background-color: white;
+    border: 0;
+}
+
+#btnAddressSearch {
+    width: 35px;
+    height: 35px;
+    outlint: 0;
+    background-image: url("../img/etc/search.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0;
+}
+
+.myFilterWrap {
+	position: relative;
+    display: none;
+    width: 330px;
+    height: 200px;
+    float: left;
+    z-index: 0;
+}
+
+.divFilterSettingSave {
+    width: 99.5%;
+    height: 50px;
+}
+
+#btnFilterSettingSave {
+    width: 99%;
+    height: 100%;
+    outline: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 15px;
+    background-color: #B6E2F8;
+    border: 1px solid #4B88CC;
+}
+
+.divFilterSettingLoad {
+    margin: 0 auto;
+    width: 100%;
+    height: 156px;
+}
+.divFilterSettingLoadBtn {
+    float: left;
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+}
+
+#btnFilterSettingLoad {
+    width: 100%;
+    height: 94%;
+    outline: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 11px;
+    background-color: #B6E2F8;
+    border-up: 0;
+    border-bottom: 1px solid #4B88CC;
+    border-left: 1px solid #4B88CC;
+    border-right: 0;
+}
+
+.divMyFilterList {
+    display: inline-block;
+    width: 78%;
+}
+
+.divMyFilter {
+    width: 100%;
+    height: 48px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 20px;
+    background-color: #FFFFFF;
+    border-up: 0;
+    border-bottom: 1px solid #4B88CC;
+    border-left: 1px solid #4B88CC;
+    border-right: 1px solid #4B88CC;
+}
+
+.trashButton {
+	float: right;
+    width: 35px;
+    height: 35px;
+    outlint: 0;
+    margin-top: 5px;
+    background-image: url("../img/etc/trash.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 0;
+}
+
+.myFilterRadio {
+	margin: 20px 0px 0px 10px;
+}
+
+.wrapOption {
+	display: none;
+	float:left;
+	z-index: 0;
+}
+
+.filterOption {
+    margin: 10px 0px 0px 0px;
+    width: 380px;
+    height: 385px;
+    border-collapse: collapse;
+    background-color: #B6E2F8;
+}
+
+.filterOption td {
+    width: 50%;
+    border: 2px solid #4B88CC;
+    font-family: 'Nanum Gothic', sans-serif;
+    background-color: white;
+}
+
+.optionCheckbox {
+    margin: 0px 10px 0px 10px;
+}
+
+.btnOption {
+    width: 100%;
+    height: 100%;
+    outline: 0;
+    border: 0;
+    background-color: #B6E2F8;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 20px;
+}

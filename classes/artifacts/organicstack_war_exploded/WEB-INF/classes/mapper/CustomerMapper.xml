@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.CustomerMapper">
+
+    <select id="selectNoticeList" resultType="com.murmuler.organicstack.vo.NoticeVO">
+        SELECT notice_id AS id, notice_title AS title,
+        notice_content AS content, notice_date AS writeDate FROM notice_tb ORDER BY notice_id DESC LIMIT #{page}, 5
+    </select>
+
+    <select id="selectFaqList" resultType="com.murmuler.organicstack.vo.FaqVO">
+        SELECT faq_id AS id, faq_title AS title, faq_content AS content FROM faq_tb LIMIT #{page}, 5
+    </select>
+
+    <select id="selectFaqDetail" resultType="com.murmuler.organicstack.vo.FaqVO">
+        SELECT faq_title AS title, faq_content AS content FROM faq_tb WHERE faq_id=#{id}
+    </select>
+
+    <select id="selectNoticeDetail" resultType="com.murmuler.organicstack.vo.NoticeVO">
+        SELECT notice_title AS title, notice_content AS content, notice_date AS writeDate FROM notice_tb WHERE notice_id=#{id}
+    </select>
+    
+    <insert id="insertInquiry" parameterType="hashmap">
+        INSERT INTO inquiry_tb (inquiry_email, inquiry_content) VALUES (#{email}, #{content})
+    </insert>
+
+    <insert id="insertFaq" parameterType="hashmap">
+        INSERT INTO faq_tb (faq_title, faq_content) VALUES (#{title}, #{content})
+    </insert>
+
+    <insert id="insertNotice" parameterType="hashmap">
+        INSERT INTO notice_tb (notice_title, notice_content) VALUES (#{title}, #{content})
+    </insert>
+
+    <update id="updateFaq" parameterType="hashmap">
+        UPDATE faq_tb SET faq_title = #{title}, faq_content = #{content} WHERE faq_id = #{id}
+    </update>
+
+    <update id="updateNotice" parameterType="hashmap">
+        UPDATE notice_tb SET notice_title = #{title}, notice_content = #{content} WHERE notice_id = #{id}
+    </update>
+
+    <update id="updateInquiry" parameterType="hashmap">
+        UPDATE inquiry_tb SET process_id = #{processId} WHERE inquiry_id = #{id}
+    </update>
+
+    <delete id="deleteFaq" parameterType="int">
+        DELETE FROM faq_tb WHERE faq_id=#{id}
+    </delete>
+
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM notice_tb WHERE notice_id=#{id}
+    </delete>
+
+    <delete id="deleteInquiry" parameterType="int">
+        DELETE FROM inquiry_tb WHERE inquiry_id=#{id}
+    </delete>
+
+    <select id="selectInquiryList" resultType="com.murmuler.organicstack.vo.InquiryVO">
+        SELECT inquiry_id AS id, inquiry_email AS email, inquiry_content AS content, process_id AS processId, inquiry_date AS writeDate FROM inquiry_tb LIMIT #{page}, 5
+    </select>
+
+    <select id="searchInquiryDetail" resultType="com.murmuler.organicstack.vo.InquiryVO">
+        SELECT inquiry_email AS email, inquiry_content AS content, process_id AS processId, inquiry_date AS writeDate FROM inquiry_tb WHERE inquiry_id = #{id}
+    </select>
+
+    <select id="selectFaqButtonCnt" resultType="int">
+        SELECT CEIL(COUNT(*)/5) FROM faq_tb
+    </select>
+
+    <select id="selectNoticeButtonCnt" resultType="int">
+        SELECT CEIL(COUNT(*)/5) FROM notice_tb
+    </select>
+</mapper>
