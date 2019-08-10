@@ -1,0 +1,186 @@
+.wrap {
+	margin: 0 auto;
+	width: 1070px;
+	height: auto;
+	border: 2px solid #9d9d9d;
+}
+
+.wrap>.topText {
+	margin: 25px 30px;
+	font-size: 20px;
+	color: #9d9d9d;
+}
+
+.wrap>.title {
+	margin: 25px 30px;
+	font-size: 20px;
+}
+
+.wrap>.location {
+	margin: 25px 30px;
+	font-size: 17px;
+	color: #9d9d9d;
+}
+
+.wrap .hashTag {
+	margin-right: 40px;
+	float: right;
+	color: #9ececc;
+	outline: 0;
+	border: 0;
+}
+
+.wrap>.roomImg {
+	margin: 0 auto;
+	margin: 20px 30px;
+	width: 95%;
+	height: 400px;
+}
+
+.wrap>.detailTitle {
+	margin: 15px 30px;
+	font-size: 20px;
+}
+
+.wrap>.detailContent {
+	margin: 15px 30px;
+}
+
+.wrap>div>h1 {
+	width: 100%;
+	height: 50px;
+	margin-top: 150px;
+	margin-bottom: 50px;
+	text-align: center;
+	font-size: 25px;
+}
+
+.wrap .detailTb {
+	margin: 90px 30px;
+	margin: 0 auto;
+	width: 95%;
+	height: 100px;
+	border: 1px solid #9d9d9d;
+	font-size: 18px;
+	border-collapse: collapse;
+}
+
+.wrap .detailTb td {
+	text-align: center;
+	border: 1px solid #9d9d9d;
+}
+
+.wrap .detailTb td:nth-child(1), .wrap .detailTb td:nth-child(3) {
+	color: #666666;
+}
+
+.wrap .priceTb {
+	margin: 50px 30px;
+	margin: 0 auto;
+	width: 95%;
+	border: 1px solid #9d9d9d;
+	text-align: center;
+	font-size: 18px;
+	border-collapse: collapse;
+}
+
+.wrap .priceTb td {
+	border: 1px solid #9d9d9d;
+}
+
+.wrap .optionTb {
+	width: 95%;
+	margin: 50px 30px;
+	margin: 0 auto;
+	border: 1px solid #9d9d9d;
+	font-size: 18px;
+	border-collapse: collapse;
+}
+
+.wrap .optionTb td {
+	border: 1px solid #9d9d9d;
+	width: 20%;
+	text-align: center;
+}
+
+.wrap .detailLocation {
+	text-align: center;
+}
+
+.wrap .which {
+	margin-top: 150px;
+	text-align: center;
+}
+
+.wrap .mapWrap {
+	text-align: center;
+}
+
+.wrap .mapWrap {
+	position: relative;
+	margin: 100px auto;
+	width: 60%;
+	height: 100%;
+}
+
+.wrap .mapWrap .map {
+	width: 500px;
+	height: 400px;
+	z-index: 1;
+	border: 1px solid #555555;
+}
+
+.footer {
+	position: fixed;
+	text-align: center;
+	bottom: 0;
+	width: 1070px;
+	color: white;
+	z-index: 10;
+	background-color: #9ececc;
+}
+
+.footer>.footerContent {
+	width: 50%;
+	float: left;
+}
+
+.footer>.f_button {
+	width: 50%;
+	float: right;
+	height: 52px;
+}
+
+.footer  .f_price {
+	margin-bottom: 10px;
+	font-size: 20px;
+}
+
+.footer>.f_button>.f_contact {
+	margin: 10px 0px;
+	margin-right: 10px;
+	border-radius: 10px;
+	font-size: 20px;
+	background-color: white;
+}
+
+.footer>.f_button>.f_talk {
+	margin: 10px 0px;
+	margin-left: 10px;
+	border-radius: 10px;
+	font-size: 20px;
+	background-color: white;
+}
+
+.footer button {
+	border: 0;
+	outline: 0;
+}
+
+.footer button:hover {
+	cursor: pointer;
+}
+
+.footer button img {
+	height: 40px;
+}

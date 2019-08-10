@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+/*  notice view */
+.nvTitle {
+	position: relative;
+	width: 80%;
+	height: 40px;
+	margin: 10px auto;
+	border: 3px solid #b6e2f8;
+	border-radius: 10px;
+}
+
+.nvTitle>.noticeTitle {
+	position: absolute;
+	width: 100%;
+	height: 20px;
+	font-size: 18px;
+	top: 50%;
+	margin-top: -10px;
+	margin-left: 20px;
+}
+
+.nvTitle>.noticeDate {
+	position: absolute;
+	width: 100%;
+	height: 20px;
+	font-size: 17px;
+	top: 50%;
+	margin-top: -10px;
+	margin-right: 20px;
+	text-align: right;
+}
+
+.nvContent {
+	position: relative;
+	width: 80%;
+	height: 250px;
+	margin: 10px auto;
+	border: 3px solid #b6e2f8;
+	border-radius: 10px;
+}
+
+.nvContent>div {
+	position: absolute;
+	width: 93%;
+	height: 100px;
+	top: 50%;
+	margin: 30px;
+	margin-top: -50px;
+}
+/*  notice view */
+
+/* btns _ start */
+.botBtns>div {
+	width: 150px;
+	height: 60px;
+	margin: 60px auto;
+}
+
+.botBtns>div>button {
+	height: 50px;
+	padding: 0 30px;
+	font-size: 17px;
+	border: 2px solid #b6e2f8;
+	outline: 0;
+	border-radius: 10px;
+	margin: 2px;
+}
+
+.botBtns>div>button:hover {
+	cursor: pointer;
+	background-color: #e9f8ff;
+}
+/* btns _ end */

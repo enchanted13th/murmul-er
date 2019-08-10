@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+    <g fill="none" fill-rule="evenodd" stroke="#444">
+        <g transform="translate(9 15)">
+            <circle cx="5" cy="5" r="5"/>
+            <path stroke-linecap="square" d="M5 1v2M1 5h1.581M7.44 5h2.141M5 8v2"/>
+        </g>
+        <g transform="translate(21 15)">
+            <circle cx="5" cy="5" r="5"/>
+            <path stroke-linecap="square" d="M5 1v2M1 5h1.581M7.44 5h2.141M5 8v2"/>
+        </g>
+        <rect width="29" height="22" x="5.5" y="9.5" rx="2"/>
+    </g>
+</svg>

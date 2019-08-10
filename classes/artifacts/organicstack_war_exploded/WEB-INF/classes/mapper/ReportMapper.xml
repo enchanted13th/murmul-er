@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.ReportMapper">
+
+    <resultMap id="report_type_map" type="hashmap">
+        <id property="id" column="report_type_id" jdbcType="INTEGER"/>
+        <result property="content" column="report_type_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectReportType"  resultMap="report_type_map">
+        SELECT * FROM report_type_tb
+    </select>
+
+    <insert id="insertReport" parameterType="hashmap">
+        INSERT INTO report_tb (room_id, report_type_id, additional_explain, process_id) VALUES(#{roomId}, #{reportTypeId}, #{content}, 2)
+    </insert>
+
+</mapper>

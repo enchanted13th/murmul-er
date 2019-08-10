@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.RoomMapper">
+
+    <select id="selectRoomDetailByRoomId" resultType="com.murmuler.organicstack.vo.RoomDetailVO" parameterType="hashmap">
+        SELECT room_id AS roomId, member_id AS memberId, room_area AS area, room_floor AS floor, heating_id AS heatType, room_type_id AS roomType,
+               sale_title AS title, rent_id AS rentType, period_num AS periodNum, period_unit AS periodUnit,
+               post_id AS postType, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, hashtag_exist AS hashtagExist,
+               views, detail_explain AS detailExplain, sale_date AS writeDate, sido, sigungu, bname, bname1, bname2, jibun, roadname, road_jibun AS roadJibun, detail_addr AS detailAddr
+        FROM location_tb
+        JOIN room_tb USING(location_id)
+        JOIN sale_tb USING(room_id)
+        WHERE room_id = ${roomId}
+    </select>
+
+    <select id="selectRoomOptionByRoomId" resultType="java.lang.Integer" parameterType="hashmap">
+        SELECT option_id FROM room_option_tb WHERE room_id = ${roomId}
+    </select>
+
+    <select id="selectRoomManageByRoomId" resultType="java.lang.Integer" parameterType="hashmap">
+        SELECT manage_id FROM room_manage_cost_tb WHERE room_id = ${roomId}
+    </select>
+
+    <select id="selectRoomHashtagByRoomId" resultType="java.lang.String" parameterType="hashmap">
+        SELECT hashtag_name FROM hashtag_tb WHERE room_id = ${roomId}
+    </select>
+
+    <select id="selectRoomImgUrlByRoomId" resultType="java.lang.String" parameterType="hashmap">
+        SELECT img_url FROM room_img_tb WHERE room_id = ${roomId}
+    </select>
+
+    <select id="selectRoomSummaryByLocation" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" parameterType="hashmap">
+        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
+               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate,
+               views, sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit
+        FROM location_tb
+        JOIN room_tb USING(location_id)
+        JOIN sale_tb USING(room_id)
+        WHERE latitude &gt;= (${latitude} - 0.025)
+        AND latitude &lt;= (${latitude} + 0.025)
+        AND longitude &gt;= (${longitude} - 0.025)
+        AND longitude &lt;= (${longitude} + 0.025)
+        LIMIT ${page}, ${listSize}
+    </select>
+
+    <select id="selectMyRoomById" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" >
+        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
+               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate, views,
+               sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit
+        FROM sale_tb
+        JOIN room_tb USING(room_id)
+        JOIN location_tb USING(location_id)
+        WHERE member_id = #{id}
+    </select>
+
+    <select id="selectRoomImgOne" resultType="string">
+        SELECT img_url FROM room_img_tb WHERE room_id = #{id} ORDER BY img_url LIMIT 1;
+    </select>
+
+    <select id="selectRoomByRoomIds" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" parameterType="java.util.List">
+        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
+               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate, views,
+               sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit
+        FROM sale_tb
+        JOIN room_tb USING(room_id)
+        JOIN location_tb USING(location_id)
+        WHERE room_id = 0 OR
+        <foreach collection="list" item="item"  open="(" close=")" separator="OR">
+              room_id = #{item}
+        </foreach>
+    </select>
+
+    <select id="selectRoomByLikes" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" parameterType="hashmap">
+        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
+               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate, views,
+               sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit
+        FROM like_list_tb AS l
+        JOIN sale_tb USING(room_id)
+        JOIN room_tb USING(room_id)
+        JOIN location_tb USING(location_id)
+        WHERE l.member_id = ${memberId}
+    </select>
+
+    <resultMap id="roomManageMap" type="hashmap">
+        <id property="manageId" column="manage_id" jdbcType="INTEGER" />
+        <id property="manageName" column="manage_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="optionMap" type="hashmap">
+        <id property="optionId" column="option_id" jdbcType="INTEGER" />
+        <id property="optionName" column="option_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="heatTypeMap" type="hashmap">
+        <id property="heatingId" column="heating_id" jdbcType="INTEGER" />
+        <id property="heatingName" column="heating_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="postStatusMap" type="hashmap">
+        <id property="postId" column="post_id" jdbcType="INTEGER" />
+        <id property="postName" column="post_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="processStatusMap" type="hashmap">
+        <id property="processId" column="process_id" jdbcType="INTEGER" />
+        <id property="processName" column="process_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="rentTypeMap" type="hashmap">
+        <id property="rentId" column="rent_id" jdbcType="INTEGER" />
+        <id property="rentName" column="rent_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="roomTypeMap" type="hashmap">
+        <id property="roomTypeId" column="room_type_id" jdbcType="CHAR" />
+        <id property="roomTypeName" column="room_type_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectRoomManage" resultMap="roomManageMap">
+        SELECT * FROM manage_cost_tb
+    </select>
+
+    <select id="selectRoomOption" resultMap="optionMap">
+        SELECT * FROM option_tb
+    </select>
+
+    <select id="selectHeatingType" resultMap="heatTypeMap">
+        SELECT * FROM heating_tb
+    </select>
+
+    <select id="selectPostStatusType" resultMap="postStatusMap">
+        SELECT * FROM post_status_tb
+    </select>
+
+    <select id="selectProcessStatusType" resultMap="processStatusMap">
+        SELECT * FROM process_status_tb
+    </select>
+
+    <select id="selectRentType" resultMap="rentTypeMap">
+        SELECT * FROM rent_type_tb
+    </select>
+
+    <select id="selectRoomType" resultMap="roomTypeMap">
+        SELECT * FROM room_type_tb
+    </select>
+
+    <insert id="insertLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
+        INSERT INTO location_tb (sido, sigungu, bname, bname1, bname2, jibun, roadname, road_jibun, detail_addr, latitude, longitude)
+        VALUES (#{sido}, #{sigungu}, #{bname}, #{bname1}, #{bname2}, #{jibun}, #{roadName}, #{roadJibun}, #{detailAddr}, #{latitude}, #{longitude})
+    </insert>
+
+    <select id="selectOneRecentLocation" resultType="java.lang.Integer">
+        SELECT location_id FROM location_tb ORDER BY location_id DESC LIMIT 1
+    </select>
+
+    <insert id="insertRoom" parameterType="com.murmuler.organicstack.vo.RoomVO">
+        INSERT INTO room_tb (room_area, room_floor, heating_id, room_type_id, location_id)
+        VALUES (#{area}, #{floor}, #{heatType}, #{roomType}, #{locationId})
+    </insert>
+
+    <select id="selectOneRecentRoom" resultType="java.lang.Integer">
+        SELECT room_id FROM room_tb ORDER BY room_id DESC LIMIT 1
+    </select>
+
+    <insert id="insertSaleInfo" parameterType="com.murmuler.organicstack.vo.SaleInfoVO">
+        INSERT INTO sale_tb VALUES (#{roomId}, #{title}, #{rentType}, #{periodNum}, #{periodUnit}, #{postType}, #{deposit}, #{monthlyCost}, #{manageCost}, #{hashtagExist}, DEFAULT, #{views}, #{detailExplain}, #{memberId})
+    </insert>
+
+    <insert id="insertRoomManageCost" parameterType="hashmap">
+        INSERT INTO room_manage_cost_tb VALUES
+        <foreach collection="manageIdList" item="manageId" separator=",">
+            (#{manageId}, #{roomId})
+        </foreach>
+    </insert>
+
+    <insert id="insertRoomOption" parameterType="hashmap">
+        INSERT INTO room_option_tb VALUES
+        <foreach collection="optionIdList" item="optionId" separator=",">
+            (#{optionId}, #{roomId})
+        </foreach>
+    </insert>
+
+    <insert id="insertRoomHashtag" parameterType="hashmap">
+        INSERT INTO hashtag_tb VALUES
+        <foreach collection="hashtagList" item="hashtag" separator=",">
+            (#{roomId}, #{hashtag})
+        </foreach>
+    </insert>
+
+    <insert id="insertRoomImage" parameterType="hashmap">
+        INSERT INTO room_img_tb VALUES
+        <foreach collection="imgUrlList" item="imgUrl" separator=",">
+            (#{roomId}, #{imgUrl})
+        </foreach>
+    </insert>
+
+    <update id="updateLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
+        UPDATE location_tb
+        SET sido=#{sido}, sigungu=#{sigungu}, bname=#{bname}, bname1=#{bname1},
+            bname2=#{bname2}, jibun=#{jibun}, roadname=#{roadName}, road_jibun=#{roadJibun},
+            detail_addr=#{detailAddr}, latitude=#{latitude}, longitude=#{longitude}
+        WHERE location_id=#{id}
+    </update>
+
+    <update id="updateRoom" parameterType="com.murmuler.organicstack.vo.RoomVO" >
+        UPDATE room_tb
+        SET room_area=#{area}, room_floor=#{floor}, heating_id=#{heatType}, room_type_id=#{roomType}
+        WHERE room_id=#{id};
+    </update>
+
+    <update id="updateSale" parameterType="com.murmuler.organicstack.vo.SaleInfoVO" >
+        UPDATE sale_tb
+        SET sale_title=#{title}, rent_id=#{rentType}, period_num=#{periodNum}, period_unit=#{periodUnit},
+            post_id=#{postType}, deposit=#{deposit}, monthly_cost=#{monthlyCost}, manage_cost=#{manageCost},
+            hashtag_exist=#{hashtagExist}, sale_date=#{writeDate}, detail_explain=#{detailExplain}
+        WHERE room_id=#{roomId}
+    </update>
+
+    <update id="updateViews" parameterType="hashmap">
+        UPDATE sale_tb
+        SET views = ${views}
+        WHERE room_id= ${roomId}
+    </update>
+
+    <delete id="deleteHashtag" parameterType="int">
+        DELETE FROM hashtag_tb WHERE room_id=#{roomId};
+    </delete>
+
+    <delete id="deleteOption" parameterType="int">
+        DELETE FROM room_option_tb WHERE room_id=#{roomId};
+    </delete>
+
+    <delete id="deleteManageCost" parameterType="int">
+        DELETE FROM room_manage_cost_tb WHERE room_id=#{roomId};
+    </delete>
+
+    <delete id="deleteRoomImg" parameterType="int">
+        DELETE FROM room_img_tb WHERE room_id=#{roomId};
+    </delete>
+
+    <delete id="deleteRoom" parameterType="int">
+        DELETE FROM location_tb WHERE location_id = (SELECT location_id FROM room_tb WHERE room_id = #{roomId})
+    </delete>
+
+</mapper>

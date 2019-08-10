@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(5.629 6)">
+            <path stroke="#444" d="M6.75.5A6.248 6.248 0 0 0 .507 6.99l.578 14.917a5.67 5.67 0 0 0 11.33 0l.578-14.917A6.248 6.248 0 0 0 6.75.5z"/>
+            <rect width="6.5" height="7.571" x="3.5" y="16.571" stroke="#444" rx="3.25"/>
+            <g fill="#444" fill-rule="nonzero" transform="translate(2.143 8.571)">
+                <rect width="7.5" height="1" x="1.071" y="1.071" rx=".5"/>
+                <circle cx="8.036" cy="1.607" r="1.071"/>
+                <circle cx="1.607" cy="1.607" r="1.071"/>
+            </g>
+            <g fill="#444" fill-rule="nonzero" transform="translate(2.143 11.786)">
+                <rect width="7.5" height="1" x="1.071" y="1.071" rx=".5"/>
+                <circle cx="1.607" cy="1.607" r="1.071"/>
+                <circle cx="8.036" cy="1.607" r="1.071"/>
+            </g>
+        </g>
+        <path stroke="#444" d="M28.021 6.5a6.25 6.25 0 0 0-6.245 6.49l.582 15.118a5.668 5.668 0 0 0 11.327 0l.582-15.118A6.25 6.25 0 0 0 28.02 6.5h.001z"/>
+        <g transform="translate(22.343 14.571)">
+            <rect width="6.5" height="7.571" x="2.396" y="8" stroke="#444" rx="3.25"/>
+            <g fill="#444" fill-rule="nonzero" transform="translate(.804)">
+                <rect width="7.5" height="1.071" x="1.071" y="1.071" rx=".535"/>
+                <circle cx="8.036" cy="1.607" r="1.071"/>
+                <circle cx="1.607" cy="1.607" r="1.071"/>
+            </g>
+            <g fill="#444" fill-rule="nonzero" transform="translate(.804 3.214)">
+                <rect width="7.5" height="1.071" x="1.071" y="1.071" rx=".535"/>
+                <circle cx="1.607" cy="1.607" r="1.071"/>
+                <circle cx="8.036" cy="1.607" r="1.071"/>
+            </g>
+        </g>
+    </g>
+</svg>
