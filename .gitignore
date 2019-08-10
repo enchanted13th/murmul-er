@@ -114,4 +114,9 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
+classes/
+.idea/
+.class
+
+
 # End of https://www.gitignore.io/api/maven,gradle,intellij
