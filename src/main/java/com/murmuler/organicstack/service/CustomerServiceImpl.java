@@ -1,12 +1,12 @@
 package com.murmuler.organicstack.service;
 
-        import com.murmuler.organicstack.dao.CsDAO;
-        import com.murmuler.organicstack.vo.FaqVO;
-        import com.murmuler.organicstack.vo.NoticeVO;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Service;
+import com.murmuler.organicstack.dao.CsDAO;
+import com.murmuler.organicstack.vo.FaqVO;
+import com.murmuler.organicstack.vo.NoticeVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-        import java.util.List;
+import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,7 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public NoticeVO getNoticeDetail(int id) {
-        return csDAO.searchNoticeDetail(id);
+        NoticeVO notice = csDAO.searchNoticeDetail(id);
+        String content = notice.getContent().replaceAll("\n", "<br>");
+        notice.setContent(content);
+        return notice;
     }
 
     @Override

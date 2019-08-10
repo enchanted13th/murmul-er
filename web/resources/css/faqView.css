@@ -32,10 +32,11 @@
 .fvContent>div {
 	position: absolute;
 	width: 93%;
-	height: 30px;
-	top: 50%;
-	margin: 30px;
-	margin-top: -15px;
+	height: 80%;
+	/*top: 50%;*/
+	margin: 3% 3.5%;
+	/*margin-top: -15px;*/
+	overflow-y: auto;
 }
 /*  faq view */
 

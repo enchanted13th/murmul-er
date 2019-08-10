@@ -19,7 +19,11 @@
             <div class="faqTitle">${faqVO.title}</div>
         </div>
         <div class="fvContent">
-            <div>${faqVO.content}</div>
+            <div>${faqVO.content}<br><br>
+                더 궁금한 사항이 있다면, 1:1 문의를 통해 연락주십시오. <br>
+                원하시는 빠르고 자세하게 답변드릴 수 있도록 약속하겠습니다. <br>
+                항상 노력하는 머물-러가 되겠습니다. 감사합니다.
+            </div>
         </div>
     </div>
     <div class="botBtns">
