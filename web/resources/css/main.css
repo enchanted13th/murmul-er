@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.background {
+	position: relative;
+	display: block;
+	width: 100%;  
+}
+
+.mainBackground {
+	margin: 40px auto;
+	width: 1070px;
+	position: relative;
+	height: 470px;
+	border-bottom: 10px solid rgb(182, 226,248);
+}
+
+.house {
+	text-align: center;
+}
+.house > img {
+	width: 900px;
+}
+.people {
+	position: absolute;
+	top: 295px;
+	left: calc(calc(100% - 400px) / 2);
+}
+.people > img {
+	width: 400px;
+}
+
+.subBackground {
+	margin: 40px auto;
+	width: 950px;
+	height: 310px;
+}
