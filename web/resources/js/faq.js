@@ -17,12 +17,13 @@ $(document).ready(function () {
     for(let i = 0; i < btns.length; i++){
         btns.eq(i).val(btns.eq(i).text());
     }
+    $('.pageBtns > div').css('width', (pageBtns.length + 4) * 53);
 
 
     $('.pageBtns > div > button').click(function () {
         if($(this).attr("class") == "pagenum"){
-                // console.log("number");
-                curpage = $(this).val();
+            // console.log("number");
+            curpage = $(this).val();
         } else {
             switch ($(this).val()) {
                 case "<<": curpage = 1; break;

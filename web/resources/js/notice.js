@@ -10,6 +10,7 @@ $(document).ready(function () {
     for(let i = 0; i < pageBtns.length;i++){
         pageBtns.eq(i).text(startpage+i).attr("id", startpage+i+"");
     }
+    $('.pageBtns > div').css('width', (pageBtns.length + 4) * 53);
 
     for(let i = 0; i < btns.length; i++){
         btns.eq(i).val(btns.eq(i).text());

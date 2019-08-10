@@ -7,6 +7,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>공지사항 | ${noticeVO.title}</title>
     <link rel="stylesheet" href="/resources/css/noticeView.css"/>
+    <script>
+        let content = "${noticeVO.content}";
+    </script>
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
