@@ -231,6 +231,19 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public int modifyPostType(int roomId, String postType) {
+        Map<String, Integer> paramMap = new HashMap<>();
+        int postId = postStatusRecord.getId(postType);
+        paramMap.put("roomId", roomId);
+        paramMap.put("postId", postId);
+        if(roomDAO.updatePostType(paramMap) > 0)
+            return postId;
+        else
+            return 0;
+    }
+
+
+    @Override
     public int removeRoom(int roomId) {
         return roomDAO.deleteRoom(roomId);
     }

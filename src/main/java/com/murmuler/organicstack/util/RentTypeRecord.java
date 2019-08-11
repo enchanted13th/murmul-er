@@ -14,7 +14,8 @@ public class RentTypeRecord {
     @Autowired
     private SqlSession sqlSession;
     private Map<Long, String> rentType;
-    private RentTypeRecord() {
+
+    public RentTypeRecord() {
         rentType = new HashMap<>();
     }
 

@@ -15,7 +15,7 @@ public class RoomTypeRecord {
     private SqlSession sqlSession;
     private Map<String, String> roomType;
 
-    private RoomTypeRecord() {
+    public RoomTypeRecord() {
         roomType = new HashMap<>();
     }
 

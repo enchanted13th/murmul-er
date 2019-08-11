@@ -19,33 +19,34 @@
         <table class="tbList" id="tblist${status.index}">
             <tbody>
             <tr>
-                <td class="tdroomState" id="tdroomState${status.index}" rowspan="7">${data.postType}</td>
+                <td class="tableTitle">게시상태</td>
                 <td class="tdroomImg" id="tdroomImg" rowspan="7">
                         <%--<img src="${contextPath}/${data.roomImg}" width="350" height="350"/>--%></td>
-                <td id="tdDate">등록일</td>
+                <td class="tableTitle">등록일</td>
                 <td class="val" id="tdDateVal">${data.writeDate}</td>
             </tr>
             <tr>
-                <td id="tdView">조회수</td>
+                <td class="tdroomState" id="tdroomState${status.index}" rowspan="6">${data.postType}</td>
+                <td class="tableTitle">조회수</td>
                 <td class="val" id="tdViewVal">${data.views}</td>
             </tr>
             <tr>
-                <td id="tdTitle">제목</td>
+                <td class="tableTitle">제목</td>
                 <td class="val" id="tdTitleVal">${data.title}</td>
             </tr>
             <tr>
-                <td id="tdAddr">주소</td>
+                <td class="tableTitle">주소</td>
                 <td class="val" id="tdAddrVal">${data.sido} ${data.sigungu} ${data.roadname}</td>
             </tr>
             <tr>
-                <td id="tdPrice">가격</td>
+                <td class="tableTitle">가격</td>
                 <td class="val" id="tdPriceVal">
                     보증금<c:choose>
                     <c:when test="${data.deposit==0}">
                         없음
                     </c:when>
                     <c:otherwise>
-                        ${data.deposit}만 원
+                        <b>${data.deposit}</b>만 원
                     </c:otherwise>
                 </c:choose>
                     / 월세<c:choose>
@@ -53,7 +54,7 @@
                         없음
                     </c:when>
                     <c:otherwise>
-                        ${data.monthlyCost}만 원
+                        <b>${data.monthlyCost}</b>만 원
                     </c:otherwise>
                 </c:choose>
                     / 관리비<c:choose>
@@ -61,21 +62,21 @@
                         없음
                     </c:when>
                     <c:otherwise>
-                        ${data.manageCost}만 원
+                        <b>${data.manageCost}</b>만 원
                     </c:otherwise>
                 </c:choose>
                 </td>
             </tr>
             <tr>
-                <td id="tdPriod">임대기간</td>
-                <td class="val" id="tdPriodVal">${data.periodNum}${data.periodUnit}</td>
+                <td class="tableTitle">임대기간</td>
+                <td class="val" id="tdPriodVal"><b>${data.periodNum}</b> ${data.periodUnit}</td>
             </tr>
             <tr>
-                <td class="tdbtns" colspan="2">
-                    <button id="btnModify${status.index}">수정</button>
-                    <button class="btnDelete" id="btnDelete${status.index}" value="${data.roomId}">삭제</button>
-                    <button class="btnComplete" id="btnComplete${status.index}" value="${data.roomId}">거래완료</button>
-                    <button class="btnEnd" id="btnEnd${status.index}" value="${data.roomId}">거래종료</button>
+                <td id="tdbtns${status.index}" class="tdbtns" colspan="2">
+                    <button class="button btnModify" value="${data.roomId}">수정</button>
+                    <button class="button btnDelete" value="${data.roomId}">삭제</button>
+                    <button class="button btnPt btnPost" value="${data.roomId}">게시종료</button>
+                    <button class="button btnPt btnDeal" value="${data.roomId}">거래완료</button>
                 </td>
             </tr>
             </tbody>

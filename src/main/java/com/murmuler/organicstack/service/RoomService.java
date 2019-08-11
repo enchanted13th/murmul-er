@@ -1,7 +1,6 @@
 package com.murmuler.organicstack.service;
 
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
-import com.murmuler.organicstack.vo.RoomSummaryVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 
 import java.util.List;
@@ -13,6 +12,7 @@ public interface RoomService {
     List<RoomSummaryViewVO> getMyRooms(int id);
     int addRoom(Map<String, String> roomInfo);
     int modifyRoom(Map<String, String> roomInfo);
-    int modifyViews(int roomId, int Views);
+    int modifyViews(int roomId, int views);
+    int modifyPostType(int roomId, String postType);
     int removeRoom(int roomId);
 }

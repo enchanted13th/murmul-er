@@ -164,6 +164,12 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public int updatePostType(Map<String, Integer> map) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return mapper.updatePostType(map);
+    }
+
+    @Override
     public int deleteManageCost(int roomId, int[] manageIdList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.deleteManageCost(roomId);

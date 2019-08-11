@@ -22,6 +22,7 @@ public interface RoomDAO {
     int insertRoomImage(int roomId, String[] imgUrlList);
     int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
     int updateViews(Map<String, Integer> map);
+    int updatePostType(Map<String, Integer> paramMap);
     int deleteManageCost(int roomId, int[] manageIdList);
     int deleteOption(int roomId, int[] optionIdList) ;
     int deleteHashtag(int roomId, String[] hashtagList) ;

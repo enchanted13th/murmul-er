@@ -60,15 +60,18 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="tbSubtitle" rowspan="2" style="border-bottom: 0">금액</td>
+				<td class="tbSubtitle">층수</td>
+				<td>
+					<input type="text" id="inputFloor"/>
+					<label>층</label>
+				</td>
+			</tr>
+			<tr>
+				<td class="tbSubtitle">금액</td>
 				<td>
 					<button id="btnRi1" value="전세">전세</button>
 					<button id="btnRi2" value="월세">월세</button>
 					<button id="btnRi3" value="단기">단기</button>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<input type="text" id="inputDeposit" placeholder="보증금"/>
 					<label>/</label>
 					<input type="text" id="inputPrice" placeholder="월세 or 가격"/>
