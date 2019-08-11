@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.util.PostStatusRecord;
 import com.murmuler.organicstack.vo.MemberVO;
 
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
@@ -155,6 +156,34 @@ public class RoomController {
     public String eraseRoom(@RequestParam(value = "roomId") int roomId) {
         roomService.removeRoom(roomId);
         return "redirect:/manage";
+    }
+
+    @RequestMapping(value = "/post-status", method = RequestMethod.POST)
+    public void changePost(@RequestParam int roomId,
+                           @RequestParam String postType,
+                           HttpServletResponse response) throws IOException {
+        logger.info(String.format("changePost method entered... ri: %d, pt: %s", roomId, postType));
+        JSONObject res = new JSONObject();
+        int result = roomService.modifyPostType(roomId, postType);
+        switch (result) {
+            case PostStatusRecord.POST_UPDATE_FAIL :
+              res.put("result", "UPDATE_FAIL");
+              break;
+            case PostStatusRecord.POST_POSTING :
+              res.put("result", "POSTING");
+              break;
+            case PostStatusRecord.POST_END_POSTING :
+              res.put("result", "END_POSTING");
+              break;
+            case PostStatusRecord.POST_DEAL_COMPLETE :
+              res.put("result", "DEAL_COMPLETE");
+              break;
+            case PostStatusRecord.POST_NO_POSTING :
+              res.put("result", "NO_POSTING");
+              break;
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
     }
 
 }

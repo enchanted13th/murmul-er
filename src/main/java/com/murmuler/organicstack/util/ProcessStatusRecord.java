@@ -14,7 +14,7 @@ public class ProcessStatusRecord {
     private SqlSession sqlSession;
     private Map<Long, String> processStatus;
 
-    private ProcessStatusRecord() {
+    public ProcessStatusRecord() {
         processStatus = new HashMap<>();
     }
 

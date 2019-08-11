@@ -10,11 +10,17 @@ import java.util.*;
 
 @Repository
 public class PostStatusRecord {
+    public static final int POST_UPDATE_FAIL = 0;
+    public static final int POST_POSTING = 1;
+    public static final int POST_END_POSTING = 2;
+    public static final int POST_DEAL_COMPLETE = 3;
+    public static final int POST_NO_POSTING = 4;
+
     @Autowired
     private SqlSession sqlSession;
     private Map<Long, String> postStatus;
 
-    private PostStatusRecord() {
+    public PostStatusRecord() {
         postStatus = new HashMap<>();
     }
 
@@ -48,10 +54,10 @@ public class PostStatusRecord {
     public int getId(String value) {
         int id = 0;
         switch(value) {
-            case "게시중" : id =  1; break;
-            case "게시종료" : id =  2; break;
-            case "거래완료" : id =  3; break;
-            case "게시금지" : id =  4; break;
+            case "게시중" : id =  POST_POSTING; break;
+            case "게시종료" : id =  POST_END_POSTING; break;
+            case "거래완료" : id =  POST_DEAL_COMPLETE; break;
+            case "게시금지" : id =  POST_NO_POSTING; break;
         }
         return id;
     }

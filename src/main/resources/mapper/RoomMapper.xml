@@ -224,20 +224,26 @@
         WHERE room_id= ${roomId}
     </update>
 
+    <update id="updatePostType" parameterType="hashmap">
+        UPDATE sale_tb
+        SET post_id = ${postId}
+        WHERE room_id = ${roomId}
+    </update>
+
     <delete id="deleteHashtag" parameterType="int">
-        DELETE FROM hashtag_tb WHERE room_id=#{roomId};
+        DELETE FROM hashtag_tb WHERE room_id=#{roomId}
     </delete>
 
     <delete id="deleteOption" parameterType="int">
-        DELETE FROM room_option_tb WHERE room_id=#{roomId};
+        DELETE FROM room_option_tb WHERE room_id=#{roomId}
     </delete>
 
     <delete id="deleteManageCost" parameterType="int">
-        DELETE FROM room_manage_cost_tb WHERE room_id=#{roomId};
+        DELETE FROM room_manage_cost_tb WHERE room_id=#{roomId}
     </delete>
 
     <delete id="deleteRoomImg" parameterType="int">
-        DELETE FROM room_img_tb WHERE room_id=#{roomId};
+        DELETE FROM room_img_tb WHERE room_id=#{roomId}
     </delete>
 
     <delete id="deleteRoom" parameterType="int">
