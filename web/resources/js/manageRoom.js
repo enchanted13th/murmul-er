@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $.setPostType();
     $('#btnManageRoom').parent().css('border-bottom', '6px solid #b6e2f8');
-
-    $('.btnDelete').click
+    $.setPostType();
+    $('.btnModify').clickModifyBtn();
+    $('.btnDelete').clickDeleteBtn();
     $('.btnPt').clickPostStatBtn();
 });
 
@@ -38,6 +38,18 @@ $.setBtnDisabled = function (listNum) {
     $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'button');
     $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'btnDelete');
     $('#tdbtns'+listNum+'>button').eq(1).removeAttr('style');
+}
+
+$.fn.clickModifyBtn = function () {
+    $(this).click(function () {
+        let roomId = $(this).val();
+        location.href = "/manage/update/"+roomId;
+    })
+}
+$.fn.clickDeleteBtn = function () {
+    $(this).click(function () {
+
+    })
 }
 
 $.fn.changePostType = function (callback){

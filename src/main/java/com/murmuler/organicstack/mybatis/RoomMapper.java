@@ -26,6 +26,11 @@ public interface RoomMapper {
     List<Map<String, String>> selectRoomType();
     int selectOneRecentLocation();
     int selectOneRecentRoom();
+    int selectLocationIdByRoomId(int roomId);
+    int selectRoomIdByLocationId(int locationId);
+    LocationVO selectRoomLocation(int locationId);
+    RoomVO selectRoomInfo(int roomId);
+    SaleInfoVO selectRoomSaleInfo(int roomId);
 
     int insertLocation(LocationVO locationVO);
     int insertRoom(RoomVO roomVO);
@@ -46,4 +51,6 @@ public interface RoomMapper {
     int deleteManageCost(int roomId);
     int deleteRoomImg(int roomId);
     int deleteRoom(int roomId);
+
+
 }

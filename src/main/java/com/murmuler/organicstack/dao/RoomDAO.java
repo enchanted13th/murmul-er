@@ -15,12 +15,14 @@ public interface RoomDAO {
     List<RoomSummaryVO> selectMyRooms(int id);
     List<RoomSummaryVO> selectRoomByRoomIds(List<Integer> ids);
     List<RoomSummaryVO> selectRoomByLikes(Map<String, Integer> map);
+    Map<String, Object> selectRoomInfo(int roomId);
+    int selectLocationIdByRoomId(int roomId);
     int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
     int insertRoomManageCost(int roomId, int[] manageIdList);
     int insertRoomOption(int roomId, int[] optionIdList);
     int insertRoomHashtag(int roomId, String[] hashtagList);
     int insertRoomImage(int roomId, String[] imgUrlList);
-    int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
+    int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr);
     int updateViews(Map<String, Integer> map);
     int updatePostType(Map<String, Integer> paramMap);
     int deleteManageCost(int roomId, int[] manageIdList);

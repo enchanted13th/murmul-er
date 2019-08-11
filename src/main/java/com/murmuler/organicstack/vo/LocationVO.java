@@ -47,4 +47,22 @@ public class LocationVO {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", sido='" + sido + '\'' +
+                ", sigungu='" + sigungu + '\'' +
+                ", bname='" + bname + '\'' +
+                ", bname1='" + bname1 + '\'' +
+                ", bname2='" + bname2 + '\'' +
+                ", jibun='" + jibun + '\'' +
+                ", roadName='" + roadName + '\'' +
+                ", roadJibun='" + roadJibun + '\'' +
+                ", detailAddr='" + detailAddr + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

@@ -146,56 +146,78 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Map<String, Object> getRoomInfo(int roomId) {
+        return roomDAO.selectRoomInfo(roomId);
+    }
+
+    @Override
     public int modifyRoom(Map<String, String> roomInfo) {
         if(roomInfo == null)
             return 0;
 
         int result = 1 ;
+        String hashtagExist="Y";
         LocationVO locationVO = new LocationVO();
         RoomVO roomVO = new RoomVO();
         SaleInfoVO saleInfoVO = new SaleInfoVO();
 
-        locationVO.setId(Integer.parseInt(roomInfo.get("locationId")));
-        locationVO.setSido(roomInfo.get("sido"));
-        locationVO.setSigungu(roomInfo.get("sigungu"));
-        locationVO.setBname(roomInfo.get("bname"));
-        locationVO.setBname1(roomInfo.get("bname1"));
-        locationVO.setBname2(roomInfo.get("bname2"));
-        locationVO.setJibun(roomInfo.get("jibun"));
-        locationVO.setRoadName(roomInfo.get("roadName"));
-        locationVO.setRoadJibun(roomInfo.get("roadJibun"));
-        locationVO.setDetailAddr(roomInfo.get("detailAddr"));
-        locationVO.setLatitude(new BigDecimal(roomInfo.get("latitude")));
-        locationVO.setLongitude(new BigDecimal(roomInfo.get("longitude")));
+        int roomId = Integer.parseInt(roomInfo.get("roomId"));
+        int locationId = roomDAO.selectLocationIdByRoomId(roomId);
+        locationVO.setId(locationId);
 
-        roomVO.setId(Integer.parseInt(roomInfo.get("roomId")));
+        if(roomInfo.get("isNotChangeAddr").equals("false")) {
+            locationVO.setSido(roomInfo.get("sido"));
+            locationVO.setSigungu(roomInfo.get("sigungu"));
+            locationVO.setBname(roomInfo.get("bname"));
+            locationVO.setBname1(roomInfo.get("bname1"));
+            locationVO.setBname2(roomInfo.get("bname2"));
+            locationVO.setJibun(roomInfo.get("jibun"));
+            locationVO.setRoadName(roomInfo.get("roadName"));
+            locationVO.setRoadJibun(roomInfo.get("roadJibun"));
+            locationVO.setDetailAddr(roomInfo.get("detailAddr"));
+            locationVO.setLatitude(new BigDecimal(roomInfo.get("latitude")));
+            locationVO.setLongitude(new BigDecimal(roomInfo.get("longitude")));
+
+        }
+        roomVO.setId(roomId);
+        roomVO.setLocationId(locationId);
         roomVO.setArea(Double.parseDouble(roomInfo.get("area")));
-        roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
-        roomVO.setHeatType(Integer.parseInt(roomInfo.get("heatType")));
-        roomVO.setRoomType(roomInfo.get("roomType"));
+        //roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
+        roomVO.setHeatType(heatingTypeRecord.getId(roomInfo.get("heatType")));
+        roomVO.setRoomType(roomTypeRecord.getId(roomInfo.get("roomType")));
 
         int manageCost = roomInfo.get("manageCost").equals("") ? 0 : Integer.parseInt(roomInfo.get("manageCost"));
+        saleInfoVO.setRoomId(roomId);
         saleInfoVO.setTitle(roomInfo.get("title"));
         saleInfoVO.setRentType(Integer.parseInt(roomInfo.get("rentType")));
         saleInfoVO.setPeriodNum(Integer.parseInt(roomInfo.get("periodNum")));
-        saleInfoVO.setPeriodUnit(roomInfo.get("periodUnit"));
-        saleInfoVO.setPostType(Integer.parseInt(roomInfo.get("postType")));
+        saleInfoVO.setPeriodUnit(roomInfo.get("periodUnit").charAt(0)+"");
+        //saleInfoVO.setPostType(Integer.parseInt(roomInfo.get("postType")));
         saleInfoVO.setDeposit(Integer.parseInt(roomInfo.get("deposit")));
         saleInfoVO.setMonthlyCost(Integer.parseInt(roomInfo.get("monthlyCost")));
         saleInfoVO.setManageCost(manageCost);
-        saleInfoVO.setHashtagExist(roomInfo.get("hashtagExist"));
+
+        switch (roomInfo.get("hashtagExist")){
+            case "true":
+                hashtagExist = "Y";
+                break;
+            case "false":
+                hashtagExist = "N";
+                break;
+        }
+        saleInfoVO.setHashtagExist(hashtagExist);
         saleInfoVO.setWriteDate(new Date(0));
-        saleInfoVO.setViews(Integer.parseInt(roomInfo.get("views")));
+        // saleInfoVO.setViews(Integer.parseInt(roomInfo.get("views")));
         saleInfoVO.setDetailExplain(roomInfo.get("detailExplain"));
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
 
-        result &= roomDAO.updateRoom(locationVO, roomVO, saleInfoVO);
-        int roomId = roomVO.getId();
+        result &= roomDAO.updateRoom(locationVO, roomVO, saleInfoVO, roomInfo.get("isNotChangeAddr"));
 
         String[] temp;
         if(!roomInfo.get("manageIdList").equals("")) {
             temp = roomInfo.get("manageIdList").split(",");
             int[] manageIdList = new int[temp.length];
+
             for (int i = 0; i < temp.length; i++) {
                 manageIdList[i] = manageCostRecord.getId(temp[i]);
             }
@@ -208,17 +230,28 @@ public class RoomServiceImpl implements RoomService {
         for (int i = 0; i < temp.length; i++) {
             optionIdList[i] = optionRecord.getId(temp[i]);
         }
+
+        System.out.println("0");
         result &= roomDAO.deleteOption(roomId, optionIdList);
+        System.out.println("1");
         result &= roomDAO.insertRoomOption(roomId, optionIdList);
 
-        String[] hashtagList = roomInfo.get("hashTagList").split(",");
-        String[] imgUrlList = roomInfo.get("imgUrlList").split(",");
+        String[] hashtagList=null;
+        if(roomInfo.get("hashtagList") != null) {
+            hashtagList = roomInfo.get("hashtagList").split(",");
+            result &= roomDAO.deleteHashtag(roomId, hashtagList);
+            result &= roomDAO.insertRoomHashtag(roomId, hashtagList);
+        }
 
-        result &= roomDAO.deleteHashtag(roomId, hashtagList);
-        result &= roomDAO.deleteRoomImage(roomId, imgUrlList);
-        result &= roomDAO.insertRoomHashtag(roomId, hashtagList);
-        result &= roomDAO.insertRoomImage(roomId, imgUrlList);
-
+//        String[] imageList=null;
+//        System.out.println("Service: imageList");
+//        if(roomInfo.get("imageList") != null){
+//            String[] imgUrlList = roomInfo.get("imageList").split(",");
+//            result &= roomDAO.deleteRoomImage(roomId, imgUrlList);
+//            System.out.println("방 이미지 삭제");
+//            result &= roomDAO.insertRoomImage(roomId, imgUrlList);
+//            System.out.println("방 이미지 추가");
+//        }
         return result;
     }
 

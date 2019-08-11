@@ -93,6 +93,33 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public Map<String, Object> selectRoomInfo(int roomId) {
+        if(roomId <= 0)
+            return null;
+
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        int locationId = mapper.selectLocationIdByRoomId(roomId);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("roomId", roomId);
+
+        paramMap.put("locationVO", mapper.selectRoomLocation(locationId));
+        paramMap.put("roomVO", mapper.selectRoomInfo(roomId));
+        paramMap.put("saleVO", mapper.selectRoomSaleInfo(roomId));
+        paramMap.put("option", mapper.selectRoomOptionByRoomId(map));
+        paramMap.put("hashtag", mapper.selectRoomHashtagByRoomId(map));
+        paramMap.put("manageCost", mapper.selectRoomManageByRoomId(map));
+        paramMap.put("images", mapper.selectRoomImgUrlByRoomId(map));
+        return paramMap;
+    }
+
+    @Override
+    public int selectLocationIdByRoomId(int roomId) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return mapper.selectLocationIdByRoomId(roomId);
+    }
+
+    @Override
     public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         mapper.insertLocation(locationVO);
@@ -142,18 +169,17 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
+    public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = 1;
-        int locationId = mapper.selectOneRecentLocation();
-        int roomId = mapper.selectOneRecentRoom();
-        locationVO.setId(locationVO.getId());
-        result &= mapper.updateLocation(locationVO);
-        roomVO.setLocationId(locationVO.getId());
-        roomVO.setId(roomVO.getId());
+
+        if(isNotChangeAddr.equals("false")){
+            result &= mapper.updateLocation(locationVO);
+        }
         result &= mapper.updateRoom(roomVO);
-        saleInfoVO.setRoomId(roomId);
+        System.out.println("1");
         result &= mapper.updateSale(saleInfoVO);
+        System.out.println("2");
         return result;
     }
 
