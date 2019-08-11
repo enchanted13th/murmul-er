@@ -84,19 +84,19 @@ public class OptionRecord {
             case "현관문 안전장치":
                 id = 12;
                 break;
-            case "주차 가능":
+            case "세탁기":
                 id = 13;
                 break;
-            case "엘리베이터 가능":
+            case "침대":
                 id = 14;
                 break;
             case "반려동물 가능":
                 id = 15;
                 break;
-            case "세탁기":
+            case "엘리베이터 가능":
                 id = 16;
                 break;
-            case "침대":
+            case "주차 가능":
                 id = 17;
                 break;
         }

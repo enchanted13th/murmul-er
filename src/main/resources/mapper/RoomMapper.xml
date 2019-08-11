@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.murmuler.organicstack.mybatis.RoomMapper">
 
-    <select id="selectRoomDetailByRoomId" resultType="com.murmuler.organicstack.vo.RoomDetailVO" parameterType="hashmap">
+    <select id="selectRoomDetailByRoomId" resultType="com.murmuler.organicstack.vo.RoomDetailVO">
         SELECT room_id AS roomId, member_id AS memberId, room_area AS area, room_floor AS floor, heating_id AS heatType, room_type_id AS roomType,
                sale_title AS title, rent_id AS rentType, period_num AS periodNum, period_unit AS periodUnit,
                post_id AS postType, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, hashtag_exist AS hashtagExist,
@@ -15,19 +15,19 @@
         WHERE room_id = ${roomId}
     </select>
 
-    <select id="selectRoomOptionByRoomId" resultType="java.lang.Integer" parameterType="hashmap">
+    <select id="selectRoomOptionByRoomId" resultType="java.lang.Integer">
         SELECT option_id FROM room_option_tb WHERE room_id = ${roomId}
     </select>
 
-    <select id="selectRoomManageByRoomId" resultType="java.lang.Integer" parameterType="hashmap">
+    <select id="selectRoomManageByRoomId" resultType="java.lang.Integer" >
         SELECT manage_id FROM room_manage_cost_tb WHERE room_id = ${roomId}
     </select>
 
-    <select id="selectRoomHashtagByRoomId" resultType="java.lang.String" parameterType="hashmap">
+    <select id="selectRoomHashtagByRoomId" resultType="java.lang.String">
         SELECT hashtag_name FROM hashtag_tb WHERE room_id = ${roomId}
     </select>
 
-    <select id="selectRoomImgUrlByRoomId" resultType="java.lang.String" parameterType="hashmap">
+    <select id="selectRoomImgUrlByRoomId" resultType="java.lang.String">
         SELECT img_url FROM room_img_tb WHERE room_id = ${roomId}
     </select>
 
@@ -146,6 +146,40 @@
         SELECT * FROM room_type_tb
     </select>
 
+    <select id="selectRoomIdByLocationId" parameterType="int" resultType="int">
+        SELECT room_id
+        FROM room_tb
+        WHERE location_id = #{locationId}
+    </select>
+
+    <select id="selectLocationIdByRoomId" parameterType="int" resultType="int">
+        SELECT location_id
+        FROM room_tb
+        WHERE room_id = #{roomId}
+    </select>
+
+    <select id="selectRoomLocation" resultType="com.murmuler.organicstack.vo.LocationVO">
+        SELECT sido, sigungu, bname, bname1, bname2, jibun, roadname as roadName,
+        road_jibun as roadJibun, detail_addr as detailAddr, longitude, latitude, location_id
+        FROM location_tb
+        WHERE location_id = #{locationId}
+    </select>
+
+    <select id="selectRoomInfo" resultType="com.murmuler.organicstack.vo.RoomVO">
+        SELECT room_area as area, heating_id as heatType,
+        location_id  as locationId, room_type_id as roomType
+        FROM room_tb
+        WHERE room_id = #{roomId}
+    </select>
+
+    <select id="selectRoomSaleInfo" resultType="com.murmuler.organicstack.vo.SaleInfoVO">
+        SELECT sale_title as title, rent_id as rentType, period_num as periodNum,
+        period_unit as periodUnit, post_id as postType, deposit, monthly_cost as monthlyCost,
+        manage_cost as manageCost, hashtag_exist as hashtagExist, detail_explain as detailExplain
+        FROM sale_tb
+        WHERE room_id = #{roomId}
+    </select>
+
     <insert id="insertLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
         INSERT INTO location_tb (sido, sigungu, bname, bname1, bname2, jibun, roadname, road_jibun, detail_addr, latitude, longitude)
         VALUES (#{sido}, #{sigungu}, #{bname}, #{bname1}, #{bname2}, #{jibun}, #{roadName}, #{roadJibun}, #{detailAddr}, #{latitude}, #{longitude})
@@ -171,14 +205,14 @@
     <insert id="insertRoomManageCost" parameterType="hashmap">
         INSERT INTO room_manage_cost_tb VALUES
         <foreach collection="manageIdList" item="manageId" separator=",">
-            (#{manageId}, #{roomId})
+            (#{manageId.value}, #{roomId})
         </foreach>
     </insert>
 
     <insert id="insertRoomOption" parameterType="hashmap">
         INSERT INTO room_option_tb VALUES
         <foreach collection="optionIdList" item="optionId" separator=",">
-            (#{optionId}, #{roomId})
+            (#{optionId.value}, #{roomId})
         </foreach>
     </insert>
 
@@ -213,8 +247,8 @@
     <update id="updateSale" parameterType="com.murmuler.organicstack.vo.SaleInfoVO" >
         UPDATE sale_tb
         SET sale_title=#{title}, rent_id=#{rentType}, period_num=#{periodNum}, period_unit=#{periodUnit},
-            post_id=#{postType}, deposit=#{deposit}, monthly_cost=#{monthlyCost}, manage_cost=#{manageCost},
-            hashtag_exist=#{hashtagExist}, sale_date=#{writeDate}, detail_explain=#{detailExplain}
+            deposit=#{deposit}, monthly_cost=#{monthlyCost}, manage_cost=#{manageCost},
+            hashtag_exist=#{hashtagExist}, detail_explain=#{detailExplain}
         WHERE room_id=#{roomId}
     </update>
 

@@ -1,7 +1,8 @@
+if (islogin === false) {
+    location.href = "/";
+}
 $(document).ready(function () {
-    if (islogin === false) {
-        location.href = "/";
-    }
+
     $('#btnRecentList').click(function () {
         location.href = "/mypage/recent";
     })
