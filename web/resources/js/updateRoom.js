@@ -3,8 +3,36 @@ var adminFeeList = [];
 var optionList = [];
 var hashTagList = [];
 var imageList = [];
+
+var selectedRt = 0;
+var selectedRi = 0;
+var selectedAF = 0;
+var selectedHeat = 0;
+var selectedAnimal = 0;
+var selectedParking = 0;
+var selectedEv = 0;
+
+var hashtagExist = true;
 var isNotChangeAddr = true;
+var isNotChangeDtAddr = true;
 var ps = new kakao.maps.services.Places();
+
+$(document).ready(function () {
+    $.clickEvent();
+    $.imagebutton();
+
+    $.colorRoomBtn($('#roomType').val());
+    $.colorRentBtn($('#rentType').val());
+    $.colorManageBtn($('#isMangeCost').val());
+    $.colorHeatBtn($('#heat').val());
+    $.checkPeriodUnit($('#periodUnit').val());
+    $.colorArrBtn($('#option').val(), $('#optionLen').val(),'option');
+    $.colorArrBtn($('#manage').val(), $('#manageLen').val(),'manage');
+
+    changeArea();
+})
+
+
 
 function placesSearchCB(data, status) {
     if (status === kakao.maps.services.Status.OK) {
@@ -37,6 +65,7 @@ function dataSubmit(){
         allAddr: JSON.stringify(allAddr),
         detailAddr: $('#inputDetailAddr').val(),
         area: $('#inputArea').val(),
+        floor: $('#inputFloor').val(),
         periodNum: $('#inputPeriodNum').val(),
         periodUnit: $('#inputPeriodUnit').val(),
         deposit: $('#inputDeposit').val() * 10000,
@@ -46,8 +75,6 @@ function dataSubmit(){
         adminFeeList: adminFeeListString,
         roomType: $('#btnRt' + selectedRt).val(),
         heatType: $('#btnHeat' + selectedHeat).val(),
-        animal: $('#btnAnimal' + selectedAnimal).val(),
-        parking: $('#btnParking' + selectedParking).val(),
         optionList: optionListString,
         title: $('#inputTitle').val(),
         detail: $('#txtDetail').val(),
@@ -55,7 +82,8 @@ function dataSubmit(){
         hashtagList: hashtagListString,
         // images: JSON.stringify(imgpath),
         imageList: imageListString,
-        isNotChangeAddr: isNotChangeAddr
+        isNotChangeAddr: isNotChangeAddr,
+        isNotChangeDtAddr: isNotChangeDtAddr
     };
 
     $.ajax("/manage/room/update",{
@@ -79,21 +107,7 @@ var changeAddr = function () {
     alert('값변경');
     ps.keywordSearch($('#inputAddr'), placesSearchCB);
 }
-$(document).ready(function () {
-    $.clickEvent();
-    $.imagebutton();
 
-    $.colorRoomBtn($('#roomType').val());
-    $.colorRentBtn($('#rentType').val());
-    $.colorManageBtn($('#isMangeCost').val());
-    $.colorHeatBtn($('#heat').val());
-    $.checkPeriodUnit($('#periodUnit').val());
-    $.colorArrBtn($('#option').val(), $('#optionLen').val(),'option');
-    $.colorArrBtn($('#manage').val(), $('#manageLen').val(),'manage');
-
-    changeArea();
-
-})
 
 $.colorRoomBtn = function(value) {
     switch (value) {
@@ -310,9 +324,12 @@ $.clickEvent = function () {
     $('.previmage').hover();
     $('.option').clickOp();
 
-    //=========================registerRoom=========================
+    $('#inputDetailAddr').changeDA();
+    $("#lastBtn").clickSubmit();
+}
 
-    $("#lastBtn").click(function () {
+$.fn.clickSubmit = function(){
+    $(this).click(function () {
 
         if($('#hash1').val() !== "")
             hashTagList.push($('#hash1').val());
@@ -504,6 +521,15 @@ $.clickEvent = function () {
     });
 }
 
+$.fn.changeDA = function(){
+    $(this).keyup(function () {
+        if(isNotChangeDtAddr)
+            isNotChangeDtAddr = false;
+    })
+
+}
+
+
 $.fn.hover = function () {
     $(this).mouseenter(function () {
         $(this).css('border', '2px solid #90c0d0');
@@ -519,14 +545,7 @@ $.imagebutton = function () {
     }
 }
 
-var selectedRt = 0;
-var selectedRi = 0;
-var selectedAF = 0;
-var selectedHeat = 0;
-var selectedAnimal = 0;
-var selectedParking = 0;
-var selectedEv = 0;
-var hashtagExist = true;
+
 
 $.fn.clickRt = function () {
     $(this).click(function () {

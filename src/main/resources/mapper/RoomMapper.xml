@@ -166,7 +166,7 @@
     </select>
 
     <select id="selectRoomInfo" resultType="com.murmuler.organicstack.vo.RoomVO">
-        SELECT room_area as area, heating_id as heatType,
+        SELECT room_area as area, room_floor as floor, heating_id as heatType,
         location_id  as locationId, room_type_id as roomType
         FROM room_tb
         WHERE room_id = #{roomId}
@@ -235,6 +235,12 @@
         SET sido=#{sido}, sigungu=#{sigungu}, bname=#{bname}, bname1=#{bname1},
             bname2=#{bname2}, jibun=#{jibun}, roadname=#{roadName}, road_jibun=#{roadJibun},
             detail_addr=#{detailAddr}, latitude=#{latitude}, longitude=#{longitude}
+        WHERE location_id=#{id}
+    </update>
+
+    <update id="updateDetailLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
+        UPDATE location_tb
+        SET detail_addr=#{detailAddr}
         WHERE location_id=#{id}
     </update>
 

@@ -169,17 +169,21 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr) {
+    public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr, String isNotChangeDtAddr) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = 1;
 
         if(isNotChangeAddr.equals("false")){
             result &= mapper.updateLocation(locationVO);
         }
+        else {
+            System.out.println("In DAO locaionVO.getdetailAddr: "+ locationVO.getDetailAddr());
+            System.out.println("locationVO: "+ locationVO);
+            if(isNotChangeDtAddr.equals("false"))
+                result &= mapper.updateDetailLocation(locationVO);
+        }
         result &= mapper.updateRoom(roomVO);
-        System.out.println("1");
         result &= mapper.updateSale(saleInfoVO);
-        System.out.println("2");
         return result;
     }
 

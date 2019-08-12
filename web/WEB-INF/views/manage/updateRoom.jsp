@@ -80,21 +80,23 @@
                 </td>
             </tr>
             <tr>
-                <td class="tbSubtitle" rowspan="2" style="border-bottom: 0">금액</td>
+                <td class="tbSubtitle">층수</td>
+                <td>
+                    <input type="text" id="inputFloor" class="alignRight" value="${room.roomVO.floor}"/>
+                    <label>층</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tbSubtitle">금액</td>
                 <td>
                     <button id="btnRi1" value="1">전세</button>
                     <button id="btnRi2" value="2">월세</button>
                     <button id="btnRi3" value="3">단기</button>
-                    <input id="rentType" type="hidden" value="${room.saleVO.rentType}"></input>
-                </td>
-            </tr>
-            <tr>
-                <td>
-
                     <input type="text" id="inputDeposit" class="alignRight" value="<fmt:formatNumber value="${room.saleVO.deposit/10000}" maxFractionDigits="0" />" placeholder="보증금"/>
                     <label>/</label>
                     <input type="text" id="inputPrice" class="alignRight" value="<fmt:formatNumber value="${room.saleVO.monthlyCost/10000}" maxFractionDigits="0" />" placeholder="월세 or 가격"/>
                     <label>만원</label>
+                    <input id="rentType" type="hidden" value="${room.saleVO.rentType}"></input>
                 </td>
             </tr>
             <tr>
@@ -103,7 +105,7 @@
                     <input type="text" class="alignRight" value="${room.saleVO.periodNum}" id="inputPeriodNum">
                     <select id="inputPeriodUnit">
                         <option id="Y" value="Y">년</option>
-                        <option id="M" value="M">월</option>
+                        <option id="M" value="M">개월</option>
                         <option id="W" value="W">주</option>
                     </select>
                     <input id="periodUnit" type="hidden" value="${room.saleVO.periodUnit}">

@@ -41,7 +41,9 @@ public interface RoomMapper {
     int insertRoomImage(Map<String, Object> map);
 
     int updateLocation(LocationVO locationVO);
+    
     int updateRoom(RoomVO roomVO);
+    int updateDetailLocation(LocationVO locationVO);
     int updateSale(SaleInfoVO saleInfoVO);
     int updateViews(Map<String, Integer> map);
     int updatePostType(Map<String, Integer> map);
