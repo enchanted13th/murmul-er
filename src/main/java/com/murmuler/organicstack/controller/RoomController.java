@@ -151,7 +151,7 @@ public class RoomController {
                             @RequestParam String allAddr,
                             @RequestParam String detailAddr,
                             @RequestParam String area,
-//                               @RequestParam String floor,
+                            @RequestParam String floor,
                             @RequestParam String periodNum,
                             @RequestParam String periodUnit,
                             @RequestParam String deposit,
@@ -161,9 +161,6 @@ public class RoomController {
                             @RequestParam String adminFeeList,
                             @RequestParam String roomType,
                             @RequestParam String heatType,
-                            @RequestParam String animal,
-                            @RequestParam String parking,
-
                             @RequestParam String optionList,
                             @RequestParam String title,
                             @RequestParam String detail,
@@ -171,6 +168,7 @@ public class RoomController {
                             @RequestParam String hashtagList,
                             @RequestParam String imageList,
                             @RequestParam String isNotChangeAddr,
+                            @RequestParam String isNotChangeDtAddr,
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
 
@@ -204,11 +202,13 @@ public class RoomController {
             roomInfo.put("roadJibun", roadAddress[0]);
             roomInfo.put("latitude", (String) addrInfo.get("latitude"));
             roomInfo.put("longitude", (String) addrInfo.get("longitude"));
-            roomInfo.put("detailAddr", detailAddr);
         }
+        roomInfo.put("detailAddr", detailAddr);
+        roomInfo.put("isNotChangeDtAddr", isNotChangeDtAddr);
+        
         roomInfo.put("area", area);
         roomInfo.put("isNotChangeAddr", isNotChangeAddr);
-//        roomInfo.put("floor", floor);
+        roomInfo.put("floor", floor);
         roomInfo.put("periodNum", periodNum);
         roomInfo.put("periodUnit", periodUnit);
         roomInfo.put("deposit", deposit);
@@ -218,9 +218,6 @@ public class RoomController {
         roomInfo.put("manageIdList", adminFeeList);
         roomInfo.put("heatType", heatType);
         roomInfo.put("roomType", roomType);
-        roomInfo.put("animal", animal);
-        roomInfo.put("parking", parking);
-
         roomInfo.put("optionList", optionList);
         roomInfo.put("title", title);
         roomInfo.put("detailExplain", detail);
@@ -249,6 +246,7 @@ public class RoomController {
 
         Map<String, Object> room = roomService.getRoomInfo(roomId);
 
+        System.out.println("roomVO: "+ room.get("roomVO"));
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/manage/updateRoom");
         mav.addObject("room", room);

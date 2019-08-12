@@ -22,7 +22,7 @@ public interface RoomDAO {
     int insertRoomOption(int roomId, int[] optionIdList);
     int insertRoomHashtag(int roomId, String[] hashtagList);
     int insertRoomImage(int roomId, String[] imgUrlList);
-    int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr);
+    int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr, String isNotChangeDtAddr);
     int updateViews(Map<String, Integer> map);
     int updatePostType(Map<String, Integer> paramMap);
     int deleteManageCost(int roomId, int[] manageIdList);

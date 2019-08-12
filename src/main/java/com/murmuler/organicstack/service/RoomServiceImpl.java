@@ -174,15 +174,15 @@ public class RoomServiceImpl implements RoomService {
             locationVO.setJibun(roomInfo.get("jibun"));
             locationVO.setRoadName(roomInfo.get("roadName"));
             locationVO.setRoadJibun(roomInfo.get("roadJibun"));
-            locationVO.setDetailAddr(roomInfo.get("detailAddr"));
             locationVO.setLatitude(new BigDecimal(roomInfo.get("latitude")));
             locationVO.setLongitude(new BigDecimal(roomInfo.get("longitude")));
-
         }
+        locationVO.setDetailAddr(roomInfo.get("detailAddr"));
+
         roomVO.setId(roomId);
         roomVO.setLocationId(locationId);
         roomVO.setArea(Double.parseDouble(roomInfo.get("area")));
-        //roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
+        roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
         roomVO.setHeatType(heatingTypeRecord.getId(roomInfo.get("heatType")));
         roomVO.setRoomType(roomTypeRecord.getId(roomInfo.get("roomType")));
 
@@ -211,7 +211,7 @@ public class RoomServiceImpl implements RoomService {
         saleInfoVO.setDetailExplain(roomInfo.get("detailExplain"));
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
 
-        result &= roomDAO.updateRoom(locationVO, roomVO, saleInfoVO, roomInfo.get("isNotChangeAddr"));
+        result &= roomDAO.updateRoom(locationVO, roomVO, saleInfoVO, roomInfo.get("isNotChangeAddr"), roomInfo.get("isNotChangeDtAddr"));
 
         String[] temp;
         if(!roomInfo.get("manageIdList").equals("")) {
