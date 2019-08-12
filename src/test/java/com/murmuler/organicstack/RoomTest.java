@@ -185,4 +185,11 @@ public class RoomTest {
         System.out.println(roomService.getRoomDetailByRoomId(paramMap));
     }
 
+    @Test
+    public void deleteRoomTest() {
+        int roomId = 103;
+        int result = dao.deleteRoom(roomId);
+        assertTrue(result > 0);
+    }
+
 }
