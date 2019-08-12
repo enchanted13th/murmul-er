@@ -23,8 +23,15 @@
 }
 
 .totalCnt {
-	font-size: 20px;
+	font-size: 14px;
 	text-align: left;
+}
+
+.totalCntColor {
+	font-size: 14px;
+	text-align: left;
+	font-weight: bold;
+	color: rgb(146, 189, 223);
 }
 
 .filter {
@@ -62,7 +69,13 @@
 	background-color: rgb(182, 226, 248);
 }
 
-.wrap {
+/*.wrap {*/
+/*	margin: 25px auto;*/
+/*	border: 1px solid #bfbfbf;*/
+/*	width: 1070px;*/
+/*}*/
+
+.element{
 	margin: 25px auto;
 	border: 1px solid #bfbfbf;
 	width: 1070px;
@@ -121,6 +134,10 @@
 	font-size: 20pt
 }
 
+.overall{
+	height: 70px;
+}
+
 .overall>span {
 	float: left;
 }
@@ -166,4 +183,8 @@
 .pageBtns>div>button:hover {
 	cursor: pointer;
 	background-color: #e9f8ff;
+}
+
+.textTitle{
+	font-weight: bold;
 }

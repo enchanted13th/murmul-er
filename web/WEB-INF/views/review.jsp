@@ -5,11 +5,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>리뷰 보기</title>
-    <link rel="stylesheet" href="css/topbar.css"/>
-    <link rel="stylesheet" href="css/review.css"/>
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/topbar.js"></script>
-    <script src="js/review.js"></script>
+    <link rel="stylesheet" href="/resources/css/review.css"/>
+    <script>
+        var curpage = ${curpage};
+        var flag = "cur";
+        var startpage = ${startpage};
+        var total = ${total};
+    </script>
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
@@ -18,8 +20,8 @@
     <div>REVIEW</div>
 </div>
 <div class="divOption1">
-    <span class="totalCnt">총 000개</span>
-    <button class="filter" type="button"><img src="img/etc/filter2.png" style="width: 30px; height: 30px;"></button>
+    <span class="totalCnt">총</span> <span class="totalCntColor">${reviewCnt}개</span><span class="totalCnt">의 리뷰가 있습니다.</span>
+    <%--    <button class="filter" type="button"><img src="/resources/img/etc/filter2.png" style="width: 30px; height: 30px;"></button>--%>
 </div>
 <div class="divOption2">
     <select class="selAlign">
@@ -31,69 +33,80 @@
     <button class="addReview">후기 작성</button>
 </div>
 <div class="wrap">
-    <div class="topText">
-        <span>2019년 9월 15일</span>
-        <span>|</span>
-        <span>3개월 거주</span>
-    </div>
-    <div class="title">
-        <span>숭실대학교 5분거리 원룸</span>
-        <!-- <span>|</span>
-        <span>월세 30만원</span> -->
-    </div>
-    <div class="location">
-        <span>서울특별시 동작구 상도로 23길 렉토빌딩</span>
-    </div>
-    <div class="content">
-        <div class="picture">
-            <img class="room" src="img/room/room.png" style="width:400px; height:400px;" align="middle"/>
-            <div class="hashtag">
-                <span>#대학교 인근</span>
-                <span>#원룸</span>
+
+    <c:forEach var="review" items="${reviewList}">
+        <div class="element">
+            <div class="topText">
+                <span>${review.writeDate}</span>
+                <span>|</span>
+                <span>${review.residencePeriod}</span><span class="period"></span> <span>거주</span>
+                <input class="periodUnit" type="hidden" value="${review.periodUnit}">
+            </div>
+            <div class="title">
+                <span class="textTitle">${review.title}</span>
+            </div>
+            <div class="location">
+                <span>${review.sido} ${review.sigungu} ${review.roadname} ${review.detailAddr}</span>
+            </div>
+            <div class="content">
+                <div class="picture">
+                    <img class="room" src="/resources/img/room/room.png" style="width:400px; height:400px;" align="middle"/>
+                    <div class="hashtag">
+                        <c:forEach var="hashTag" items="${review.hashTagList}">
+                            <span>#${hashTag}</span>
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class="text">
+                    <div class="overall">
+                        <span class="textTitle">총 평가</span>
+                        <img class="rank" src=""/>
+                        <input class="score" type="hidden" value="${review.score}">
+                    </div>
+                    <div class="review_text">
+                            ${review.content}
+                    </div>
+                    <div class="good">
+                        <div class="textTitle">장점</div>
+                            ${review.advantage}
+                    </div>
+                    <div class="bad">
+                        <div class="textTitle">단점</div>
+                            ${review.disadvantage}
+                    </div>
+                    <div class="level">
+                        <span class="textTitle">방충지수</span>
+                        <img class="insect" src="">
+                        <input class="insectVal" type="hidden" value="${review.insectLevel}">
+                        <span class="textTitle">방음지수</span>
+                        <img class="noise" src="">
+                        <input class="noiseVal" type="hidden" value="${review.noiseLevel}">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="text">
-            <div class="overall">
-                <span class="textTitle">총 평가</span>
-                <img class="rank" src="img/etc/rank.png"/>
-            </div>
-            <div class="review_text">
-                학교에서 5분거리임!!<br/>
-                하지만 버스정류장이 좀 멀리있음ㅜㅜ<br/>
-                학교 근처라 사서 먹을 건 많은데 밤에도 시끄러움..<br/>
-            </div>
-            <div class="good">
-                <div class="textTitle">장점</div>
-                <span>1. 학교가 가깝다.</span><br/>
-                <span>2. 편의점, 음식점 다 있다.</span><br/>
-                <span>3. 관리비가 저렴하다.</span><br/>
-            </div>
-            <div class="bad">
-                <div class="textTitle">단점</div>
-                <span>1. 방음이 별로. 옆방에서 노래부르는 소리가 다 들린다.</span><br/>
-                <span>2. 날파리가 가끔 꼬인다.</span><br/>
-            </div>
-            <div class="level">
-                <span class="textTitle">방충지수</span>
-                <img class="insect" src="img/etc/normal_a.png">
-                <span class="textTitle">방음지수</span>
-                <img class="noise" src="img/etc/bad_a.png">
-            </div>
-        </div>
-    </div>
+    </c:forEach>
+
 </div>
+
 <div class="pageBtns">
     <div>
-        <button>&lt;&lt;</button>
-        <button>&lt;</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>&gt;</button>
-        <button>&gt;&gt;</button>
+        <button >&lt;&lt;</button>
+        <button >&lt;</button>
+        <c:set var="doneLoop" value="false"/>
+        <c:forEach var="i" begin="${startpage}" end="${total}" varStatus="status">
+            <c:if test="${not doneLoop}">
+                <c:if test="${status.count == 5}">
+                    <c:set var="doneLoop" value="true"/>
+                </c:if>
+                <button class="pagenum"></button>
+            </c:if>
+        </c:forEach>
+        <button >&gt;</button>
+        <button >&gt;&gt;</button>
     </div>
 </div>
+
+<script src="/resources/js/review.js"></script>
 </body>
 </html>
