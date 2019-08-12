@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/resources/css/roomDetail.css">
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
-    <link rel="stylesheet" href="/resources/css/talk.css">
     <title>방 상세</title>
 </head>
 <body>
@@ -19,7 +18,7 @@
     <div class="topText">
         <span>${writeDate}</span>
         <span>|</span>
-        <span>${period} 가능</span>
+        <span>${periodNum}${periodUnit} 가능</span>
     </div>
     <div class="title">
         <span>${title}</span>
@@ -33,7 +32,7 @@
         </c:forEach>
     </div>
     <div align="center"><img class="roomImg" width="700px" src="/resources/${roomImg[0]}"></div>
-    <div class="detailTitle">글쓴이 붙임말</div>
+    <div class="detailTitle">Comment</div>
     <div class="detailContent">${detail}</div>
     <div>
         <h1 class="dtlTitle">상세정보</h1>
@@ -118,25 +117,22 @@
     </div>
 </div>
 <div class="footer">
-    <div class="footerContent">
-        <span class="f_price">${rentType} ${monthlyCost}만원</span>
-        <button class="heart" id="heart" type="button" onclick="clickLike()"><img id="heartImg" src="/resources/img/etc/heart1.png"></button>
-        <button class="report" id="report" type="button"><img src="/resources/img/etc/report.png"></button>
-    </div>
     <div class="f_button">
         <button id="btnContact" class="f_contact">매물러 연락처 보기</button>
         <button id="btnTalk" class="f_talk">톡 보내기</button>
+    </div>
+    <div class="footerContent">
+        <button class="heart" id="heart" type="button" onclick="clickLike()"><img id="heartImg" src="/resources/img/etc/heart.png" width="40px" height="40px"></button>
+        <button class="report" id="report" type="button"><img id="reportImg"src="/resources/img/etc/report.png" width="45px" height="45px"></button>
     </div>
 </div>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/roomDetailMap.js"></script>
-<!-- <script src="js/kakaomap.js"></script> -->
 <script src="/resources/js/contact.js"></script>
 <script src="/resources/js/report.js"></script>
 <script src="/resources/js/roomDetail.js"></script>
-
 <script>
     var temp = "${options}";
     temp = temp.substring(1, temp.length - 1);
@@ -147,7 +143,6 @@
     var sellerPhone = "${sellerPhone}";
     var roomId = "${roomId}";
     var likeList = ${likeList};
-    <%--console.log(${hashtags})--%>
 </script>
 </body>
 </html>

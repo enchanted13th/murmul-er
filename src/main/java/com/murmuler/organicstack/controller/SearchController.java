@@ -102,7 +102,7 @@ public class SearchController {
         }
 
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
-        List<Integer> likeRoomList = null;
+        List<Integer> likeRoomList = new ArrayList<>();
         if (memberVO != null) {
             likeRoomList = mypageService.getLikeRoomNumber(memberVO.getMemberId());
         }

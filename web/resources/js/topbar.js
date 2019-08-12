@@ -158,6 +158,7 @@ $.showLoginPopup = function (flag) {
                                 if (flag === "register") location.href = "/manage";
                                 else if (flag === "mypage") location.href = "/mypage/recent";
                                 else if (flag === "reviewWrite") location.href = "/review/write";
+                                else if (flag === "talk") { $.showTalk(); location.href=""; }
                                 else location.href = "";
                             })
                             break;

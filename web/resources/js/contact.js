@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $("#btnContact").click(function () {
         $.showContact();
@@ -14,13 +15,10 @@ $.showContact = function () {
         let popup = $(''
             + '<div id="contactPopup" class="menuPopup" onClick="clickContact()"> '
             + '	<div class="content">'
-            + ' 		<div class="divTop"> '
-            + ' 		<div class="location"></div> '
-            /*+ 	' 			<button class="btnClose" onClick="closePopup()>X</button> '*/
-            + ' 		</div> '
+            + ' 		<div class="divTop"></div> '
             + ' 		<div class="divSellerInfo"> '
             + ' 			<p><img class="profile" src="/resources/img/etc/profile.png"></p> '
-            + ' 			<p><label class="lbNick" id="nick" value=" ' + sellerNickname + '" name="' + sellerNickname + '">닉네임: ' + sellerNickname + '</label></p> '
+            + ' 			<p><label class="lbNick" id="nick" value=" ' + sellerNickname + '" name="' + sellerNickname + '">' + sellerNickname + '</label></p> '
             + ' 			<p><label class="lbContact">' + sellerPhone + '</label></p> '
             + '		</div>'
             + '	</div>'
