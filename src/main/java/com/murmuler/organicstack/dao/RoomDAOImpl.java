@@ -226,8 +226,7 @@ public class RoomDAOImpl implements RoomDAO {
     @Override
     public int deleteRoom(int roomId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
-        int cnt = mapper.deleteRoom(roomId);
-        return cnt;
+        return mapper.deleteRoom(roomId);
     }
 
 }

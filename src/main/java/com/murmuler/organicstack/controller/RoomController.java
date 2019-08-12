@@ -255,10 +255,19 @@ public class RoomController {
     }
 
     /* ----- 내 방 관리 -> 삭제 -> 내 방 관리 ----- */
-    @RequestMapping(value = "/room", method = RequestMethod.DELETE)
-    public String eraseRoom(@RequestParam(value = "roomId") int roomId) {
-        roomService.removeRoom(roomId);
-        return "redirect:/manage";
+    @RequestMapping(value = "/room/delete", method = RequestMethod.POST)
+    public void eraseRoom(@RequestParam int roomId,
+                          HttpServletResponse response) throws IOException {
+        logger.info(String.format("eraseRoom method entered... roomId: %d", roomId));
+        JSONObject res = new JSONObject();
+        int result = roomService.removeRoom(roomId);
+        if(result > 0) {
+            res.put("deleteResult", "SUCCESS");
+        } else {
+            res.put("deleteResult", "DELETE_FAIL");
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
     }
 
     @RequestMapping(value = "/post-status", method = RequestMethod.POST)
