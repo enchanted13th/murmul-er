@@ -81,7 +81,6 @@
             </tr>
             </tbody>
         </table>
-        <br><br>
     </c:forEach>
 </div>
 <script src="/resources/js/manageRoom.js"></script>

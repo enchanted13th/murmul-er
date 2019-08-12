@@ -35,8 +35,7 @@ $.setBtnDisabled = function (listNum) {
     $('#tdbtns'+listNum+'>.btnDeal').prop('disabled', 'disabled');
     $('#tdbtns'+listNum+'>button').removeAttr('class');
     $('#tdbtns'+listNum+'>button').css('cursor', 'default');
-    $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'button');
-    $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'btnDelete');
+    $('#tdbtns'+listNum+'>button').eq(1).attr('class', 'button btnDelete');
     $('#tdbtns'+listNum+'>button').eq(1).removeAttr('style');
 }
 
@@ -47,8 +46,54 @@ $.fn.clickModifyBtn = function () {
     })
 }
 $.fn.clickDeleteBtn = function () {
-    $(this).click(function () {
+    // console.log($(this).parent().parent());
 
+    $(this).click(function () {
+        let listNum = $(this).parent().attr('id').split('tdbtns')[1];
+        console.log(listNum);
+        Swal.fire({
+            title: "방 삭제",
+            text: "이 방을 정말로 삭제하시겠습니까?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.value) {
+                let roomId = $(this).val();
+                $.deleteRoom(roomId, function(deleteResult){
+                    switch (deleteResult) {
+                        case "SUCCESS" :
+                            Swal.fire('방 삭제', '삭제를 완료하였습니다.', 'success')
+                                .then(function () {
+                                    $('#tblist'+listNum).remove();
+                                    //location.href = "";
+                                });
+                            break;
+                        case "DELETE_FAIL" :
+                            Swal.fire('삭제 실패', '삭제에 실패하였습니다.', 'error'); break;
+                        case "CONNECT_ERROR" :
+                            Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error'); break;
+                    }
+                });
+            }
+        });
+    })
+}
+
+$.deleteRoom = function (roomId, callback) {
+    console.log('delete');
+    $.ajax('/manage/room/delete', {
+        type: 'POST',
+        data: {roomId: roomId}
+    }).then(function (data, status) {
+        if (status === 'success') {
+            callback(data.deleteResult);
+        } else {
+            callback("CONNECT_ERROR");
+        }
     })
 }
 
@@ -57,7 +102,6 @@ $.fn.changePostType = function (callback){
     let btnText = $(this).text();
     let roomId = $(this).val();
     let postType = (btnText === "재게시") ? "게시중" : btnText;
-    console.log('ccc');
     $.ajax('/manage/post-status', {
         type: 'POST',
         data: {roomId: roomId, postType: postType}
