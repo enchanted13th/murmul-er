@@ -237,7 +237,6 @@ public class RoomController {
         else {
             res.put("updateResult", "FAIL");
             System.out.println("FAIL");
-            
         }
 
         response.setContentType("application/json; charset=utf-8");
