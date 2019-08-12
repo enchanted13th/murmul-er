@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.ReviewMapper">
+
+    <select id="selectReviewList"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel
+        FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY review_id DESC LIMIT #{page}, 3
+    </select>
+
+    <select id="selectReviewButtonCnt" resultType="int">
+        SELECT CEIL(COUNT(*)/3) FROM review_tb
+    </select>
+
+    <insert id="insertLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
+        INSERT INTO location_tb (sido, sigungu, bname, bname1, bname2, jibun, roadname, road_jibun, detail_addr, latitude, longitude)
+        VALUES (#{sido}, #{sigungu}, #{bname}, #{bname1}, #{bname2}, #{jibun}, #{roadName}, #{roadJibun}, #{detailAddr}, #{latitude}, #{longitude})
+    </insert>
+
+    <select id="selectOneRecentLocation" resultType="java.lang.Integer">
+        SELECT location_id FROM location_tb ORDER BY location_id DESC LIMIT 1
+    </select>
+
+    <insert id="insertReview" parameterType="com.murmuler.organicstack.vo.ReviewVO">
+        INSERT INTO review_tb (review_title, review_content, location_id, residence_period, period_unit, score, advantage, disadvantage, insect_level, noise_level, hashtag_exist, review_img)
+        VALUES (#{title}, #{content}, #{locationId}, #{residencePeriod}, #{periodUnit}, #{score}, #{advantage}, #{disadvantage}, #{insectLevel}, #{noiseLevel}, #{hashtagExist}, #{image})
+    </insert>
+
+    <select id="selectReviewTotalCnt" resultType="int">
+        SELECT COUNT(*) FROM review_tb
+    </select>
+
+    <select id="selectOneRecentReview" resultType="java.lang.Integer">
+        SELECT review_id FROM review_tb ORDER BY review_id DESC LIMIT 1
+    </select>
+
+    <insert id="insertReviewHashtag" parameterType="hashmap">
+        INSERT INTO review_hashtag_tb VALUES
+        <foreach collection="hashtagList" item="hashtag" separator=",">
+            (#{reviewId}, #{hashtag})
+        </foreach>
+    </insert>
+
+    <select id="selectHashTag" parameterType="int" resultType="String">
+        SELECT hashtag_name FROM review_hashtag_tb WHERE review_id = #{reviewId}
+    </select>
+
+</mapper>
