@@ -156,5 +156,8 @@ textarea {
 	cursor: pointer;
 	background-color: #e9f8ff;
 }
+.wrap > .addRoomForm  .alignRight {
+	text-align: right;
+}
 
 /* content_end */

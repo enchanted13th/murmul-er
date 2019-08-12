@@ -1,5 +1,6 @@
 package com.murmuler.organicstack.controller;
 
+import com.murmuler.organicstack.dao.RoomDAO;
 import com.murmuler.organicstack.service.RoomService;
 import com.murmuler.organicstack.util.PostStatusRecord;
 import com.murmuler.organicstack.vo.MemberVO;
@@ -62,7 +63,7 @@ public class RoomController {
     public void registerRoom(@RequestParam String allAddr,
                              @RequestParam String detailAddr,
                              @RequestParam String area,
-//                               @RequestParam String floor,
+                             @RequestParam String floor,
                              @RequestParam String periodNum,
                              @RequestParam String periodUnit,
                              @RequestParam String deposit,
@@ -72,15 +73,12 @@ public class RoomController {
                              @RequestParam String adminFeeList,
                              @RequestParam String roomType,
                              @RequestParam String heatType,
-                             @RequestParam String animal,
-                             @RequestParam String parking,
-                             @RequestParam String elevator,
                              @RequestParam String optionList,
                              @RequestParam String title,
                              @RequestParam String detail,
                              @RequestParam String hashtagExist,
-                             @RequestParam String hashTagList,
-                             @RequestParam String images,
+                             @RequestParam String hashtagList,
+                             @RequestParam String imageList,
                              HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
         logger.info("called add method");
@@ -111,38 +109,35 @@ public class RoomController {
         roomInfo.put("longitude", (String) addrInfo.get("longitude"));
         roomInfo.put("detailAddr", detailAddr);
         roomInfo.put("area", area);
-//        roomInfo.put("floor", floor);
+        roomInfo.put("floor", floor);
         roomInfo.put("periodNum", periodNum);
         roomInfo.put("periodUnit", periodUnit);
         roomInfo.put("deposit", deposit);
         roomInfo.put("monthlyCost", price);
         roomInfo.put("rentType", priceType);
         roomInfo.put("manageCost", adminFee);
-        roomInfo.put("manageList", adminFeeList);
+        roomInfo.put("manageIdList", adminFeeList);
         roomInfo.put("heatType", heatType);
         roomInfo.put("roomType", roomType);
-        roomInfo.put("animal", animal);
-        roomInfo.put("parking", parking);
-        roomInfo.put("elevator", elevator);
         roomInfo.put("optionList", optionList);
         roomInfo.put("title", title);
         roomInfo.put("detailExplain", detail);
         roomInfo.put("hashtagExist", hashtagExist);
-        roomInfo.put("hashTagList", hashTagList);
+        roomInfo.put("hashtagList", hashtagList);
+        roomInfo.put("imageList", imageList);
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
         roomInfo.put("memberId", member.getMemberId()+"");
 
-        if(roomService.addRoom(roomInfo) > 0) {
-            res.put("registerResult", "SUCCESS");
-            System.out.println("SUCCESS");
-        }
-        else {
+        if(roomService.addRoom(roomInfo) == RoomDAO.FAIL) {
             res.put("registerResult", "FAIL");
             System.out.println("FAIL");
         }
+        else {
+            res.put("registerResult", "SUCCESS");
+            System.out.println("SUCCESS");
+        }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
-        //return "redirect:/manage";
     }
 
     /* ----- 내 방 관리 -> 수정 -> 내 방 관리 ----- */

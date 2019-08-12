@@ -22,7 +22,7 @@
 				<td class="tdContent">
 					<button id="btnRt1" class="selectSingle" value="원룸">원룸</button>
 					<button id="btnRt2" value="투룸">투룸</button>
-					<button id="btnRt3" value="쓰리룸">쓰리룸</button>
+					<button id="btnRt3" value="빌라">빌라</button>
 					<button id="btnRt4" value="오피스텔">오피스텔</button>
 					<button id="btnRt5" value="아파트">아파트</button>
 				</td>
@@ -53,16 +53,16 @@
 			<tr>
 				<td class="tbSubtitle">면적</td>
 				<td>
-					<input type="text" id="inputSize" placeholder="32" onkeyup='changeSize()'/>
+					<input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup='changeSize()'/>
 					<label>평</label>
-					<input type="text" id="inputArea" placeholder="105.78" onkeyup='changeArea()'/>
+					<input type="text" id="inputArea" class="alignRight" placeholder="105.78" onkeyup='changeArea()'/>
 					<label>M^2</label>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">층수</td>
 				<td>
-					<input type="text" id="inputFloor"/>
+					<input type="text" id="inputFloor" class="alignRight"/>
 					<label>층</label>
 				</td>
 			</tr>
@@ -72,16 +72,16 @@
 					<button id="btnRi1" value="전세">전세</button>
 					<button id="btnRi2" value="월세">월세</button>
 					<button id="btnRi3" value="단기">단기</button>
-					<input type="text" id="inputDeposit" placeholder="보증금"/>
+					<input type="text" id="inputDeposit" class="alignRight" placeholder="보증금"/>
 					<label>/</label>
-					<input type="text" id="inputPrice" placeholder="월세 or 가격"/>
+					<input type="text" id="inputPrice" class="alignRight" placeholder="월세 or 가격"/>
 					<label>만원</label>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">임대기간</td>
 				<td>
-					<input type="text" id="inputPeriodNum">
+					<input type="text" id="inputPeriodNum" class="alignRight">
 					<select id="inputPeriodUnit">
 						<option value="Y">년</option>
 						<option value="M">개월</option>
@@ -116,44 +116,44 @@
 			<tr>
 				<td class="tbSubtitle">난방 종류</td>
 				<td class="tdHalf">
-					<button id="btnHeat1" value="중앙난방">중앙난방</button>
+					<button id="btnHeat1" value="지역난방">지역난방</button>
 					<button id="btnHeat2" value="개별난방">개별난방</button>
-					<button id="btnHeat3" value="지역난방">지역난방</button>
+					<button id="btnHeat3" value="중앙난방">중앙난방</button>
 				</td>
 				<td class="tbSubtitle">반려동물</td>
 				<td class="tdHalf">
-					<button id="btnAnimal1" value="불가능">불가능</button>
-					<button id="btnAnimal2" value="가능">가능</button>
+					<button id="btnAnimal1" value="반려동물 불가능">불가능</button>
+					<button id="btnAnimal2" value="반려동물 가능">가능</button>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">주차장 여부</td>
 				<td class="tdHalf">
-					<button id="btnParking1" value="없음">없음</button>
-					<button id="btnParking2" value="있음">있음</button>
+					<button id="btnParking1" value="주차 불가능">없음</button>
+					<button id="btnParking2" value="주차 가능">있음</button>
 				</td>
 				<td class="tbSubtitle">엘리베이터</td>
 				<td class="tdHalf">
-					<button id="btnEv1" value="없음">없음</button>
-					<button id="btnEv2" value="있음">있음</button>
+					<button id="btnEv1" value="엘리베이터 불가능">없음</button>
+					<button id="btnEv2" value="엘리베이터 가능">있음</button>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">옵션 항목</td>
 				<td colspan=3>
-					<button class="option" id="btnOption1" value="에어컨">에어컨</button>
-					<button class="option" id="btnOption2" value="세탁기">세탁기</button>
-					<button class="option" id="btnOption3" value="비데">비데</button>
-					<button class="option" id="btnOption4" value="책상">책상</button>
-					<button class="option" id="btnOption5" value="옷장">옷장</button>
+					<button class="option" id="btnOption1" value="냉장고">냉장고</button>
+					<button class="option" id="btnOption2" value="에어컨">에어컨</button>
+					<button class="option" id="btnOption3" value="가스레인지">가스레인지</button>
+					<button class="option" id="btnOption4" value="옷장">옷장</button>
+					<button class="option" id="btnOption5" value="전자레인지">전자레인지</button>
 					<button class="option" id="btnOption6" value="TV">TV</button>
 					<button class="option" id="btnOption7" value="신발장">신발장</button>
-					<button class="option" id="btnOption8" value="냉장고">냉장고</button>
+					<button class="option" id="btnOption8" value="비데">비데</button>
 					<button class="option" id="btnOption9" value="인덕션">인덕션</button>
-					<button class="option" id="btnOption10" value="가스레인지">가스레인지</button>
-					<button class="option" id="btnOption11" value="전자레인지">전자레인지</button>
-					<button class="option" id="btnOption12" value="전자도어락">전자도어락</button>
-					<button class="option" id="btnOption13" value="현관문안전장치">현관문 안전장치</button>
+					<button class="option" id="btnOption10" value="전자도어락">전자도어락</button>
+					<button class="option" id="btnOption11" value="책상">책상</button>
+					<button class="option" id="btnOption12" value="현관문 안전장치">현관문 안전장치</button>
+					<button class="option" id="btnOption13" value="세탁기">세탁기</button>
 					<button class="option" id="btnOption14" value="침대">침대</button>
 				</td>
 			</tr>

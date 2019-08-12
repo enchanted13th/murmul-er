@@ -1,81 +1,109 @@
 var allAddr = {};
-var adminFeeList = {};
-var optionList = {};
-var hashTagList = {};
-var imgpath = {img1: $('#rmimg1').attr('src'), img2: $('#rmimg2').attr('src')};
+var adminFeeList = [];
+var optionList = [];
+var hashTagList = [];
+var imageList = [];
+var selectedRt = 0;
+var selectedRi = 0;
+var selectedAF = 0;
+var selectedHeat = 0;
+var selectedAnimal = 0;
+var selectedParking = 0;
+var selectedEv = 0;
+var selectedElevator = 0;
+var hashtagExist = true;
+// var imgpath = {img1: $('#rmimg1').attr('src'), img2: $('#rmimg2').attr('src')};
 
 var ps = new kakao.maps.services.Places();
 
-function placesSearchCB(data, status, pagination) {
-    console.log('placesSearchCB 진입');
-    console.log(data);
-    console.log(status);
-    if (status === kakao.maps.services.Status.OK) {
-        console.log('placesSearchCB status ok');
-        console.log('data:', data);
-        allAddr.latitude = data[0].y;
-        allAddr.longitude = data[0].x;
-        console.log(allAddr);
-        let roomInfo = {
-            allAddr: JSON.stringify(allAddr),
-            detailAddr: $('#inputDetailAddr').val(),
-            area: $('#inputArea').val(),
-            periodNum: $('#inputPeriodNum').val(),
-            periodUnit: $('#inputPeriodUnit').val(),
-            deposit: $('#inputDeposit').val() * 10000,
-            price: $('#inputPrice').val() * 10000,
-            priceType: $('#btnRi' + selectedRi).val(),
-            adminFee: $('#inputAdminFee').val() * 10000,
-            adminFeeList: JSON.stringify(adminFeeList),
-            roomType: $('#btnRt' + selectedRt).val(),
-            heatType: $('#btnHeat' + selectedHeat).val(),
-            animal: $('#btnAnimal' + selectedAnimal).val(),
-            parking: $('#btnParking' + selectedParking).val(),
-            elevator: $('#btnEv' + selectedElevator).val(),
-            optionList: JSON.stringify(optionList),
-            title: $('#inputTitle').val(),
-            detail: $('#txtDetail').val(),
-            hashtagExist: hashtagExist,
-            hashTagList: JSON.stringify(hashTagList),
-            images: JSON.stringify(imgpath)
-        };
-        console.log(roomInfo);
-        $.ajax("/manage/room",{
-            type: "POST",
-            data: roomInfo
-        }).then(function (data, status) {
-            if (status === "success") {
-                console.log(data);
-                console.log(typeof data);
-                console.log(data.registerResult);
-            } else {
-                console.log(data, status);
-            }
-        });
-    } else {
-        console.log("if조건에 안걸린다");
-        alert("없는 주소입니다.")
-    }
-
-}
-
-var changeAddr = function () {
-    alert('값변경');
-    ps.keywordSearch($('#inputAddr'), placesSearchCB);
-}
 $(document).ready(function () {
-    if (islogin === false) {
-        location.href = "/";
-    }
-    $('#btnManageRoom').click(function () {
-        location.href = "/manage";
-    })
     $('#btnPutRoom').parent().css('border-bottom', '6px solid #b6e2f8');
-    javascript:scroll(0, 0);
+    // javascript:scroll(0, 0);
     $.clickEvent();
     $.imagebutton();
 
 })
+
+function placesSearchCB(data, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        // console.log('placesSearchCB status ok');
+        // console.log('data:', data);
+        allAddr.latitude = data[0].y;
+        allAddr.longitude = data[0].x;
+        // console.log(allAddr);
+        dataSubmit();
+    } else {
+        // console.log("if조건에 안걸린다");
+        Swal.fire("","없는 주소입니다.","error");
+    }
+
+}
+
+function convertList(list){
+    let listString = "";
+    for(let i = 0; i < list.length; i++){
+        listString += list[i];
+        if(i < list.length-1) listString += ",";
+    }
+    return listString;
+}
+
+function dataSubmit(){
+    let adminFeeListString = convertList(adminFeeList);
+    let optionListString = convertList(optionList);
+    let hashtagListString = convertList(hashTagList);
+    let imageListString = convertList(imageList.push($('#images').val()));
+
+    let roomInfo = {
+        allAddr: JSON.stringify(allAddr),
+        detailAddr: $('#inputDetailAddr').val(),
+        area: $('#inputArea').val(),
+        floor: $('#inputFloor').val(),
+        periodNum: $('#inputPeriodNum').val(),
+        periodUnit: $('#inputPeriodUnit').val(),
+        deposit: $('#inputDeposit').val() * 10000,
+        price: $('#inputPrice').val() * 10000,
+        priceType: $('#btnRi' + selectedRi).val(),
+        adminFee: $('#inputAdminFee').val() * 10000,
+        adminFeeList: adminFeeListString,
+        roomType: $('#btnRt' + selectedRt).val(),
+        heatType: $('#btnHeat' + selectedHeat).val(),
+        optionList: optionListString,
+        title: $('#inputTitle').val(),
+        detail: $('#txtDetail').val(),
+        hashtagExist: hashtagExist,
+        hashtagList: hashtagListString,
+        // images: JSON.stringify(imgpath),
+        imageList: imageListString
+    };
+    // console.log(roomInfo);
+    $.ajax("/manage/room",{
+        type: "POST",
+        data: roomInfo
+    }).then(function (data, status) {
+        // console.log(data+"\n"+status);
+        if (status === "success") {
+            switch (data.registerResult) {
+                case "SUCCESS" :
+                    Swal.fire('등록 성공', '방 등록에 성공하였습니다.', 'success')
+                        .then(function(){
+                            location.href="/manage";
+                        });
+                    break;
+                case "FAIL" :
+                    Swal.fire('등록 실패', '등록할 수 없습니다.', 'error');
+                    break;
+            }
+        } else {
+            Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
+        }
+    });
+}
+
+var changeAddr = function () {
+    ps.keywordSearch($('#inputAddr'), placesSearchCB);
+}
+
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -96,6 +124,20 @@ function changeArea() {
     let area = Math.round($('#inputArea').val() / 3.305785);
     $('#inputSize').val(area);
 }
+
+function clear() {
+    $('#inputDetailAddr').val('');
+}
+
+var getAddress = function () {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            allAddr = data;
+            console.log(allAddr);
+            $('#inputAddr').attr("value", data.roadAddress);
+        }
+    }).open();
+};
 
 $.clickEvent = function () {
     $('#btnRt1').clickRt();
@@ -128,15 +170,7 @@ $.clickEvent = function () {
     $('#btnEv2').clickEv();
 
     $('#btnSearchAddr').click(function () {
-        var getAddress = function () {
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    allAddr = data;
-                    console.log(allAddr);
-                    $('#inputAddr').attr("value", data.roadAddress);
-                }
-            }).open();
-        };
+
         getAddress();
     })
     $('#addimage').click(function () {
@@ -146,9 +180,11 @@ $.clickEvent = function () {
     $('.previmage').hover();
     $('.option').clickOp();
 
-    //=========================registerRoom=========================
+    $("#lastBtn").clickSubmit();
+}
 
-    $("#lastBtn").click(function () {
+$.fn.clickSubmit = function() {
+    $(this).click(function () {
 
         console.log($('#inputTitle').val());
 
@@ -330,13 +366,22 @@ $.clickEvent = function () {
         } else {
             hashtagExist = true;
         }
-
-        ps.keywordSearch($('#inputAddr').val(), placesSearchCB);
-        // post 원래 자리
-
+        Swal.fire({
+            title: "방 등록",
+            text: "방을 등록하시겠습니까?",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.value) {
+                ps.keywordSearch($('#inputAddr').val(), placesSearchCB);
+            }
+        })
     });
     //=========================registerRoom=========================
-
 }
 
 $.fn.hover = function () {
@@ -354,14 +399,7 @@ $.imagebutton = function () {
     }
 }
 
-var selectedRt = 0;
-var selectedRi = 0;
-var selectedAF = 0;
-var selectedHeat = 0;
-var selectedAnimal = 0;
-var selectedParking = 0;
-var selectedElevator = 0;
-var hashtagExist = true;
+
 
 $.fn.clickRt = function () {
     $(this).click(function () {
@@ -400,10 +438,7 @@ $.fn.clickAF = function () {
             $("#btnAFL4").css('background-color', '');
             $("#btnAFL5").css('background-color', '');
 
-            var keys = Object.keys(adminFeeList);
-            for (var s in keys) {
-                delete adminFeeList[keys[s]];
-            }
+            adminFeeList = [];
         }
     })
 }
@@ -414,47 +449,21 @@ $.fn.clickAFL = function () {
         if ($('#btnAF' + selectedAF).val() == "있음") {
             if ($(this).css('background-color') === "rgb(182, 226, 248)") {
                 $(this).css('background-color', '');
-                switch ($(this).val()) {
-                    case "가스비":
-                        delete adminFeeList.btnAFL1;
-                        break;
-                    case "수도세":
-                        delete adminFeeList.btnAFL2;
-                        break;
-                    case "전기세":
-                        delete adminFeeList.btnAFL3;
-                        break;
-                    case "인터넷요금":
-                        delete adminFeeList.btnAFL4;
-                        break;
-                    default:
-                        delete adminFeeList.btnAFL5;
-                        break;
+                for(let i = 0 ; i < adminFeeList.length; i++){
+                    if(adminFeeList[i] === $(this).val())
+                        adminFeeList.splice(i,1);
+                    //delete adminFeeList[i];
                 }
+                // console.log(adminFeeList);
             } else {
                 $(this).css('background-color', 'rgb(182, 226, 248)');
-                switch ($(this).val()) {
-                    case "가스비":
-                        adminFeeList.btnAFL1 = "가스비";
-                        break;
-                    case "수도세":
-                        adminFeeList.btnAFL2 = "수도세";
-                        break;
-                    case "전기세":
-                        adminFeeList.btnAFL3 = "전기세";
-                        break;
-                    case "인터넷요금":
-                        adminFeeList.btnAFL4 = "인터넷요금";
-                        break;
-                    default:
-                        adminFeeList.btnAFL5 = "TV수신료";
-                        break;
-                }
-
+                adminFeeList.push($(this).val());
+                // console.log(adminFeeList);
             }
         }
     })
 }
+
 $.fn.clickHeat = function () {
     $(this).click(function () {
         if (selectedHeat !== 0) {
@@ -468,28 +477,47 @@ $.fn.clickAnimal = function () {
     $(this).click(function () {
         if (selectedAnimal !== 0) {
             $('#btnAnimal' + selectedAnimal).css('background-color', '');
+            for(let i=0;i < optionList.length; i++){
+                if(optionList[i] === "반려동물 가능")
+                    optionList.splice(i,1);
+            }
         }
         $(this).css('background-color', '#b6e2f8');
         selectedAnimal = $(this).attr('id').split('btnAnimal')[1];
+        if(selectedAnimal != 1)
+            optionList.push($("#btnAnimal2").val());
     })
 }
 $.fn.clickParking = function () {
     $(this).click(function () {
         if (selectedParking !== 0) {
             $('#btnParking' + selectedParking).css('background-color', '');
+            for(let i=0;i < optionList.length; i++) {
+                if (optionList[i] === '주차 가능') {
+                    optionList.splice(i, 1);
+                }
+            }
         }
         $(this).css('background-color', '#b6e2f8');
         selectedParking = $(this).attr('id').split('btnParking')[1];
+        if(selectedParking != 1)
+            optionList.push(($("#btnParking2").val()));
     })
 }
 
 $.fn.clickEv = function () {
     $(this).click(function () {
-        if (selectedElevator !== 0) {
-            $('#btnEv' + selectedElevator).css('background-color', '');
+        if (selectedEv !== 0) {
+            $('#btnEv' + selectedEv).css('background-color', '');
+            for(let i=0;i < optionList.length; i++) {
+                if (optionList[i] === "엘리베이터 가능")
+                    optionList.splice(i, 1);
+            }
         }
         $(this).css('background-color', '#b6e2f8');
-        selectedElevator = $(this).attr('id').split('btnEv')[1];
+        selectedEv = $(this).attr('id').split('btnEv')[1];
+        if(selectedEv != 1)
+            optionList.push($("#btnEv2").val());
     })
 }
 
@@ -497,96 +525,16 @@ $.fn.clickOp = function () {
     $(this).click(function () {
         if ($(this).css('background-color') === "rgb(182, 226, 248)") {
             $(this).css('background-color', '');
-            switch ($(this).val()) {
-                case "에어컨":
-                    delete optionList.btnOption1;
-                    break;
-                case "세탁기":
-                    delete optionList.btnOption2;
-                    break;
-                case "비데":
-                    delete optionList.btnOption3;
-                    break;
-                case "책상":
-                    delete optionList.btnOption4;
-                    break;
-                case "옷장":
-                    delete optionList.btnOption5;
-                    break;
-                case "TV":
-                    delete optionList.btnOption6;
-                    break;
-                case "신발장":
-                    delete optionList.btnOption7;
-                    break;
-                case "냉장고":
-                    delete optionList.btnOption8;
-                    break;
-                case "인덕션":
-                    delete optionList.btnOption9;
-                    break;
-                case "가스레인지":
-                    delete optionList.btnOption10;
-                    break;
-                case "전자레인지":
-                    delete optionList.btnOption11;
-                    break;
-                case "전자도어락":
-                    delete optionList.btnOption12;
-                    break;
-                case "현관문 안전장치":
-                    delete optionList.btnOption13;
-                    break;
-                default:
-                    delete optionList.btnOption14;
-                    break;
+            for(let i = 0 ; i < optionList.length; i++){
+                if(optionList[i] === $(this).val()) {
+                    optionList.splice(i, 1);
+                }
             }
+            console.log(optionList);
         } else {
             $(this).css('background-color', 'rgb(182, 226, 248)');
-            switch ($(this).val()) {
-                case "에어컨":
-                    optionList.btnOption1 = "에어컨";
-                    break;
-                case "세탁기":
-                    optionList.btnOption2 = "세탁기";
-                    break;
-                case "비데":
-                    optionList.btnOption3 = "비데";
-                    break;
-                case "책상":
-                    optionList.btnOption4 = "책상";
-                    break;
-                case "옷장":
-                    optionList.btnOption5 = "옷장";
-                    break;
-                case "TV":
-                    optionList.btnOption6 = "TV";
-                    break;
-                case "신발장":
-                    optionList.btnOption7 = "신발장";
-                    break;
-                case "냉장고":
-                    optionList.btnOption8 = "냉장고";
-                    break;
-                case "인덕션":
-                    optionList.btnOption9 = "인덕션";
-                    break;
-                case "가스레인지":
-                    optionList.btnOption10 = "가스레인지";
-                    break;
-                case "전자레인지":
-                    optionList.btnOption11 = "전자레인지";
-                    break;
-                case "전자도어락":
-                    optionList.btnOption12 = "전자도어락";
-                    break;
-                case "현관문 안전장치":
-                    optionList.btnOption13 = "현관문 안전장치";
-                    break;
-                default:
-                    optionList.btnOption14 = "침대";
-                    break;
-            }
+            optionList.push($(this).val());
+            console.log(optionList)
         }
     })
 }

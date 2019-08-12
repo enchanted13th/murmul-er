@@ -65,6 +65,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public int addRoom(Map<String, String> roomInfo) {
+        if(roomInfo == null)
+            return 0;
+
         LocationVO locationVO = new LocationVO();
         RoomVO roomVO = new RoomVO();
         SaleInfoVO saleInfoVO = new SaleInfoVO();
@@ -85,8 +88,7 @@ public class RoomServiceImpl implements RoomService {
 
         /* ----- 방 정보 등록 (room) ----- */
         roomVO.setArea(Double.parseDouble(roomInfo.get("area")));
-//        roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
-        roomVO.setFloor(3);
+        roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
         roomVO.setHeatType(heatingTypeRecord.getId(roomInfo.get("heatType")));
         roomVO.setRoomType(roomTypeRecord.getId(roomInfo.get("roomType")));
         System.out.println(roomVO);
@@ -99,50 +101,51 @@ public class RoomServiceImpl implements RoomService {
         saleInfoVO.setPostType(1);
         saleInfoVO.setDeposit(Integer.parseInt(roomInfo.get("deposit")));
         saleInfoVO.setMonthlyCost(Integer.parseInt(roomInfo.get("monthlyCost")));
-        saleInfoVO.setManageCost(Integer.parseInt(roomInfo.get("manageCost")));
-        String hashtagExist = roomInfo.get("hashtagExist").equals("true") ? "Y" : "N";
-        saleInfoVO.setHashtagExist(hashtagExist);
-        saleInfoVO.setWriteDate(new Date(0));
-        saleInfoVO.setViews(0);
+        int manageCost = roomInfo.get("manageCost").equals("") ? 0 : Integer.parseInt(roomInfo.get("manageCost"));
+        saleInfoVO.setManageCost(manageCost);
+//        saleInfoVO.setWriteDate(new Date(0));
+//        saleInfoVO.setViews(0);
         saleInfoVO.setDetailExplain(roomInfo.get("detailExplain"));
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
+        String hashtagExist = roomInfo.get("hashtagExist").equals("true") ? "Y" : "N";
+        saleInfoVO.setHashtagExist(hashtagExist);
         System.out.println(saleInfoVO);
 
         int roomId = roomDAO.insertRoom(locationVO, roomVO, saleInfoVO);
-        System.out.println(roomId);
-
+        if(roomId == roomDAO.FAIL)
+            return roomDAO.FAIL;
+        boolean result = true;
         String[] temp;
-        if (!roomInfo.get("manageCost").equals("0")) {
-            temp = roomInfo.get("manageList").split(",");
+        if(!roomInfo.get("manageIdList").equals("")) {
+            temp = roomInfo.get("manageIdList").split(",");
             int[] manageIdList = new int[temp.length];
             for (int i = 0; i < temp.length; i++) {
                 manageIdList[i] = manageCostRecord.getId(temp[i]);
                 System.out.println("관리항목 : " + manageIdList[i]);
             }
-            roomDAO.insertRoomManageCost(roomId, manageIdList);
+            result = result && (roomDAO.insertRoomManageCost(roomId, manageIdList) > 0);
         }
-
+        System.out.println("manage"+result);
         if (!roomInfo.get("optionList").equals("")) {
             temp = roomInfo.get("optionList").split(",");
             int[] optionIdList = new int[temp.length];
             for (int i = 0; i < temp.length; i++) {
                 optionIdList[i] = optionRecord.getId(temp[i]);
             }
-            roomDAO.insertRoomOption(roomId, optionIdList);
+            result = result && (roomDAO.insertRoomOption(roomId, optionIdList) > 0);
         }
-
-        if (roomInfo.get("hashtagExist").equals("true")) {
-            temp = roomInfo.get("hashTagList").split(",");
-            String[] hashtagList = new String[temp.length];
-            for(int i=0; i<temp.length; i++) {
-                hashtagList[i] = temp[i];
-            }
-            roomDAO.insertRoomHashtag(roomId, hashtagList);
+        System.out.println("option"+result);
+        System.out.println(hashtagExist);
+        if (hashtagExist.equals("Y")) {
+            String[] hashtagList = roomInfo.get("hashtagList").split(",");
+            System.out.println(hashtagList);
+            result = result && (roomDAO.insertRoomHashtag(roomId, hashtagList) > 0);
         }
-
-        String[] imgUrlList = roomInfo.get("imgUrlList").split(",");
-        roomDAO.insertRoomImage(roomId, imgUrlList);
-        return roomId;
+        System.out.println("hash"+result);
+//        String[] imgUrlList = roomInfo.get("imgUrlList").split(",");
+//        roomDAO.insertRoomImage(roomId, imgUrlList);
+        if (result == false) return roomDAO.FAIL;
+        else return roomId;
     }
 
     @Override
@@ -206,7 +209,7 @@ public class RoomServiceImpl implements RoomService {
                 break;
         }
         saleInfoVO.setHashtagExist(hashtagExist);
-        saleInfoVO.setWriteDate(new Date(0));
+//        saleInfoVO.setWriteDate(new Date(0));
         // saleInfoVO.setViews(Integer.parseInt(roomInfo.get("views")));
         saleInfoVO.setDetailExplain(roomInfo.get("detailExplain"));
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
@@ -225,16 +228,15 @@ public class RoomServiceImpl implements RoomService {
             result &= roomDAO.insertRoomManageCost(roomId, manageIdList);
         }
 
-        temp = roomInfo.get("optionList").split(",");
-        int[] optionIdList = new int[temp.length];
-        for (int i = 0; i < temp.length; i++) {
-            optionIdList[i] = optionRecord.getId(temp[i]);
+        if (!roomInfo.get("optionList").equals("")) {
+            temp = roomInfo.get("optionList").split(",");
+            int[] optionIdList = new int[temp.length];
+            for (int i = 0; i < temp.length; i++) {
+                optionIdList[i] = optionRecord.getId(temp[i]);
+            }
+            result &= roomDAO.deleteOption(roomId, optionIdList);
+            result &= roomDAO.insertRoomOption(roomId, optionIdList);
         }
-
-        System.out.println("0");
-        result &= roomDAO.deleteOption(roomId, optionIdList);
-        System.out.println("1");
-        result &= roomDAO.insertRoomOption(roomId, optionIdList);
 
         String[] hashtagList=null;
         if(roomInfo.get("hashtagList") != null) {
