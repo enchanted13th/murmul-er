@@ -122,19 +122,24 @@ public class RoomDAOImpl implements RoomDAO {
     @Override
     public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
-        mapper.insertLocation(locationVO);
+        int result = SUCCESS;
+        result &= mapper.insertLocation(locationVO);
         int locationId = mapper.selectOneRecentLocation();
         roomVO.setLocationId(locationId);
-        mapper.insertRoom(roomVO);
+        result &= mapper.insertRoom(roomVO);
         int roomId = mapper.selectOneRecentRoom();
         saleInfoVO.setRoomId(roomId);
-        mapper.insertSaleInfo(saleInfoVO);
-        return roomId;
+        result &= mapper.insertSaleInfo(saleInfoVO);
+        if (result == SUCCESS) {
+            return roomId;
+        } else {
+            return FAIL;
+        }
     }
 
     @Override
     public int insertRoomManageCost(int roomId, int[] manageIdList) {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
         paramMap.put("manageIdList", manageIdList);
@@ -143,8 +148,8 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     public int insertRoomOption(int roomId, int[] optionIdList) {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
-        Map<String, Object> paramMap = new HashMap<String, Object>();
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("roomId", roomId);
         paramMap.put("optionIdList", optionIdList);
         return mapper.insertRoomOption(paramMap);
@@ -152,7 +157,7 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     public int insertRoomHashtag(int roomId, String[] hashtagList) {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
         paramMap.put("hashtagList", hashtagList);
@@ -161,7 +166,7 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     public int insertRoomImage(int roomId, String[] imgUrlList) {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
         paramMap.put("imgUrlList", imgUrlList);

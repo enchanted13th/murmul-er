@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface RoomDAO {
+    int FAIL = 0;
+    int SUCCESS = 1;
     List<RoomSummaryVO> selectRoomSummaryByLocation(Map<String, Object> map);
     RoomDetailVO selectRoomDetailByRoomId(Map<String, Integer> map);
     List<Integer> selectRoomOptionByRoomId(Map<String, Integer> map);
