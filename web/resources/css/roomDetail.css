@@ -1,33 +1,35 @@
 .wrap {
-	margin: 0 auto;
+	margin: 20px auto 0 auto;
 	width: 1070px;
 	height: auto;
-	border: 2px solid #9d9d9d;
+	border: 1px solid #BFBFBF;
 }
 
 .wrap>.topText {
-	margin: 25px 30px;
+	margin: 0px 193px;
+	margin-top: 50px;
 	font-size: 20px;
-	color: #9d9d9d;
+	color: #7F7F7F;
 }
 
 .wrap>.title {
-	margin: 25px 30px;
-	font-size: 20px;
+	margin: 10px 190px;
+	font-size: 22px;
 }
 
 .wrap>.location {
-	margin: 25px 30px;
-	font-size: 17px;
-	color: #9d9d9d;
+	margin: 20px 190px;
+	font-size: 19px;
+	color: #404040;
 }
 
 .wrap .hashTag {
-	margin-right: 40px;
 	float: right;
-	color: #9ececc;
+	color: #5CC3F6;
 	outline: 0;
 	border: 0;
+	font-size: 16pt;
+	font-weight: 500;
 }
 
 .wrap>.roomImg {
@@ -38,18 +40,21 @@
 }
 
 .wrap>.detailTitle {
-	margin: 15px 30px;
-	font-size: 20px;
+	margin: 0px 185px;
+	margin-top: 50px;
+	font-size: 25px;
+	font-weight: bold;
 }
 
 .wrap>.detailContent {
-	margin: 15px 30px;
+	margin: 20px 185px;
+	font-size: 17px;
 }
 
 .wrap>div>h1 {
 	width: 100%;
 	height: 50px;
-	margin-top: 150px;
+	margin-top: 120px;
 	margin-bottom: 50px;
 	text-align: center;
 	font-size: 25px;
@@ -104,7 +109,9 @@
 }
 
 .wrap .detailLocation {
+	margin-bottom: 30px;
 	text-align: center;
+	font-size: 18px;
 }
 
 .wrap .which {
@@ -132,41 +139,30 @@
 
 .footer {
 	position: fixed;
-	text-align: center;
 	bottom: 0;
 	width: 1070px;
-	color: white;
 	z-index: 10;
-	background-color: #9ececc;
+	background-color: #b6e2f8;
 }
 
 .footer>.footerContent {
-	width: 50%;
-	float: left;
+	width: calc(50% - 220px);
+	float: right;
+	margin-top: 3px;
 }
 
 .footer>.f_button {
-	width: 50%;
-	float: right;
-	height: 52px;
+	margin-left: 180px;
+	width: calc(50% - 180px);
+	float: left;
 }
 
-.footer  .f_price {
-	margin-bottom: 10px;
-	font-size: 20px;
+.footer>.f_button button:hover {
+	box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
 
-.footer>.f_button>.f_contact {
-	margin: 10px 0px;
-	margin-right: 10px;
-	border-radius: 10px;
-	font-size: 20px;
-	background-color: white;
-}
-
-.footer>.f_button>.f_talk {
-	margin: 10px 0px;
-	margin-left: 10px;
+.footer>.f_button>button {
+	margin: 10px 30px 0 0;
 	border-radius: 10px;
 	font-size: 20px;
 	background-color: white;
@@ -181,6 +177,16 @@
 	cursor: pointer;
 }
 
-.footer button img {
-	height: 40px;
+.footerContent button {
+	margin-left: 15px;
+	width:55px;
+	height: 55px;
+}
+
+#heartImg:hover {
+	content: url("/resources/img/etc/heartHover.png");
+}
+
+#reportImg:hover {
+	content: url("/resources/img/etc/reportClick.png");
 }
