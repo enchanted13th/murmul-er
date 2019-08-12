@@ -31,7 +31,7 @@ div.topbar {
 }
 
 .topbar>ul>li:nth-child(1), .topbar>ul>li:nth-child(2) {
-	padding: calc(calc(75px - 45px)/2) 15px;
+	padding: calc(calc(75px - 25px)/2) 15px;
 }
 
 .topbar>ul>li:nth-child(3) {
@@ -56,6 +56,7 @@ div.topbar {
 }
 
 .topbar>ul>li:last-child {
+	height: 100%;
 	float: left;
 }
 
@@ -65,14 +66,18 @@ div.topbar {
 	}
 }
 
-button {
+.topbar > ul > li > button {
 	border: 0;
 	background-color: transparent;
 	outline: 0;
 	height: 45px;
 }
 
-button:hover {
+.topbar > ul > li > button:last-child {
+	height: 100%;
+}
+
+.topbar > ul > li > button:hover {
 	cursor: pointer;
 }
 
