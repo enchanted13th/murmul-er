@@ -181,6 +181,7 @@ $.clickEvent = function () {
     $('.option').clickOp();
 
     $("#lastBtn").clickSubmit();
+    $('#cancel').clickCancelBtn();
 }
 
 $.fn.clickSubmit = function() {
