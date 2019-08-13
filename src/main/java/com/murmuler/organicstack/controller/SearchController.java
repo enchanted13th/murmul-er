@@ -4,6 +4,7 @@ import com.murmuler.organicstack.service.ContactService;
 import com.murmuler.organicstack.service.MypageService;
 import com.murmuler.organicstack.service.RoomService;
 
+import com.murmuler.organicstack.util.OptionRecord;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
@@ -43,9 +44,21 @@ public class SearchController {
     @Autowired
     private ContactService contactService;
 
+    @Autowired
+    private OptionRecord optionRecord;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String searchRoom(HttpServletRequest request) {
-        return "search";
+    public ModelAndView searchRoom() {
+        ModelAndView mav = new ModelAndView();
+        List<Map<Long, String>> options = new ArrayList<>();
+        for (long key : optionRecord.keySet()) {
+            Map<Long, String> ops = new HashMap<>();
+            ops.put(key, optionRecord.get(key));
+            options.add(ops);
+        }
+        mav.addObject("options", options);
+        mav.setViewName("search");
+        return mav;
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -60,7 +73,6 @@ public class SearchController {
         paramMap.put("page", 1);
         paramMap.put("latitude", latitude);
         paramMap.put("longitude", longitude);
-
         List<RoomSummaryViewVO> roomList = roomService.getRoomsByLocation(paramMap);
 
         for (int i = 0; i < roomList.size(); i++) {
@@ -80,6 +92,7 @@ public class SearchController {
             roomInfo.put("writeDate", roomList.get(i).getWriteDate());
             roomInfo.put("views", "" + roomList.get(i).getViews());
             roomInfo.put("roomImg", roomList.get(i).getRoomImg());
+            roomInfo.put("roomOptions", roomService.getRoomOptions(roomList.get(i).getRoomId()));
 
             roomListObject.put("item" + i, "\"" + roomInfo + "\"");
         }

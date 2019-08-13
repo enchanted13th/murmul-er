@@ -154,6 +154,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<String> getRoomOptions(int roomId) {
+        Map<String, Integer> paramMap = new HashMap<>();
+        paramMap.put("roomId", roomId);
+        List<Integer> roomOptionsNum = roomDAO.selectRoomOptionByRoomId(paramMap);
+        List<String> roomOptions = new ArrayList<>();
+        for (long l : roomOptionsNum) {
+            roomOptions.add(optionRecord.get(l));
+        }
+        return roomOptions;
+    }
+
+    @Override
     public int modifyRoom(Map<String, String> roomInfo) {
         if(roomInfo == null)
             return 0;

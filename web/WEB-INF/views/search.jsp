@@ -128,15 +128,15 @@
                         <c:if test="${count.count == i || count.count == i + 1}">
                             <td>
                                 <c:forEach var="op" items="${option}">
-                                    <input type="checkbox" class="optionCheckbox" value="${op.value}"/>${op.value}
+                                    <input type="checkbox" name="optionCheckbox" class="optionCheckbox" value="${op.value}" checked/>${op.value}
                                 </c:forEach>
                             </td>
-                            <c:if test="${i == fn:length(options)}">
-                                <td></td>
-                            </c:if>
-                        </c:if>
-                    </c:forEach>
-                </tr>
+                <c:if test="${i == fn:length(options)}">
+                    <td></td>
+                </c:if>
+                </c:if>
+                </c:forEach>
+            </tr>
             </c:forEach>
             <tr>
                 <td>
@@ -151,8 +151,8 @@
 </div>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services,clusterer,drawing"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/resources/js/searchMap.js"></script>
 <script src="/resources/js/search.js"></script>
+<script src="/resources/js/searchMap.js"></script>
 <script>
     $(document).ready(function () {
         var jsonData = JSON.stringify("4");
