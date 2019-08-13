@@ -25,29 +25,6 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-//    @RequestMapping(value="", method= RequestMethod.GET)
-//    public ModelAndView reviewList(@RequestParam int page){
-//        ModelAndView mav = new ModelAndView();
-//        List<ReviewVO> reviewList = reviewService.getReviewList(page);
-//        int total = reviewService.getReviewButtonCnt();
-//        int reviewCnt = reviewService.getReviewTotalCnt();
-//
-//        int startpage = 1;
-//        if(total > 5){
-//            if(page > 3) startpage = page - 2;
-//            if(page >= total-2) startpage = total - 4;
-//        }
-//
-//        mav.addObject("curpage", page);
-//        mav.addObject("startpage", startpage);
-//        mav.addObject("total", total);
-//        mav.addObject("reviewCnt", reviewCnt);
-//        mav.addObject("reviewList", reviewList);
-//        mav.setViewName("review");
-//
-//        return mav;
-//    }
-
     @RequestMapping(value="", method= RequestMethod.GET)
     public ModelAndView reviewList(@RequestParam int page,
                                    @RequestParam String order){
