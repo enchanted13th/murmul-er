@@ -206,7 +206,7 @@
 			</tr>
 		</table>
 		<div class="lastBtns">
-			<button class="lastBtn" id="cancel" onclick="confirm('취소하시겠어요?')">취소</button>
+			<button class="lastBtn" id="cancel">취소</button>
 			<!-- <button class="lastBtn" id="lastBtn" onclick="confirm('등록하시겠어요?')">등록</button> -->
 			<button class="lastBtn" id="lastBtn">등록</button>
 		</div>

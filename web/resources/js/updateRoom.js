@@ -326,6 +326,7 @@ $.clickEvent = function () {
 
     $('#inputDetailAddr').changeDA();
     $("#lastBtn").clickSubmit();
+    $('#cancel').clickCancelBtn();
 }
 
 $.fn.clickSubmit = function(){
