@@ -30,7 +30,6 @@ $(document).ready(function (listener) {
                     southWest: bounds.getSouthWest().toString(),
                     northEast: bounds.getNorthEast().toString()
 				}, success: function (data) {
-					map.setBounds(bounds);
 					for (let i = 0; i < markers.length; i++) {
 						markers[i].setMap(null);
 					}
@@ -45,7 +44,6 @@ $(document).ready(function (listener) {
 						$('#slideMenu').css("visibility", "hidden");
 					}
 					idleFlag = true;
-
 				}
 			});
 		});
@@ -203,9 +201,8 @@ function displayMarker(place) {
 
 	marker.setMap(map);
 
-	// var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
 	var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
-	marker.setImage(markerImage);
+  marker.setImage(markerImage);
 
 	markers.push(marker);
 
