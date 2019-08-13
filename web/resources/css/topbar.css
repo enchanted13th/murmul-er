@@ -73,6 +73,10 @@ div.topbar {
 	height: 45px;
 }
 
+button {
+	background-color: transparent;
+}
+
 .topbar > ul > li > button:last-child {
 	height: 100%;
 }
