@@ -11,6 +11,7 @@
         var flag = "cur";
         var startpage = ${startpage};
         var total = ${total};
+        var order = "${order}";
     </script>
 </head>
 <body>
@@ -25,10 +26,32 @@
 </div>
 <div class="divOption2">
     <select class="selAlign">
-        <option selected>최신 순으로 보기</option>
-        <option>별점 순으로 보기</option>
-        <option>방음지수 순으로 보기</option>
-        <option>방충지수 순으로 보기</option>
+
+        <c:if test="${order eq 'latest'}">
+            <option selected>최신 순으로 보기</option>
+            <option>별점 순으로 보기</option>
+            <option>방음지수 순으로 보기</option>
+            <option>방충지수 순으로 보기</option>
+        </c:if>
+        <c:if test="${order eq 'star'}">
+            <option>최신 순으로 보기</option>
+            <option selected>별점 순으로 보기</option>
+            <option>방음지수 순으로 보기</option>
+            <option>방충지수 순으로 보기</option>
+        </c:if>
+        <c:if test="${order eq 'insect'}">
+            <option>최신 순으로 보기</option>
+            <option>별점 순으로 보기</option>
+            <option>방음지수 순으로 보기</option>
+            <option selected>방충지수 순으로 보기</option>
+        </c:if>
+        <c:if test="${order eq 'noise'}">
+            <option>최신 순으로 보기</option>
+            <option>별점 순으로 보기</option>
+            <option selected>방음지수 순으로 보기</option>
+            <option>방충지수 순으로 보기</option>
+        </c:if>
+
     </select>
     <button class="addReview">후기 작성</button>
 </div>

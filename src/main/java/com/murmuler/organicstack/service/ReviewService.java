@@ -7,6 +7,9 @@ import java.util.Map;
 
 public interface ReviewService {
     public List<ReviewVO> getReviewList(int pageNum);
+    public List<ReviewVO> getStarOrder(int pageNum);
+    public List<ReviewVO> getNoiseOrder(int pageNum);
+    public List<ReviewVO> getInsectOrder(int pageNum);
     public int getReviewButtonCnt();
     public int addLocation(Map<String, String> locationInfo);
     public int addReview(ReviewVO reviewVO);

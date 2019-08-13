@@ -26,6 +26,27 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
+    public List<ReviewVO> searchStarOrder(int page) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        List<ReviewVO> list = mapper.selectStarOrder(page);
+        return list;
+    }
+
+    @Override
+    public List<ReviewVO> searchNoiseOrder(int page) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        List<ReviewVO> list = mapper.selectNoiseOrder(page);
+        return list;
+    }
+
+    @Override
+    public List<ReviewVO> searchInsectOrder(int page) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        List<ReviewVO> list = mapper.selectInsectOrder(page);
+        return list;
+    }
+
+    @Override
     public int searchReviewButtonCnt() {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         int cnt = mapper.selectReviewButtonCnt();

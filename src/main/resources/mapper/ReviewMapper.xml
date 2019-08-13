@@ -9,6 +9,21 @@
         FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY review_id DESC LIMIT #{page}, 3
     </select>
 
+    <select id="selectStarOrder"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel
+        FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY score DESC LIMIT #{page}, 3
+    </select>
+
+    <select id="selectNoiseOrder"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel
+        FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY noise_level LIMIT #{page}, 3
+    </select>
+
+    <select id="selectInsectOrder"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel
+        FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY insect_level LIMIT #{page}, 3
+    </select>
+
     <select id="selectReviewButtonCnt" resultType="int">
         SELECT CEIL(COUNT(*)/3) FROM review_tb
     </select>
