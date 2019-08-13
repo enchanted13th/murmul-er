@@ -8,7 +8,6 @@ var ps = new kakao.maps.services.Places();
 
 $(document).ready(function(){
     if(islogin === false){
-        // location.href="/review?page=1";
         location.href="/review?page=1&order=latest";
     }
     starRating();
@@ -29,7 +28,6 @@ $(document).ready(function(){
                     "",
                     'success'
                 ).then(function () {
-                    // location.href = "/review?page=1";
                     location.href="/review?page=1&order=latest";
                 });
             }
@@ -98,7 +96,7 @@ function placesSearchCB (data, status, pagination) {
                 switch (obj.reviewWriteResult) {
                     case "SUCCESS":
                         Swal.fire('리뷰 등록이 완료되었습니다.', "", "success").then(function () {
-                            location.href = "/review?page=1";
+                            location.href = "/review?page=1&order=latest";
                         })
                         break;
                     case "WRITE_FAIL":
