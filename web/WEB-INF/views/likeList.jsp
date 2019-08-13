@@ -22,7 +22,7 @@
             <c:forEach var="room" items="${roomArray}" varStatus="rm">
                 <div id="item${rm.count}" class="divItem">
                     <a href="/searchRoom/${room.roomId}"><img src="/resources/${room.roomImg}" width="250px" height="250px"/></a>
-                    <img id="like${rm.count}" class="imgHeart" onclick="clickLike(${rm.count}, ${room.roomId})" src="/resources/img/etc/heart2.png"
+                    <img id="like${rm.count}" class="imgHeart" onclick="clickLike(${rm.count}, ${room.roomId})" src="/resources/img/etc/heartClick.png"
                          width="25px" height="25px"/>
                     <div class="divTitle" id="title${rm.count}">${room.title}</div>
                     <div class="divFloat">
