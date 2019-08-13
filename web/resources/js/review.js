@@ -29,7 +29,47 @@ $(document).ready(function () {
 
     $('.pagenum[id='+curpage+']').css('background-color', '#b6e2f8');
 
+    // $('.pageBtns > div > button').click(function () {
+    //     if($(this).attr("class") == "pagenum"){
+    //         curpage = $(this).val();
+    //     } else {
+    //         switch ($(this).val()) {
+    //             case "<<": curpage = 1; break;
+    //             case "<":
+    //                 if(curpage > 1)
+    //                     curpage = curpage-1;
+    //                 break;
+    //             case ">":
+    //                 if(curpage < total)
+    //                     curpage = curpage+1;
+    //                 break;
+    //             case ">>": curpage = total; break;
+    //         }
+    //     }
+    //     location.href ="/review?page=" + curpage;
+    // })
+
     $('.pageBtns > div > button').click(function () {
+
+        var value = $('.selAlign option:selected').val(); // 별점 순으로 보기...
+        switch(value){
+            case "최신 순으로 보기":
+                value = "latest";
+                break;
+            case "별점 순으로 보기":
+                value = "star";
+                break;
+            case "방음지수 순으로 보기":
+                value = "noise";
+                break;
+            case "방충지수 순으로 보기":
+                value = "insect"
+                break;
+            default:
+                value = "latest";
+                break;
+        }
+
         if($(this).attr("class") == "pagenum"){
             curpage = $(this).val();
         } else {
@@ -46,11 +86,8 @@ $(document).ready(function () {
                 case ">>": curpage = total; break;
             }
         }
-        location.href ="/review?page=" + curpage;
+        location.href ="/review?page=" + curpage + "&order=" + value;
     })
-
-
-
 })
 
 $.checkInsectLevel = function(insectVal) {
@@ -129,3 +166,26 @@ $.checkPeriodUnit = function(periodUnit) {
         }
     }
 }
+
+
+$('.selAlign').change(function() {
+    var value = $(this).val(); // 별점 순으로 보기...
+    switch(value){
+        case "최신 순으로 보기":
+            value = "latest";
+            break;
+        case "별점 순으로 보기":
+            value = "star";
+            break;
+        case "방음지수 순으로 보기":
+            value = "noise";
+            break;
+        case "방충지수 순으로 보기":
+            value = "insect"
+            break;
+        default:
+            value = "latest";
+            break;
+    }
+    location.href ="/review?page=" + curpage + "&order=" + value;
+});

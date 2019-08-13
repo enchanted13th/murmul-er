@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface ReviewDAO {
     List<ReviewVO> searchReviewList(int page);
+    List<ReviewVO> searchStarOrder(int page);
+    List<ReviewVO> searchNoiseOrder(int page);
+    List<ReviewVO> searchInsectOrder(int page);
     int searchReviewButtonCnt();
     int insertLocation(LocationVO locationVO);
     int insertReview(ReviewVO reviewVO);

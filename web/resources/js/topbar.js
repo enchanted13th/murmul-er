@@ -80,8 +80,12 @@ $.showPopup = function () {
             $.loginCheck("register", "/manage");
         });
 
+        // popup.find('#btnMenuReview').click(function () {
+        //     location.href = '/review?page=1';
+        // });
+
         popup.find('#btnMenuReview').click(function () {
-            location.href = '/review?page=1';
+            location.href = '/review?page=1&order=latest';
         });
 
         popup.find('#btnMenuAccount').click(function () {

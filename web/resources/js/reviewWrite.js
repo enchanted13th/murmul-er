@@ -8,7 +8,8 @@ var ps = new kakao.maps.services.Places();
 
 $(document).ready(function(){
     if(islogin === false){
-        location.href="/review?page=1";
+        // location.href="/review?page=1";
+        location.href="/review?page=1&order=latest";
     }
     starRating();
 
@@ -28,7 +29,8 @@ $(document).ready(function(){
                     "",
                     'success'
                 ).then(function () {
-                    location.href = "/review?page=1";
+                    // location.href = "/review?page=1";
+                    location.href="/review?page=1&order=latest";
                 });
             }
         })

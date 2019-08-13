@@ -26,7 +26,42 @@ public class ReviewServiceImpl implements ReviewService {
             hashTagList = reviewDAO.serachHashTag(rv.getId());
             rv.setHashTagList(new ArrayList<String>(hashTagList));
         }
+        return reviewVOList;
+    }
 
+    @Override
+    public List<ReviewVO> getStarOrder(int pageNum) {
+        int page = (pageNum-1)*3;
+        List<ReviewVO> reviewVOList = reviewDAO.searchStarOrder(page);
+        List<String> hashTagList = new ArrayList<String>();
+        for(ReviewVO rv : reviewVOList){
+            hashTagList = reviewDAO.serachHashTag(rv.getId());
+            rv.setHashTagList(new ArrayList<String>(hashTagList));
+        }
+        return reviewVOList;
+    }
+
+    @Override
+    public List<ReviewVO> getNoiseOrder(int pageNum) {
+        int page = (pageNum-1)*3;
+        List<ReviewVO> reviewVOList = reviewDAO.searchNoiseOrder(page);
+        List<String> hashTagList = new ArrayList<String>();
+        for(ReviewVO rv : reviewVOList){
+            hashTagList = reviewDAO.serachHashTag(rv.getId());
+            rv.setHashTagList(new ArrayList<String>(hashTagList));
+        }
+        return reviewVOList;
+    }
+
+    @Override
+    public List<ReviewVO> getInsectOrder(int pageNum) {
+        int page = (pageNum-1)*3;
+        List<ReviewVO> reviewVOList = reviewDAO.searchInsectOrder(page);
+        List<String> hashTagList = new ArrayList<String>();
+        for(ReviewVO rv : reviewVOList){
+            hashTagList = reviewDAO.serachHashTag(rv.getId());
+            rv.setHashTagList(new ArrayList<String>(hashTagList));
+        }
         return reviewVOList;
     }
 
