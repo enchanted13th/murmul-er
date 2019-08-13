@@ -42,6 +42,7 @@
         AND latitude &lt;= (${latitude} + 0.025)
         AND longitude &gt;= (${longitude} - 0.025)
         AND longitude &lt;= (${longitude} + 0.025)
+        AND post_id = 1
         LIMIT ${page}, ${listSize}
     </select>
 

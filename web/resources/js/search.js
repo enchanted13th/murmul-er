@@ -69,50 +69,24 @@ $.clickEvent = function () {
     $('#tworoom').clickRt();
     $('#oneroom').clickRt();
     $('#officetel').clickRt();
+    let bt = $('.buildingType');
+    for(let i = 0; i < bt.length; i++){
+        roomTypeList.push($('.buildingType').eq(i).val());
+    }
 }
 
-var roomTypeList = {};
+var roomTypeList = [];
 $.fn.clickRt = function () {
     $(this).click(function () {
         if ($(this).css('background-color') === "rgb(182, 226, 248)") {
-            console.log('clicked');
             $(this).css('background-color', '#ffffff');
-            switch ($(this).val()) {
-                case "ap":
-                    delete roomTypeList.btnRT1;
-                    break;
-                case "vl":
-                    delete roomTypeList.btnRT2;
-                    break;
-                case "tw":
-                    delete roomTypeList.btnRT3;
-                    break;
-                case "or":
-                    delete roomTypeList.btnRT4;
-                    break;
-                default:
-                    delete roomTypeList.btnRT5;
-                    break;
+            for(let i = 0 ; i < roomTypeList.length; i++){
+                if(roomTypeList[i] === $(this).val())
+                    roomTypeList.splice(i,1);
             }
         } else {
             $(this).css('background-color', 'rgb(182, 226, 248)');
-            switch ($(this).val()) {
-                case "ap":
-                    roomTypeList.btnRT1 = "아파트";
-                    break;
-                case "vl":
-                    roomTypeList.btnRT2 = "빌라";
-                    break;
-                case "tw":
-                    roomTypeList.btnRT3 = "투룸";
-                    break;
-                case "or":
-                    roomTypeList.btnRT4 = "원룸";
-                    break;
-                default:
-                    roomTypeList.btnRT5 = "오피스텔";
-                    break;
-            }
+            roomTypeList.push($(this).val());
         }
     })
 }

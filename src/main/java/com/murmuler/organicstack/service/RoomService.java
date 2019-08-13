@@ -11,6 +11,7 @@ public interface RoomService {
     RoomDetailViewVO getRoomDetailByRoomId(Map<String, Integer> map);
     List<RoomSummaryViewVO> getMyRooms(int id);
     Map<String, Object> getRoomInfo(int roomId);
+    List<String> getRoomOptions(int roomId);
     int addRoom(Map<String, String> roomInfo);
     int modifyRoom(Map<String, String> roomInfo);
     int modifyViews(int roomId, int views);

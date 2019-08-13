@@ -51,6 +51,7 @@ body {
 }
 
 .item {
+    cursor: pointer;
 	padding: 10px;
 	width: 100%;
 }
@@ -120,6 +121,7 @@ body {
 }
 
 .slideMenu {
+    cursor: pointer;
     width: 20px;
     height: 50px;
     position: absolute;

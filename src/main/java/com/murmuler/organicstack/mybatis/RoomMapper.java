@@ -13,8 +13,8 @@ public interface RoomMapper {
     List<Integer> selectRoomManageByRoomId(Map<String, Integer> map);
     List<String> selectRoomHashtagByRoomId(Map<String, Integer> map);
     List<String> selectRoomImgUrlByRoomId(Map<String, Integer> map);
-    List<RoomSummaryVO> selectMyRoomById(int id);
-    String selectRoomImgOne(int room_id);
+    List<RoomSummaryVO> selectMyRoomById(int roomId);
+    String selectRoomImgOne(int roomId);
     List<RoomSummaryVO> selectRoomByRoomIds(List<Integer> ids);
     List<RoomSummaryVO> selectRoomByLikes(Map<String, Integer> map);
     List<Map<String, Object>> selectRoomManage();
