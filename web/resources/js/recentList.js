@@ -40,7 +40,7 @@ window.onload = function () {
 var flag = false;
 
 function clickLike(i, roomId) {
-    if (document.getElementById("like" + i).getAttribute("src") === "/resources/img/etc/heart2.png") {
+    if (document.getElementById("like" + i).getAttribute("src") === "/resources/img/etc/heartClick.png") {
         flag = true;
     }
 
@@ -50,9 +50,9 @@ function clickLike(i, roomId) {
     }).then(function (data, status) {
         var obj = JSON.parse(data);
         if (obj.res === 'ADD') {
-            document.getElementById("like" + i).src = "/resources/img/etc/heart2.png";
+            document.getElementById("like" + i).src = "/resources/img/etc/heartClick.png";
         } else if (obj.res === 'REMOVE') {
-            document.getElementById("like" + i).src = "/resources/img/etc/heart1.png";
+            document.getElementById("like" + i).src = "/resources/img/etc/heart.png";
         } else {
 
         }
@@ -65,7 +65,7 @@ function checkLike() {
     for (let i = 0; i < imgList.length; i++) {
         for (let j = 0; j < likeList.length; j++) {
             if (imgList.item(i).getAttribute("value") == likeList[j]) {
-                imgList.item(i).setAttribute("src", "/resources/img/etc/heart2.png");
+                imgList.item(i).setAttribute("src", "/resources/img/etc/heartClick.png");
             }
         }
     }
