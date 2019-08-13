@@ -2,7 +2,7 @@ var map;
 var point;
 
 var idleFlag = true;
-var markerImageSrc = '/resources/img/etc/marker01.png';
+var markerImageSrc = '/resources/img/etc/marker03.png';
 
 $(document).ready(function (listener) {
 	var container = document.getElementById('map'); // 지도를 표시할 div
@@ -16,13 +16,10 @@ $(document).ready(function (listener) {
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 	kakao.maps.event.addListener(map, 'dragend', function() {
-		var latlng = map.getCenter(); // 지도의 중심좌표를 얻어옵니다
+		// var latlng = map.getCenter(); // 지도의 중심좌표를 얻어옵니다
 
-		var bounds = new kakao.maps.LatLngBounds();
-		bounds = map.getBounds();
-
-		var southWest = bounds.getSouthWest().toString();
-		var northEast = bounds.getNorthEast().toString();
+		// var bounds = new kakao.maps.LatLngBounds();
+		var bounds = map.getBounds();
 
 		if(!idleFlag) return;
 		idleFlag = false;
@@ -30,8 +27,8 @@ $(document).ready(function (listener) {
 				url: "searchRoom/search",
 				type: "GET",
 				data: {
-                    southWest: southWest,
-                    northEast: northEast
+                    southWest: bounds.getSouthWest().toString(),
+                    northEast: bounds.getNorthEast().toString()
 				}, success: function (data) {
 					map.setBounds(bounds);
 					for (let i = 0; i < markers.length; i++) {
@@ -206,11 +203,11 @@ function displayMarker(place) {
 
 	marker.setMap(map);
 
-	var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
+	// var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(31, 35), new kakao.maps.Point(13, 34));
+	var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
 	marker.setImage(markerImage);
 
 	markers.push(marker);
-	console.log(marker);
 
 	kakao.maps.event.addListener(marker, 'click', function() {
            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
