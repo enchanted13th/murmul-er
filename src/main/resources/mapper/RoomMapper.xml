@@ -38,10 +38,10 @@
         FROM location_tb
         JOIN room_tb USING(location_id)
         JOIN sale_tb USING(room_id)
-        WHERE latitude &gt;= (${latitude} - 0.025)
-        AND latitude &lt;= (${latitude} + 0.025)
-        AND longitude &gt;= (${longitude} - 0.025)
-        AND longitude &lt;= (${longitude} + 0.025)
+        WHERE latitude &gt;= (${south})
+        AND latitude &lt;= (${north})
+        AND longitude &gt;= (${west})
+        AND longitude &lt;= (${east})
         AND post_id = 1
         LIMIT ${page}, ${listSize}
     </select>

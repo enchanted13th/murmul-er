@@ -62,18 +62,29 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public void search(@RequestParam BigDecimal latitude,
-                       @RequestParam BigDecimal longitude,
+    public void search(@RequestParam String southWest,
+                       @RequestParam String northEast,
                        HttpServletResponse response) throws IOException {
+        String[] temp = southWest.substring(1, southWest.length()-1).split(", ");
+        BigDecimal south = new BigDecimal(temp[0]);
+        BigDecimal west = new BigDecimal(temp[1]);
+        temp = northEast.substring(1, northEast.length()-1).split(", ");
+        BigDecimal north = new BigDecimal((temp[0]));
+        BigDecimal east = new BigDecimal((temp[1]));
+
         response.setCharacterEncoding("UTF-8");
         JSONObject roomListObject = new JSONObject();
         JSONObject roomInfo = new JSONObject();
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("page", 1);
-        paramMap.put("latitude", latitude);
-        paramMap.put("longitude", longitude);
+        paramMap.put("south", south);
+        paramMap.put("west", west);
+        paramMap.put("north", north);
+        paramMap.put("east", east);
         List<RoomSummaryViewVO> roomList = roomService.getRoomsByLocation(paramMap);
+
+        System.out.println(roomList);
 
         for (int i = 0; i < roomList.size(); i++) {
             roomInfo.put("roomId", "" + roomList.get(i).getRoomId());

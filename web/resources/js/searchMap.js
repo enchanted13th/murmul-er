@@ -8,31 +8,31 @@ $(document).ready(function (listener) {
 	var container = document.getElementById('map'); // 지도를 표시할 div
 	var options = {
 	    center: new kakao.maps.LatLng(37.4839778342191, 126.955578840377), // 지도의 중심 좌표
-	    level: 3 // 지도의 확대 레벨
-    };
+	    level: 3
+	};
 
 	map = new kakao.maps.Map(container, options); // 지도를 생성
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-	kakao.maps.event.addListener(map, 'idle', function() {
-		var level = map.getLevel(); // 지도의 레벨을 얻어옵니다
+	kakao.maps.event.addListener(map, 'dragend', function() {
 		var latlng = map.getCenter(); // 지도의 중심좌표를 얻어옵니다
 
 		var bounds = new kakao.maps.LatLngBounds();
-		bounds.extend(new kakao.maps.LatLng(latlng.getLat(), latlng.getLng()));
+		bounds = map.getBounds();
+
+		var southWest = bounds.getSouthWest().toString();
+		var northEast = bounds.getNorthEast().toString();
 
 		if(!idleFlag) return;
 		idleFlag = false;
-		// setTimeout(function(){
-		// 	idleFlag = true;
-		// }, 1000);
 		$.ajax({
 				url: "searchRoom/search",
 				type: "GET",
 				data: {
-					latitude: latlng.getLat(),
-					longitude: latlng.getLng(),
+                    southWest: southWest,
+                    northEast: northEast
 				}, success: function (data) {
-					console.log(data);
 					map.setBounds(bounds);
 					for (let i = 0; i < markers.length; i++) {
 						markers[i].setMap(null);
@@ -41,7 +41,6 @@ $(document).ready(function (listener) {
 						$('#slideMenu').css("visibility", "visible");
 						$.showSubList(data);
 						setWindow();
-						// $.boundsLocation(data);
 					} else {
 						$('.item').remove();
 						$('.sub').css("width", "0%");
@@ -93,8 +92,6 @@ var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 //키워드 검색을 요청하는 함수
 function searchPlaces(){
-	//var keyword = document.getElementById('keyword').value;
-	//var keyword = $('#lcDong').text();
 	var keyword = $('#mapInputBox').val();
 	if(!keyword.replace(/^\s+|\s+$/g, '')){
 		alert('키워드를 입력해주세요!');
@@ -112,13 +109,16 @@ function placesSearchCB (data, status, pagination) {
 		pLat = data[0].y;
 		pLng = data[0].x;
 		bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
-		map.setBounds(bounds);
+        var southWest = bounds.getSouthWest().toString();
+        var northEast = bounds.getNorthEast().toString();
+
+        map.setBounds(bounds);
 		$.ajax({
 			url: "searchRoom/search",
 			type: "GET",
 			data: {
-				latitude: data[0].y,
-				longitude: data[0].x,
+                southWest: southWest,
+                northEast: northEast
 			}, success: function (data) {
 				for (let i = 0; i < markers.length; i++) {
 					markers[i].setMap(null);
@@ -127,7 +127,6 @@ function placesSearchCB (data, status, pagination) {
 					$('#slideMenu').css("visibility", "visible");
 					$.showSubList(data);
 					setWindow();
-					// $.boundsLocation(data);
 				} else {
 					Swal.fire("", "이 지역에 등록된 방이 없습니다", "warning");
 					$('.item').remove();
@@ -148,6 +147,8 @@ $.boundsLocation = function(res) {
 	room.place_name = res.title;
 	displayMarker(room);
 	bounds.extend(new kakao.maps.LatLng(room.y, room.x));
+
+
 	// map.setBounds(bounds);
 
 	// let bounds = new kakao.maps.LatLngBounds();
@@ -209,6 +210,7 @@ function displayMarker(place) {
 	marker.setImage(markerImage);
 
 	markers.push(marker);
+	console.log(marker);
 
 	kakao.maps.event.addListener(marker, 'click', function() {
            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
