@@ -53,10 +53,9 @@ function checkLike() {
 $.showTalk = function() {
 	var popupX = (window.screen.width / 2) - (500 / 2);
 	var popupY = (window.screen.height / 2) - (900 / 2);
-	console.log(popupX);
-	console.log(popupY);
 
-	window.open("/talk", "", "status=no, width=500, height=758, left=" + popupX + ", top=" + popupY);
+	window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+
 }
 
 $.inputOption = function () {

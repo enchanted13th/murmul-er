@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="/resources/css/talk.css"/>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
     <script src="/resources/js/talk.js"></script>
+    <script>
+        var contactMember = ${contactMember};
+        var dialogue = ${dialogue};
+    </script>
+    <c:set var="dateFlag" value=""/>
 </head>
 <body>
 <div>
@@ -15,17 +20,63 @@
         <div class="divWrap">
             <div class="divTop">
                 <button id="btnBack" class="btnBack"><img src="/resources/img/talk/back.png"/></button>
-                <label id="nickName" class="nickName">Echinacea Argentum</label>
+                <div id="nickName" class="nickName">${nickname}</div>
                 <button id="btnClose" class="btnClose"><img src="/resources/img/talk/exit.png"/></button>
             </div>
             <div class="divMid" id="divMid">
-                <div id="divDiagContent" class="divDiagContent">
-                    <div><label id="today" class="date"></label></div>
-                </div>
-                <div id="divDiagContent">
-                    <table id="tvDiagContent" class="tvDiagContent">
-                        <tr class="you" valign="top"></tr>
-                    </table>
+                <div id="divContent">
+                    <c:forEach var="msg" items="${dialogue}">
+                        <c:if test="${msg.date!=dateFlag}">
+                            <c:set var="dateFlag" value="${msg.date}"/>
+                            <div class="divDate">
+                                <div id="date" class="date">${msg.date}</div>
+                            </div>
+                        </c:if>
+                        <c:if test="${msg.sender=='ME'}">
+                            <div id="divMessage" class="divMessage">
+                                <div class="divMe">
+                                    <span class="time">${msg.time}</span>
+                                    <div class="myMessage">
+                                        <span>${msg.content}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${msg.sender=='YOU'}">
+                            <div id="divMessage" class="divMessage">
+                                <div class="divYou">
+                                    <div class="yourMessage">
+                                        <span>${msg.content}</span>
+                                    </div>
+                                    <span class="time">${msg.time}</span>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:forEach>
+                            <%--<c:if test="${msg.sender=='ME'}">
+                                <table id="myTable">
+                                    <tr class="me" valign="top">
+                                        <td colspan="2" align="right">
+                                            <div class="message">
+                                                <span id="time" class="time">${msg.time}</span>
+                                                <div id="myMessage" class="myMessage">${msg.content}</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </c:if>
+                            <c:if test="${msg.sender=='YOU'}">
+                                <table id="yourTable">
+                                    <tr class="you" valign="top">
+                                        <td colspan="2" align="left">
+                                            <div class="message">
+                                                <div id="myMessage" class="myMessage">${msg.content}</div>
+                                                <span id="time" class="time">${msg.time}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </c:if>--%>
                 </div>
             </div>
             <div class="divBottom">
