@@ -141,6 +141,7 @@
     var pyeong = Math.round(${area/3.3}) + "평";
     var sellerNickname = "${sellerNickname}";
     var sellerPhone = "${sellerPhone}";
+    var sellerMemberId = ${memberId};
     var roomId = "${roomId}";
     var likeList = ${likeList};
 </script>
