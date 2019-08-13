@@ -75,6 +75,7 @@ div.topbar {
 
 button {
 	background-color: transparent;
+	height: 45px;
 }
 
 .topbar > ul > li > button:last-child {
