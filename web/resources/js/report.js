@@ -5,10 +5,6 @@ $(document).ready(function () {
 
 })
 
-var clickReport = function () {
-    $.report();
-}
-
 $.report = function () {
     if ($('.menuPopup').length === 0) {
         $(document.body).css('overflow', 'hidden');
@@ -57,18 +53,50 @@ $.fn.cancel = function () {
 
 $.fn.report = function () {
     $(this).click(function () {
-        $.ajax('/report', {
-            type: 'POST',
-            data: {type: $('input[name=type]').val(), content: $('textarea[name=content]').val(), roomId: roomId}
-        }).then(function (data, status) {
-            var obj = JSON.parse(data);
-            if (obj.addReport == 'SUCCESS') {
-                Swal.fire('신고 접수 완료', null, "success");
-            } else {
-                Swal.fire('신고 접수 실패', null, "error");
+        if(!$.isValid()) return;
+        Swal.fire({
+            title: "신고하기",
+            text: "악의적인 허위 신고는 법적인 책임을 질 수 있습니다. 정말로 신고하시겠습니까?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.value) {
+                $.requestReport();
             }
-            $(document.body).css('overflow', '');
-            $('#reportForm').remove();
         })
     });
+}
+
+$.isValid = function () {
+    let content = $('.repContent > textarea[name=content]').val();
+    if ($('.btnRadio:checked').length === 0) {
+        Swal.fire('항목을 선택해주세요.', '', 'warning');
+        return false;
+    }
+    if (content === '') {
+        Swal.fire('내용을 입력해주세요.', '', 'warning');
+        return false;
+    }
+    return true;
+}
+
+$.requestReport = function(){
+    $.ajax('/report', {
+        type: 'POST',
+        data: {type: $('input[name=type]').val(), content: $('textarea[name=content]').val(), roomId: roomId}
+    }).then(function (data, status) {
+        if(status === 'success') {
+            var obj = JSON.parse(data);
+            if (obj.addReport == 'SUCCESS') {
+                Swal.fire('신고 접수 완료', "", "success");
+            } else {
+                Swal.fire('신고 접수 실패', "", "error");
+            }
+            $.report();
+        }
+    })
 }
