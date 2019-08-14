@@ -48,14 +48,14 @@
                     <td class="tbSubtitle tdSubtitleWide">건물 유형</td>
                     <td class="tdContent">
                         공동주택(
-                        <input type="radio" value="1" name="house">아파트
-                        <input type="radio" value="2" name="house">다세대
-                        <input type="radio" value="3" name="house">연립)<br/>
+                        <input type="radio" value="아파트" name="house">아파트
+                        <input type="radio" value="다세대" name="house">다세대
+                        <input type="radio" value="연립" name="house">연립)<br/>
                         단독주택(
-                        <input type="radio" value="4" name="house">다가구
-                        <input type="radio" value="5" name="house">원룸
-                        <input type="radio" value="6" name="house">단독)
-                        <input type="radio" value="7" name="house">기타
+                        <input type="radio" value="다가구" name="house">다가구
+                        <input type="radio" value="원룸" name="house">원룸
+                        <input type="radio" value="단독" name="house">단독)
+                        <input type="radio" value="기타" name="house">기타
                     </td>
                 </tr>
             </table>
@@ -66,9 +66,9 @@
                 <tr>
                     <td class="tbSubtitle">대여 유형</td>
                     <td class="tdContent" colspan="3">
-                        <input type="radio" value="1" name="rentType">전세
-                        <input type="radio" value="2" name="rentType">월세
-                        <input type="radio" value="3" name="rentType">보증금 있는 월세
+                        <input type="radio" value="전세" name="rentType">전세
+                        <input type="radio" value="월세" name="rentType">월세
+                        <input type="radio" value="보증금월세" name="rentType">보증금 있는 월세
                     </td>
                 </tr>
                 <tr>
