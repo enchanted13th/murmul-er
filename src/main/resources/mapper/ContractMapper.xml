@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.ContractMapper">
+
+        <insert id="insertContract" parameterType="com.murmuler.organicstack.vo.ContractVO" useGeneratedKeys="true" keyProperty="id">
+          INSERT INTO contract_tb (room_id, sublessor_id, sublessee_id, contract_form, contract_date)
+          VALUES (#{roomId},#{sublessorId},#{sublesseeId},#{contractForm},#{contractDate});
+        </insert>
+
+        <insert id="insertOnContractList" parameterType="hashmap">
+        INSERT into contract_list_tb (member_id, contract_id) VALUES
+           <foreach collection="memberList" item="member" separator=",">
+               (#{member.value}, #{contractId})
+           </foreach>
+        </insert>
+</mapper>
