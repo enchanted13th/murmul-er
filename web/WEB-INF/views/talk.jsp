@@ -6,11 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>머물-톡</title>
     <link rel="stylesheet" href="/resources/css/talk.css"/>
+    <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
     <script src="/resources/js/talk.js"></script>
+    <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
     <script>
         var contactMember = ${contactMember};
-        var dialogue = ${dialogue};
     </script>
     <c:set var="dateFlag" value=""/>
 </head>
@@ -53,30 +54,6 @@
                             </div>
                         </c:if>
                     </c:forEach>
-                            <%--<c:if test="${msg.sender=='ME'}">
-                                <table id="myTable">
-                                    <tr class="me" valign="top">
-                                        <td colspan="2" align="right">
-                                            <div class="message">
-                                                <span id="time" class="time">${msg.time}</span>
-                                                <div id="myMessage" class="myMessage">${msg.content}</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </c:if>
-                            <c:if test="${msg.sender=='YOU'}">
-                                <table id="yourTable">
-                                    <tr class="you" valign="top">
-                                        <td colspan="2" align="left">
-                                            <div class="message">
-                                                <div id="myMessage" class="myMessage">${msg.content}</div>
-                                                <span id="time" class="time">${msg.time}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </c:if>--%>
                 </div>
             </div>
             <div class="divBottom">
@@ -89,10 +66,14 @@
             </div>
             <div class="divOption" id="divOption" style="display:none;">
                 <button id="btnPhoto"><img src="/resources/img/talk/photo.png"/></button>
+                <input type="file" id="imgUpload" multiple="multiple" onchange="upload(this)" style="display: none;"/>
                 <button id="btnContract"><img src="/resources/img/talk/contract.png"/></button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    var dateFlag = "${dateFlag}";
+</script>
 </body>
 </html>
