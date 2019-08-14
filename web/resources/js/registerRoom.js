@@ -419,6 +419,7 @@ $.fn.clickSubmit = function() {
 
         if($('.addimage').length<2 || $('.addimage').length>10){
             alert("사진을 2~10장 올려주세요");
+            $('.addimage').remove();
             return;
         }
 
