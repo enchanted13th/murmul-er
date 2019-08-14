@@ -23,7 +23,7 @@ table button:hover {
 }
 
 table>tbody>tr>td.tbtitle {
-	background-color: rgb(182, 226, 248, 0.5);
+	background-color: rgba(182, 226, 248, 0.5);
 	text-align: center;
 }
 
