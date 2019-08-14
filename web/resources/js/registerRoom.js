@@ -17,10 +17,12 @@ var hashtagExist = true;
 var ps = new kakao.maps.services.Places();
 
 $(document).ready(function () {
+
     $('#btnPutRoom').parent().css('border-bottom', '6px solid #b6e2f8');
     // javascript:scroll(0, 0);
     $.clickEvent();
     $.imagebutton();
+    $('#btnImg').click(selectFile);
 
 })
 
@@ -54,6 +56,14 @@ function dataSubmit(){
     let hashtagListString = convertList(hashTagList);
     let imageListString = convertList(imageList.push($('#images').val()));
 
+    var formData = new FormData();
+    var inputFile = $("input[name='uploadFile']");
+    var files = inputFile[0].files;
+    // alert("버튼 클릭시 files 값 : " + files.length);
+    for(var i = 0; i < files.length; i++){
+        formData.append("uploadFile", files[i]);
+    }
+
     let roomInfo = {
         allAddr: JSON.stringify(allAddr),
         detailAddr: $('#inputDetailAddr').val(),
@@ -74,7 +84,7 @@ function dataSubmit(){
         hashtagExist: hashtagExist,
         hashtagList: hashtagListString,
         // images: JSON.stringify(imgpath),
-        imageList: imageListString
+        imageList: imageListString,
     };
     // console.log(roomInfo);
     $.ajax("/manage/room",{
@@ -85,10 +95,35 @@ function dataSubmit(){
         if (status === "success") {
             switch (data.registerResult) {
                 case "SUCCESS" :
-                    Swal.fire('등록 성공', '방 등록에 성공하였습니다.', 'success')
-                        .then(function(){
-                            location.href="/manage";
+                    if(formData.get("uploadFile") == null){
+                        Swal.fire('사진을 등록해주세요', '', 'warning');
+                    }else{
+                        $.ajax({
+                            url: '/manage/uploadImage',
+                            processData: false,
+                            contentType: false,
+                            data:formData,
+                            dataType: 'json',
+                            type: 'POST'
+                        }).then(function (data, status) {
+                            if (status === "success") {
+                                switch (data.uploadResult) {
+                                    case "SUCCESS" :
+                                        Swal.fire('등록 성공', '방 등록에 성공하였습니다.', 'success')
+                                            .then(function(){
+                                                location.href="/manage";
+                                            });
+                                        break;
+                                    case "FAIL" :
+                                        Swal.fire('파일 등록 실패', '등록할 수 없습니다.', 'error');
+                                        break;
+                                }
+                            } else {
+                                Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
+                            }
                         });
+                    }
+
                     break;
                 case "FAIL" :
                     Swal.fire('등록 실패', '등록할 수 없습니다.', 'error');
@@ -104,14 +139,34 @@ var changeAddr = function () {
     ps.keywordSearch($('#inputAddr'), placesSearchCB);
 }
 
+var selectFile = function () {
+    $('#upload').trigger('click');
+}
 
 function readURL(input) {
+    let td = $('#tdImg');
+
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#rmimg1').attr('src', e.target.result);
+        for(let i=1; i<=input.files.length; i++){
+
+            let imgName = input.files[i-1].name;
+            let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
+            if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
+                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let img = $(''
+                +'<div style="display: inline;">'
+                +'  <img class="addimage" id=rmimg'+ i +' src='+ e.target.result +' name="addImage" class="addimage"/>'
+                +'</div>'
+                );
+                td.append(img);
+            }
+            reader.readAsDataURL(input.files[i-1]);
         }
-        reader.readAsDataURL(input.files[0]);
     }
 }
 
@@ -360,6 +415,11 @@ $.fn.clickSubmit = function() {
                 $('#inputAdminFee').focus();
                 return;
             }
+        }
+
+        if($('.addimage').length<2 || $('.addimage').length>10){
+            alert("사진을 2~10장 올려주세요");
+            return;
         }
 
         if ($('#hash1').val() == "" && $('#hash2').val() == "" && $('#hash3').val() == "") {

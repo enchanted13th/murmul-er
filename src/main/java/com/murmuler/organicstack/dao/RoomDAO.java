@@ -2,6 +2,7 @@ package com.murmuler.organicstack.dao;
 
 import com.murmuler.organicstack.vo.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,12 @@ public interface RoomDAO {
     List<RoomSummaryVO> selectRoomByLikes(Map<String, Integer> map);
     Map<String, Object> selectRoomInfo(int roomId);
     int selectLocationIdByRoomId(int roomId);
+    int selectRoomIdByMemberId(int memberId);
     int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
     int insertRoomManageCost(int roomId, int[] manageIdList);
     int insertRoomOption(int roomId, int[] optionIdList);
     int insertRoomHashtag(int roomId, String[] hashtagList);
-    int insertRoomImage(int roomId, String[] imgUrlList);
+    int insertRoomImage(int roomId, ArrayList<String> imgUrlList);
     int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr, String isNotChangeDtAddr);
     int updateViews(Map<String, Integer> map);
     int updatePostType(Map<String, Integer> paramMap);

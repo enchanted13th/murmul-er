@@ -14,6 +14,18 @@
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+
+<!--        =========================== 추가 ===========================-->
+        <multipart-config>
+            <location>C:\\upload\\temp</location>
+            <max-file-size>20917520</max-file-size>
+            <max-request-size>41943040</max-request-size>
+            <file-size-threshold>20971520</file-size-threshold>
+        </multipart-config>
+
+<!--        =========================== 추가 ===========================-->
+
+
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>

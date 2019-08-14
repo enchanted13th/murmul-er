@@ -3,6 +3,7 @@ package com.murmuler.organicstack.service;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,10 @@ public interface RoomService {
     Map<String, Object> getRoomInfo(int roomId);
     List<String> getRoomOptions(int roomId);
     int addRoom(Map<String, String> roomInfo);
+    int addImg(int roomId, ArrayList<String> imgUrlList);
     int modifyRoom(Map<String, String> roomInfo);
     int modifyViews(int roomId, int views);
     int modifyPostType(int roomId, String postType);
     int removeRoom(int roomId);
+    int getRoomIdByMemberId(int memberId);
 }

@@ -27,6 +27,7 @@ public interface RoomMapper {
     int selectOneRecentLocation();
     int selectOneRecentRoom();
     int selectLocationIdByRoomId(int roomId);
+    int selectRoomIdByMemberId(int memberId);
     int selectRoomIdByLocationId(int locationId);
     LocationVO selectRoomLocation(int locationId);
     RoomVO selectRoomInfo(int roomId);
