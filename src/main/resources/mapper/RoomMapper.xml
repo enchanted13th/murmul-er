@@ -159,6 +159,12 @@
         WHERE room_id = #{roomId}
     </select>
 
+    <select id="selectRoomIdByMemberId" parameterType="int" resultType="int">
+        SELECT room_id
+        FROM sale_tb
+        WHERE member_id = #{member_id} ORDER BY room_id DESC limit 1
+    </select>
+
     <select id="selectRoomLocation" resultType="com.murmuler.organicstack.vo.LocationVO">
         SELECT sido, sigungu, bname, bname1, bname2, jibun, roadname as roadName,
         road_jibun as roadJibun, detail_addr as detailAddr, longitude, latitude, location_id

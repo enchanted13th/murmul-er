@@ -160,4 +160,17 @@ textarea {
 	text-align: right;
 }
 
+.upload{
+	width: 124px;
+	height: 124px;
+	margin: 20px;
+	border: 2px solid #b6e2f8;
+	vertical-align: top;
+}
+
+.img{
+	height: 90px;
+}
+
+
 /* content_end */

@@ -188,20 +188,9 @@
 				<td colspan=2 class="tbtitle">사진 등록</td>
 			</tr>
 			<tr>
-				<td>
-					<!-- <img src="img/etc/addimage.png" id="addimage" class="addimage"/> -->
-					<input type="file" id="imageFileName" name="imageFileName" onchange="readURL(this);" />
-					<div style="display: inline;">
-						<img id="rmimg1" src="#" name="addImage" class="addimage"/>
-					</div>
-					<!-- <div style="display: inline;">
-                        <img src="img/etc/deleteimage.png" class="deleteimage"/>
-                        <img src="img/room/room1.png" id="rmimg1" name="addImage" class="addimage"/>
-                    </div>
-                    <div style="display: inline;">
-                        <img src="img/etc/deleteimage.png" class="deleteimage"/>
-                        <img src="img/room/room3.png" id="rmimg2" name="addImage" class="addimage"/>
-                    </div> -->
+				<td id="tdImg">
+                    <button class="upload" id="btnImg"><img class="img" src="/resources/img/etc/addimage.png"/></button>
+					<input class="upload" id="upload" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;">
 				</td>
 			</tr>
 		</table>

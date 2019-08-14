@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,6 +121,12 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public int selectRoomIdByMemberId(int memberId) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return mapper.selectRoomIdByMemberId(memberId);
+    }
+
+    @Override
     public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = SUCCESS;
@@ -165,7 +172,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoomImage(int roomId, String[] imgUrlList) {
+    public int insertRoomImage(int roomId, ArrayList<String> imgUrlList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);

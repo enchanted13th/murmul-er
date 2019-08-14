@@ -149,6 +149,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public int addImg(int roomId, ArrayList<String> imgUrlList) {
+        return roomDAO.insertRoomImage(roomId, imgUrlList);
+    }
+
+    @Override
     public Map<String, Object> getRoomInfo(int roomId) {
         return roomDAO.selectRoomInfo(roomId);
     }
@@ -384,5 +389,11 @@ public class RoomServiceImpl implements RoomService {
 
         return bean;
     }
+
+    @Override
+    public int getRoomIdByMemberId(int memberId){
+        return roomDAO.selectRoomIdByMemberId(memberId);
+    }
+
 
 }

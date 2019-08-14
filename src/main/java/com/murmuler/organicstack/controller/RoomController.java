@@ -11,20 +11,18 @@ import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/manage")
@@ -128,13 +126,65 @@ public class RoomController {
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
         roomInfo.put("memberId", member.getMemberId()+"");
 
-        if(roomService.addRoom(roomInfo) == RoomDAO.FAIL) {
+        int result;
+        if((result=roomService.addRoom(roomInfo)) == RoomDAO.FAIL) {
             res.put("registerResult", "FAIL");
             System.out.println("FAIL");
         }
         else {
             res.put("registerResult", "SUCCESS");
+            res.put("roomId", result);
             System.out.println("SUCCESS");
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
+    }
+
+    /* ----- 내 방 등록 (사진 업로드) ----- */
+@ResponseBody
+@RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public void uploadImage(@RequestParam MultipartFile[] uploadFile,
+                        HttpServletRequest request,
+                        HttpServletResponse response) throws IOException {
+
+        int memberId = ((MemberVO) request.getSession().getAttribute("loginMember")).getMemberId();
+        int roomId = roomService.getRoomIdByMemberId(memberId);
+        ArrayList<String> imgUrlList = new ArrayList<>();
+        String uploadFolder = "C:\\Users\\user\\murmul-er\\web";
+        String uploadFolderPath = "resources\\img\\room\\roomId_"+roomId;
+
+        // 폴더 생성
+        File uploadPath = new File(uploadFolder, uploadFolderPath);
+//        logger.info("경로 : " + uploadPath);
+        if(uploadPath.exists() == false){
+            uploadPath.mkdirs();
+        }
+
+        JSONObject res = new JSONObject();
+
+        for(MultipartFile multipartFile : uploadFile){
+            String uploadFileName = multipartFile.getOriginalFilename();
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+            imgUrlList.add("\\"+uploadFolderPath+"\\"+uploadFileName);
+
+//            logger.info("------------------------------------------");
+//            logger.info("file 이름 : " + multipartFile.getOriginalFilename());
+//            logger.info("file 크기 : " + multipartFile.getSize());
+//            logger.info("파일 이름만 : " + uploadFileName);
+//            logger.info("DB에 넣을 값 : " + uploadPath + "\\" + uploadFileName);
+
+            try{
+                File saveFile = new File(uploadPath, uploadFileName);
+                multipartFile.transferTo(saveFile);
+            }catch (Exception e){
+                res.put("uploadResult", "FAIL");
+                logger.error(e.getMessage());
+            }
+        }
+        if(roomService.addImg(roomId,imgUrlList) >=1 ){
+            res.put("uploadResult", "SUCCESS");
+        }else{
+            res.put("uploadResult", "FAIL");
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);

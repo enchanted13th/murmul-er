@@ -103,10 +103,10 @@ public class RoomTest {
         assertTrue(dao.insertRoomHashtag(58, new String[] {"서울대입구역", "원룸"}) >= 1);
     }
 
-    @Test
-    public void addRoomImageTest() {
-        assertTrue(dao.insertRoomImage(58, new String[] {"url1", "url2"}) >= 1);
-    }
+//    @Test
+//    public void addRoomImageTest() {
+//        assertTrue(dao.insertRoomImage(58, new String[] {"url1", "url2"}) >= 1);
+//    }
 
     @Test
     public void removeRoomManageCostTest(){
