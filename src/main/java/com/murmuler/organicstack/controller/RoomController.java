@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -153,8 +152,6 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
         int memberId = ((MemberVO) request.getSession().getAttribute("loginMember")).getMemberId();
         int roomId = roomService.getRoomIdByMemberId(memberId);
         ArrayList<String> imgUrlList = new ArrayList<>();
-//        String uploadFolder = "C:\\Users\\user\\murmul-er\\web";
-//        String uploadFolderPath = "resources\\img\\room\\roomId_"+roomId;
 
         String uploadFolder = "C:\\util";
         String uploadFolderPath = "room\\roomId_"+roomId;
@@ -170,24 +167,13 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
         for(MultipartFile multipartFile : uploadFile){
             String uploadFileName = multipartFile.getOriginalFilename();
             uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-//            imgUrlList.add("\\"+uploadFolderPath+"\\"+uploadFileName); // 프로젝트 경로 저장
-
             String extension = uploadFileName.substring(uploadFileName.lastIndexOf("."));
             String transFileName = "room"+i+extension;
             i++;
 
             imgUrlList.add(transFileName);
-            logger.info("파일 이름만 : " + uploadFileName);
-            logger.info("변환된 이름 : " + transFileName);
-
-//            logger.info("------------------------------------------");
-//            logger.info("file 이름 : " + multipartFile.getOriginalFilename());
-//            logger.info("file 크기 : " + multipartFile.getSize());
-//            logger.info("파일 이름만 : " + uploadFileName);
-//            logger.info("DB에 넣을 값 : " + uploadPath + "\\" + uploadFileName);
 
             try{
-//                File saveFile = new File(uploadPath, uploadFileName);
                 File saveFile = new File(uploadPath, transFileName);
                 multipartFile.transferTo(saveFile);
             }catch (Exception e){
@@ -204,7 +190,6 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
         response.getWriter().print(res);
     }
 
-//    ======================================= 작업중 =======================================
     /* ----- 내 방 관리 (사진 다운로드) ----- */
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downloadImage(@RequestParam String middlePath,
@@ -217,8 +202,6 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
         String REPOSITORY_PATH = "C:\\util";
         OutputStream out = response.getOutputStream();
         String path = REPOSITORY_PATH + middlePath + "\\" + imageFileName;
-
-        System.out.println("downPath : " + path);
 
         File imageFile = new File(path);
 
@@ -235,7 +218,6 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
         in.close();
         out.close();
     }
-//    ======================================= 작업중 =======================================
 
     /* ----- 내 방 관리 -> 수정 -> 내 방 관리 ----- */
     @RequestMapping(value = "/room/update", method = RequestMethod.POST)
