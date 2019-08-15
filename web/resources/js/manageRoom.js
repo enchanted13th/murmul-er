@@ -4,7 +4,20 @@ $(document).ready(function () {
     $('.btnModify').clickModifyBtn();
     $('.btnDelete').clickDeleteBtn();
     $('.btnPt').clickPostStatBtn();
+    $.setImage();
 });
+
+$.setImage = function(){
+    let listSize = $('.tbList').length;
+    for(let i = 0; i < listSize; i++) {
+        let value = $('#uploadValue' + i).val().split(',');
+        let middlePath = value[0];
+        let fileName = value[1];
+        let src = '/manage/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
+        console.log(src);
+        $('#preview' + i).attr('src', src);
+    }
+}
 
 $.setPostType = function () {
     let listSize = $('.tbList').length;
