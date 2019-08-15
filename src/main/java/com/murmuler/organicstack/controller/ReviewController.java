@@ -141,7 +141,7 @@ public class ReviewController {
         if(hashtagExist.equals("Y")){
             hashTagExist = true;
         }
-        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashTagExist,"","","","","", hashTagList, member.getId()));
+        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashTagExist,"","","","","", hashTagList));
         int reviewId = res -1;
         res -= reviewId;
         JSONObject jObj = new JSONObject();
@@ -153,7 +153,6 @@ public class ReviewController {
         }
         response.setContentType("text/html; charset=utf-8");
         response.getWriter().print(jObj);
-        //response.getWriter().flush();
     }
 
     @ResponseBody
