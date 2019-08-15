@@ -30,6 +30,7 @@ public class ReviewVO {
     private String roadname;
     private String detailAddr;
     private ArrayList<String> hashTagList;
+    private String memberId;
 
     public ReviewVO() {}
 

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
     <title>방 상세</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
@@ -31,7 +32,20 @@
             <span class="hashTag">#${hash}</span>
         </c:forEach>
     </div>
-    <div align="center"><img class="roomImg" width="700px" src="/resources/${roomImg[0]}"></div>
+    <div align="center">
+        <ul class="slider">
+            <c:forEach var="data" items="${roomImg}" varStatus="status">
+                <li>
+                    <img class="roomImg" id="preview${status.index}" width="700px" height="480x" src=""/>
+                    <input type="hidden" id="roomValue${status.index}" value="${roomId},${data}">
+                </li>
+                <c:if test="${status.last}">
+                    <c:set var="roomImgNum" value="${status.count}"/>
+                </c:if>
+            </c:forEach>
+        </ul>
+    </div>
+
     <div class="detailTitle">Comment</div>
     <div class="detailContent">${detail}</div>
     <div>
@@ -133,6 +147,8 @@
 <script src="/resources/js/contact.js"></script>
 <script src="/resources/js/report.js"></script>
 <script src="/resources/js/roomDetail.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
 <script>
     var temp = "${options}";
     temp = temp.substring(1, temp.length - 1);
@@ -144,6 +160,7 @@
     var sellerMemberId = ${memberId};
     var roomId = "${roomId}";
     var likeList = ${likeList};
+    var roomImgNum = ${roomImgNum};
 </script>
 </body>
 </html>

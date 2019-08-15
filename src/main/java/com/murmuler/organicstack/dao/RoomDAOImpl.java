@@ -164,6 +164,8 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     public int insertRoomHashtag(int roomId, String[] hashtagList) {
+        for(String str : hashtagList)
+            System.out.println("hash: "+str);
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);

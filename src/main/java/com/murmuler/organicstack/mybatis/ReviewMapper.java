@@ -18,6 +18,7 @@ public interface ReviewMapper {
     int insertReview(ReviewVO reviewVO);
     int selectReviewTotalCnt();
     int selectOneRecentReview();
+    int insertReviewImage(Map<String, Object> map);
     int insertReviewHashtag(Map<String, Object> map);
     List<String> selectHashTag(int reviewId);
 }

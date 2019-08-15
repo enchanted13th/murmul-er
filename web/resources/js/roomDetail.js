@@ -15,7 +15,30 @@ $(document).ready(function () {
                 })
         }
     })
+    $.setImage();
+    $('.slider').bxSlider({
+        auto: false, // 자동 애니메이션
+        speed: 500, // 애니메이션 속도
+        pause: 5000, // 애니메이션 유지 시간(1000 = 1초)
+        mode: 'horizontal', // 슬라이드 모드('fade', 'vertical', 'horizontal')
+        autoControls: false, // 시작,중지 버튼 유/무
+        pager:true, // 페이지 보여짐
+        captions: true // 이미지위에 텍스트 넣기
+    });
 })
+
+$.setImage = function(){
+    // let listSize = $('.tbList').length;
+    console.log(roomImgNum);
+    for(let i = 0; i < roomImgNum; i++) {
+        let value = $('#roomValue' + i).val().split(',');
+        let roomId = value[0];
+        let fileName = value[1];
+        let src = '/manage/download?middlePath=/room/roomId_' + encodeURI(roomId) + '&imageFileName=' + encodeURI(fileName);
+        console.log(src);
+        $('#preview' + i).attr('src', src);
+    }
+}
 
 var likeFlag = false;
 
