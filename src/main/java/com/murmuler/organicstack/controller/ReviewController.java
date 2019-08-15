@@ -1,19 +1,26 @@
 package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.ReviewService;
+import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.ReviewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
@@ -55,8 +62,6 @@ public class ReviewController {
             if(page >= total-2) startpage = total - 4;
         }
 
-        System.out.println("정렬 : " + order);
-
         mav.addObject("curpage", page);
         mav.addObject("order", order);
         mav.addObject("startpage", startpage);
@@ -89,7 +94,9 @@ public class ReviewController {
                                   @RequestParam("hashTag1") String hashTag1,
                                   @RequestParam("hashTag2") String hashTag2,
                                   @RequestParam("hashTag3") String hashTag3,
+                                  HttpServletRequest request,
                                   HttpServletResponse response) throws IOException{
+
         ArrayList<String> hashTagList = new ArrayList<String>();
         if(!hashTag1.equals("")){
             hashTagList.add(hashTag1);
@@ -100,6 +107,7 @@ public class ReviewController {
         if(!hashTag3.equals("")){
             hashTagList.add(hashTag3);
         }
+
         JSONObject json = (JSONObject) JSONValue.parse(totAddr);
         json.put("detailAddr", detailAddr);
         Map<String, String> locationInfo = new HashMap<String, String>();
@@ -126,21 +134,67 @@ public class ReviewController {
         locationInfo.put("detailAddr", (String)json.get("detailAddr"));
         locationInfo.put("latitude", (String)json.get("latitude"));
         locationInfo.put("longitude", (String)json.get("longitude"));
+        MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
 
         int locationId = reviewService.addLocation(locationInfo);
         boolean hashTagExist = false;
         if(hashtagExist.equals("Y")){
             hashTagExist = true;
         }
-
-        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashTagExist,"","","","","", hashTagList));
+        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashTagExist,"","","","","", hashTagList, member.getId()));
+        int reviewId = res -1;
+        res -= reviewId;
         JSONObject jObj = new JSONObject();
         if (res == 1) { // 문의 등록 성공
             jObj.put("reviewWriteResult", "SUCCESS");
+            jObj.put("reviewId", reviewId);
         } else {
             jObj.put("reviewWriteResult", "WRITE_FAIL");
         }
         response.setContentType("text/html; charset=utf-8");
         response.getWriter().print(jObj);
+        //response.getWriter().flush();
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void uploadImage(@RequestParam MultipartFile[] uploadFile,
+                            @RequestParam String reviewId,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
+
+        String image="";
+        String uploadFolder = "C:\\util\\";
+        String uploadFolderPath = "reviewId_" + reviewId;
+
+        File uploadPath = new File(uploadFolder, uploadFolderPath);
+        if(uploadPath.exists() == false){
+            uploadPath.mkdirs();
+        }
+
+        JSONObject res = new JSONObject();
+
+        for(MultipartFile multipartFile : uploadFile){
+            String uploadFileName = multipartFile.getOriginalFilename();
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+            image = "\\"+uploadFolderPath+"\\"+uploadFileName;
+
+            try{
+                File saveFile = new File(uploadPath, uploadFileName);
+                multipartFile.transferTo(saveFile);
+            }catch (Exception e){
+                res.put("uploadResult", "FAIL");
+                logger.error(e.getMessage());
+            }
+        }
+        if(reviewService.addImg(Integer.parseInt(reviewId),image) >=1 ){
+            res.put("uploadResult", "SUCCESS");
+
+        }else{
+            res.put("uploadResult", "FAIL");
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
+    }
+
 }

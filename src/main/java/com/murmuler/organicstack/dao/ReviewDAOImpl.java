@@ -65,8 +65,10 @@ public class ReviewDAOImpl implements ReviewDAO {
         int res = 0;
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         if((res = mapper.insertReview(reviewVO)) > 0){
-            int reviewId = mapper.selectOneRecentReview();
+            //int reviewId = mapper.selectOneRecentReview();
+            int reviewId = reviewVO.getId();
             insertReviewHashtag(reviewId, reviewVO.getHashTagList());
+            res += reviewId;
         }
         return res;
     }
@@ -92,5 +94,14 @@ public class ReviewDAOImpl implements ReviewDAO {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         List<String> list = mapper.selectHashTag(reviewId);
         return list;
+    }
+
+    @Override
+    public int insertReviewImage(int reviewId, String image){
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("reviewId", reviewId);
+        paramMap.put("image", image);
+        return mapper.insertReviewImage(paramMap);
     }
 }

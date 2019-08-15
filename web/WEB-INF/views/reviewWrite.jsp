@@ -58,7 +58,7 @@
                 </tr>
                 <tr class="high">
                     <td class="item">총 평가</td>
-                    <td><textarea name="txtExplain" id="txtExplain" class="txtExplain" placeholder="1000자 이내로 작성해주세요."  autocomplete="off" required></textarea></td>
+                    <td><textarea name="txtExplain" id="txtExplain" class="txtExplain" placeholder="1000자 이내로 작성해주세요." autocomplete="off" required></textarea></td>
                 </tr>
                 <tr class="high">
                     <td class="item">장점</td>
@@ -66,7 +66,7 @@
                 </tr>
                 <tr class="high">
                     <td class="item">단점</td>
-                    <td><textarea name="txtBad" id="txtBad" class="txtBad" placeholder="500자 이내로 작성해주세요."  autocomplete="off" required></textarea></td>
+                    <td><textarea name="txtBad" id="txtBad" class="txtBad" placeholder="500자 이내로 작성해주세요." autocomplete="off" required></textarea></td>
                 </tr>
                 <tr class="trProof">
                     <td class="item">방충지수</td>
@@ -134,9 +134,9 @@
                 </tr>
                 <tr class="low">
                     <td class="item">이미지 첨부</td>
-                    <td>
+                    <td id="tdImg">
                         <button type="button" onclick="readFile()">파일선택</button>
-                        <input type="file" name="imgUpload" id="imgUpload" onchange="readName()" />
+                        <input type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
                         <span id="fileName" name="fileName"></span>
                     </td>
                 </tr>
