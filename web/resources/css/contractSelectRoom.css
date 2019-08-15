@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.roomBtns {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.roomBtns > div > button {
+    display: block;
+    width: 60%;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 15px;
+    border: 2px solid #b6e2f8;
+    outline: 0;
+    border-radius: 10px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: #b6e2f8;
+}
+
+.roomBtns .selectRoom {
+    background-color: #fff;
+}
+
+.roomBtns .selectRoom:hover {
+    background-color: #e9f8ff;
+}
+
+.roomBtns .cancel:hover {
+    background-color: #e9f8ff;
+}

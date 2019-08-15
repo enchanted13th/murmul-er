@@ -68,4 +68,9 @@ public class MemberServiceImpl implements MemberService {
         return dao.updatePasswordByMemberId(paramMap) > 0;
     }
 
+    @Override
+    public MemberVO getMemberById(String memberId) {
+        return dao.selectMemberByMemberId(memberId);
+    }
+
 }

@@ -12,4 +12,5 @@ public interface MemberService {
     int join(MemberVO member);
     int changeMemberInfo(int memberId, String realname, String nickname, String email, String phone);
     boolean changePassword(int memberId, String newpwd);
+    MemberVO getMemberById(String memberId);
 }

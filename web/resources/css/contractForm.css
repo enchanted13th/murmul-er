@@ -25,6 +25,9 @@
 .wrap > .addContractForm .tdContent > input[name="rentType"]{
     margin-left: 20px;
 }
+.wrap > .addContractForm .tdContent > input[name="mcType"]{
+    margin-left: 20px;
+}
 /*input[type="radio"]:not(old) + label{*/
 /*    display: inline-block;*/
 /*    background:url() no-repeat;*/
@@ -58,7 +61,11 @@
 }
 
 .tbContent > tbody > tr > td.tdSubtitleWide {
-    width: 20%;
+    width: 19%;
+}
+
+.tbContent > tbody > tr > td.tdContentWide {
+    width: 31%;
 }
 
 .addContractForm .selectNum{
@@ -68,6 +75,7 @@
     padding: 1px 15px;
     margin: 5px 10px;
     text-align-last: right;
+    background-color: transparent;
 }
 .addContractForm .selectNum > option {
     text-align: right;

@@ -5,7 +5,16 @@ $(document).ready(function () {
     $('#btnClose').cancel();
     $('#btnPhoto').click(selectFile);
     $("#divMid").scrollTop($("#divMid")[0].scrollHeight);
+    $('#btnContract').writeContract();
 })
+
+$.fn.writeContract = function () {
+    $(this).click(function () {
+        let popupX = (window.screen.width / 2) - (1150 / 2);
+        let popupY = (window.screen.height / 2) - (800 / 2);
+        window.open("/contract?jeonchaId="+contactMember, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
+    })
+}
 
 var sendMessage = function () {
     $.ajax('/talk/send', {
