@@ -134,9 +134,9 @@
                 </tr>
                 <tr class="low">
                     <td class="item">이미지 첨부</td>
-                    <td>
+                    <td id="tdImg">
                         <button type="button" onclick="readFile()">파일선택</button>
-                        <input type="file" name="imgUpload" id="imgUpload" onchange="readName()" />
+                        <input type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
                         <span id="fileName" name="fileName"></span>
                     </td>
                 </tr>

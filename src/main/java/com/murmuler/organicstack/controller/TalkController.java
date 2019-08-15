@@ -57,31 +57,29 @@ public class TalkController {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         if(memberVO == null) {
-            data.put("sendResult", "LOGINNO");
-            return;
-        }
-        int me = memberVO.getMemberId();
-
-        File folder = helper.createFolderPath(me, you);
-        if(folder != null) {
-            File file = helper.createFilePath(folder);
-            if(file != null) {
-                MessageVO messageVO = helper.writeMessage("ME", message, file);
-
-                if(messageVO == null) {
-                    data.put("sendResult", "FAIL");
-                }
-                else {
-                    data.put("sendResult", "SUCCESS");
-                    data.put("newMessage", messageVO);
-                }
-            }
-            else {
-                data.put("sendResult", "FAIL");
-            }
+            data.put("sendResult", "NO_LOGIN");
         }
         else {
-            data.put("sendResult", "FAIL");
+            int me = memberVO.getMemberId();
+
+            File folder = helper.getFolderPath(me, you);
+            if (folder != null) {
+                File file = helper.getFilePath(folder);
+                if (file != null) {
+                    MessageVO messageVO = helper.writeMessage("ME", message, file);
+
+                    if (messageVO == null) {
+                        data.put("sendResult", "FAIL");
+                    } else {
+                        data.put("sendResult", "SUCCESS");
+                        data.put("newMessage", messageVO);
+                    }
+                } else {
+                    data.put("sendResult", "FAIL");
+                }
+            } else {
+                data.put("sendResult", "FAIL");
+            }
         }
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(data);
@@ -95,31 +93,29 @@ public class TalkController {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         if(memberVO == null) {
-            data.put("receiveResult", "LOGINNO");
-            return;
-        }
-        int me = memberVO.getMemberId();
-
-        File folder = helper.createFolderPath(me, you);
-        if(folder != null) {
-            File file = helper.createFilePath(folder);
-            if(file != null) {
-                MessageVO messageVO = helper.writeMessage("YOU", message, file);
-
-                if(messageVO == null) {
-                    data.put("receiveResult", "FAIL");
-                }
-                else {
-                    data.put("receiveResult", "SUCCESS");
-                    data.put("newMessage", messageVO);
-                }
-            }
-            else {
-                data.put("receiveResult", "FAIL");
-            }
+            data.put("receiveResult", "NO_LOGIN");
         }
         else {
-            data.put("receiveResult", "FAIL");
+            int me = memberVO.getMemberId();
+
+            File folder = helper.getFolderPath(me, you);
+            if (folder != null) {
+                File file = helper.getFilePath(folder);
+                if (file != null) {
+                    MessageVO messageVO = helper.writeMessage("YOU", message, file);
+
+                    if (messageVO == null) {
+                        data.put("receiveResult", "FAIL");
+                    } else {
+                        data.put("receiveResult", "SUCCESS");
+                        data.put("newMessage", messageVO);
+                    }
+                } else {
+                    data.put("receiveResult", "FAIL");
+                }
+            } else {
+                data.put("receiveResult", "FAIL");
+            }
         }
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(data);
@@ -127,55 +123,45 @@ public class TalkController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void uploadImage(@RequestParam MultipartFile[] uploadFile,
+    public void uploadImage(@RequestParam List<MultipartFile> uploadFile,
                             @RequestParam(value = "contactMember") int you,
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         if(memberVO == null) {
-            data.put("uploadResult", "LOGINNO");
-            return;
-        }
-        int me = memberVO.getMemberId();
-
-        File folder = helper.createFolderPath(me, you);
-        if(folder != null) {
-            File file = helper.createFilePath(folder);
-           /* if(file != null) {
-                MessageVO messageVO = helper.writeMessage("YOU", message, file);
-
-                if(messageVO == null) {
-                    data.put("receiveResult", "FAIL");
-                }
-                else {
-                    data.put("receiveResult", "SUCCESS");
-                    data.put("newMessage", messageVO);
-                }
-            }
-            else {
-                data.put("receiveResult", "FAIL");
-            }
+            data.put("uploadResult", "NO_LOGIN");
         }
         else {
-            data.put("receiveResult", "FAIL");
-        }
-
-        ArrayList<String> imgUrlList = new ArrayList<>();
-
-        for(MultipartFile multipartFile : uploadFile){
-            String File = multipartFile.getOriginalFilename();
-
-            imgFile = imgFile.substring(imgFile.lastIndexOf("\\")+1);
-            imgUrlList.add(folder.getPath() + "\\" + imgFile);
-
-            try{
-                File saveFile = new File(uploadPath, uploadFileName);
-                multipartFile.transferTo(saveFile);
-            }catch (Exception e){
+            int me = memberVO.getMemberId();
+            List<MessageVO> messageVOList = new ArrayList<>();
+            File folder = helper.getFolderPath(me, you);
+            if (folder != null) {
+                List<String> fileList = helper.uploadImage(folder, uploadFile);
+                if (fileList != null) {
+                    File file = helper.getFilePath(folder);
+                    if (file != null) {
+                        for (String path : fileList) {
+                            MessageVO messageVO = helper.writeMessage("ME_FILE", path, file);
+                            if (messageVO == null) {
+                                data.put("uploadResult", "FAIL");
+                                break;
+                            }
+                            messageVOList.add(messageVO);
+                        }
+                        if (fileList.size() == messageVOList.size()) {
+                            data.put("uploadResult", "SUCCESS");
+                            data.put("newMessageList", messageVOList);
+                        }
+                    } else {
+                        data.put("uploadResult", "FAIL");
+                    }
+                } else {
+                    data.put("uploadResult", "NO_IMAGE");
+                }
+            } else {
                 data.put("uploadResult", "FAIL");
-                e.printStackTrace();
-            }*/
+            }
         }
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(data);

@@ -96,4 +96,9 @@ public class ReviewServiceImpl implements ReviewService {
     public int getReviewTotalCnt() {
         return reviewDAO.searchReviewTotalCnt();
     }
+
+    @Override
+    public int addImg(int reviewId, String image) {
+        return reviewDAO.insertReviewImage(reviewId, image);
+    }
 }

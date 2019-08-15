@@ -118,28 +118,50 @@ var selectFile = function () {
     $('#imgUpload').trigger('click');
 }
 
+
+
 var upload = function (input) {
+    let formData = new FormData();
     if(input.files && input.files[0]) {
         console.log("files.length : " + input.files.length);
         for(let i=0; i<input.files.length; i++){
             let imgName = input.files[i].name;
             console.log(imgName);
+            console.log("확인 : " + input.files[i]);
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
             if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
                 Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
                 return;
             }
-            let imgDiv = $(''
-                + '<div id="divMessage" class="divMessage">'
-                + '  <div class="divMe">'
-                // + '     <span class="time">' + newMessage.time + '</span>'
-                + '     <span class="time">45:41</span>'
-                + '     <div class="myMessage">'
-                // message content에 image 경로 담아서 가져오기
-                + '         <img src=\"C:/talkList/14/20/profile.png" width=\"200px\" height=\"200px\"/>'
-                + '     </div>'
-                + '  </div>'
-                + '</div>').appendTo($('#divContent:last-child'));
+            formData.append("uploadFile", input.files[i]);
+        }
+        formData.append("contactMember", contactMember);
+        console.log(formData.getAll("uploadFile"));
+        console.log(formData.get("contactMember"));
+        $.ajax('/talk/uploadImage', {
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            data: formData
+        }).then(function (data, status) {
+            console.log("무엇 " + data, status);
+            if(status === 'success'){
+                let result = eval("("+data+")");
+                console.log(result);
+            //     if(result.sendResult === "SUCCESS") {
+            //         let newMessage = result.newMessage;
+            // let imgDiv = $(''
+            //     + '<div id="divMessage" class="divMessage">'
+            //     + '  <div class="divMe">'
+            //     // + '     <span class="time">' + newMessage.time + '</span>'
+            //     + '     <span class="time">45:41</span>'
+            //     + '     <div class="myMessage">'
+            //     // message content에 image 경로 담아서 가져오기
+            //     + '         <img src=\"C:/talkList/14/20/profile.png" width=\"200px\" height=\"200px\"/>'
+            //     + '     </div>'
+            //     + '  </div>'
+            //     + '</div>').appendTo($('#divContent:last-child'));
             // let reader = new FileReader();
             // reader.onload = function (e) {
             //     let imgDiv = $(''
@@ -155,6 +177,10 @@ var upload = function (input) {
             //         + '</div>').appendTo($('#divContent:last-child'));
             // }
             // reader.readAsDataURL(input.files[i]);
-        }
+            }
+        });
+    }
+    else {
+        console.log("파일 x");
     }
 }
