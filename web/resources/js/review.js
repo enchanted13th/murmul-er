@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    console.log("ready");
+    $.setImage();
     $.checkInsectLevel($('.insectVal'));
     $.checkNoiseLevel($('.noiseVal'));
     $.checkScore($('.score'));
@@ -89,6 +90,19 @@ $(document).ready(function () {
         location.href ="/review?page=" + curpage + "&order=" + value;
     })
 })
+
+$.setImage = function(){
+    let listSize = $('.tbList').length;
+    for(let i = 0; i < listSize; i++) {
+        let value = $('#uploadValue' + i).val().split(',');
+        let middlePath = value[0];
+        let fileName = value[1];
+        let src = '/review/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
+        console.log(src);
+        $('#preview' + i).attr('src', src);
+    }
+}
+
 
 $.checkInsectLevel = function(insectVal) {
     for(let i = 0; i < insectVal.length; i++) {
