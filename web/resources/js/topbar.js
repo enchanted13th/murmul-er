@@ -448,7 +448,7 @@ function isNumber(s) {
     return true;
 }
 
-$.fn.clickCancelBtn = function () {
+$.fn.clickCancelBtn = function (url) {
     $(this).click(function () {
         Swal.fire({
             title: "취소",
@@ -461,7 +461,7 @@ $.fn.clickCancelBtn = function () {
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
-                location.href = "/manage";
+                location.href = url;
             }
         })
     })

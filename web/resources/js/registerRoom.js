@@ -236,7 +236,7 @@ $.clickEvent = function () {
     $('.option').clickOp();
 
     $("#lastBtn").clickSubmit();
-    $('#cancel').clickCancelBtn();
+    $('#cancel').clickCancelBtn("/manage");
 }
 
 $.fn.clickSubmit = function() {
