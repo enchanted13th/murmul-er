@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     $("#btnOption").click(showOption);
     $("#btnSubmit").click(sendMessage);
@@ -19,11 +18,11 @@ $.fn.writeContract = function () {
 var sendMessage = function () {
     $.ajax('/talk/send', {
         type: 'POST',
-        data: { message: $('#textInputDialog').val(), contactMember: contactMember }
+        data: {message: $('#textInputDialog').val(), contactMember: contactMember}
     }).then(function (data, status) {
-        if(status === 'success'){
-            let result = eval("("+data+")");
-            if(result.sendResult === "SUCCESS") {
+        if (status === 'success') {
+            let result = eval("(" + data + ")");
+            if (result.sendResult === "SUCCESS") {
                 let newMessage = result.newMessage;
                 let dateDiv = $(''
                     + '<div class="divDate">'
@@ -34,7 +33,7 @@ var sendMessage = function () {
                     + '  <div class="divMe">'
                     + '     <span class="time">' + newMessage.time + '</span>'
                     + '     <div class="myMessage">'
-                    + '         <span>' + newMessage.content +'</span>'
+                    + '         <span>' + newMessage.content + '</span>'
                     + '     </div>'
                     + '  </div>'
                     + '</div>');
@@ -44,7 +43,7 @@ var sendMessage = function () {
                     dateFlag = newMessage.date;
                     newDiv.appendTo($('#divContent:last-child'));
                 } else {
-                    if(newMessage.date != dateFlag) {
+                    if (newMessage.date != dateFlag) {
                         dateFlag = newMessage.date;
                         dateDiv.appendTo($('#divContent:last-child'));
                     }
@@ -64,11 +63,11 @@ var sendMessage = function () {
 var receiveMessage = function () {
     $.ajax('/talk/receive', {
         type: 'POST',
-        data: { message: "", contactMember: contactMember }
+        data: {message: "", contactMember: contactMember}
     }).then(function (data, status) {
-        if(status === 'success'){
-            let result = eval("("+data+")");
-            if(result.sendResult === "SUCCESS") {
+        if (status === 'success') {
+            let result = eval("(" + data + ")");
+            if (result.sendResult === "SUCCESS") {
                 let newMessage = result.newMessage;
                 let dateDiv = $(''
                     + '<div class="divDate">'
@@ -78,7 +77,7 @@ var receiveMessage = function () {
                     + '<div id="divMessage" class="divMessage">'
                     + '  <div class="divYou">'
                     + '     <div class="yourMessage">'
-                    + '         <span>' + newMessage.content +'</span>'
+                    + '         <span>' + newMessage.content + '</span>'
                     + '     </div>'
                     + '     <span class="time">' + newMessage.time + '</span>'
                     + '  </div>'
@@ -89,7 +88,7 @@ var receiveMessage = function () {
                     dateFlag = newMessage.date;
                     newDiv.appendTo($('#divContent:last-child'));
                 } else {
-                    if(newMessage.date != dateFlag) {
+                    if (newMessage.date != dateFlag) {
                         dateFlag = newMessage.date;
                         dateDiv.appendTo($('#divContent:last-child'));
                     }
@@ -106,7 +105,7 @@ var receiveMessage = function () {
     });
 }
 
-var showOption = function() {
+var showOption = function () {
     if ($("#divOption").is(":hidden")) {
         $("#divOption").slideDown(300);
         window.resizeTo(516, 890);
@@ -127,26 +126,19 @@ var selectFile = function () {
     $('#imgUpload').trigger('click');
 }
 
-
-
 var upload = function (input) {
     let formData = new FormData();
-    if(input.files && input.files[0]) {
-        console.log("files.length : " + input.files.length);
-        for(let i=0; i<input.files.length; i++){
+    if (input.files && input.files[0]) {
+        for (let i = 0; i < input.files.length; i++) {
             let imgName = input.files[i].name;
-            console.log(imgName);
-            console.log("확인 : " + input.files[i]);
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
-            if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
-                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
+            if (fileExt != "jpg" && fileExt != "png" && fileExt != "gif" && fileExt != "bmp") {
+                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다.', 'warning');
                 return;
             }
             formData.append("uploadFile", input.files[i]);
         }
         formData.append("contactMember", contactMember);
-        console.log(formData.getAll("uploadFile"));
-        console.log(formData.get("contactMember"));
         $.ajax('/talk/uploadImage', {
             type: 'POST',
             processData: false,
@@ -154,42 +146,47 @@ var upload = function (input) {
             enctype: 'multipart/form-data',
             data: formData
         }).then(function (data, status) {
-            console.log("무엇 " + data, status);
-            if(status === 'success'){
-                let result = eval("("+data+")");
-                console.log(result);
-            //     if(result.sendResult === "SUCCESS") {
-            //         let newMessage = result.newMessage;
-            // let imgDiv = $(''
-            //     + '<div id="divMessage" class="divMessage">'
-            //     + '  <div class="divMe">'
-            //     // + '     <span class="time">' + newMessage.time + '</span>'
-            //     + '     <span class="time">45:41</span>'
-            //     + '     <div class="myMessage">'
-            //     // message content에 image 경로 담아서 가져오기
-            //     + '         <img src=\"C:/talkList/14/20/profile.png" width=\"200px\" height=\"200px\"/>'
-            //     + '     </div>'
-            //     + '  </div>'
-            //     + '</div>').appendTo($('#divContent:last-child'));
-            // let reader = new FileReader();
-            // reader.onload = function (e) {
-            //     let imgDiv = $(''
-            //         + '<div id="divMessage" class="divMessage">'
-            //         + '  <div class="divMe">'
-            //         // + '     <span class="time">' + newMessage.time + '</span>'
-            //         + '     <span class="time">45:41</span>'
-            //         + '     <div class="myMessage">'
-            //         // + '         <span>' + newMessage.content +'</span>'
-            //         + '         <img src=' + e.target.result + 'width=\'50px\' height=\'50px\'/>'
-            //         + '     </div>'
-            //         + '  </div>'
-            //         + '</div>').appendTo($('#divContent:last-child'));
-            // }
-            // reader.readAsDataURL(input.files[i]);
+            if (status === 'success') {
+                let result = eval("(" + data + ")");
+                if (result.uploadResult === "SUCCESS") {
+                    let newMessageList = result.newMessageList;
+                    for (let i = 0; i < newMessageList.length; i++) {
+                        let newMessage = newMessageList[i];
+                        let dateDiv = $(''
+                            + '<div class="divDate">'
+                            + '  <div id="date" class="date">' + newMessage.date + '</div>'
+                            + '</div>');
+                        let newDiv = $(''
+                            + '<div id="divMessage" class="divMessage">'
+                            + '  <div class="divMe">'
+                            + '     <span class="time">' + newMessage.time + '</span>'
+                            + '     <div class="myMessage">'
+                            + '         <img src="/talk/downloadImage?fileName=' + newMessage.content + '&contactMember=' + contactMember + '" width="200px">'
+                            + '     </div>'
+                            + '  </div>'
+                            + '</div>');
+
+                        if ($('#divMessage').val() != "") { // 첫 메세지인 경우
+                            dateDiv.appendTo($('#divContent'));
+                            dateFlag = newMessage.date;
+                            newDiv.appendTo($('#divContent:last-child'));
+                        } else {
+                            if (newMessage.date != dateFlag) {
+                                dateFlag = newMessage.date;
+                                dateDiv.appendTo($('#divContent:last-child'));
+                            }
+                            newDiv.appendTo($('#divContent:last-child'));
+                        }
+                    }
+                    $("#divMid").scrollTop($('#divContent:last-child').scrollHeight);
+                } else {
+                    Swal.fire('전송 실패', '메시지 전송에 실패하였습니다 .', 'error');
+                }
+            } else {
+                Swal.fire('네트워크 오류', '잠시후 다시 시도해주세요.', 'error');
             }
         });
-    }
-    else {
-        console.log("파일 x");
+    } else {
+        Swal.fire('', '선택된 파일이 없습니다.', 'warning');
     }
 }

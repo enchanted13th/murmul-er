@@ -23,7 +23,7 @@ import java.util.List;
 
 @Component
 public class TalkHelper {
-    private static final String REPOSITORY_PATH = "C:\\talkList";
+    private static final String REPOSITORY_PATH = "C:\\util\\talkList";
 
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
@@ -151,7 +151,7 @@ public class TalkHelper {
                     }
                 }
                 multipartFile.transferTo(saveFile);
-                fileList.add(saveFile.getPath());
+                fileList.add(saveFile.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }

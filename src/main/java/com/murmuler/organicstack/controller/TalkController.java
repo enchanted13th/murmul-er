@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.TalkService;
+import com.murmuler.organicstack.util.FileHelper;
 import com.murmuler.organicstack.util.TalkHelper;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.MessageVO;
@@ -30,11 +31,14 @@ public class TalkController {
     @Autowired
     private TalkHelper helper;
 
+    @Autowired
+    private FileHelper fileHelper;
+
     @RequestMapping(value = "/{contactMember}", method = RequestMethod.GET)
     public ModelAndView showTalk(@PathVariable(value = "contactMember") int you,
                                  HttpServletRequest request) {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if(memberVO == null) {
+        if (memberVO == null) {
             return null;
         }
         int me = memberVO.getMemberId();
@@ -56,10 +60,9 @@ public class TalkController {
                             HttpServletResponse response) throws IOException {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if(memberVO == null) {
+        if (memberVO == null) {
             data.put("sendResult", "NO_LOGIN");
-        }
-        else {
+        } else {
             int me = memberVO.getMemberId();
 
             File folder = helper.getFolderPath(me, you);
@@ -87,15 +90,14 @@ public class TalkController {
 
     @RequestMapping(value = "/receive", method = RequestMethod.POST)
     public void receiveMessage(@RequestParam String message,
-                            @RequestParam(value = "contactMember") int you,
-                            HttpServletRequest request,
-                            HttpServletResponse response) throws IOException {
+                               @RequestParam(value = "contactMember") int you,
+                               HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if(memberVO == null) {
+        if (memberVO == null) {
             data.put("receiveResult", "NO_LOGIN");
-        }
-        else {
+        } else {
             int me = memberVO.getMemberId();
 
             File folder = helper.getFolderPath(me, you);
@@ -129,10 +131,9 @@ public class TalkController {
                             HttpServletResponse response) throws IOException {
         JSONObject data = new JSONObject();
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if(memberVO == null) {
+        if (memberVO == null) {
             data.put("uploadResult", "NO_LOGIN");
-        }
-        else {
+        } else {
             int me = memberVO.getMemberId();
             List<MessageVO> messageVOList = new ArrayList<>();
             File folder = helper.getFolderPath(me, you);
@@ -165,6 +166,26 @@ public class TalkController {
         }
         response.setCharacterEncoding("utf-8");
         response.getWriter().print(data);
+    }
+
+    @RequestMapping(value = "/downloadImage", method = RequestMethod.GET)
+    public void downloadImage(@RequestParam String fileName,
+                              @RequestParam(value = "contactMember") int you,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if (memberVO == null) {
+            return;
+        } else {
+            int me = memberVO.getMemberId();
+            String directoryPath = "\\talkList\\" + me + "\\" + you;
+            boolean result = fileHelper.downloadFile(directoryPath, fileName, response);
+            if (result) {
+                logger.info("DOWNLOAD SUCCESS");
+            } else {
+                logger.info("DOWNLOAD FAIL");
+            }
+        }
     }
 
 }

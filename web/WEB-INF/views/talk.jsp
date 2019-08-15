@@ -14,6 +14,7 @@
         var contactMember = ${contactMember};
     </script>
     <c:set var="dateFlag" value=""/>
+    <c:set var="path" value="/talk/downloadImage"/>
 </head>
 <body>
 <div>
@@ -48,6 +49,26 @@
                                 <div class="divYou">
                                     <div class="yourMessage">
                                         <span>${msg.content}</span>
+                                    </div>
+                                    <span class="time">${msg.time}</span>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${msg.sender=='ME_FILE'}">
+                            <div id="divMessage" class="divMessage">
+                                <div class="divMe">
+                                    <span class="time">${msg.time}</span>
+                                    <div class="myMessage">
+                                        <img src="${path}?fileName=${msg.content}&contactMember=${contactMember}" width="200px"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${msg.sender=='YOU_FILE'}">
+                            <div id="divMessage" class="divMessage">
+                                <div class="divYou">
+                                    <div class="yourMessage">
+                                        <img src="${path}?fileName=${msg.content}&contactMember=${contactMember}" width="200px"/>
                                     </div>
                                     <span class="time">${msg.time}</span>
                                 </div>
