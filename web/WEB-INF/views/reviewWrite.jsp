@@ -17,11 +17,11 @@
             <table class="tbWrite">
                 <tr class="low">
                     <td class="item">건물 설명</td>
-                    <td><input type="text" name="inputTitle" id="inputTitle" class="inputTitle" placeholder="50자 이내로 작성해주세요." autocomplete="off" required/></td>
+                    <td><input type="text" name="inputTitle" id="inputTitle" class="inputTitle" placeholder="50자 이내로 작성해주세요." onkeyup="checkLength(this, 50)" autocomplete="off" required/></td>
                 </tr>
                 <tr class="low">
                     <td class="item">주소</td>
-                    <td><input type="text"  name="inputAddr" id="inputAddr" class="inputAddr" placeholder="주소를 작성해주세요." autocomplete="off" required/><button type="button" id="btnAddr">주소 검색</button></td>
+                    <td><input type="text"  name="inputAddr" id="inputAddr" class="inputAddr" placeholder="주소를 작성해주세요." autocomplete="off" required readOnly/><button type="button" id="btnAddr">주소 검색</button></td>
                 </tr>
                 <tr class="low">
                     <td></td>
@@ -58,15 +58,15 @@
                 </tr>
                 <tr class="high">
                     <td class="item">총 평가</td>
-                    <td><textarea name="txtExplain" id="txtExplain" class="txtExplain" placeholder="1000자 이내로 작성해주세요." autocomplete="off" required></textarea></td>
+                    <td><textarea name="txtExplain" id="txtExplain" class="txtExplain" placeholder="1000자 이내로 작성해주세요."  onkeyup="checkLength(this, 1000)" autocomplete="off" required></textarea></td>
                 </tr>
                 <tr class="high">
                     <td class="item">장점</td>
-                    <td><textarea name="txtGood" id="txtGood" class="txtGood" placeholder="500자 이내로 작성해주세요." autocomplete="off" required></textarea></td>
+                    <td><textarea name="txtGood" id="txtGood" class="txtGood" placeholder="500자 이내로 작성해주세요." onkeyup="checkLength(this, 500)" autocomplete="off" required></textarea></td>
                 </tr>
                 <tr class="high">
                     <td class="item">단점</td>
-                    <td><textarea name="txtBad" id="txtBad" class="txtBad" placeholder="500자 이내로 작성해주세요." autocomplete="off" required></textarea></td>
+                    <td><textarea name="txtBad" id="txtBad" class="txtBad" placeholder="500자 이내로 작성해주세요." onkeyup="checkLength(this, 500)" autocomplete="off" required></textarea></td>
                 </tr>
                 <tr class="trProof">
                     <td class="item">방충지수</td>

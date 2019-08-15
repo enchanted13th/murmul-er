@@ -245,9 +245,9 @@ $.fn.clickSubmit = function() {
         console.log($('#inputTitle').val());
 
 
-        hashTagList.hash1 = $('#hash1').val();
-        hashTagList.hash2 = $('#hash2').val();
-        hashTagList.hash3 = $('#hash3').val();
+        hashTagList.push($('#hash1').val());
+        hashTagList.push($('#hash2').val());
+        hashTagList.push($('#hash3').val());
         console.log($('#hash1').val());
         console.log($('#hash2').val());
         console.log($('#hash3').val());
