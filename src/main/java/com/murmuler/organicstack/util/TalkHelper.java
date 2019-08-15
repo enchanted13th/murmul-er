@@ -136,7 +136,7 @@ public class TalkHelper {
                 File saveFile = new File(folder.getPath(), imageName);
                 if(saveFile.isFile()) { // 중복된 이름의 파일이 있는 경우
                     String fileName = saveFile.getName();
-                    saveFile = new File(folder.getPath(), fileName.substring(0, fileName.lastIndexOf("."))
+                    saveFile = new File(folder.getPath(), fileName.substring(0, fileName.lastIndexOf(".")));
                 }
                 multipartFile.transferTo(saveFile);
                 fileList.add(saveFile.getPath());

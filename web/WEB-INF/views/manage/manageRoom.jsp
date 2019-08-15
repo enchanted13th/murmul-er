@@ -21,7 +21,11 @@
             <tr>
                 <td class="tableTitle">게시상태</td>
                 <td class="tdroomImg" id="tdroomImg" rowspan="7">
-                        <%--<img src="${contextPath}/${data.roomImg}" width="350" height="350"/>--%></td>
+<%--                    ============================= 작업중 =============================--%>
+                        <c:set var="middlePath" value="\\room\\roomId_${data.roomId}"/>
+                        <img class="uploadImg" width=200 height=200 src="" id="preview${status.index}">
+                        <input type="hidden" id="uploadValue${status.index}" value="${middlePath},${data.roomImg}">
+<%--                    ============================= 작업중 =============================--%>
                 <td class="tableTitle">등록일</td>
                 <td class="val" id="tdDateVal">${data.writeDate}</td>
             </tr>
