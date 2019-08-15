@@ -284,3 +284,28 @@ $.setValueFromImg = function(){
         hashtagExist = "Y";
     }
 }
+
+function checkLength(obj, maxlength) {
+    let str = obj.value;
+    let str_length = str.length;
+
+    let max_length = maxlength;
+    let i = 0;
+    let ko_byte = 0;
+   // let li_len = 0;
+    let one_char = "";
+    let str2 = "";
+
+    for (i = 0; i < str_length; i++) {
+        one_char = str.charAt(i);
+        ko_byte++;
+    }
+
+    if (ko_byte > max_length) {
+        alert(max_length + " 글자 이상 입력할 수 없습니다.");
+        str2 = str.substr(0, max_length);
+        obj.value = str2;
+    }
+    obj.focus();
+
+}
