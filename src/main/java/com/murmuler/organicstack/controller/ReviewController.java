@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.util.*;
 
@@ -163,8 +165,8 @@ public class ReviewController {
                             HttpServletResponse response) throws IOException {
 
         String image="";
-        String uploadFolder = "C:\\util\\";
-        String uploadFolderPath = "reviewId_" + reviewId;
+        String uploadFolder = "C:\\util";
+        String uploadFolderPath = "review\\reviewId_" + reviewId;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
         if(uploadPath.exists() == false){
@@ -173,10 +175,11 @@ public class ReviewController {
 
         JSONObject res = new JSONObject();
 
+        int i=0;
         for(MultipartFile multipartFile : uploadFile){
             String uploadFileName = multipartFile.getOriginalFilename();
             uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-            image = "\\"+uploadFolderPath+"\\"+uploadFileName;
+            image = "\\"+uploadFileName;
 
             try{
                 File saveFile = new File(uploadPath, uploadFileName);
@@ -194,6 +197,38 @@ public class ReviewController {
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
+    }
+
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void downloadImage(@RequestParam String middlePath,
+                              @RequestParam String imageFileName,
+                              HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("text/html; charset=utf-8");
+
+        String REPOSITORY_PATH = "C:\\util";
+        OutputStream out = response.getOutputStream();
+        String path = REPOSITORY_PATH + middlePath + "\\" + imageFileName;
+        System.out.println("path: "+ path);
+
+        System.out.println("middlePath: "+ middlePath);
+        System.out.println("Download imageFileName: "+ imageFileName);
+
+        File imageFile = new File(path);
+
+        response.setHeader("Cache-Control", "no-cache");
+        response.addHeader("Content-disposition", "attachment;fileName="+imageFileName);
+        FileInputStream in = new FileInputStream(imageFile);
+        byte[] buffer = new byte[1024 * 8];
+        while(true) {
+            int count = in.read(buffer);
+            if(count == -1)
+                break;
+            out.write(buffer, 0, count);
+        }
+        in.close();
+        out.close();
     }
 
 }

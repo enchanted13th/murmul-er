@@ -57,59 +57,62 @@
 </div>
 <div class="wrap">
 
-    <c:forEach var="review" items="${reviewList}">
-        <div class="element">
-            <div class="topText">
-                <span>${review.writeDate}</span>
-                <span>|</span>
-                <span>${review.residencePeriod}</span><span class="period"></span> <span>거주</span>
-                <input class="periodUnit" type="hidden" value="${review.periodUnit}">
-            </div>
-            <div class="title">
-                <span class="textTitle">${review.title}</span>
-            </div>
-            <div class="location">
-                <span>${review.sido} ${review.sigungu} ${review.roadname} ${review.detailAddr}</span>
-            </div>
-            <div class="content">
-                <div class="picture">
-                    <img class="room" src="/resources/img/room/room.png" style="width:400px; height:400px;" align="middle"/>
-                    <div class="hashtag">
-                        <c:forEach var="hashTag" items="${review.hashTagList}">
-                            <span>#${hashTag}</span>
-                        </c:forEach>
+    <c:forEach var="review" items="${reviewList}" varStatus="status">
+        <table class="tbList">
+            <div class="element">
+                <div class="topText">
+                    <span>${review.writeDate}</span>
+                    <span>|</span>
+                    <span>${review.residencePeriod}</span><span class="period"></span> <span>거주</span>
+                    <input class="periodUnit" type="hidden" value="${review.periodUnit}">
+                </div>
+                <div class="title">
+                    <span class="textTitle">${review.title}</span>
+                </div>
+                <div class="location">
+                    <span>${review.sido} ${review.sigungu} ${review.roadname} ${review.detailAddr}</span>
+                </div>
+                <div class="content">
+                    <div class="picture">
+                        <c:set var="middlePath" value="\\review\\reviewId_${review.id}"/>
+                        <img class="room" id="preview${status.index}" src="" style="width:400px; height:400px;" align="middle"/>
+                        <input type="hidden" id="uploadValue${status.index}" value="${middlePath},${review.image}">
+                        <div class="hashtag">
+                            <c:forEach var="hashTag" items="${review.hashTagList}">
+                                <span>#${hashTag}</span>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <div class="overall">
+                            <span class="textTitle">총 평가</span>
+                            <img class="rank" src=""/>
+                            <input class="score" type="hidden" value="${review.score}">
+                        </div>
+                        <div class="review_text">
+                                ${review.content}
+                        </div>
+                        <div class="good">
+                            <div class="textTitle">장점</div>
+                                ${review.advantage}
+                        </div>
+                        <div class="bad">
+                            <div class="textTitle">단점</div>
+                                ${review.disadvantage}
+                        </div>
+                        <div class="level">
+                            <span class="textTitle">방충지수</span>
+                            <img class="insect" src="">
+                            <input class="insectVal" type="hidden" value="${review.insectLevel}">
+                            <span class="textTitle">방음지수</span>
+                            <img class="noise" src="">
+                            <input class="noiseVal" type="hidden" value="${review.noiseLevel}">
+                        </div>
                     </div>
                 </div>
-                <div class="text">
-                    <div class="overall">
-                        <span class="textTitle">총 평가</span>
-                        <img class="rank" src=""/>
-                        <input class="score" type="hidden" value="${review.score}">
-                    </div>
-                    <div class="review_text">
-                            ${review.content}
-                    </div>
-                    <div class="good">
-                        <div class="textTitle">장점</div>
-                            ${review.advantage}
-                    </div>
-                    <div class="bad">
-                        <div class="textTitle">단점</div>
-                            ${review.disadvantage}
-                    </div>
-                    <div class="level">
-                        <span class="textTitle">방충지수</span>
-                        <img class="insect" src="">
-                        <input class="insectVal" type="hidden" value="${review.insectLevel}">
-                        <span class="textTitle">방음지수</span>
-                        <img class="noise" src="">
-                        <input class="noiseVal" type="hidden" value="${review.noiseLevel}">
-                    </div>
-                </div>
             </div>
-        </div>
+        </table>
     </c:forEach>
-
 </div>
 
 <div class="pageBtns">
