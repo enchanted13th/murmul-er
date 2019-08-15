@@ -30,7 +30,7 @@ public class TalkHelper {
     @Autowired
     private TalkService talkService;
 
-    public File createFolderPath(int me, int you) {
+    public File getFolderPath(int me, int you) {
         String directoryPath = REPOSITORY_PATH + "\\" + me + "\\" + you;
         File folder = new File(directoryPath);
 
@@ -47,7 +47,7 @@ public class TalkHelper {
         return folder;
     }
 
-    public File createFilePath(File folder) {
+    public File getFilePath(File folder) {
         String filePath = folder.getPath() + "\\talk.txt";
         File file = new File(filePath);
 
@@ -124,19 +124,31 @@ public class TalkHelper {
         return messageVO;
     }
 
-    public List<String> uploadImage(File folder, MultipartFile[] images) {
-        String filePath = folder.getPath() + "\\talk.txt";
-        File file = new File(filePath);
-
+    public List<String> uploadImage(File folder, List<MultipartFile> images) {
         List<String> fileList = new ArrayList<>();
+
+        if(images == null) {
+            return null;
+        }
 
         for(MultipartFile multipartFile : images){
             String imageName = multipartFile.getOriginalFilename();
             try {
                 File saveFile = new File(folder.getPath(), imageName);
                 if(saveFile.isFile()) { // 중복된 이름의 파일이 있는 경우
+                    int i = 1;
                     String fileName = saveFile.getName();
-                    saveFile = new File(folder.getPath(), fileName.substring(0, fileName.lastIndexOf("."))
+                    String name = fileName.substring(0, fileName.lastIndexOf("."));
+                    String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+                    while(true) {
+                        if(saveFile.exists()) {
+                            saveFile = new File(folder.getPath(), name + "(" + i + ")." + ext);
+                            i++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
                 }
                 multipartFile.transferTo(saveFile);
                 fileList.add(saveFile.getPath());
@@ -144,25 +156,7 @@ public class TalkHelper {
                 e.printStackTrace();
             }
         }
-        /*if (!file.exists()) { // 파일이 없는 경우 생성
-            try {
-                if (file.createNewFile()) {
-                    logger.info(file.getPath() + " 파일 생성");
-                    File saveFile = new File(folder.getPath(), file);
-                    multipartFile.transferTo(saveFile);
-                }
-                else {
-                    logger.info(file.getPath() + " 파일 생성 실패");
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        logger.info(file.getPath() + " 파일 존재");
-        return file;*/
         return fileList;
-
     }
 
 }
