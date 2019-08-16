@@ -1,8 +1,4 @@
 $(document).ready(function(){
-    $('.selectRoom').click(function () {
-        let roomId = $(this).val();
-        location.href = "/contract/write?jeonchaId="+jeonchaId+"&roomId="+roomId;
-    })
     $('#cancel').clickCancelBtn();
 })
 

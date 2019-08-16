@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+:root{
+    --width: 1090px;
+}
+/* content_start */
+.title{
+    margin: auto;
+    text-align: center;
+}
+
+.wrap > .addContractForm .tbContent {
+    border: 1px solid #cccccc;
+    width: var(--width);
+    margin: 40px auto 20px auto;
+    font-size: 14px;
+}
+
+.wrap > .addContractForm .tdContent > input[name="rentType"]{
+    margin-left: 20px;
+}
+
+.tbContent > tbody >  tr > td {
+    height: 30px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.tbContent > tbody > tr > td.tbtitle {
+    background-color: rgba(182, 226, 248, 0.5);
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tbContent > tbody > tr > td.tbSubtitle {
+    width: 180px;
+    text-align: center;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+}
+
+.tbContent > tbody > tr > td.tdSubtitleWide {
+    width: 19%;
+}
+
+.tbContent > tbody > tr > td.tdContentWide {
+    width: 31%;
+}
+
+.addContractForm .selectNum{
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid #b6e2f8;
+    padding: 1px 15px;
+    margin: 5px 10px;
+    text-align-last: right;
+    background-color: transparent;
+}
+.addContractForm .selectNum > option {
+    text-align: right;
+}
+
+.tbContent > tbody > tr > td.tdContentShort {
+    /*width: 30%;*/
+    width: 30%;
+}
+
+.tbContent tr:last-child > td {
+    border-bottom: 0;
+}
+
+.lastBtns {
+    margin: auto;
+    text-align: center;
+    width: var(--width);
+}
+
+.lastBtn {
+    font-size: 17px;
+    border: 1px solid #b6e2f8;
+    outline: 0;
+    border-radius: 10px;
+    padding: 5px 40px;
+    margin: 30px 10px;
+}
+
+.lastBtn:hover {
+    cursor: pointer;
+    background-color: #e9f8ff;
+}
+
+.wrap > .addContractForm .alignRight {
+    text-align: right;
+}
+
+.tbContent input[type=text] {
+    height: 25px;
+    font-size: 14px;
+    border: 1px solid #b6e2f8;
+    padding: 1px 15px;
+    margin: 5px 10px;
+}
+
+.tbContent input.setTextSize{
+    width: 250px;
+}
+
+.tbContent .tdContent > #fileName{
+    font-size: 20px;
+    margin: 0px 10px;
+}
+.tbContent .tdContent > input[type=file]{
+    display: none;
+}
+.tbContent .tdContent > button {
+    background-color: rgb(182, 226, 248);
+    color: rgb(38, 38, 38);
+    outline: 0;
+    font-size: 17px;
+    border: 1px solid #b6e2f8;
+    border-radius: 10px;
+    padding: 5px 40px;
+    margin: 5px 10px;
+}
+.tbContent .tdContent > button:hover {
+    cursor: pointer;
+    background-color: #e9f8ff;
+}
+
+/* content_end */

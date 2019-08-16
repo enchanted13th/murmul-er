@@ -1,23 +1,28 @@
 package com.murmuler.organicstack.controller;
 
+import com.murmuler.organicstack.service.ContractService;
 import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.vo.ContractVO;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,45 +34,60 @@ public class ContractController {
     Log logger = LogFactory.getLog(ContractController.class);
 //    @Autowired
 //    private ContractService contractService;
+    private static final String REPO_PATH = "/Users/seokjung/util";
     @Autowired
     private RoomService roomService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ContractService contractService;
 
-    @RequestMapping("")
-    public ModelAndView showMyRoom(@RequestParam int jeonchaId,
+    @RequestMapping("/select")
+    public ModelAndView showMyRoom(@RequestParam int contactId,
+                                   @RequestParam String forwhat,
                                    HttpServletRequest request){
         MemberVO member = (MemberVO)request.getSession().getAttribute("loginMember");
-
         List<RoomSummaryViewVO> myRoom = roomService.getMyRooms(member.getMemberId());
 
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("contractSelectRoom");
-        mav.addObject("jeonchaId", jeonchaId);
+        if(forwhat == null) {
+            mav.setViewName("redirect:/");
+            return mav;
+        }
+        switch (forwhat) {
+            case "write":
+                mav.setViewName("contractWriteSelectRoom");
+                break;
+            case "register":
+                mav.setViewName("contractRegisterSelectRoom");
+                break;
+        }
+        mav.addObject("contactId", contactId);
         mav.addObject("myRoom", myRoom);
         return mav;
     }
 
 
+
     @RequestMapping(value = "/write")
-    public ModelAndView showContractForm(@RequestParam int jeonchaId,
+    public ModelAndView showContractForm(@RequestParam int contactId,
                                          @RequestParam int roomId,
                                          HttpServletRequest request){
         MemberVO jeondaeMember = (MemberVO)request.getSession().getAttribute("loginMember");
-        MemberVO jeonchaMember = memberService.getMemberById(jeonchaId+"");
+        MemberVO jeonchaMember = memberService.getMemberById(contactId+"");
         String jeondaeName = jeondaeMember.getName();
         String jeonchaName = jeonchaMember.getName();
 
         Map<String, Object> roomInfo = roomService.getRoomInfo(roomId);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("contractForm");
+        mav.setViewName("contractWriteForm");
         mav.addObject("jeondaeName", jeondaeName);
         mav.addObject("jeonchaName", jeonchaName);
         mav.addObject("roomInfo", roomInfo);
         mav.addObject("roomId", roomId);
 
         return mav;
-}
+    }
 
     @RequestMapping(value = "/show", method= RequestMethod.POST)
     public ModelAndView showContractImage(@RequestParam int roomId,
@@ -120,11 +140,10 @@ public class ContractController {
         String year = today[0];
         String month = today[1];
         String day = today[2];
-//        System.out.println(roomId);
+
         mRoomId.put("roomId", roomId);
-//        mRoomId.put("roomId", 27);
         RoomDetailViewVO roomInfo = roomService.getRoomDetailByRoomId(mRoomId);
-//        System.out.println(roomInfo);
+
         String sido = roomInfo.getSido() + " ";
         String sigungu = roomInfo.getSigungu() + " ";
         String bname1 = roomInfo.getBname1();
@@ -132,17 +151,11 @@ public class ContractController {
         String roadName = roomInfo.getRoadName() + " ";
         String roadJibun = roomInfo.getRoadJibun();
         String roadAddress = sido + sigungu + bname1 + roadName + roadJibun;
-//        System.out.println(roadAddress);
 
         String area = roomInfo.getArea() +"";
         String manageCost = roomInfo.getManageCost()+"";
         String manages = roomInfo.getManages().toString();
         String options = roomInfo.getOptions().toString();
-
-//        System.out.println(manageCost);
-//        System.out.println(manages);
-//        System.out.println(options);
-//
 
         contractData.put("jeondaeName", jeondaeName);
         contractData.put("jeonchaName", jeonchaName);
@@ -196,22 +209,77 @@ public class ContractController {
         return mav;
     }
 
-//    @RequestMapping(value = "/toimage", method = RequestMethod.POST)
-//    public void download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-//        try {
-//            String imgData = request.getParameter("imgData");
-//            imgData = imgData.replaceAll("data:image/png;base64,", "");
-//
-//            byte[] file = Base64.decodeBase64(imgData);
-//            ByteArrayInputStream is = new ByteArrayInputStream(file);
-//
-//            response.setContentType("image/png");
-//            response.setHeader("Content-Disposition", "attachment; filename=contract.png");
-//
-//            IOUtils.copy(is, response.getOutputStream());
-//            response.flushBuffer();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView registerForm(@RequestParam int contactId,
+                                     @RequestParam int roomId,
+                                     HttpServletRequest request){
+        MemberVO jeondaeMember = (MemberVO)request.getSession().getAttribute("loginMember");
+        MemberVO jeonchaMember = memberService.getMemberById(contactId+"");
+        String jeondaeName = jeondaeMember.getName();
+        String jeonchaName = jeonchaMember.getName();
+        Map<String, Object> roomInfo = roomService.getRoomInfo(roomId);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("contractRegisterForm");
+        mav.addObject("contactId", contactId);
+        mav.addObject("jeondaeName", jeondaeName);
+        mav.addObject("jeonchaName", jeonchaName);
+        mav.addObject("contactId", contactId);
+        mav.addObject("roomInfo", roomInfo);
+        mav.addObject("roomId", roomId);
+        return mav;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadContract", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void uploadImage(@RequestParam MultipartFile uploadFile,
+                            @RequestParam int deposit,
+                            @RequestParam int monthlyCost,
+                            @RequestParam String from,
+                            @RequestParam String to,
+                            @RequestParam int roomId,
+                            @RequestParam int contactId,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
+        logger.info("upload method entered...");
+        String image="";
+        String FOLDER_PATH = "/contract/";
+        JSONObject res = new JSONObject();
+        MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
+
+        String uploadFileName = uploadFile.getOriginalFilename();
+        uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/")+1);
+        image = "/"+uploadFileName;
+
+        ContractVO contract = new ContractVO();
+        contract.setSublessorId(member.getMemberId());
+        contract.setSublesseeId(contactId);
+        contract.setRoomId(roomId);
+        contract.setContractForm(image);
+        contract.setDeposit(deposit);
+        contract.setMonthlyCost(monthlyCost);
+        contract.setStayFrom(from);
+        contract.setStayTo(to);
+
+        if(contractService.registerContract(contract) > 0 ) {
+            FOLDER_PATH += contract.getId();
+            File uploadPath = new File(REPO_PATH, FOLDER_PATH);
+            if(uploadPath.exists() == false){
+                uploadPath.mkdirs();
+            }
+            try{
+                File saveFile = new File(uploadPath, uploadFileName);
+                uploadFile.transferTo(saveFile);
+                res.put("uploadResult", "SUCCESS");
+            }catch (Exception e){
+                res.put("uploadResult", "FILE_FAIL");
+                logger.error(e.getMessage());
+            }
+        }
+        else {
+            res.put("uploadResult", "DB_FAIL");
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
+    }
 }

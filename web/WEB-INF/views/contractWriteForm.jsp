@@ -14,8 +14,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>계약서 폼 작성하기</title>
-    <link rel="stylesheet" href="/resources/css/contractForm.css" />
+    <title>계약서 작성 폼 작성하기</title>
+    <link rel="stylesheet" href="/resources/css/contractWriteForm.css" />
     <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
     <script>
         var rentType = ${roomInfo.saleVO.rentType};
@@ -276,5 +276,6 @@
 <script src="/resources/js/jquery-3.4.1.min.js"></script>
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
 <script src="/resources/js/contractForm.js"></script>
+<script src="/resources/js/contractWriteForm.js"></script>
 </body>
 </html>

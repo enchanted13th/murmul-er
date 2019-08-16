@@ -24,8 +24,8 @@ import java.util.*;
 @Component
 public class TalkHelper {
     private static final String REPOSITORY_PATH = "C:/util";
+    private static final String MAC_PATH = "/Users/seokjung/util";
     private static final String PATH = "/talkList";
-
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
     @Autowired

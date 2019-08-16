@@ -51,7 +51,6 @@ $.fn.clickEvent = function (flag) {
 
 $.fn.downloadImage = function () {
     $(this).click(function () {
-        // $('.header').css('display', 'none');
         $('.contract-body > div').css('color', 'black');
         $('.check').attr('src', '/resources/img/etc/check_black.png');
         html2canvas($('.contract-body')[0]).then(function (canvas) {
@@ -62,19 +61,8 @@ $.fn.downloadImage = function () {
             document.body.appendChild(link);
             link.click();
         })
-        // $('.header').css('display', 'block');
         $('.contract-body > div').css('color', 'blue');
         $('.check').attr('src', '/resources/img/etc/check_blue.png');
-        // html2canvas($('.contract-image-page')[0], {
-        //     onrendered: function (canvas) {
-        //         if (typeof FlashCanvas != "undefined") {
-        //             FlashCanvas.initElement(canvas);
-        //         }
-        //         let image = canvas.toDataURL("image/png");
-        //         $('#imgData').val(image);
-        //         $('#imgForm').submit();
-        //     }
-        // })
     })
 }
 

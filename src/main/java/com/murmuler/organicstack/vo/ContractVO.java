@@ -16,6 +16,8 @@ public class ContractVO {
     private int sublesseeId;
     private String contractForm;
     private Date contractDate;
-    private String contractURL;
-    private String agreementURL;
+    private int deposit;
+    private int monthlyCost;
+    private String stayFrom;
+    private String stayTo;
 }
