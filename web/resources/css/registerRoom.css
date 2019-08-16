@@ -118,7 +118,11 @@ textarea {
 	-webkit-border-radius: 13px;
 }
 
-.addimage:hover, .previmage:hover, .deleteimage:hover {
+/*.addimage:hover, .previmage:hover, .deleteimage:hover {
+	cursor: pointer;
+}*/
+
+.previmage:hover, .deleteimage:hover {
 	cursor: pointer;
 }
 
@@ -171,6 +175,31 @@ textarea {
 .img{
 	height: 90px;
 }
+
+/*============ 작업중 ============*/
+.img-wrap {
+	position: relative;
+	display: inline-block;
+}
+.img-wrap .close {
+	position: absolute;
+	right: 5px;
+	z-index: 1000;
+	/*padding: 26px 23px;*/  /*사진 모서리*/
+	padding: 5px 2px; /*사진 벗어난 모서리*/
+	color: #000;
+	font-weight: bold;
+	cursor: pointer;
+	opacity: .2;
+	text-align: center;
+	font-size: 22px;
+	line-height: 10px;
+	/*border-radius: 50%;*/
+}
+.img-wrap:hover .close {
+	opacity: 1;
+}
+/*============ 작업중 ============*/
 
 
 /* content_end */

@@ -12,6 +12,8 @@ var selectedParking = 0;
 var selectedEv = 0;
 var selectedElevator = 0;
 var hashtagExist = true;
+var x = 'x';
+var cnt = 0;
 // var imgpath = {img1: $('#rmimg1').attr('src'), img2: $('#rmimg2').attr('src')};
 
 var ps = new kakao.maps.services.Places();
@@ -145,12 +147,14 @@ var selectFile = function () {
 
 function readURL(input) {
     let td = $('#tdImg');
-
+    let loopCnt = 0;
     if (input.files && input.files[0]) {
         for(let i=1; i<=input.files.length; i++){
-
+            loopCnt++;
+            let index = i+cnt;
             let imgName = input.files[i-1].name;
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
+
             if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
                 Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
                 return;
@@ -159,17 +163,24 @@ function readURL(input) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 let img = $(''
-                +'<div style="display: inline;">'
-                +'  <img class="addimage" id=rmimg'+ i +' src='+ e.target.result +' name="addImage" class="addimage"/>'
-                +'</div>'
+                    +'<div class="img-wrap" id=img-wrap'+ index +'>'
+                    +'<span class="close" id=close'+ index +'>' + x + '</span>'
+                    +'<img class="addimage" data-id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
+                    +'</div>'
                 );
                 td.append(img);
+                $('#close'+index).click(function () {
+                    var id = $(this).closest('.img-wrap').find('img').data('id');
+                    // console.log('remove picture: ' + id);
+                    $('#close'+index).remove();
+                    $('#img-wrap'+ index).remove();
+                });
             }
             reader.readAsDataURL(input.files[i-1]);
         }
     }
+    cnt += loopCnt;
 }
-
 function changeSize() {
     let area = parseFloat($('#inputSize').val() * 3.305785).toFixed(2);
     $('#inputArea').val(area);
