@@ -1,10 +1,14 @@
 package com.murmuler.organicstack.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SaleInfoVO {
     private int roomId;
     private String title;
@@ -20,24 +24,4 @@ public class SaleInfoVO {
     private int views;
     private String detailExplain;
     private int memberId;
-
-    public SaleInfoVO() {}
-
-    public SaleInfoVO(int roomId, String title, int rentType, int periodNum, String periodUnit, int postType, int deposit, int monthlyCost, int manageCost, String hashtagExist, Date writeDate, int views, String detailExplain, int memberId) {
-        this.roomId = roomId;
-        this.title = title;
-        this.rentType = rentType;
-        this.periodNum = periodNum;
-        this.periodUnit = periodUnit;
-        this.postType = postType;
-        this.deposit = deposit;
-        this.monthlyCost = monthlyCost;
-        this.manageCost = manageCost;
-        this.hashtagExist = hashtagExist;
-        this.writeDate = writeDate;
-        this.views = views;
-        this.detailExplain = detailExplain;
-        this.memberId = memberId;
-    }
-
 }

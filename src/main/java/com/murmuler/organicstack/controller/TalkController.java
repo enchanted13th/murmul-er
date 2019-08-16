@@ -1,5 +1,7 @@
 package com.murmuler.organicstack.controller;
 
+import com.murmuler.organicstack.model.TalkRoom;
+import com.murmuler.organicstack.model.TalkRoomRepository;
 import com.murmuler.organicstack.service.TalkService;
 import com.murmuler.organicstack.util.TalkHelper;
 import com.murmuler.organicstack.vo.MemberVO;
@@ -24,11 +26,25 @@ import java.util.*;
 public class TalkController {
     private Log logger = LogFactory.getLog(TalkController.class);
 
+    private final TalkRoomRepository repository;
+
     @Autowired
     private TalkService talkService;
 
     @Autowired
     private TalkHelper talkHelper;
+
+    public TalkController(TalkRoomRepository repository) {
+        this.repository = repository;
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ModelAndView showTalkList(HttpServletRequest request) {
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if (memberVO == null) return null;
+        int memberId = memberVO.getMemberId();
+        return null;
+    }
 
     @RequestMapping(value = "/{contactMember}", method = RequestMethod.GET)
     public ModelAndView showTalk(@PathVariable(value = "contactMember") int you,
@@ -37,72 +53,38 @@ public class TalkController {
         if (memberVO == null) {
             return null;
         }
-        int me = memberVO.getMemberId();
 
+        int me = memberVO.getMemberId();
         List<MessageVO> dialogueList = talkHelper.readMessage(me, you);
+        String talkRoomId = null;
+        TalkRoom talkRoom = null;
+
+        if (dialogueList.size() == 0) {
+            talkRoom = TalkRoom.create();
+            talkRoomId = talkRoom.getId();
+            repository.addTalkRoom(talkRoom);
+            // 생선된 채팅방 아이디를 대화 기록 맨 위에 저장
+            talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(me, you));
+            talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(you, me));
+        } else {
+            talkRoom = TalkRoom.create();
+            talkRoomId = dialogueList.get(0).getContent();
+            System.out.println("talkRoomId : " + talkRoomId);
+            if (repository.getTalkRoom(talkRoomId) == null) {
+                dialogueList.remove(0);
+                talkRoom.setId(talkRoomId);
+                repository.addTalkRoom(talkRoom);
+            }
+        }
 
         ModelAndView mav = new ModelAndView();
+        mav.addObject("me", me);
         mav.addObject("contactMember", you);
+        mav.addObject("talkRoomId", talkRoomId);
         mav.addObject("nickname", talkService.getNickname(you));
         mav.addObject("dialogue", dialogueList);
         mav.setViewName("talk");
         return mav;
-    }
-
-    @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public void sendMessage(@RequestParam String message,
-                            @RequestParam(value = "contactMember") int you,
-                            HttpServletRequest request,
-                            HttpServletResponse response) throws IOException {
-        JSONObject data = new JSONObject();
-        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if (memberVO == null) {
-            data.put("sendResult", "NO_LOGIN");
-        } else {
-            int me = memberVO.getMemberId();
-            File file = talkHelper.getFilePath(me, you);
-            if (file != null) {
-                MessageVO messageVO = talkHelper.writeMessage("ME", message, file);
-                if (messageVO == null) {
-                    data.put("sendResult", "FAIL");
-                } else {
-                    data.put("sendResult", "SUCCESS");
-                    data.put("newMessage", messageVO);
-                }
-            } else {
-                data.put("sendResult", "FAIL");
-            }
-        }
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().print(data);
-    }
-
-    @RequestMapping(value = "/receive", method = RequestMethod.POST)
-    public void receiveMessage(@RequestParam String message,
-                               @RequestParam(value = "contactMember") int you,
-                               HttpServletRequest request,
-                               HttpServletResponse response) throws IOException {
-        JSONObject data = new JSONObject();
-        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if (memberVO == null) {
-            data.put("receiveResult", "NO_LOGIN");
-        } else {
-            int me = memberVO.getMemberId();
-            File file = talkHelper.getFilePath(me, you);
-            if (file != null) {
-                MessageVO messageVO = talkHelper.writeMessage("YOU", message, file);
-                if (messageVO == null) {
-                    data.put("receiveResult", "FAIL");
-                } else {
-                    data.put("receiveResult", "SUCCESS");
-                    data.put("newMessage", messageVO);
-                }
-            } else {
-                data.put("receiveResult", "FAIL");
-            }
-        }
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().print(data);
     }
 
     @ResponseBody

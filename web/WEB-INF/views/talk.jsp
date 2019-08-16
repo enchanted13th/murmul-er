@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="/resources/css/talk.css"/>
     <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="/resources/js/sockjs.js"></script>
     <script src="/resources/js/talk.js"></script>
     <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
     <script>
+        var me = ${me};
         var contactMember = ${contactMember};
+        var talkRoomId = "${talkRoomId}";
     </script>
     <c:set var="dateFlag" value=""/>
     <c:set var="path" value="/talk/downloadImage"/>

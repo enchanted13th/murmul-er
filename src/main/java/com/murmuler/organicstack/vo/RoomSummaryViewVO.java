@@ -1,11 +1,15 @@
 package com.murmuler.organicstack.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoomSummaryViewVO {
     private int roomId;
     private BigDecimal latitude;
@@ -26,30 +30,4 @@ public class RoomSummaryViewVO {
     private Date writeDate;
     private int views;
     private String roomImg;
-
-    public RoomSummaryViewVO() {
-    }
-
-    public RoomSummaryViewVO(int roomId, BigDecimal latitude, BigDecimal longitude, String postType, String title, String sido, String sigungu, String roadname, int periodNum, String periodUnit, String roomType, String rentType, double area, int deposit, int monthlyCost, int manageCost, Date writeDate, int views, String roomImg) {
-        this.roomId = roomId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.postType = postType;
-        this.title = title;
-        this.sido = sido;
-        this.sigungu = sigungu;
-        this.roadname = roadname;
-        this.periodNum = periodNum;
-        this.periodUnit = periodUnit;
-        this.roomType = roomType;
-        this.rentType = rentType;
-        this.area = area;
-        this.deposit = deposit;
-        this.monthlyCost = monthlyCost;
-        this.manageCost = manageCost;
-        this.writeDate = writeDate;
-        this.views = views;
-        this.roomImg = roomImg;
-    }
-
 }

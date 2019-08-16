@@ -104,10 +104,10 @@ function placesSearchCB (data, status, pagination) {
 		pLat = data[0].y;
 		pLng = data[0].x;
 		bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
-        var southWest = bounds.getSouthWest().toString();
+		map.setBounds(bounds);
+		var bounds = map.getBounds();
+		var southWest = bounds.getSouthWest().toString();
         var northEast = bounds.getNorthEast().toString();
-
-        map.setBounds(bounds);
 		$.ajax({
 			url: "searchRoom/search",
 			type: "GET",
@@ -202,7 +202,7 @@ function displayMarker(place) {
 	marker.setMap(map);
 
 	var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
-  marker.setImage(markerImage);
+	marker.setImage(markerImage);
 
 	markers.push(marker);
 

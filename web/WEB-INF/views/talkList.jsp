@@ -17,6 +17,37 @@
             <button id="btnClose" class="btnClose"><img src="img/exit.png"/></button>
         </div>
         <div class="divMid">
+
+            <c:forEach var="msg" items="${dialogue}">
+                <c:if test="${msg.date!=dateFlag}">
+                    <c:set var="dateFlag" value="${msg.date}"/>
+                    <div class="divDate">
+                        <div id="date" class="date">${msg.date}</div>
+                    </div>
+                </c:if>
+                <c:if test="${msg.sender=='ME'}">
+                    <div id="divMessage" class="divMessage">
+                        <div class="divMe">
+                            <span class="time">${msg.time}</span>
+                            <div class="myMessage">
+                                <span>${msg.content}</span>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+                <c:if test="${msg.sender=='YOU'}">
+                    <div id="divMessage" class="divMessage">
+                        <div class="divYou">
+                            <div class="yourMessage">
+                                <span>${msg.content}</span>
+                            </div>
+                            <span class="time">${msg.time}</span>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+
+
             <table id="tbRoom">
                 <tr>
                     <td rowspan="3" id="profileImg" class="profile" onclick="chat"><img src="img/profile.png"/></td>

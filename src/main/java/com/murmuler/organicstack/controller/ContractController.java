@@ -7,8 +7,6 @@ import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -198,22 +196,22 @@ public class ContractController {
         return mav;
     }
 
-    @RequestMapping(value = "/toimage", method = RequestMethod.POST)
-    public void download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String imgData = request.getParameter("imgData");
-            imgData = imgData.replaceAll("data:image/png;base64,", "");
-
-            byte[] file = Base64.decodeBase64(imgData);
-            ByteArrayInputStream is = new ByteArrayInputStream(file);
-
-            response.setContentType("image/png");
-            response.setHeader("Content-Disposition", "attachment; filename=contract.png");
-
-            IOUtils.copy(is, response.getOutputStream());
-            response.flushBuffer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @RequestMapping(value = "/toimage", method = RequestMethod.POST)
+//    public void download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+//        try {
+//            String imgData = request.getParameter("imgData");
+//            imgData = imgData.replaceAll("data:image/png;base64,", "");
+//
+//            byte[] file = Base64.decodeBase64(imgData);
+//            ByteArrayInputStream is = new ByteArrayInputStream(file);
+//
+//            response.setContentType("image/png");
+//            response.setHeader("Content-Disposition", "attachment; filename=contract.png");
+//
+//            IOUtils.copy(is, response.getOutputStream());
+//            response.flushBuffer();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

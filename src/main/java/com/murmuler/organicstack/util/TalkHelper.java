@@ -23,30 +23,33 @@ import java.util.List;
 
 @Component
 public class TalkHelper {
-    private static final String REPOSITORY_PATH = "C:\\util";
-    private static final String PATH = "\\talkList\\";
+    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String PATH = "/talkList";
+
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
     @Autowired
     private FileHelper fileHelper;
 
     public File getFilePath(int me, int you) {
-        String folderPath = PATH + me + "\\" + you;
-        String filePath = folderPath + "\\talk.txt";
+        String folderPath = PATH + "/" + me + "/" + you;
+        String filePath = folderPath + "/talk.txt";
 
         File folder = fileHelper.createFolder(folderPath);
         if(folder == null) {
             return null;
         }
+
         File file = fileHelper.createFile(filePath);
         if(file == null) {
             return null;
         }
+
         return file;
     }
 
     public List<MessageVO> readMessage(int me, int you) {
-        String filePath = REPOSITORY_PATH + PATH + me + "\\" + you + "\\talk.txt";
+        String filePath = REPOSITORY_PATH + PATH + "/" + me + "/" + you + "/talk.txt";
         Path path = Paths.get(filePath);
         logger.info("경로: " + path);
 
@@ -62,7 +65,7 @@ public class TalkHelper {
                     String sender = temp[0];
                     String date = temp[1];
                     String time = temp[2].substring(0, temp[2].lastIndexOf(':'));
-                    msgList.add(new MessageVO(sender, content, date, time));
+                    msgList.add(new MessageVO("", sender, "", content, "", date, time));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -81,20 +84,25 @@ public class TalkHelper {
 
         MessageVO messageVO = null;
         BufferedWriter bufferedWriter = null;
+
         try {
-            bufferedWriter = new BufferedWriter(new FileWriter(file, true));
-            bufferedWriter.write(messageFormat);
-            bufferedWriter.newLine();
-            bufferedWriter.flush(); // 남아있는 데이터를 모두 출력시킴
+            if (message != null && !message.equals("")) {
+                bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+                bufferedWriter.write(messageFormat);
+                bufferedWriter.newLine();
+                bufferedWriter.flush(); // 남아있는 데이터를 모두 출력시킴
+            }
             curTime = curTime.substring(0, curTime.lastIndexOf(':'));
-            messageVO = new MessageVO(sender, message, curDate, curTime);
+            messageVO = new MessageVO("", sender, "", message, "", curDate, curTime);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                bufferedWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (bufferedWriter != null) {
+                try {
+                    bufferedWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return messageVO;
@@ -116,7 +124,7 @@ public class TalkHelper {
             return null;
         }
         else {
-            for(File file : fileList) {
+            for (File file : fileList) {
                 fileNameList.add(file.getName());
             }
         }
@@ -124,7 +132,7 @@ public class TalkHelper {
     }
 
     public boolean downloadImage(int me, int you, String fileName, HttpServletResponse response) {
-        String folderPath = PATH + me + "\\" + you;
+        String folderPath = PATH + me + "/" + you;
         return fileHelper.downloadFile(folderPath, fileName, response);
     }
 
