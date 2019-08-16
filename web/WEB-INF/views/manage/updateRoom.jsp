@@ -216,18 +216,10 @@
                 <td colspan=2 class="tbtitle">사진 등록</td>
             </tr>
             <tr>
-<%--                <td>--%>
-<%--                    <input type="file" id="imageFileName" name="imageFileName" onchange="readURL(this);" />--%>
-<%--                    <div style="display: inline;">--%>
-<%--                        <img id="rmimg1" src="#" name="addImage" class="addimage"/>--%>
-<%--                    </div>--%>
-<%--                </td>--%>
-<%--    ============================== 작업중 ==============================--%>
                 <td id="tdImg">
                     <button class="upload" id="btnImg"><img class="img" src="/resources/img/etc/addimage.png"/></button>
                     <input class="upload" id="upload" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;">
                     <input type="hidden" id="uploadVal" value="${room.images}">
-<%--            =========================== for 문 ===========================--%>
                     <c:forEach var="data" items="${room.images}" varStatus="status">
                         <div class="img-wrap" id="img-wrap${status.count}" data-id="img-wrap${status.count}">
                             <span class="close" id="close${status.count}" data-id="close${status.count}">x</span>
@@ -238,10 +230,7 @@
                             <c:set var="roomImgNum" value="${status.count}"/>
                         </c:if>
                     </c:forEach>
-<%--            =========================== for 문 ===========================--%>
-
                 </td>
-<%--    ============================== 작업중 ==============================--%>
             </tr>
         </table>
         <div class="lastBtns">

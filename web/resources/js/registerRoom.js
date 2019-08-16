@@ -14,7 +14,8 @@ var selectedElevator = 0;
 var hashtagExist = true;
 var x = 'x';
 var cnt = 0;
-// var imgpath = {img1: $('#rmimg1').attr('src'), img2: $('#rmimg2').attr('src')};
+
+var formData = new FormData();
 
 var ps = new kakao.maps.services.Places();
 
@@ -57,14 +58,6 @@ function dataSubmit(){
     let optionListString = convertList(optionList);
     let hashtagListString = convertList(hashTagList);
     let imageListString = convertList(imageList.push($('#images').val()));
-
-    var formData = new FormData();
-    var inputFile = $("input[name='uploadFile']");
-    var files = inputFile[0].files;
-    // alert("버튼 클릭시 files 값 : " + files.length);
-    for(var i = 0; i < files.length; i++){
-        formData.append("uploadFile", files[i]);
-    }
 
     let roomInfo = {
         allAddr: JSON.stringify(allAddr),
@@ -164,20 +157,37 @@ function readURL(input) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 let img = $(''
-                    +'<div class="img-wrap" id=img-wrap'+ index +'>'
+                    +'<div class="img-wrap" id=img-wrap'+ index +' name="'+imgName+'">'
                     +'<span class="close" id=close'+ index +'>' + x + '</span>'
-                    +'<img class="addimage" id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
+                    +'<img class="addimage" data-id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
                     +'</div>'
                 );
                 td.append(img);
                 $('#close'+index).click(function () {
-                    var id = $(this).closest('.img-wrap').find('img').data('id');
-                    // console.log('remove picture: ' + id);
+                    var fileArray = formData.getAll("uploadFile");
+                    var deleteName = $(this).parent().attr('name');
+                    console.log(deleteName);
+                    for(let i=0; i<fileArray.length; i++){
+                        if(fileArray[i].name == deleteName){
+                            fileArray.splice(i, 1);
+                            break;
+                        }
+                    }
+                    formData.delete("uploadFile");
+                    for(let i = 0;i<fileArray.length; i++){
+                        formData.append("uploadFile", fileArray[i]);
+                    }
                     $('#close'+index).remove();
                     $('#img-wrap'+ index).remove();
                 });
             }
             reader.readAsDataURL(input.files[i-1]);
+        }
+
+        var inputFile = $("input[name='uploadFile']");
+        var files = inputFile[0].files;
+        for(var i = 0; i < files.length; i++){
+            formData.append("uploadFile", files[i]);
         }
     }
     cnt += loopCnt;

@@ -284,6 +284,8 @@ function readURL(input) {
             loopCnt++;
             let index = i+cnt;
             let imgName = input.files[i-1].name;
+            console.log("파일 : " + input.files[i-1]);
+            console.log("파일 명 : " + imgName);
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
 
             if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
