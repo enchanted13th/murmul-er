@@ -216,22 +216,32 @@
                 <td colspan=2 class="tbtitle">사진 등록</td>
             </tr>
             <tr>
-                <td>
-                    <!-- <img src="img/etc/addimage.png" id="addimage" class="addimage"/> -->
-                    <input type="file" id="imageFileName" name="imageFileName" onchange="readURL(this);" />
-                    <div style="display: inline;">
-                        <img id="rmimg1" src="#" name="addImage" class="addimage"/>
-                    </div>
-                    <%--                    <input type="hidden"  id="images" value="${room.images}"/>--%>
-                    <!-- <div style="display: inline;">
-                        <img src="img/etc/deleteimage.png" class="deleteimage"/>
-                        <img src="img/room/room1.png" id="rmimg1" name="addImage" class="addimage"/>
-                    </div>
-                    <div style="display: inline;">
-                        <img src="img/etc/deleteimage.png" class="deleteimage"/>
-                        <img src="img/room/room3.png" id="rmimg2" name="addImage" class="addimage"/>
-                    </div> -->
+<%--                <td>--%>
+<%--                    <input type="file" id="imageFileName" name="imageFileName" onchange="readURL(this);" />--%>
+<%--                    <div style="display: inline;">--%>
+<%--                        <img id="rmimg1" src="#" name="addImage" class="addimage"/>--%>
+<%--                    </div>--%>
+<%--                </td>--%>
+<%--    ============================== 작업중 ==============================--%>
+                <td id="tdImg">
+                    <button class="upload" id="btnImg"><img class="img" src="/resources/img/etc/addimage.png"/></button>
+                    <input class="upload" id="upload" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;">
+                    <input type="hidden" id="uploadVal" value="${room.images}">
+<%--            =========================== for 문 ===========================--%>
+                    <c:forEach var="data" items="${room.images}" varStatus="status">
+                        <div class="img-wrap" id="img-wrap${status.count}" data-id="img-wrap${status.count}">
+                            <span class="close" id="close${status.count}" data-id="close${status.count}">x</span>
+                            <img class="addimage" id="rmimg${status.count}" data-id="rmimg${status.count}" src=""/>
+                            <input type="hidden" id="roomValue${status.count}" value="${roomId},${data}">
+                        </div>
+                        <c:if test="${status.last}">
+                            <c:set var="roomImgNum" value="${status.count}"/>
+                        </c:if>
+                    </c:forEach>
+<%--            =========================== for 문 ===========================--%>
+
                 </td>
+<%--    ============================== 작업중 ==============================--%>
             </tr>
         </table>
         <div class="lastBtns">
@@ -244,5 +254,8 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
 <script src="/resources/js/updateRoom.js"></script>
+<script>
+    var roomImgNum = ${roomImgNum};
+</script>
 </body>
 </html>

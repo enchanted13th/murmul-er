@@ -165,18 +165,17 @@ textarea {
 }
 
 .upload{
-	width: 124px;
-	height: 124px;
-	margin: 20px;
-	border: 2px solid #b6e2f8;
-	vertical-align: top;
-}
+	 width: 124px;
+	 height: 124px;
+	 margin: 20px;
+	 border: 2px solid #b6e2f8;
+	 vertical-align: top;
+ }
 
 .img{
 	height: 90px;
 }
 
-/*============ 작업중 ============*/
 .img-wrap {
 	position: relative;
 	display: inline-block;
@@ -199,7 +198,6 @@ textarea {
 .img-wrap:hover .close {
 	opacity: 1;
 }
-/*============ 작업중 ============*/
 
 
 /* content_end */

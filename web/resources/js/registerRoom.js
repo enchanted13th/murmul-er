@@ -165,7 +165,7 @@ function readURL(input) {
                 let img = $(''
                     +'<div class="img-wrap" id=img-wrap'+ index +'>'
                     +'<span class="close" id=close'+ index +'>' + x + '</span>'
-                    +'<img class="addimage" data-id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
+                    +'<img class="addimage" id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
                     +'</div>'
                 );
                 td.append(img);

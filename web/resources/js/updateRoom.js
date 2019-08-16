@@ -17,6 +17,9 @@ var isNotChangeAddr = true;
 var isNotChangeDtAddr = true;
 var ps = new kakao.maps.services.Places();
 
+var x = 'x';
+var cnt = 0;
+
 $(document).ready(function () {
     $.clickEvent();
     $.imagebutton();
@@ -30,6 +33,17 @@ $(document).ready(function () {
     $.colorArrBtn($('#manage').val(), $('#manageLen').val(),'manage');
 
     changeArea();
+    $('#btnImg').click(selectFile);
+
+    // $.imageArrBtn();
+    $.setImage();
+
+    $('.img-wrap .close').click(function () {
+        var imgId = $(this).closest('.img-wrap').find('img').data('id');
+        var wrapId = $(this).closest('.img-wrap').data('id');
+        $('#'+imgId).remove();
+        $('#'+ wrapId).remove();
+    });
 })
 
 
@@ -249,14 +263,53 @@ $.colorArrBtn = function(arr, len, type){
     }
 }
 
+// function readURL(input) {
+//     if (input.files && input.files[0]) {
+//         var reader = new FileReader();
+//         reader.onload = function (e) {
+//             $('#rmimg1').attr('src', e.target.result);
+//         }
+//         reader.readAsDataURL(input.files[0]);
+//     }
+// }
+var selectFile = function () {
+    $('#upload').trigger('click');
+}
+
 function readURL(input) {
+    let td = $('#tdImg');
+    let loopCnt = 0;
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#rmimg1').attr('src', e.target.result);
+        for(let i=1; i<=input.files.length; i++){
+            loopCnt++;
+            let index = i+cnt;
+            let imgName = input.files[i-1].name;
+            let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
+
+            if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
+                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let img = $(''
+                    +'<div class="img-wrap" id=img-wrap'+ index +'>'
+                    +'<span class="close" id=close'+ index +'>' + x + '</span>'
+                    +'<img class="addimage" data-id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
+                    +'</div>'
+                );
+                td.append(img);
+                $('#close'+index).click(function () {
+                    var id = $(this).closest('.img-wrap').find('img').data('id');
+                    $('#close'+index).remove();
+                    $('#img-wrap'+ index).remove();
+                });
+            }
+            reader.readAsDataURL(input.files[i-1]);
         }
-        reader.readAsDataURL(input.files[0]);
     }
+    cnt += loopCnt;
 }
 
 function changeSize() {
@@ -686,6 +739,15 @@ $.fn.clickOp = function () {
             console.log(optionList)
         }
     })
+}
+$.setImage = function(){
+    for(let i = 1; i <= roomImgNum; i++) {
+        let value = $('#roomValue' + i).val().split(',');
+        let roomId = value[0];
+        let fileName = value[1];
+        let src = '/manage/download?middlePath=/room/roomId_' + encodeURI(roomId) + '&imageFileName=' + encodeURI(fileName);
+        $('#rmimg' + i).attr('src', src);
+    }
 }
 
 
