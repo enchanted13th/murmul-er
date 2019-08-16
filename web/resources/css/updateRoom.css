@@ -161,4 +161,41 @@ textarea {
     text-align: right;
 }
 
+/*=================== 작업중 ===================*/
+.upload{
+    width: 124px;
+    height: 124px;
+    margin: 20px;
+    border: 2px solid #b6e2f8;
+    vertical-align: top;
+}
+
+.img{
+    height: 90px;
+}
+
+.img-wrap {
+    position: relative;
+    display: inline-block;
+}
+.img-wrap .close {
+    position: absolute;
+    right: 5px;
+    z-index: 1000;
+    /*padding: 26px 23px;*/  /*사진 모서리*/
+    padding: 5px 2px; /*사진 벗어난 모서리*/
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: .2;
+    text-align: center;
+    font-size: 22px;
+    line-height: 10px;
+    /*border-radius: 50%;*/
+}
+.img-wrap:hover .close {
+    opacity: 1;
+}
+/*=================== 작업중 ===================*/
+
 /* content_end */
