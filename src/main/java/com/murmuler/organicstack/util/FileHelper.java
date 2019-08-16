@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class FileHelper {
-    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String REPOSITORY_PATH = "C:/util";
     private static final String MAC_INE_PATH = "/Users/ine";
     private static final String MAC_SEOK_PATH = "/Users/seokjung/util";
 
@@ -60,6 +60,34 @@ public class FileHelper {
             logger.info(file.getPath() + " 파일 존재");
         }
         return file;
+    }
+
+    public List<File> findFolderList(String folderPath) {
+        String searchPath = REPOSITORY_PATH + folderPath;
+        List<File> folderList = new ArrayList<>();
+        File checkFolder = new File(searchPath);
+
+        if(!checkFolder.isDirectory()) {
+            logger.error(checkFolder.getPath() + " 폴더를 찾을 수 없습니다.");
+            return null;
+        }
+        for (File folder : checkFolder.listFiles()) {
+            if (folder.isDirectory()) {
+                folderList.add(folder);
+            }
+        }
+        return folderList;
+    }
+
+    public File findFile(String filePath) {
+        String searchPath = REPOSITORY_PATH + filePath;
+        File checkFile = new File(searchPath);
+
+        if(!checkFile.isFile()) {
+            logger.error(checkFile.getPath() + " 파일을 찾을 수 없습니다.");
+            return null;
+        }
+        return checkFile;
     }
 
     public List<File> uploadFile(String storagePath, List<MultipartFile> multipartFileList) {

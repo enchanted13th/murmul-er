@@ -3,6 +3,7 @@ package com.murmuler.organicstack.controller;
 import com.murmuler.organicstack.model.TalkRoom;
 import com.murmuler.organicstack.model.TalkRoomRepository;
 import com.murmuler.organicstack.service.TalkService;
+import com.murmuler.organicstack.util.SortTalkList;
 import com.murmuler.organicstack.util.TalkHelper;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.MessageVO;
@@ -38,12 +39,32 @@ public class TalkController {
         this.repository = repository;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView showTalkList(HttpServletRequest request) {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if (memberVO == null) return null;
-        int memberId = memberVO.getMemberId();
-        return null;
+        if (memberVO == null) {
+            return null;
+        }
+        int me = memberVO.getMemberId();
+
+        List<Map<String, Object>> talkInfoList = new ArrayList<>();
+        List<Integer> talkList = talkHelper.getTalkList(me);
+        for(int contactMember : talkList) {
+            MessageVO messageVO = talkHelper.readLastMessage(me, contactMember);
+            if(messageVO != null) {
+                Map<String, Object> talkInfo = new HashMap<>();
+                talkInfo.put("contactMember", contactMember);
+                talkInfo.put("nickname", talkService.getNickname(contactMember));
+                talkInfo.put("lastMessage", messageVO);
+                talkInfoList.add(talkInfo);
+            }
+        }
+        Collections.sort(talkInfoList, new SortTalkList());
+        Collections.reverse(talkInfoList);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("talkInfoList", talkInfoList);
+        mav.setViewName("talkList");
+        return mav;
     }
 
     @RequestMapping(value = "/{contactMember}", method = RequestMethod.GET)
@@ -63,7 +84,7 @@ public class TalkController {
             talkRoom = TalkRoom.create();
             talkRoomId = talkRoom.getId();
             repository.addTalkRoom(talkRoom);
-            // 생선된 채팅방 아이디를 대화 기록 맨 위에 저장
+            // 생성된 채팅방 아이디를 대화 기록 맨 위에 저장
             talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(me, you));
             talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(you, me));
         } else {

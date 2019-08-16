@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.util;
 
 import com.murmuler.organicstack.vo.MessageVO;
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +13,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TalkHelper {
-    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String REPOSITORY_PATH = "C:/util";
     private static final String PATH = "/talkList";
 
     private Log logger = LogFactory.getLog(TalkHelper.class);
@@ -134,6 +134,48 @@ public class TalkHelper {
     public boolean downloadImage(int me, int you, String fileName, HttpServletResponse response) {
         String folderPath = PATH + "/" + me + "/" + you;
         return fileHelper.downloadFile(folderPath, fileName, response);
+    }
+
+    public List<Integer> getTalkList(int me) {
+        String folderPath = PATH + "/" + me;
+        List<File> folderList = fileHelper.findFolderList(folderPath);
+        List<Integer> talkList = new ArrayList<>();
+        for(File folder : folderList) {
+            talkList.add(Integer.parseInt(folder.getName()));
+        }
+        return talkList;
+    }
+
+    public MessageVO readLastMessage(int me, int you) {
+        String filePath = PATH + "/" + me + "/" + you + "/talk.txt";
+        MessageVO lastMessage = null;
+        File file = fileHelper.findFile(filePath);
+        if (file != null) {
+            ReversedLinesFileReader reader = null;
+            try {
+                reader = new ReversedLinesFileReader(file, Charset.forName("utf-8"));
+                String msg = reader.readLine();
+                String msgInfo = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                String content = msg.substring(msg.indexOf(']') + 2);
+                String[] temp = msgInfo.split("\\^");
+                String sender = temp[0];
+                if(sender.contains("_FILE")) {
+                    content = "사진";
+                }
+                String date = temp[1];
+                String time = temp[2];
+                lastMessage = new MessageVO("", sender, "", content, "", date, time);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return lastMessage;
     }
 
 }

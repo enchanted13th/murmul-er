@@ -23,6 +23,7 @@ public class MessageVO {
                 ", sender:\"" + sender + "\"" +
                 ", receiver\"" + receiver + "\"" +
                 ", content:\"" + content + "\"" +
+                ", type:\"" + type + "\"" +
                 ", date:\"" + date + "\"" +
                 ", time:\"" + time + "\"" +
                 "}";
