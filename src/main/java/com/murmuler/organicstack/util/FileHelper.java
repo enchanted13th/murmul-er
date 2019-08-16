@@ -12,8 +12,8 @@ import java.util.List;
 
 @Component
 public class FileHelper {
-    private static final String REPOSITORY_PATH = "C:\\util";
-    private static final String MAC_INE_PATH = "/Users/ine/util";
+    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String MAC_INE_PATH = "/Users/ine";
     private static final String MAC_SEOK_PATH = "/Users/seokjung/util";
 
     private Log logger = LogFactory.getLog(FileHelper.class);

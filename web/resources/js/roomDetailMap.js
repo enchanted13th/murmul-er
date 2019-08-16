@@ -1,6 +1,8 @@
 // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
+var markerImageSrc = '/resources/img/etc/marker03.png';
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -39,4 +41,8 @@ function displayMarker(place) {
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
+
+    marker.setMap(map);
+    var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
+    marker.setImage(markerImage);
 }

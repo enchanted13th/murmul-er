@@ -1,11 +1,12 @@
 package com.murmuler.organicstack.vo;
 
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 import java.sql.Date;
 import java.util.ArrayList;
 
 @Data
+@NoArgsConstructor
 public class ReviewVO {
     public final String TYPE_PERIOD_YEAR = "Y";
     public final String TYPE_PERIOD_MONTH = "M";
@@ -31,8 +32,6 @@ public class ReviewVO {
     private String detailAddr;
     private ArrayList<String> hashTagList;
     private String memberId;
-
-    public ReviewVO() {}
 
     public ReviewVO(int id, Date writeDate, String title, String content, int locationId, int residencePeriod,
                     String periodUnit, int score, String advantage, String disadvantage, char insectLevel, char noiseLevel, boolean hashtagExist, String image,

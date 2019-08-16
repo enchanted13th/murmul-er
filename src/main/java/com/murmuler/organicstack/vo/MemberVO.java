@@ -1,10 +1,12 @@
 package com.murmuler.organicstack.vo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Data
+@NoArgsConstructor
 public class MemberVO {
     private int memberId;
     private String id;
@@ -17,8 +19,6 @@ public class MemberVO {
     private String nickname;
 
     private String[] ids;
-
-    public MemberVO() {}
 
     public MemberVO(int memberId, String id, String name, String gender, Date birth, String phone, String pwd, String email, String nickname) {
         if (id == null || id.equals("")) id = "empty";
