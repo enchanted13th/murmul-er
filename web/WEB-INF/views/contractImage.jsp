@@ -23,12 +23,18 @@
         var mcType = ${contractData.mcType};
     </script>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="/resources/js/html2canvas.js"></script>
     <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
     <script src="/resources/js/contractImage.js"></script>
 </head>
 <body>
 <div class="contract-image-page">
     <div class="header">• 작성된 파란색 글씨를 확인해주세요.</div>
+    <div class="buttons">
+        <button id="btnBack">내용 수정하기</button>
+        <button id="btnToImage">이미지로 다운로드</button>
+        <button id="btnExit">창 닫기</button>
+    </div>
     <div class="contract-body">
         <img src="/resources/img/contract/contract_ex.jpg"/>
         <div id="rentType"><img class="check" src="/resources/img/etc/check_blue.png"></div>
@@ -102,10 +108,9 @@
         <div class="sign-jeondae-name">${contractData.jeondaeName}</div>
         <div class="sign-jeoncha-name">${contractData.jeonchaName}</div>
     </div>
-    <div class="bottom">
-        <button id="btnBack">수정하기</button>
-        <button id="btnToImage">이미지로 저장</button>
-    </div>
+    <form id="imgForm" name="imgForm" method="POST" action="/contract/toimage">
+        <input type="hidden" id="imgData" name="imgData">
+    </form>
 </div>
 </body>
 </html>
