@@ -7,10 +7,30 @@ $(document).ready(function(){
     $.setBounds();
     $.resizeEvent();
     $.setSpecialProvision();
-    $('#btnBack').click(function(){
+    $('#btnBack').clickEvent('back');
+    $('#btnToImage').downloadImage();
+    $('#btnExit').clickEvent('close');
+});
+
+$.fn.clickEvent = function (flag) {
+    let title, text, type;
+    switch (flag) {
+        case 'back':
+            title = "";
+            text = "다시 수정하시겠습니까?";
+            type = "question";
+            break;
+        case 'close':
+            title = "창 닫기";
+            text = "내용은 저장되지 않습니다. 정말로 창을 닫으시겠습니까?";
+            type = "warning";
+            break;
+    }
+    $(this).click(function(){
         Swal.fire({
-            text: "다시 수정하시겠습니까?",
-            type: "question",
+            title: title,
+            text: text,
+            type: type,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             confirmButtonText: '확인',
@@ -18,11 +38,45 @@ $(document).ready(function(){
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
-                history.back();
+                switch (flag) {
+                    case 'back':
+                        history.back(); break;
+                    case 'close':
+                        window.close();
+                }
             }
         })
     })
-});
+}
+
+$.fn.downloadImage = function () {
+    $(this).click(function () {
+        // $('.header').css('display', 'none');
+        $('.contract-body > div').css('color', 'black');
+        $('.check').attr('src', '/resources/img/etc/check_black.png');
+        html2canvas($('.contract-body')[0]).then(function (canvas) {
+            let myImage = canvas.toDataURL("image/png");
+            let link = document.createElement("a");
+            link.download = "contract.png";
+            link.href = myImage;
+            document.body.appendChild(link);
+            link.click();
+        })
+        // $('.header').css('display', 'block');
+        $('.contract-body > div').css('color', 'blue');
+        $('.check').attr('src', '/resources/img/etc/check_blue.png');
+        // html2canvas($('.contract-image-page')[0], {
+        //     onrendered: function (canvas) {
+        //         if (typeof FlashCanvas != "undefined") {
+        //             FlashCanvas.initElement(canvas);
+        //         }
+        //         let image = canvas.toDataURL("image/png");
+        //         $('#imgData').val(image);
+        //         $('#imgForm').submit();
+        //     }
+        // })
+    })
+}
 
 $.checkType = function(){
     $('#buildingType').attr('class', 'building-type'+buildingType);

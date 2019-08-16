@@ -29,6 +29,7 @@
     </div>
     <div class="addContractForm">
         <form name="contractForm" method="POST" action="/contract/show" onsubmit="return false;">
+            <input type="hidden" name="roomId" value="${roomId}">
             <table class="tbContent">
                 <tr>
                     <td colspan="4" class="tbtitle">계약 당사 정보</td>

@@ -7,16 +7,23 @@ import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 
 @Controller
 @RequestMapping("/contract")
@@ -59,12 +66,13 @@ public class ContractController {
         mav.addObject("jeondaeName", jeondaeName);
         mav.addObject("jeonchaName", jeonchaName);
         mav.addObject("roomInfo", roomInfo);
+        mav.addObject("roomId", roomId);
 
         return mav;
 }
 
     @RequestMapping(value = "/show", method= RequestMethod.POST)
-    public ModelAndView showContractImage(/*@RequestParam int roomId,*/
+    public ModelAndView showContractImage(@RequestParam int roomId,
                                           @RequestParam String jeondaeName,
                                           @RequestParam String jeonchaName,
                                           @RequestParam String buildingName,
@@ -114,11 +122,11 @@ public class ContractController {
         String year = today[0];
         String month = today[1];
         String day = today[2];
-
-//        mRoomId.put("roomId", roomId);
-        mRoomId.put("roomId", 27);
+//        System.out.println(roomId);
+        mRoomId.put("roomId", roomId);
+//        mRoomId.put("roomId", 27);
         RoomDetailViewVO roomInfo = roomService.getRoomDetailByRoomId(mRoomId);
-        System.out.println(roomInfo);
+//        System.out.println(roomInfo);
         String sido = roomInfo.getSido() + " ";
         String sigungu = roomInfo.getSigungu() + " ";
         String bname1 = roomInfo.getBname1();
@@ -126,16 +134,16 @@ public class ContractController {
         String roadName = roomInfo.getRoadName() + " ";
         String roadJibun = roomInfo.getRoadJibun();
         String roadAddress = sido + sigungu + bname1 + roadName + roadJibun;
-        System.out.println(roadAddress);
+//        System.out.println(roadAddress);
 
         String area = roomInfo.getArea() +"";
         String manageCost = roomInfo.getManageCost()+"";
         String manages = roomInfo.getManages().toString();
         String options = roomInfo.getOptions().toString();
 
-        System.out.println(manageCost);
-        System.out.println(manages);
-        System.out.println(options);
+//        System.out.println(manageCost);
+//        System.out.println(manages);
+//        System.out.println(options);
 //
 
         contractData.put("jeondaeName", jeondaeName);
@@ -188,5 +196,24 @@ public class ContractController {
         mav.addObject("contractData", contractData);
 
         return mav;
+    }
+
+    @RequestMapping(value = "/toimage", method = RequestMethod.POST)
+    public void download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String imgData = request.getParameter("imgData");
+            imgData = imgData.replaceAll("data:image/png;base64,", "");
+
+            byte[] file = Base64.decodeBase64(imgData);
+            ByteArrayInputStream is = new ByteArrayInputStream(file);
+
+            response.setContentType("image/png");
+            response.setHeader("Content-Disposition", "attachment; filename=contract.png");
+
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
