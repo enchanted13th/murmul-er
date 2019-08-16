@@ -89,17 +89,18 @@ function dataSubmit(){
         imageList: imageListString,
     };
     // console.log(roomInfo);
-    $.ajax("/manage/room",{
-        type: "POST",
-        data: roomInfo
-    }).then(function (data, status) {
-        // console.log(data+"\n"+status);
-        if (status === "success") {
-            switch (data.registerResult) {
-                case "SUCCESS" :
-                    if(formData.get("uploadFile") == null){
-                        Swal.fire('사진을 등록해주세요', '', 'warning');
-                    }else{
+
+    if(formData.get("uploadFile") == null){
+        Swal.fire('사진을 등록해주세요', '', 'warning');
+    }else{
+        $.ajax("/manage/room",{
+            type: "POST",
+            data: roomInfo
+        }).then(function (data, status) {
+            // console.log(data+"\n"+status);
+            if (status === "success") {
+                switch (data.registerResult) {
+                    case "SUCCESS" :
                         $.ajax({
                             url: '/manage/uploadImage',
                             processData: false,
@@ -124,17 +125,17 @@ function dataSubmit(){
                                 Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
                             }
                         });
-                    }
-
-                    break;
-                case "FAIL" :
-                    Swal.fire('등록 실패', '등록할 수 없습니다.', 'error');
-                    break;
+                        break;
+                    case "FAIL" :
+                        Swal.fire('등록 실패', '등록할 수 없습니다.', 'error');
+                        break;
+                }
+            } else {
+                Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
             }
-        } else {
-            Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
-        }
-    });
+        });
+    }
+
 }
 
 var changeAddr = function () {
@@ -430,7 +431,6 @@ $.fn.clickSubmit = function() {
 
         if($('.addimage').length<2 || $('.addimage').length>10){
             alert("사진을 2~10장 올려주세요");
-            $('.addimage').remove();
             return;
         }
 
