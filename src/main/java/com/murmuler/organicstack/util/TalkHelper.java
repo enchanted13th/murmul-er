@@ -1,6 +1,5 @@
 package com.murmuler.organicstack.util;
 
-import com.murmuler.organicstack.service.TalkService;
 import com.murmuler.organicstack.vo.MessageVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,54 +23,30 @@ import java.util.List;
 
 @Component
 public class TalkHelper {
-    private static final String REPOSITORY_PATH = "C:\\util\\talkList";
-
+    private static final String REPOSITORY_PATH = "C:\\util";
+    private static final String PATH = "\\talkList\\";
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
     @Autowired
-    private TalkService talkService;
+    private FileHelper fileHelper;
 
-    public File getFolderPath(int me, int you) {
-        String directoryPath = REPOSITORY_PATH + "\\" + me + "\\" + you;
-        File folder = new File(directoryPath);
+    public File getFilePath(int me, int you) {
+        String folderPath = PATH + me + "\\" + you;
+        String filePath = folderPath + "\\talk.txt";
 
-        if (!folder.exists()) { // 디렉토리가 없는 경우 생성
-            if(folder.mkdirs()) {
-                logger.info(folder.getPath() + " 폴더 생성");
-            }
-            else {
-                logger.info(folder.getPath() + " 폴더 생성 실패");
-                return null;
-            }
+        File folder = fileHelper.createFolder(folderPath);
+        if(folder == null) {
+            return null;
         }
-        logger.info(folder.getPath() + " 폴더 존재");
-        return folder;
-    }
-
-    public File getFilePath(File folder) {
-        String filePath = folder.getPath() + "\\talk.txt";
-        File file = new File(filePath);
-
-        if (!file.exists()) { // 파일이 없는 경우 생성
-            try {
-                if (file.createNewFile()) {
-                    logger.info(file.getPath() + " 파일 생성");
-                    talkService.addFilePath(file.getPath());
-                }
-                else {
-                    logger.info(file.getPath() + " 파일 생성 실패");
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File file = fileHelper.createFile(filePath);
+        if(file == null) {
+            return null;
         }
-        logger.info(file.getPath() + " 파일 존재");
         return file;
     }
 
     public List<MessageVO> readMessage(int me, int you) {
-        String filePath = REPOSITORY_PATH + "\\" + me + "\\" + you + "\\talk.txt";
+        String filePath = REPOSITORY_PATH + PATH + me + "\\" + you + "\\talk.txt";
         Path path = Paths.get(filePath);
         logger.info("경로: " + path);
 
@@ -80,8 +56,8 @@ public class TalkHelper {
             try {
                 List<String> list = Files.readAllLines(path, StandardCharsets.UTF_8);
                 for (String msg : list) {
-                    String msgInfo = msg.substring(msg.indexOf('[')+1, msg.indexOf(']'));
-                    String content = msg.substring(msg.indexOf(']')+2);
+                    String msgInfo = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                    String content = msg.substring(msg.indexOf(']') + 2);
                     String[] temp = msgInfo.split("\\^");
                     String sender = temp[0];
                     String date = temp[1];
@@ -124,39 +100,32 @@ public class TalkHelper {
         return messageVO;
     }
 
-    public List<String> uploadImage(File folder, List<MultipartFile> images) {
-        List<String> fileList = new ArrayList<>();
-
-        if(images == null) {
+    public List<String> uploadImage(int me, int you, List<MultipartFile> uploadImages) {
+        String folderPath = PATH + me + "\\" + you;
+        File folder = fileHelper.createFolder(folderPath);
+        if(folder == null) {
+            return null;
+        }
+        if (uploadImages == null) {
             return null;
         }
 
-        for(MultipartFile multipartFile : images){
-            String imageName = multipartFile.getOriginalFilename();
-            try {
-                File saveFile = new File(folder.getPath(), imageName);
-                if(saveFile.isFile()) { // 중복된 이름의 파일이 있는 경우
-                    int i = 1;
-                    String fileName = saveFile.getName();
-                    String name = fileName.substring(0, fileName.lastIndexOf("."));
-                    String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    while(true) {
-                        if(saveFile.exists()) {
-                            saveFile = new File(folder.getPath(), name + "(" + i + ")." + ext);
-                            i++;
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                }
-                multipartFile.transferTo(saveFile);
-                fileList.add(saveFile.getName());
-            } catch (IOException e) {
-                e.printStackTrace();
+        List<File> fileList = fileHelper.uploadFile(folderPath, uploadImages);
+        List<String> fileNameList = new ArrayList<>();
+        if(fileList == null) {
+            return null;
+        }
+        else {
+            for(File file : fileList) {
+                fileNameList.add(file.getName());
             }
         }
-        return fileList;
+        return fileNameList;
+    }
+
+    public boolean downloadImage(int me, int you, String fileName, HttpServletResponse response) {
+        String folderPath = PATH + me + "\\" + you;
+        return fileHelper.downloadFile(folderPath, fileName, response);
     }
 
 }
