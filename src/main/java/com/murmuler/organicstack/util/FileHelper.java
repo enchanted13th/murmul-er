@@ -77,8 +77,8 @@ public class FileHelper {
 
         for (MultipartFile multipartFile : multipartFileList) {
             String fileName = multipartFile.getOriginalFilename();
-            if (fileName.contains("\\")) {
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+            if (fileName.contains("/")) {
+                fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
             }
             try {
                 File saveFile = new File(path, fileName);
@@ -125,8 +125,8 @@ public class FileHelper {
         int i = 1;
         for (MultipartFile multipartFile : multipartFileList) {
             String fileName = multipartFile.getOriginalFilename();
-            if (fileName.contains("\\")) {
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+            if (fileName.contains("/")) {
+                fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
             }
             String extension = fileName.substring(fileName.lastIndexOf("."));
             String transFileName = transKeyword + i + extension;
@@ -164,7 +164,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 파일명입니다.");
             return false;
         }
-        String path = REPOSITORY_PATH + storagePath + "\\" + fileName;
+        String path = REPOSITORY_PATH + storagePath + "/" + fileName;
         logger.info("다운로드 경로 : " + path);
 
         File file = new File(path);
