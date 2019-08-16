@@ -68,7 +68,7 @@
                             <div id="divMessage" class="divMessage">
                                 <div class="divYou">
                                     <div class="yourMessage">
-                                        <img src="${path}?fileName=${msg.content}&contactMember=${contactMember}" width="200px"/>
+                                        <img src="${path}?fileName=${msg.content}&contactMember=${contactMember}"/>
                                     </div>
                                     <span class="time">${msg.time}</span>
                                 </div>
@@ -81,13 +81,13 @@
                 <form name="sendForm" onsubmit="return false">
                     <button type="button" id="btnOption" class="btnOption"><img id="imgOption" src="/resources/img/talk/option.png"/>
                     </button>
-                    <input autocomplete="off" name="inputbox" type="text" id="textInputDialog"/>
+                    <input autocomplete="off" name="inputbox" type="text" id="textInputDialog" required/>
                     <input type="image" id="btnSubmit" class="btnSubmit" src="/resources/img/talk/submit.png"/>
                 </form>
             </div>
             <div class="divOption" id="divOption" style="display:none;">
                 <button id="btnPhoto"><img src="/resources/img/talk/photo.png"/></button>
-                <input type="file" id="imgUpload" multiple="multiple" onchange="upload(this)" style="display: none;"/>
+                <input type="file" id="imgUpload" multiple="multiple" onchange="uploadFile(this)" style="display: none;"/>
                 <button id="btnContract"><img src="/resources/img/talk/contract.png"/></button>
             </div>
         </div>

@@ -1,7 +1,6 @@
 package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.TalkService;
-import com.murmuler.organicstack.util.FileHelper;
 import com.murmuler.organicstack.util.TalkHelper;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.MessageVO;
@@ -29,10 +28,7 @@ public class TalkController {
     private TalkService talkService;
 
     @Autowired
-    private TalkHelper helper;
-
-    @Autowired
-    private FileHelper fileHelper;
+    private TalkHelper talkHelper;
 
     @RequestMapping(value = "/{contactMember}", method = RequestMethod.GET)
     public ModelAndView showTalk(@PathVariable(value = "contactMember") int you,
@@ -43,7 +39,7 @@ public class TalkController {
         }
         int me = memberVO.getMemberId();
 
-        List<MessageVO> dialogueList = helper.readMessage(me, you);
+        List<MessageVO> dialogueList = talkHelper.readMessage(me, you);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("contactMember", you);
@@ -64,21 +60,14 @@ public class TalkController {
             data.put("sendResult", "NO_LOGIN");
         } else {
             int me = memberVO.getMemberId();
-
-            File folder = helper.getFolderPath(me, you);
-            if (folder != null) {
-                File file = helper.getFilePath(folder);
-                if (file != null) {
-                    MessageVO messageVO = helper.writeMessage("ME", message, file);
-
-                    if (messageVO == null) {
-                        data.put("sendResult", "FAIL");
-                    } else {
-                        data.put("sendResult", "SUCCESS");
-                        data.put("newMessage", messageVO);
-                    }
-                } else {
+            File file = talkHelper.getFilePath(me, you);
+            if (file != null) {
+                MessageVO messageVO = talkHelper.writeMessage("ME", message, file);
+                if (messageVO == null) {
                     data.put("sendResult", "FAIL");
+                } else {
+                    data.put("sendResult", "SUCCESS");
+                    data.put("newMessage", messageVO);
                 }
             } else {
                 data.put("sendResult", "FAIL");
@@ -99,21 +88,14 @@ public class TalkController {
             data.put("receiveResult", "NO_LOGIN");
         } else {
             int me = memberVO.getMemberId();
-
-            File folder = helper.getFolderPath(me, you);
-            if (folder != null) {
-                File file = helper.getFilePath(folder);
-                if (file != null) {
-                    MessageVO messageVO = helper.writeMessage("YOU", message, file);
-
-                    if (messageVO == null) {
-                        data.put("receiveResult", "FAIL");
-                    } else {
-                        data.put("receiveResult", "SUCCESS");
-                        data.put("newMessage", messageVO);
-                    }
-                } else {
+            File file = talkHelper.getFilePath(me, you);
+            if (file != null) {
+                MessageVO messageVO = talkHelper.writeMessage("YOU", message, file);
+                if (messageVO == null) {
                     data.put("receiveResult", "FAIL");
+                } else {
+                    data.put("receiveResult", "SUCCESS");
+                    data.put("newMessage", messageVO);
                 }
             } else {
                 data.put("receiveResult", "FAIL");
@@ -126,6 +108,7 @@ public class TalkController {
     @ResponseBody
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void uploadImage(@RequestParam List<MultipartFile> uploadFile,
+                            @RequestParam String sender,
                             @RequestParam(value = "contactMember") int you,
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
@@ -136,32 +119,27 @@ public class TalkController {
         } else {
             int me = memberVO.getMemberId();
             List<MessageVO> messageVOList = new ArrayList<>();
-            File folder = helper.getFolderPath(me, you);
-            if (folder != null) {
-                List<String> fileList = helper.uploadImage(folder, uploadFile);
-                if (fileList != null) {
-                    File file = helper.getFilePath(folder);
-                    if (file != null) {
-                        for (String path : fileList) {
-                            MessageVO messageVO = helper.writeMessage("ME_FILE", path, file);
-                            if (messageVO == null) {
-                                data.put("uploadResult", "FAIL");
-                                break;
-                            }
-                            messageVOList.add(messageVO);
+            List<String> fileList = talkHelper.uploadImage(me, you, uploadFile);
+            if (fileList != null) {
+                File file = talkHelper.getFilePath(me, you);
+                if (file != null) {
+                    for (String path : fileList) {
+                        MessageVO messageVO = talkHelper.writeMessage(sender, path, file);
+                        if (messageVO == null) {
+                            data.put("uploadResult", "FAIL");
+                            break;
                         }
-                        if (fileList.size() == messageVOList.size()) {
-                            data.put("uploadResult", "SUCCESS");
-                            data.put("newMessageList", messageVOList);
-                        }
-                    } else {
-                        data.put("uploadResult", "FAIL");
+                        messageVOList.add(messageVO);
+                    }
+                    if (fileList.size() == messageVOList.size()) {
+                        data.put("uploadResult", "SUCCESS");
+                        data.put("newMessageList", messageVOList);
                     }
                 } else {
-                    data.put("uploadResult", "NO_IMAGE");
+                    data.put("uploadResult", "FAIL");
                 }
             } else {
-                data.put("uploadResult", "FAIL");
+                data.put("uploadResult", "NO_IMAGE");
             }
         }
         response.setCharacterEncoding("utf-8");
@@ -178,8 +156,7 @@ public class TalkController {
             return;
         } else {
             int me = memberVO.getMemberId();
-            String directoryPath = "\\talkList\\" + me + "\\" + you;
-            boolean result = fileHelper.downloadFile(directoryPath, fileName, response);
+            boolean result = talkHelper.downloadImage(me, you, fileName, response);
             if (result) {
                 logger.info("DOWNLOAD SUCCESS");
             } else {
