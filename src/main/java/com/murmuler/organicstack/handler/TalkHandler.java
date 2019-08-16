@@ -39,17 +39,31 @@ public class TalkHandler extends TextWebSocketHandler {
         MessageVO messageMe = null;
         MessageVO messageYou = null;
 
+        File file = null;
+
         int me = Integer.parseInt(payloadMessage.getSender());
         int you = Integer.parseInt(payloadMessage.getReceiver());
 
-        File file = talkHelper.getFilePath(me, you);
-        if (file != null) {
-            messageMe = talkHelper.writeMessage("ME", payloadMessage.getContent(), file);
-        }
+        if (payloadMessage.getType().equals("IMAGE")) {
+            file = talkHelper.getFilePath(me, you);
+            if (file != null) {
+                messageMe = talkHelper.writeMessage("ME_FILE", payloadMessage.getContent(), file);
+            }
 
-        file = talkHelper.getFilePath(you, me);
-        if (file != null) {
-            messageYou = talkHelper.writeMessage("YOU", payloadMessage.getContent(), file);
+            file = talkHelper.getFilePath(you, me);
+            if (file != null) {
+                messageYou = talkHelper.writeMessage("YOU_FILE", payloadMessage.getContent(), file);
+            }
+        } else {
+            file = talkHelper.getFilePath(me, you);
+            if (file != null) {
+                messageMe = talkHelper.writeMessage("ME", payloadMessage.getContent(), file);
+            }
+
+            file = talkHelper.getFilePath(you, me);
+            if (file != null) {
+                messageYou = talkHelper.writeMessage("YOU", payloadMessage.getContent(), file);
+            }
         }
 
         if (messageMe != null) {
@@ -67,7 +81,7 @@ public class TalkHandler extends TextWebSocketHandler {
         for (TalkRoom talkRoom : repository.getTalkRooms()) {
             if (talkRoom.hasSession(session)) {
                 talkRoom.chatExit(session);
-                System.out.println("chat eixt");
+                System.out.println("chat exit");
 //                if (talkRoom.isEmpty()) {
 //                    System.out.println("room remove");
 //                    repository.getTalkRooms().remove(talkRoom);

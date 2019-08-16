@@ -90,7 +90,6 @@ public class TalkController {
     @ResponseBody
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void uploadImage(@RequestParam List<MultipartFile> uploadFile,
-                            @RequestParam String sender,
                             @RequestParam(value = "contactMember") int you,
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
@@ -102,21 +101,22 @@ public class TalkController {
             int me = memberVO.getMemberId();
             List<MessageVO> messageVOList = new ArrayList<>();
             List<String> fileList = talkHelper.uploadImage(me, you, uploadFile);
+            talkHelper.uploadImage(you, me, uploadFile);
             if (fileList != null) {
                 File file = talkHelper.getFilePath(me, you);
                 if (file != null) {
-                    for (String path : fileList) {
-                        MessageVO messageVO = talkHelper.writeMessage(sender, path, file);
-                        if (messageVO == null) {
-                            data.put("uploadResult", "FAIL");
-                            break;
-                        }
-                        messageVOList.add(messageVO);
-                    }
-                    if (fileList.size() == messageVOList.size()) {
+//                    for (String path : fileList) {
+//                        MessageVO messageVO = talkHelper.writeMessage(sender, path, file);
+//                        if (messageVO == null) {
+//                            data.put("uploadResult", "FAIL");
+//                            break;
+//                        }
+//                        messageVOList.add(messageVO);
+//                    }
+//                    if (fileList.size() == messageVOList.size()) {
                         data.put("uploadResult", "SUCCESS");
-                        data.put("newMessageList", messageVOList);
-                    }
+                        data.put("newMessageList", fileList);
+//                    }
                 } else {
                     data.put("uploadResult", "FAIL");
                 }

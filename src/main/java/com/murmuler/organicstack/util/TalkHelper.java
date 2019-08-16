@@ -109,7 +109,7 @@ public class TalkHelper {
     }
 
     public List<String> uploadImage(int me, int you, List<MultipartFile> uploadImages) {
-        String folderPath = PATH + me + "\\" + you;
+        String folderPath = PATH + "/" + me + "/" + you;
         File folder = fileHelper.createFolder(folderPath);
         if(folder == null) {
             return null;
@@ -132,7 +132,7 @@ public class TalkHelper {
     }
 
     public boolean downloadImage(int me, int you, String fileName, HttpServletResponse response) {
-        String folderPath = PATH + me + "/" + you;
+        String folderPath = PATH + "/" + me + "/" + you;
         return fileHelper.downloadFile(folderPath, fileName, response);
     }
 
