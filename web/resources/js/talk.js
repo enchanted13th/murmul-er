@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    $("#btnOption").click(showOption);
-    $("#btnSubmit").click(sendMessage);
+    $('#btnOption').click(showOption);
+    $('#btnSubmit').click(sendMessage);
     $('#btnClose').cancel();
     $('#btnPhoto').click(selectFile);
-    $("#divMid").scrollTop($("#divMid")[0].scrollHeight);
+    $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
     $('#btnContract').writeContract();
 })
 
@@ -11,7 +11,7 @@ $.fn.writeContract = function () {
     $(this).click(function () {
         let popupX = (window.screen.width / 2) - (1150 / 2);
         let popupY = (window.screen.height / 2) - (800 / 2);
-        window.open("/contract?jeonchaId="+contactMember, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
+        window.open("/contract?jeonchaId=" + contactMember, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
     })
 }
 
@@ -50,7 +50,7 @@ var sendMessage = function () {
                     newDiv.appendTo($('#divContent:last-child'));
                 }
                 $('#textInputDialog').val('');
-                $("#divMid").scrollTop($("#divMid")[0].scrollHeight);
+                $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
             } else {
                 Swal.fire('전송 실패', '메시지 전송에 실패하였습니다.', 'error');
             }
@@ -95,7 +95,7 @@ var receiveMessage = function () {
                     newDiv.appendTo($('#divContent:last-child'));
                 }
                 $('#textInputDialog').val('');
-                $("#divMid").scrollTop($("#divMid")[0].scrollHeight);
+                $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
             } else {
                 Swal.fire('전송 실패', '메시지 전송에 실패하였습니다 .', 'error');
             }
@@ -126,7 +126,7 @@ var selectFile = function () {
     $('#imgUpload').trigger('click');
 }
 
-var upload = function (input) {
+var uploadFile = function (input) {
     let formData = new FormData();
     if (input.files && input.files[0]) {
         for (let i = 0; i < input.files.length; i++) {
@@ -138,6 +138,7 @@ var upload = function (input) {
             }
             formData.append("uploadFile", input.files[i]);
         }
+        formData.append("sender", "ME_FILE");
         formData.append("contactMember", contactMember);
         $.ajax('/talk/uploadImage', {
             type: 'POST',
@@ -178,7 +179,7 @@ var upload = function (input) {
                             newDiv.appendTo($('#divContent:last-child'));
                         }
                     }
-                    $("#divMid").scrollTop($('#divContent:last-child').scrollHeight);
+                    $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
                 } else {
                     Swal.fire('전송 실패', '메시지 전송에 실패하였습니다 .', 'error');
                 }

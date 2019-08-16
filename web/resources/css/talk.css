@@ -160,6 +160,7 @@ body {
     left: 10px;
 }
 
+
 .divBottom {
     margin: 0 auto;
     padding: 0;
@@ -175,6 +176,11 @@ body {
     width: 358px;
     height: 43px;
     font-size: 14pt;
+}
+
+.myMessage>img, .yourMessage>img {
+    width: 200px;
+    max-height: 400px;
 }
 
 .divWrap .btnOption {
