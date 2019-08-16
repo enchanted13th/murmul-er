@@ -1,94 +1,102 @@
 $(document).ready(function () {
-
+    $.setDomain();
+    $.setFrontNum();
     $('#btnPersonalInfo').css('border-bottom', '6px solid #b6e2f8');
 })
 
-var infoUpdate = function () {
+$.infoUpdate = function () {
     if (!$.validUpdateInfo()) return;
+    Swal.fire({
+        title: "개인정보 수정",
+        text: "수정하시겠습니까?",
+        type: "question",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '확인',
+        cancelButtonColor: '#d33',
+        cancelButtonText: '취소'
+    }).then(result => {
+        if (result.value) {
+            $.updateSubmit();
+        }
+    })
+}
+
+$.updateSubmit = function () {
     let email = $('#inputEmail').val() + "@" + $('#domain').val();
     let phone = $('#frontNum').val() + "-" + $('#middleNum').val() + "-" + $('#backNum').val();
-
     $.ajax('/mypage/personal-info', {
         type: 'POST',
         data: {
             realname: $('#inputName').val(),
             nickname: $('#inputNickName').val(),
             email: email,
-            phone: phone
+            phone: phone,
+            pwd: $('#inputPwd').val()
         }
     }).then(function (data, status) {
         var obj = JSON.parse(data);
         if (status === 'success') {
             switch (obj.updateResult) {
                 case "SUCCESS":
-                    alert("회원정보 수정 성공");
+                    Swal.fire("수정 성공",'','success');
+                    break;
+                case "WRONG_PWD":
+                    Swal.fire('오류', '현재 비밀번호가 일치하지 않습니다.', 'warning');
                     break;
                 case "FAIL":
-                    alert("회원정보 수정 실패");
+                    Swal.fire("수정 실패",'','error');
                     break;
             }
         }
     })
 }
 
-window.onload = function() {
-    setDomain();
-    setFrontNum();
-}
-
-
-var guitar = function () {
+$.guitar = function () {
     if ($('#domain').val() === '기타') {
         $('#domain').remove();
-        let textbox = $('' + '<input type="text" name="domain" class="tdomain" required>' + '')
+        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain" autocomplete="off" required>' + '')
             .appendTo($('#at'));
         textbox.focus();
     }
 }
 
-var setDomain = function() {
-    optcnt = document.getElementById('domain').options.length;
-    for(i = 0 ; i < optcnt; i++){
-        if(document.getElementById('domain').options[i].value == domain) {
-            document.getElementById('domain').options[i].selected = true;
-            break;
-        }
+$.setDomain = function() {
+    $('#domain').val(domain).prop('selected', true);
+    if($('#domain').val() == null) {
+        $('#domain').val('기타').prop('selected', true);
+        guitar();
+        $('.tdomain').val(domain);
     }
-
 }
 
-var setFrontNum = function() {
-
-    optcnt = document.getElementById('frontNum').options.length;
-    for(i = 0 ; i < optcnt; i++){
-        if(document.getElementById('frontNum').options[i].value == phone1) {
-            document.getElementById('frontNum').options[i].selected = true;
-            break;
-        }
-    }
+$.setFrontNum = function() {
+    $('#frontNum').val(phone1).prop('selected', true);
 }
 
 $.validUpdateInfo = function () {
-    let realname = $('#inputName').val();
     let nickname = $('#inputNickName').val();
     let emailId = $('#inputEmail').val();
     let domain = $('#domain').val();
-
-    if (realname === "" || nickname === "" || emailId === "")
+    let email = emailId + "@" + domain;
+    let pwd = $('#inputPwd').val();
+    let regExp = /[0-9a-zA-Z][0-9a-zA-Z\_\-\.\+]+[0-9a-zA-Z]@[0-9a-zA-Z][0-9a-zA-Z\_\-]*[0-9a-zA-Z](\.[a-zA-Z]{2,3}){1,2}/;
+    // console.log(domain);
+    if (nickname === "" || emailId === "" || pwd === "" || domain === "")
         return false;
-    if (emailId === '') {
-        Swal.fire('','이메일을 등록해주세요.',"warning");
-        document.joinForm.emailId.focus();
-        return false;
-    }
-    if (realname === '' || realname.length > 10) {
-        Swal.fire('','이름은 10자 이하입니다.');
-        document.joinForm.realname.focus();
+    if (nickname.length > 13) {
+        Swal.fire('재입력 요구','닉네임은 13자 이하입니다.',"warning");
+        document.updateForm.nickname.focus();
         return false;
     }
-    if (nickname === '' || nickname.length > 13) {
-        Swal.fire('','닉네임은 10자 이하입니다.',"warning");
-        document.joinForm.nickname.focus();
+    if (email.length > 50) {
+        Swal.fire('재입력 요구','이메일은 도메인 포함 50자 이하입니다.',"warning");
+        document.updateForm.emailId.focus();
+        return false;
+    }
+    if (email.match(regExp)[0] !== email){
+        Swal.fire('재입력 요구','이메일 유효조건에 어긋납니다.',"warning");
+        document.updateForm.emailId.focus();
         return false;
     }
     return true;

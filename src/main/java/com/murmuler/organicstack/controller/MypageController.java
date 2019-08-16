@@ -106,7 +106,7 @@ public class MypageController {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         ModelAndView modelAndView = new ModelAndView();
         if(memberVO == null){
-            modelAndView.setViewName("index");
+            modelAndView.setViewName("redirect:/");
         }
         else {
             String email = memberVO.getEmail();
@@ -132,23 +132,31 @@ public class MypageController {
                                    @RequestParam String nickname,
                                    @RequestParam String email,
                                    @RequestParam String phone,
+                                   @RequestParam String pwd,
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws IOException {
+        logger.info("update pi method entered....");
         HttpSession session = request.getSession();
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
-        int memberId = memberVO.getMemberId();
-        int res = memberService.changeMemberInfo(memberId, realname, nickname, email, phone);
         JSONObject data = new JSONObject();
-        if (res > 0) {
-            memberVO.setName(realname);
-            memberVO.setNickname(nickname);
-            memberVO.setEmail(email);
-            memberVO.setPhone(phone);
-            session.setAttribute("loginMember", memberVO);
-            data.put("updateResult", "SUCCESS");
-        } else{
-            data.put("updateResult", "FAIL");
+        if (!pwd.equals(memberVO.getPwd())) {
+            data.put("updateResult", "WRONG_PWD");
         }
+        else {
+            int memberId = memberVO.getMemberId();
+            int res = memberService.changeMemberInfo(memberId, realname, nickname, email, phone);
+            if (res > 0) {
+                memberVO.setName(realname);
+                memberVO.setNickname(nickname);
+                memberVO.setEmail(email);
+                memberVO.setPhone(phone);
+                session.setAttribute("loginMember", memberVO);
+                data.put("updateResult", "SUCCESS");
+            } else{
+                data.put("updateResult", "FAIL");
+            }
+        }
+
         response.setContentType("text/html; charset=utf-8;");
         response.getWriter().print(data);
     }

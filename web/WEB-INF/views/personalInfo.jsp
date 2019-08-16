@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>개인 정보 관리</title>
     <link rel="stylesheet" href="/resources/css/personal_info.css"/>
-
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
@@ -32,12 +31,12 @@
                     <td>
                         <input id="inputEmail" class="inputboxS" name="emailId" value="${emailId}" placeholder="이메일을 입력하세요" autocomplete="off" required/>
                         <span id="at" class="at">@</span>
-                        <select id="domain" name="domain" class="domain" onchange="guitar()">
+                        <select id="domain" name="domain" class="domain" onchange="$.guitar()">
                             <option value="naver.com">naver.com</option>
                             <option value="hanmail.net">hanmail.net</option>
                             <option value="gmail.com">gmail.com</option>
                             <option value="nate.com">nate.com</option>
-                            <option value="iCloud.com">icloud.com</option>
+                            <option value="icloud.com">icloud.com</option>
                             <option value="empas.com">empas.com</option>
                             <option value="기타">기타</option>
                         </select>
@@ -60,9 +59,13 @@
                         <input id="backNum" class="inputNum" name="phone3" maxlength="4" value="${phone3}"/>
                     </td>
                 </tr>
+                <tr>
+                    <td>비밀번호</td>
+                    <td><input type="password" id="inputPwd" class="inputBox" name="pwd" placeholder="비밀번호를 입력하세요." autocomplete="off" required/></td>
+                </tr>
             </table>
             <div class="divbtns">
-                <button class="btnUpdate" id="btnUpdate" onclick="infoUpdate()">변경</button>
+                <button class="btnUpdate" id="btnUpdate" onclick="$.infoUpdate()">변경</button>
             </div>
         </form>
     </div>
