@@ -30,6 +30,8 @@ $(document).ready(function () {
     $('#btnSubmit').click(submitMessage);
     $('#btnPhoto').click(selectFile);
     $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
+    $('#btnWriteContract').selectRoom('write');
+    $('#btnUploadContract').selectRoom('register');
     window.resizeTo(516, 820);
     connectSock();
 });
@@ -204,4 +206,12 @@ function uploadFile(input) {
     } else {
         Swal.fire('', '선택된 파일이 없습니다.', 'warning');
     }
+}
+
+$.fn.selectRoom = function (forwhat) {
+    $(this).click(function(){
+        let popupX = (window.screen.width / 2) - (1150 / 2);
+        let popupY = (window.screen.height / 2) - (800 / 2);
+        window.open("/contract/select?contactId=" + contactMember + "&forwhat=" + forwhat, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
+    })
 }

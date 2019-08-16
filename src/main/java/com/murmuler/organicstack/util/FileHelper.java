@@ -23,7 +23,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 경로입니다.");
             return null;
         }
-        File folder = new File(REPOSITORY_PATH + folderPath);
+        File folder = new File(MAC_SEOK_PATH + folderPath);
 
         if (!folder.exists()) { // 폴더가 없는 경우 생성
             if (folder.mkdirs()) {
@@ -43,7 +43,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 경로입니다.");
             return null;
         }
-        File file = new File(REPOSITORY_PATH + filePath);
+        File file = new File(MAC_SEOK_PATH + filePath);
 
         if (!file.exists()) { // 파일이 없는 경우 생성
             try {
@@ -100,7 +100,7 @@ public class FileHelper {
             return null;
         }
         List<File> fileList = new ArrayList<>();
-        String path = REPOSITORY_PATH + storagePath;
+        String path = MAC_SEOK_PATH + storagePath;
         logger.info("업로드 경로: " + path);
 
         for (MultipartFile multipartFile : multipartFileList) {
@@ -147,7 +147,7 @@ public class FileHelper {
             return null;
         }
         List<File> fileList = new ArrayList<>();
-        String path = REPOSITORY_PATH + storagePath;
+        String path = MAC_SEOK_PATH + storagePath;
         logger.info("업로드 경로 : " + path);
 
         int i = 1;
@@ -192,7 +192,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 파일명입니다.");
             return false;
         }
-        String path = REPOSITORY_PATH + storagePath + "/" + fileName;
+        String path = MAC_SEOK_PATH + storagePath + "/" + fileName;
         logger.info("다운로드 경로 : " + path);
 
         File file = new File(path);

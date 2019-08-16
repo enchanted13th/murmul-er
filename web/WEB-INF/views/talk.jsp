@@ -90,9 +90,10 @@
                 </form>
             </div>
             <div class="divOption" id="divOption" style="display:none;">
-                <button id="btnPhoto"><img src="/resources/img/talk/photo.png"/></button>
+                <button id="btnPhoto" data-tooltip-text="사진 전송"><img src="/resources/img/talk/photo.png"/></button>
                 <input type="file" id="imgUpload" multiple="multiple" onchange="uploadFile(this)" style="display: none;"/>
-                <button id="btnContract"><img src="/resources/img/talk/contract.png"/></button>
+                <button id="btnWriteContract" data-tooltip-text="계약서 작성"><img src="/resources/img/talk/contract.png"/></button>
+                <button id="btnUploadContract" data-tooltip-text="계약서 등록"><img src="/resources/img/talk/contract.png"/></button>
             </div>
         </div>
     </div>
