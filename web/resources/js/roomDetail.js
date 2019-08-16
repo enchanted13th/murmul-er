@@ -78,7 +78,6 @@ $.showTalk = function() {
 	var popupY = (window.screen.height / 2) - (900 / 2);
 
 	window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
-
 }
 
 $.inputOption = function () {

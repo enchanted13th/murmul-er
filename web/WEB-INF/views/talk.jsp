@@ -82,7 +82,8 @@
             </div>
             <div class="divBottom">
                 <form name="sendForm" onsubmit="return false">
-                    <button type="button" id="btnOption" class="btnOption"><img id="imgOption" src="/resources/img/talk/option.png"/>
+                    <button type="button" id="btnOption" class="btnOption">
+                        <img id="imgOption" src="/resources/img/talk/option.png"/>
                     </button>
                     <input autocomplete="off" name="inputbox" type="text" id="textInputDialog" required/>
                     <input type="image" id="btnSubmit" class="btnSubmit" src="/resources/img/talk/submit.png"/>

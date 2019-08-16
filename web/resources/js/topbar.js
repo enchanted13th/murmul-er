@@ -1,19 +1,19 @@
 
 $(document).ready(function () {
-
     $('#btnLogo').click(function () {
         location.href = '/';
     });
-
     $('#btnSearch').click(function () {
         location.href = '/searchRoom';
     });
-
     $('#btnMenu').click(function () {
         $.showPopup();
     });
     $('#btnLogin').click(function () {
         $.showLoginPopup();
+    })
+    $('#btnMessenger').click(function () {
+        $.showTalkList();
     })
     $('#btnJoin').click(function () {
         $.showJoinPopup();
@@ -58,7 +58,6 @@ $.showPopup = function () {
         return;
     }
     if ($('.menuPopup').length === 0) {
-//		$(document.body).css('overflow', 'hidden');
         let popup = $(''
             + '	<div id="menuPopup" class="menuPopup" onclick="$.showPopup()">'
             + '		<div class="menus">'
@@ -80,10 +79,6 @@ $.showPopup = function () {
             $.loginCheck("register", "/manage");
         });
 
-        // popup.find('#btnMenuReview').click(function () {
-        //     location.href = '/review?page=1';
-        // });
-
         popup.find('#btnMenuReview').click(function () {
             location.href = '/review?page=1&order=latest';
         });
@@ -102,7 +97,6 @@ $.showPopup = function () {
         popup.children('div').css('margin-top', top);
 
     } else {
-//		$(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }
 }
@@ -139,8 +133,6 @@ $.showLoginPopup = function (flag) {
             + '	 </div>'
             + '</div>').appendTo($('body'));
         popup.find('#login').click(function () {
-            //document.loginForm.action = "login";
-            //document.loginForm.submit();
             if ($('#inputId').val() == '') return;
             if ($('#inputPwd').val() == '') return;
             $.ajax('/member/login', {
@@ -148,8 +140,6 @@ $.showLoginPopup = function (flag) {
                 data: {id: $('#inputId').val(), pwd: $('#inputPwd').val()}
             }).then(function (data, status) {
                 if (status === 'success') {
-                    // console.log(data);
-                    // console.log(typeof data);
                     switch (data.loginResult) {
                         case "SUCCESS":
                             Swal.fire({
@@ -162,7 +152,7 @@ $.showLoginPopup = function (flag) {
                                 if (flag === "register") location.href = "/manage";
                                 else if (flag === "mypage") location.href = "/mypage/recent";
                                 else if (flag === "reviewWrite") location.href = "/review/write";
-                                else if (flag === "talk") { $.showTalk(); location.href=""; }
+                                else if (flag === "talk") { $.showTalk(); location.href="";}
                                 else location.href = "";
                             })
                             break;
@@ -172,13 +162,11 @@ $.showLoginPopup = function (flag) {
                                     Swal.close();
                                     document.loginForm.id.focus();
                                 });
-                            // document.loginForm.id.focus();
                             break;
                         case "WRONG_PWD":
                             Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error').then(function(){
                                 document.loginForm.pwd.focus();
                             });
-                            // document.loginForm.pwd.focus();
                             break;
                         case "ADMIN_LOGIN":
                             Swal.fire('','관리자 페이지로 이동합니다.',"success");
@@ -188,21 +176,16 @@ $.showLoginPopup = function (flag) {
                 }
             })
         });
-        // console.log('로그인버튼 붙임');
         popup.find('#join').click(function () {
             $.showJoinPopup();
         })
-        // console.log('조인버튼 붙임');
         document.loginForm.id.focus();
         let wh = $(window).height();
         let ph = 470;
         let top = (wh - ph) / 2;
         // console.log("top:", top);
         popup.children('div').css('margin-top', top);
-        // console.log('탑 설정');
-
     } else {
-        // console.log("remove");
         $(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }
@@ -210,11 +193,9 @@ $.showLoginPopup = function (flag) {
 
 $.showJoinPopup = function () {
     if ($('#menuPopup').length !== 0 || $('#loginPopup').length !== 0) {
-//		$(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }
     if ($('.menuPopup').length === 0) {
-//		$(document.body).css('overflow', 'hidden');
         let popup = $(''
             + '	<div id="joinPopup" class="menuPopup" >'
             + '	<div class="joinPopup">'
@@ -295,9 +276,6 @@ $.showJoinPopup = function () {
             + '').appendTo($('body'));
 
         popup.find('#join').click(function () {
-//				alert('join!');
-//		   	document.joinForm.action = "join.do";
-//		   	document.joinForm.submit();
             if (!$.validJoinInfo()) return;
             let email = $('#inputEmail').val() + "@" + $('#domain').val();
             let phone = $('#frontNum').val() + "-" + $('#middleNum').val() + "-" + $('#backNum').val();
@@ -354,7 +332,6 @@ $.showJoinPopup = function () {
 
         popup.find('#inputId').change(function(){
             isDuplicatedCheck = false;
-            // console.log("change ...", isDuplicatedCheck);
         })
 
         document.joinForm.id.focus();
@@ -362,15 +339,18 @@ $.showJoinPopup = function () {
         let ph = 681;
         let top = (wh - ph) / 2;
         if (top < 0) top = 0;
-        // console.log("top:", top);
         popup.children('div').css('margin-top', top);
-
     } else {
-        // console.log("remove");
-//		$(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }
 }
+
+$.showTalkList = function() {
+    var popupX = (window.screen.width / 2) - (500 / 2);
+    var popupY = (window.screen.height / 2) - (900 / 2);
+    window.open("/talk", "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+}
+
 var guitar = function () {
     if ($('#domain').val() === '기타') {
         $('#domain').remove();
@@ -379,6 +359,7 @@ var guitar = function () {
         textbox.focus();
     }
 }
+
 var isDuplicatedCheck = false;
 $.validJoinInfo = function () {
     let id = $('#inputId').val();
