@@ -5,12 +5,17 @@ var noiseNum;
 var noiseLevel;
 var hashtagExist;
 var ps = new kakao.maps.services.Places();
+var imgLeft;
 
 $(document).ready(function(){
     if(islogin === false){
         location.href="/review?page=1&order=latest";
     }
+    let leftpx = $(".imgPreview").css('left');
+    imgLeft = leftpx.substr(0, leftpx.length - 2) * 1;
+
     starRating();
+    $.resizeEvent();
 
     $('#btnCancel').click(function () {
         Swal.fire({
@@ -66,6 +71,20 @@ $(document).ready(function(){
     })
 })
 
+$.resizeEvent = function() {
+    $(window).resize(function(){
+        $.setBounds();
+    });
+}
+
+$.setBounds = function(){
+    let width = $(window).width();
+    console.log("width: "+ width);
+    if(width < 1070) return;
+    let plus =  (width - 1070) / 2;
+    $('.imgPreview').css('left', (imgLeft+plus));
+}
+
 function placesSearchCB (data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
         totAddr.latitude = data[0].y;
@@ -77,7 +96,6 @@ function placesSearchCB (data, status, pagination) {
         for(let i = 0; i < files.length; i++){
             formData.append("uploadFile", files[i]);
         }
-
         let sendData = {
             title: $('#inputTitle').val(),
             detailAddr: $('#inputDetail').val(),
@@ -95,6 +113,10 @@ function placesSearchCB (data, status, pagination) {
             hashTag2: $('#hashTag2').val(),
             hashTag3: $('#hashTag3').val()
         };
+        if(formData.get("uploadFile") == null){
+            Swal.fire('사진을 등록해주세요', '', 'warning');
+            return;
+        }
         $.ajax('/review/write', {
             type: 'POST',
             data: sendData
@@ -103,35 +125,31 @@ function placesSearchCB (data, status, pagination) {
                 var obj = JSON.parse(data)
                 switch (obj.reviewWriteResult) {
                     case "SUCCESS":
-                        if(formData.get("uploadFile") == null){
-                            Swal.fire('사진을 등록해주세요', '', 'warning');
-                        }else{
-                            formData.append("reviewId", obj.reviewId);
-                            $.ajax({
-                                url: '/review/uploadImage',
-                                processData: false,
-                                contentType: false,
-                                data: formData,
-                                enctype: 'multipart/form-data',
-                                dataType: 'json',
-                                type: 'POST'
-                            }).then(function (data, status) {
-                                if (status === "success") {
-                                    switch (data.uploadResult) {
-                                        case "SUCCESS" :
-                                            Swal.fire('리뷰 등록이 완료되었습니다.', "", "success").then(function () {
-                                                location.href = "/review?page=1&order=latest";
-                                            })
-                                            break;
-                                        case "FAIL" :
-                                            Swal.fire('파일 등록 실패', '등록할 수 없습니다.', 'error');
-                                            break;
-                                    }
-                                } else {
-                                    Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
+                        formData.append("reviewId", obj.reviewId);
+                        $.ajax({
+                            url: '/review/uploadImage',
+                            processData: false,
+                            contentType: false,
+                            data: formData,
+                            enctype: 'multipart/form-data',
+                            dataType: 'json',
+                            type: 'POST'
+                        }).then(function (data, status) {
+                            if (status === "success") {
+                                switch (data.uploadResult) {
+                                    case "SUCCESS" :
+                                        Swal.fire('리뷰 등록이 완료되었습니다.', "", "success").then(function () {
+                                            location.href = "/review?page=1&order=latest";
+                                        })
+                                        break;
+                                    case "FAIL" :
+                                        Swal.fire('파일 등록 실패', '등록할 수 없습니다.', 'error');
+                                        break;
                                 }
-                            });
-                        }
+                            } else {
+                                Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
+                            }
+                        });
                         break;
                     case "WRITE_FAIL":
                         Swal.fire('리뷰 등록에 실패하였습니다.', "", "error");
@@ -160,26 +178,24 @@ var readName = function(input){
     let td = $('#tdImg');
 
     if (input.files && input.files[0]) {
-        for(let i=1; i<=input.files.length; i++){
-
-            let imgName = input.files[i-1].name;
-            let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase();
-            if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
-                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
-                return;
-            }
-
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                let img = $(''
-                    +'<div style="display: inline;">'
-                    +'  <img class="addimage" id=rmimg'+ i +' src='+ e.target.result +' name="addImage" class="addimage"/>'
-                    +'</div>'
-                );
-                td.append(img);
-            }
-            reader.readAsDataURL(input.files[i-1]);
+        let imgName = input.files[0].name;
+        let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase();
+        if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
+            Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
+            return;
         }
+
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#rmimg').attr('src', e.target.result);
+            $('.imgPreview').css('display', 'block');
+        }
+
+        $('#close').click(function () {
+            $('#rmimg').attr('src', "");
+            $('.imgPreview').css('display', 'hidden');
+        });
+        reader.readAsDataURL(input.files[0]);
     }
 }
 

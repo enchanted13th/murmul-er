@@ -137,7 +137,10 @@
                     <td id="tdImg">
                         <button type="button" onclick="readFile()">파일선택</button>
                         <input type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
-                        <span id="fileName" name="fileName"></span>
+                        <div class="imgPreview">
+                            <span class="close" id="close">x</span>
+                            <img style="width: 100%; height: 100%;" class="addimage" id="rmimg" src="" name="addImage" class="addimage">
+                        </div>
                     </td>
                 </tr>
                 <tr>

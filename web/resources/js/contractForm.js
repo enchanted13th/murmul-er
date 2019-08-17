@@ -44,28 +44,28 @@ $.fn.clickCancelBtn = function () {
 $.setRadioType = function (flag) {
     switch (rentType) {
         case 1:
-            $('input[name=rentType][value=2]').prop("checked", true);
+            $('input[name=rentType][value="2"]').prop("checked", true);
             break;
         case 2:
-            $('input[name=rentType][value=1]').prop("checked", true);
+            $('input[name=rentType][value="1"]').prop("checked", true);
             break;
     }
-    if(flag === 'write'){
+    if (flag === 'write') {
         switch (roomType) {
             case "OP":
-                $('input[name=house][value=2]').prop("checked", true);
+                $('input[name=house][value="2"]').prop("checked", true);
                 break;
             case "AP":
-                $('input[name=house][value=1]').prop("checked", true);
+                $('input[name=house][value="1"]').prop("checked", true);
                 break;
             case "OR":
-                $('input[name=house][value=5]').prop("checked", true);
+                $('input[name=house][value="5"]').prop("checked", true);
                 break;
             case "TR":
-                $('input[name=house][value=5]').prop("checked", true);
+                $('input[name=house][value="5"]').prop("checked", true);
                 break;
             case "VI":
-                $('input[name=house][value=3]').prop("checked", true);
+                $('input[name=house][value="3"]').prop("checked", true);
                 break;
         }
     }
@@ -102,7 +102,6 @@ var changeDate = function(){
 }
 
 var getDayCount = function(year, month){
-
     let date = new Date(year, month, 1);
     date.setDate(date.getDate()-1);
     return date.getDate();

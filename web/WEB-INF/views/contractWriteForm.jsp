@@ -52,7 +52,7 @@
                 <tr>
                     <td class="tbSubtitle tdSubtitleWide">건물명</td>
                     <td class="tdContent">
-                        <input type="text" class="setTextSize" name="buildingName" id="buildingName" onkeyup="$(this).isWord()" placeholder="한글만 입력 가능"/>
+                        <input type="text" class="setTextSize" name="buildingName" id="buildingName" onkeyup="$(this).isValidTitle()" placeholder="특수문자 입력 불가"/>
                     </td>
                     <td class="tbSubtitle tdSubtitleWide">건물 면적(공급면적)</td>
                     <td class="tdContent">
@@ -125,40 +125,40 @@
                 <tr>
                     <td class="tbSubtitle">중도금</td>
                     <td class="tdContent">
-                        &nbsp;&nbsp;금<input type="text" id="middlePayment" name="middlePayment" class="alignRight"/>만 원
+                        &nbsp;&nbsp;금<input type="text" id="middlePayment" name="middlePayment" class="alignRight" onkeyup="$.settingSelBox('middle', $(this).val())"/>만 원
                     </td>
                     <td class="tbSubtitle">지불일</td>
                     <td class="tdContent">
                         <select class="selectNum s1" id="mdPayYear" name="mdPayYear">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         년&nbsp;&nbsp;
                         <select class="selectNum s1" id="mdPayMonth" name="mdPayMonth">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         월&nbsp;&nbsp;
                         <select class="selectNum s1" id="mdPayDay" name="mdPayDay">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>일
                     </td>
                 </tr>
                 <tr>
                     <td class="tbSubtitle">잔금</td>
                     <td class="tdContent">
-                        &nbsp;&nbsp;금<input type="text" id="remainderPayment" name="remainderPayment" class="alignRight"/>만 원
+                        &nbsp;&nbsp;금<input type="text" id="remainderPayment" name="remainderPayment" class="alignRight" onkeyup="$.settingSelBox('remainder', $(this).val())"/>만 원
                     </td>
                     <td class="tbSubtitle">지불일</td>
                     <td class="tdContent">
                         <select class="selectNum s2" id="remainderYear" name="remainderYear">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         년&nbsp;&nbsp;
                         <select class="selectNum s2" id="remainderMonth" name="remainderMonth">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         월&nbsp;&nbsp;
                         <select class="selectNum s2" id="remainderDay" name="remainderDay">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>일
                     </td>
                 </tr>
@@ -170,7 +170,7 @@
                     <td class="tbSubtitle">지불일(매월)</td>
                     <td class="tdContent">
                         <select class="selectNum" id="mcPayDayS" name="mcPayDayS">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>일
                         <input type="radio" value="1" name="mcType" checked>선불
                         <input type="radio" value="2" name="mcType">후불
@@ -179,28 +179,28 @@
                 <tr>
                     <td class="tbSubtitle">기간</td>
                     <td class="tdContent" colspan="3">
-                        <select class="selectNum s3" id="fromYearS" name="fromYearS">
-                            <option value="" selected>------</option>
+                        <select class="selectNum s3" id="fromYearS" name="fromYearS" <%--onchange="$(this).changeAll('sub', $(this).val(), 'year', 'toYearS')"--%>>
+                            <option value="" selected>-------</option>
                         </select>
                         년&nbsp;
-                        <select class="selectNum s3" id="fromMonthS" name="fromMonthS">
-                            <option value="" selected>------</option>
+                        <select class="selectNum s3" id="fromMonthS" name="fromMonthS" <%--onchange="$(this).changeAll('sub', $(this).val(), 'month','toMonthS')"--%>>
+                            <option value="" selected>-------</option>
                         </select>
                         월&nbsp;
-                        <select class="selectNum s3" id="fromDayS" name="fromDayS">
-                            <option value="" selected>------</option>
+                        <select class="selectNum s3" id="fromDayS" name="fromDayS" <%--onchange="$(this).changeAll('sub', $(this).val(), 'day', 'toDayS')"--%>>
+                            <option value="" selected>-------</option>
                         </select>
                         일 부터 &nbsp;&nbsp;
                         <select class="selectNum s4" id="toYearS" name="toYearS">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         년&nbsp;
                         <select class="selectNum s4" id="toMonthS" name="toMonthS">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>
                         월&nbsp;
                         <select class="selectNum s4" id="toDayS" name="toDayS">
-                            <option value="" selected>------</option>
+                            <option value="" selected>-------</option>
                         </select>일까지
                     </td>
                 </tr>
@@ -236,15 +236,15 @@
                 <tr>
                     <td class="tbSubtitle">임대차 기간</td>
                     <td class="tdContent"  colspan="3">
-                        <select class="selectNum s5" id="fromYearL" name="fromYearL">
+                        <select class="selectNum s5" id="fromYearL" name="fromYearL" <%--onchange="$(this).changeAll('lease', $(this).val(), 'year', 'toYearL')"--%>>
                             <option value="" selected>------</option>
                         </select>
                         년&nbsp;
-                        <select class="selectNum s5" id="fromMonthL" name="fromMonthL">
+                        <select class="selectNum s5" id="fromMonthL" name="fromMonthL" <%--onchange="$(this).changeAll('lease', $(this).val(), 'month', 'toMonthL')"--%>>
                             <option value="">------</option>
                         </select>
                         월&nbsp;
-                        <select class="selectNum s5" id="fromDayL" name="fromDayL">
+                        <select class="selectNum s5" id="fromDayL" name="fromDayL" <%--onchange="$(this).changeAll('lease', $(this).val(), 'day', 'toDayL')"--%>>
                             <option value="">------</option>
                         </select>
                         일 부터 &nbsp;&nbsp;

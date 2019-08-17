@@ -67,8 +67,12 @@ public class ReviewDAOImpl implements ReviewDAO {
         if((res = mapper.insertReview(reviewVO)) > 0){
             //int reviewId = mapper.selectOneRecentReview();
             int reviewId = reviewVO.getId();
-            insertReviewHashtag(reviewId, reviewVO.getHashTagList());
-            res += reviewId;
+            res = reviewId;
+            System.out.println("hash: "+reviewVO.getHashTagList());
+            if(reviewVO.getHashTagList() == null) {
+                System.out.println("hashTagList is null");
+                insertReviewHashtag(reviewId, reviewVO.getHashTagList());
+            }
         }
         return res;
     }
@@ -81,12 +85,15 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public int insertReviewHashtag(int reviewId, ArrayList<String> hashtagList) {
+    public void insertReviewHashtag(int reviewId, ArrayList<String> hashtagList) {
+        System.out.print("hashtagList: ");
+        for(String str : hashtagList)
+            System.out.print(str+" ");
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("reviewId", reviewId);
         paramMap.put("hashtagList", hashtagList);
-        return mapper.insertReviewHashtag(paramMap);
+        mapper.insertReviewHashtag(paramMap);
     }
 
     @Override

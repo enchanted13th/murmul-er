@@ -294,3 +294,29 @@ input[type="radio"] {
    margin: 0;
    color: black;
 }
+
+.imgPreview {
+   display: none;
+   width:100px;
+   height: 100px;
+   position: absolute;
+   top:1028px;
+   left:470px;
+}
+
+.imgPreview .close {
+   position: absolute;
+   right: 5px;
+   z-index: 1000;
+   padding: 5px 2px;
+   color: #000;
+   font-weight: bold;
+   cursor: pointer;
+   opacity: .2;
+   text-align: center;
+   font-size: 22px;
+   line-height: 10px;
+}
+.imgPreview:hover .close {
+   opacity: 1;
+}

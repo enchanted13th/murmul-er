@@ -266,10 +266,6 @@ $.fn.clickSubmit = function() {
 
         console.log($('#inputTitle').val());
 
-
-        hashTagList.push($('#hash1').val());
-        hashTagList.push($('#hash2').val());
-        hashTagList.push($('#hash3').val());
         console.log($('#hash1').val());
         console.log($('#hash2').val());
         console.log($('#hash3').val());
@@ -449,6 +445,14 @@ $.fn.clickSubmit = function() {
         } else {
             hashtagExist = true;
         }
+
+        if($("#hash1").val() !== "")
+        hashTagList.push($('#hash1').val());
+        if($("#hash2").val() !== "")
+        hashTagList.push($('#hash2').val());
+        if($("#hash3").val() !== "")
+        hashTagList.push($('#hash3').val());
+
         Swal.fire({
             title: "방 등록",
             text: "방을 등록하시겠습니까?",
