@@ -1,7 +1,9 @@
 package com.murmuler.organicstack.controller;
 
+import com.murmuler.organicstack.service.ContractService;
 import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.service.MypageService;
+import com.murmuler.organicstack.vo.ContractVO;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.apache.commons.logging.Log;
@@ -30,6 +32,9 @@ public class MypageController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private ContractService contractService;
 
     @RequestMapping(value ="/recent", method = RequestMethod.GET)
     public String recentListRoom(HttpServletRequest request) {
@@ -97,8 +102,26 @@ public class MypageController {
     }
 
     @RequestMapping("/contract")
-    public String contractManage(){
-        return "contract";
+    public ModelAndView contractManage(HttpServletRequest request){
+        logger.info("my contract manage entered...");
+        ModelAndView mav = new ModelAndView();
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if(memberVO != null) {
+            List<ContractVO> contracts = contractService.getMyContracts(memberVO.getMemberId());
+            System.out.println(contracts);
+            mav.addObject("contracts", contracts);
+        }
+        mav.setViewName("myContractList");
+        return mav;
+    }
+
+    @RequestMapping("/contract/view")
+    public ModelAndView showContractImage(@RequestParam int contractId){
+        logger.info("show contract image entered...");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("myContractView");
+        mav.addObject("contractId", contractId);
+        return mav;
     }
 
     @RequestMapping(value = "/personal-info", method = RequestMethod.GET)

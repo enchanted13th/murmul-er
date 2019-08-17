@@ -1,7 +1,9 @@
 package com.murmuler.organicstack.dao;
 
 import com.murmuler.organicstack.mybatis.ContractMapper;
+import com.murmuler.organicstack.mybatis.RoomMapper;
 import com.murmuler.organicstack.vo.ContractVO;
+import com.murmuler.organicstack.vo.LocationVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,5 +31,21 @@ public class ContractDAOImpl implements ContractDAO {
         map.put("contractId", id);
         map.put("memberList", memberList);
         return mapper.insertContractList(map);
+    }
+
+    @Override
+    public List<ContractVO> selectMyContracts(int memberId) {
+        ContractMapper mapper = sqlSession.getMapper(ContractMapper.class);
+        List<ContractVO> myContracts = mapper.selectMyContracts(memberId);
+        if(myContracts == null)
+            return null;
+        for(int i = 0; i < myContracts.size(); i++) {
+            int roomId = myContracts.get(i).getRoomId();
+            String address = mapper.selectAddressByRoomId(roomId);
+            String rentType = mapper.selectRentTypeByRoomId(roomId);
+            myContracts.get(i).setAddress(address);
+            myContracts.get(i).setRentType(rentType);
+        }
+        return myContracts;
     }
 }
