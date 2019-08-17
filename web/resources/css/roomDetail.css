@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .wrap {
     margin: 20px auto 0 auto;
     width: 1070px;
@@ -17,13 +19,14 @@
 }
 
 .wrap > .location {
-    margin: 20px 190px;
+    margin: 10px 190px 0 190px;
     font-size: 19px;
     color: #404040;
 }
 
 .wrap .hashTag {
     float: right;
+    padding-left: 15px;
     color: #5CC3F6;
     outline: 0;
     border: 0;
@@ -179,4 +182,15 @@
 
 #reportImg:hover {
     content: url("/resources/img/etc/reportClick.png");
+}
+
+/**=============== box-slider ==============**/
+.bx-wrapper {
+    -moz-box-shadow: 0 0 0 #ccc;
+    -webkit-box-shadow: 0 0 0 #ccc;
+    box-shadow: 0 0 0px #ccc;
+}
+
+.bx-wrapper .bx-controls-direction a {
+    z-index: 900;
 }

@@ -12,9 +12,12 @@
     <script src="/resources/js/talk.js"></script>
     <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
     <script>
-        var me = ${me};
+        var me = ${loginMember.memberId};
         var contactMember = ${contactMember};
         var talkRoomId = "${talkRoomId}";
+        if(me === contactMember) {
+            window.close();
+        }
     </script>
     <c:set var="dateFlag" value=""/>
     <c:set var="path" value="/talk/downloadImage"/>
@@ -31,11 +34,13 @@
             <div class="divMid" id="divMid">
                 <div id="divContent">
                     <c:forEach var="msg" items="${dialogue}">
-                        <c:if test="${msg.date!=dateFlag}">
-                            <c:set var="dateFlag" value="${msg.date}"/>
-                            <div class="divDate">
-                                <div id="date" class="date">${msg.date}</div>
-                            </div>
+                        <c:if test="${msg.sender!='ID'}">
+                            <c:if test="${msg.date!=dateFlag}">
+                                <c:set var="dateFlag" value="${msg.date}"/>
+                                <div class="divDate">
+                                    <div id="date" class="date">${msg.date}</div>
+                                </div>
+                            </c:if>
                         </c:if>
                         <c:if test="${msg.sender=='ME'}">
                             <div id="divMessage" class="divMessage">
