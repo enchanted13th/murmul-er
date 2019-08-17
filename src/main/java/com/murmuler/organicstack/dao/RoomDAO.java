@@ -21,6 +21,7 @@ public interface RoomDAO {
     Map<String, Object> selectRoomInfo(int roomId);
     int selectLocationIdByRoomId(int roomId);
     int selectRoomIdByMemberId(int memberId);
+    int selectImgCntByRoomId(int roomId);
     int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
     int insertRoomManageCost(int roomId, int[] manageIdList);
     int insertRoomOption(int roomId, int[] optionIdList);
@@ -34,4 +35,5 @@ public interface RoomDAO {
     int deleteHashtag(int roomId, String[] hashtagList) ;
     int deleteRoomImage(int roomId, String[] imgUrlList) ;
     int deleteRoom(int roomId);
+    int deleteRoomImage(int roomId);
 }

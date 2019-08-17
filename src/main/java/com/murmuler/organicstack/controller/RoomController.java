@@ -144,11 +144,11 @@ public class RoomController {
     }
 
     /* ----- 내 방 등록 (사진 업로드) ----- */
-@ResponseBody
-@RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public void uploadImage(@RequestParam MultipartFile[] uploadFile,
-                        HttpServletRequest request,
-                        HttpServletResponse response) throws IOException {
+    @ResponseBody
+    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void uploadImage(@RequestParam MultipartFile[] uploadFile,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
 
         int memberId = ((MemberVO) request.getSession().getAttribute("loginMember")).getMemberId();
         int roomId = roomService.getRoomIdByMemberId(memberId);
@@ -188,6 +188,98 @@ public void uploadImage(@RequestParam MultipartFile[] uploadFile,
             res.put("uploadResult", "FAIL");
         }
         response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
+    }
+
+    /* ----- 내 방 수정 (사진 업로드) ----- */
+    @ResponseBody
+    @RequestMapping(value = "/updateImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void updateImage(@RequestParam MultipartFile[] oldFile,
+                            @RequestParam MultipartFile[] uploadFile,
+                            @RequestParam(value = "roomId") int roomId,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws IOException {
+
+        JSONObject res = new JSONObject();
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if (memberVO == null) {
+            res.put("uploadResult", "NO_LOGIN");
+        }else{
+            ArrayList<String> imgUrlList = new ArrayList<>();
+
+            String uploadFolder = "C:\\util";
+            String uploadFolderPath = "room\\roomId_"+roomId;
+
+            // 폴더 생성
+            File uploadPath = new File(uploadFolder, uploadFolderPath);
+
+            if( uploadPath.exists() ) { //파일존재여부확인
+                int check = 0;
+                if (uploadPath.isDirectory()) { //파일이 디렉토리인지 확인
+                    File[] files = uploadPath.listFiles();
+                    for (int i = 0; i < files.length; i++) {
+                        for(int j = 0; j < oldFile.length; j++){
+                            if(files[i].getName().equals(oldFile[j].getOriginalFilename())){
+                                check = 1;
+                            }
+                        }
+                        if(check == 0){
+                            files[i].delete();
+                        }else{
+                            check = 0;
+                        }
+                    }
+                }
+            }
+
+            if(uploadPath.exists() == false){
+                uploadPath.mkdirs();
+            }
+
+            int i = 1;
+
+            for(MultipartFile multipartFile : oldFile){
+                String oldFileName = multipartFile.getOriginalFilename();
+                oldFileName = oldFileName.substring(oldFileName.lastIndexOf("\\")+1);
+                String extension = oldFileName.substring(oldFileName.lastIndexOf("."));
+                String[] str1 = oldFileName.split("\\.");
+                String num = str1[0].substring(4);
+                String transFileName = "room"+num+extension;
+                i = Integer.parseInt(num);
+                i++;
+                imgUrlList.add(transFileName);
+            }
+
+            for(MultipartFile multipartFile : uploadFile){
+                String uploadFileName = multipartFile.getOriginalFilename();
+                uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+                String extension = uploadFileName.substring(uploadFileName.lastIndexOf("."));
+                String transFileName = "room"+i+extension;
+                i++;
+
+                imgUrlList.add(transFileName);
+
+                try{
+                    File saveFile = new File(uploadPath, transFileName);
+                    multipartFile.transferTo(saveFile);
+                }catch (Exception e){
+                    res.put("uploadResult", "FAIL");
+                    logger.error(e.getMessage());
+                }
+            }
+
+            if(imgUrlList.size()!=0){
+                if(roomService.modifyImg(roomId,imgUrlList) >=1 ){
+                    res.put("uploadResult", "SUCCESS");
+                }else{
+                    res.put("uploadResult", "FAIL");
+                }
+            }else{
+                res.put("uploadResult", "SUCCESS");
+            }
+
+        }
+        response.setCharacterEncoding("utf-8");
         response.getWriter().print(res);
     }
 

@@ -19,6 +19,7 @@ var ps = new kakao.maps.services.Places();
 
 var x = 'x';
 var cnt = 0;
+var formData = new FormData();
 
 $(document).ready(function () {
     $.clickEvent();
@@ -41,9 +42,27 @@ $(document).ready(function () {
     $('.img-wrap .close').click(function () {
         var imgId = $(this).closest('.img-wrap').find('img').data('id');
         var wrapId = $(this).closest('.img-wrap').data('id');
+        var fileArray = formData.getAll("oldFile");
+        var deleteName = $(this).parent().attr('name');
+        for(let i=0; i<fileArray.length; i++){
+            if(fileArray[i].name == deleteName){
+                fileArray.splice(i, 1);
+                break;
+            }
+        }
+        formData.delete("oldFile");
+        for(let i = 0;i<fileArray.length; i++){
+            formData.append("oldFile", fileArray[i]);
+        }
         $('#'+imgId).remove();
         $('#'+ wrapId).remove();
     });
+
+    for(let i=1; i<=roomImgNum; i++){
+        let fileName = $('#imgName'+i).val(); // 0817 파일 이름 가져오기
+        let extName = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+        formData.append("oldFile",new File([""], fileName));
+    }
 })
 
 
@@ -100,21 +119,54 @@ function dataSubmit(){
         isNotChangeDtAddr: isNotChangeDtAddr
     };
 
-    $.ajax("/manage/room/update",{
-        type: "POST",
-        data: roomInfo
-    }).then(function (data, status) {
-        console.log(data+"\n"+status);
-        if (status === "success") {
-            switch (data.updateResult) {
-                case "SUCCESS" : break;
-                case "FAIL" : break;
+    if(formData.get("uploadFile") == null && formData.get("oldFile") == null){
+        Swal.fire('사진을 등록해주세요', '', 'warning');
+    }else{
+        $.ajax("/manage/room/update",{
+            type: "POST",
+            data: roomInfo
+        }).then(function (data, status) {
+            if (status === "success") {
+                formData.append("roomId", $('#roomId').val());
+                switch (data.updateResult) {
+                    case "SUCCESS" :
+                        $.ajax({
+                            url: '/manage/updateImage',
+                            processData: false,
+                            contentType: false,
+                            data: formData,
+                            // dataType: 'json',
+                            enctype: 'multipart/form-data',
+                            type: 'POST'
+                        }).then(function (data, status) {
+                            if (status === "success") {
+                                let result = eval("(" + data + ")");
+                                switch (result.uploadResult) {
+                                    case "SUCCESS" :
+                                        Swal.fire('수정 성공', '방 수정에 성공하였습니다.', 'success')
+                                            .then(function(){
+                                                location.href="/manage";
+                                            });
+                                        break;
+                                    case "FAIL" :
+                                        Swal.fire('파일 수정 실패', '수정할 수 없습니다.', 'error');
+                                        break;
+                                }
+                            } else {
+                                Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
+                            }
+                        });
+                        break;
+                    case "FAIL" :
+                        Swal.fire('수정 실패', '수정할 수 없습니다.', 'error');
+                        break;
+                }
+                // location.href="/manage";
+            } else {
+                Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
             }
-            location.href="/manage";
-        } else {
-            console.log(data, status);
-        }
-    });
+        });
+    }
 }
 
 var changeAddr = function () {
@@ -263,15 +315,6 @@ $.colorArrBtn = function(arr, len, type){
     }
 }
 
-// function readURL(input) {
-//     if (input.files && input.files[0]) {
-//         var reader = new FileReader();
-//         reader.onload = function (e) {
-//             $('#rmimg1').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//     }
-// }
 var selectFile = function () {
     $('#upload').trigger('click');
 }
@@ -282,10 +325,9 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         for(let i=1; i<=input.files.length; i++){
             loopCnt++;
-            let index = i+cnt;
+            // let index = i+cnt;
+            let index = i+cnt+roomImgNum;
             let imgName = input.files[i-1].name;
-            console.log("파일 : " + input.files[i-1]);
-            console.log("파일 명 : " + imgName);
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
 
             if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
@@ -296,22 +338,38 @@ function readURL(input) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 let img = $(''
-                    +'<div class="img-wrap" id=img-wrap'+ index +'>'
+                    +'<div class="img-wrap" id=img-wrap'+ index +' name="'+imgName+'">'
                     +'<span class="close" id=close'+ index +'>' + x + '</span>'
                     +'<img class="addimage" data-id=rmimg'+ index +' src='+ e.target.result +' name="addImage"/>'
                     +'</div>'
                 );
                 td.append(img);
-                $('#close'+index).click(function () {
-                    var id = $(this).closest('.img-wrap').find('img').data('id');
-                    $('#close'+index).remove();
-                    $('#img-wrap'+ index).remove();
-                });
+                formData.append("uploadFile", input.files[i-1]);
+                $('#close'+index).deleteImage();
             }
             reader.readAsDataURL(input.files[i-1]);
         }
     }
     cnt += loopCnt;
+}
+$.fn.deleteImage = function () {
+    $(this).click(function () {
+        let rmDiv = $(this).parent()[0];
+        let num;
+        let imgDiv = $('.img-wrap');
+        for(let i = 0; i < imgDiv.length; i++) {
+            if (imgDiv[i] == rmDiv) {
+                num = i;
+            }
+        }
+        var fileArray = formData.getAll("uploadFile");
+        fileArray.splice(num, 1);
+        formData.delete("uploadFile");
+        for(let i = 0;i<fileArray.length; i++){
+            formData.append("uploadFile", fileArray[i]);
+        }
+        rmDiv.remove();
+    });
 }
 
 function changeSize() {
@@ -552,6 +610,11 @@ $.fn.clickSubmit = function(){
             }
         }
 
+        if($('.addimage').length<2 || $('.addimage').length>10){
+            alert("사진을 2~10장 올려주세요");
+            return;
+        }
+
         if ($('#hash1').val() == "" && $('#hash2').val() == "" && $('#hash3').val() == "") {
             hashtagExist = false;
         } else {
@@ -596,8 +659,6 @@ $.imagebutton = function () {
         $('.previmage')[i]
     }
 }
-
-
 
 $.fn.clickRt = function () {
     $(this).click(function () {

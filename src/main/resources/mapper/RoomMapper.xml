@@ -31,6 +31,10 @@
         SELECT img_url FROM room_img_tb WHERE room_id = ${roomId}
     </select>
 
+    <select id="selectImgCntByRoomId" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM room_img_tb WHERE room_id = #{roomId}
+    </select>
+
     <select id="selectRoomSummaryByLocation" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" parameterType="hashmap">
         SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
                rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate,
