@@ -48,4 +48,10 @@ public class ContractDAOImpl implements ContractDAO {
         }
         return myContracts;
     }
+
+    @Override
+    public String selectContractImageById(int contractId) {
+        ContractMapper mapper = sqlSession.getMapper(ContractMapper.class);
+        return mapper.selectContractImageById(contractId);
+    }
 }

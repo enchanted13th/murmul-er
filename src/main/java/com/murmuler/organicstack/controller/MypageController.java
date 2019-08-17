@@ -119,8 +119,10 @@ public class MypageController {
     public ModelAndView showContractImage(@RequestParam int contractId){
         logger.info("show contract image entered...");
         ModelAndView mav = new ModelAndView();
+        String image = contractService.getContractImageById(contractId);
         mav.setViewName("myContractView");
         mav.addObject("contractId", contractId);
+        mav.addObject("image", image);
         return mav;
     }
 

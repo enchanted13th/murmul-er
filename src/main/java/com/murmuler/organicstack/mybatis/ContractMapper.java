@@ -14,4 +14,6 @@ public interface ContractMapper {
     String selectAddressByRoomId(int roomId);
 
     String selectRentTypeByRoomId(int roomId);
+
+    String selectContractImageById(int contractId);
 }

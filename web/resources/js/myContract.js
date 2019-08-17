@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#recentCnt').text($('.tbContract').length);
     $('#btnContract').css('border-bottom', '6px solid #b6e2f8');
     $.setStayPeriod();
-    $('#viewImage').clickContract();
+    $('.btnDetail').clickContract();
 })
 
 $.fn.clickContract = function () {
