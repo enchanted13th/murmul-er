@@ -621,18 +621,18 @@ $.fn.clickSubmit = function(){
             hashtagExist = true;
         }
 
-        if(isNotChangeAddr){
-            dataSubmit();
-        } else {
-            ps.keywordSearch($('#inputAddr').val(), placesSearchCB);
-        }
-
         if($('#hash1').val() !== "")
             hashTagList.push($('#hash1').val());
         if($('#hash2').val() !== "")
             hashTagList.push($('#hash2').val());
         if($('#hash3').val() !== "")
             hashTagList.push($('#hash3').val());
+
+        if(isNotChangeAddr){
+            dataSubmit();
+        } else {
+            ps.keywordSearch($('#inputAddr').val(), placesSearchCB);
+        }
     });
 }
 
