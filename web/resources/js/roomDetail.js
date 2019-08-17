@@ -76,8 +76,13 @@ function checkLike() {
 $.showTalk = function() {
 	var popupX = (window.screen.width / 2) - (500 / 2);
 	var popupY = (window.screen.height / 2) - (900 / 2);
-
-	window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+    loginMemberId = loginMemberId * 1;
+	if(islogin && sellerMemberId === loginMemberId) {
+        Swal.fire('', '회원님이 등록하신 방입니다,', 'warning')
+    }
+	else {
+        window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+    }
 }
 
 $.inputOption = function () {

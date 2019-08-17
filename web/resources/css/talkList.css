@@ -108,3 +108,12 @@ button:hover {
     border-radius: 50%;
     box-shadow: 0px 0px 20px lightskyblue;
 }
+
+.noContent {
+    height: 670px;
+    line-height: 600px;
+    font-size: 16pt;
+    font-weight: 600;
+    text-align: center;
+    color: #5CC3F6;
+}

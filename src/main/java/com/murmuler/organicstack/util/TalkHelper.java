@@ -139,6 +139,9 @@ public class TalkHelper {
     public List<Integer> getTalkList(int me) {
         String folderPath = PATH + "/" + me;
         List<File> folderList = fileHelper.findFolderList(folderPath);
+        if(folderList == null) {
+            return null;
+        }
         List<Integer> talkList = new ArrayList<>();
         for(File folder : folderList) {
             talkList.add(Integer.parseInt(folder.getName()));
@@ -161,6 +164,9 @@ public class TalkHelper {
                 String sender = temp[0];
                 if(sender.contains("_FILE")) {
                     content = "사진";
+                }
+                if(sender.equals("ID")) {
+                    return null;
                 }
                 String date = temp[1];
                 String time = temp[2];

@@ -18,28 +18,35 @@
         </div>
         <div class="divMid">
             <div class="divContent">
-                <c:forEach var="talkInfo" items="${talkInfoList}">
-                    <div class="divRoom">
-                        <c:set var="contactMember" value="${talkInfo.contactMember}"/>
-                        <c:set var="lastMessage" value="${talkInfo.lastMessage}"/>
-                        <table>
-                            <tr>
-                                <td rowspan="3" id="profileImg" class="profile" onclick="showTalk(${contactMember})">
-                                    <img src="/resources/img/talk/profile.png"/></td>
-                                <th class="nickName" onclick="showTalk(${contactMember})">${talkInfo.nickname}</th>
-                                <td>
-                                    <button id="btnMore"><img src="/resources/img/talk/add.png"/></button>
-                                </td>
-                            </tr>
-                            <tr onclick="showTalk(${contactMember})">
-                                <td colspan="2" class="content">${lastMessage.content}</td>
-                            </tr>
-                            <tr onclick="showTalk(${contactMember})">
-                                <td colspan="2" class="date">${lastMessage.date} ${lastMessage.time}</td>
-                            </tr>
-                        </table>
+                <c:if test="${isExist==true}">
+                    <c:forEach var="talkInfo" items="${talkInfoList}">
+                        <div class="divRoom">
+                            <c:set var="contactMember" value="${talkInfo.contactMember}"/>
+                            <c:set var="lastMessage" value="${talkInfo.lastMessage}"/>
+                            <table>
+                                <tr>
+                                    <td rowspan="3" id="profileImg" class="profile" onclick="showTalk(${contactMember})">
+                                        <img src="/resources/img/talk/profile.png"/></td>
+                                    <th class="nickName" onclick="showTalk(${contactMember})">${talkInfo.nickname}</th>
+                                    <td>
+                                        <button id="btnMore"><img src="/resources/img/talk/add.png"/></button>
+                                    </td>
+                                </tr>
+                                <tr onclick="showTalk(${contactMember})">
+                                    <td colspan="2" class="content">${lastMessage.content}</td>
+                                </tr>
+                                <tr onclick="showTalk(${contactMember})">
+                                    <td colspan="2" class="date">${lastMessage.date} ${lastMessage.time}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${isExist==false}">
+                    <div>
+                        <div class="noContent">메시지를 주고 받은 기록이 없습니다.</div>
                     </div>
-                </c:forEach>
+                </c:if>
             </div>
         </div>
     </div>
