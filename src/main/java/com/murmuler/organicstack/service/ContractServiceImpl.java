@@ -5,6 +5,8 @@ import com.murmuler.organicstack.vo.ContractVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContractServiceImpl implements ContractService {
 
@@ -14,5 +16,10 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public int registerContract(ContractVO contract) {
         return dao.insertContract(contract);
+    }
+
+    @Override
+    public List<ContractVO> getMyContracts(int memberId) {
+        return dao.selectMyContracts(memberId);
     }
 }

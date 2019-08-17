@@ -20,4 +20,6 @@ public class ContractVO {
     private int monthlyCost;
     private String stayFrom;
     private String stayTo;
+    private String address;
+    private String rentType;
 }

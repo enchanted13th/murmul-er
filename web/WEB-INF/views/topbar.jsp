@@ -7,7 +7,7 @@
 <script src="/resources/js/topbar.js"></script>
 <script>
     let islogin = ('${loginMember.memberId}' == '' ? false : true);
-    console.log(islogin);
+//    console.log(islogin);
 </script>
 
 

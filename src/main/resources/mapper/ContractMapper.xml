@@ -15,4 +15,20 @@
            (#{member}, #{contractId})
        </foreach>
     </insert>
+
+    <select id="selectMyContracts" resultType="com.murmuler.organicstack.vo.ContractVO">
+        SELECT contract_id AS id, room_id AS roomId, contract_form AS contractForm,
+            contract_date AS contractDate, deposit, monthly_cost AS monthlyCost, stay_from AS stayFrom, stay_to AS stayTo
+        FROM contract_list_tb JOIN contract_tb USING(contract_id) WHERE member_id = #{memberId}
+    </select>
+
+    <select id="selectAddressByRoomId" resultType="string">
+        SELECT CONCAT(sido,' ',sigungu,' ',roadname,' ',road_jibun,' ', detail_addr) AS address
+        FROM location_tb JOIN room_tb USING(location_id) WHERE room_id = #{roomId};
+    </select>
+
+    <select id="selectRentTypeByRoomId" resultType="string">
+        SELECT rent_name AS rentType FROM rent_type_tb
+        JOIN sale_tb USING(rent_id) WHERE room_id = #{roomId};
+    </select>
 </mapper>
