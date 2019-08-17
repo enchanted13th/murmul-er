@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+#wrapper {
+    height: 240px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+#wrapper > div > div > div > a > span.text {
+    width: 200px;
+}
+
+#wrapper > div > div > div > a > span.icon {
+    width: 45px;
+}

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: seokjung
-  Date: 06/08/2019
-  Time: 7:13 PM
+  Date: 17/08/2019
+  Time: 8:19 PM
   To change this template use File | Settings | File Templates.
 --%>
 
@@ -19,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ADMIN - Members</title>
+    <title>ADMIN - FAQ</title>
 
     <!-- Custom fonts for this template -->
     <link href="/resources/bootstrap-sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,7 +32,7 @@
     <link href="/resources/bootstrap-sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
-    <link rel="stylesheet" href="/resources/css/admin/list.css"/>
+    <link rel="stylesheet" href="/resources/css/admin/csList.css"/>
     <script>
         let isadmin = ('${admin}' == 'true' ? true : false);
         if(isadmin === false){
@@ -46,14 +46,21 @@
 <div id="wrapper">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Murmul-er Member list</h6>
-            <button id="delbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 20px;">
+            <h6 class="m-0 font-weight-bold text-primary" style="display: inline">FAQ list</h6><br>
+            <h6 id="sublist" class="m-0 font-weight-bold text-primary" style="display: inline;">Notice list</h6>
+            <button id="delbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 10px;">
                     <span class="icon text-white-50">
-                      <i class="fas fa-user-slash"></i>
+                      <i class="fas fa-trash-alt"></i>
                     </span>
-                <span class="text">회원삭제</span>
+                <span class="text">글삭제</span>
             </button>
-            <a href="/admin" class="btn btn-primary btn-icon-split" style="float: right; margin-right: 20px;">
+            <button id="addbtn" class="btn btn-success btn-icon-split" style="float: right; margin-right: 10px;">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-pen"></i>
+                    </span>
+                <span class="text">글작성</span>
+            </button>
+            <a href="/admin" class="btn btn-primary btn-icon-split" style="float: right; margin-right: 10px;">
                     <span class="icon text-white-50">
                       <i class="fas fa-arrow-left"></i>
                     </span>
@@ -66,36 +73,20 @@
                     <thead>
                     <tr>
                         <td align="center"><input type="checkbox" id="check_all"></td>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th width="103px">Phone</th>
-                        <th>Email</th>
-                        <th>Nickname</th>
-                        <th>Gender</th>
+                        <th>No</th>
+                        <th>Title</th>
+                        <th>modify</th>
                     </tr>
                     </thead>
-
                     <tbody>
-                    <c:forEach var="mem" items="${members}">
+                    <c:forEach var="faq" items="${faqList}">
                         <tr>
                             <td align="center">
-                                <c:if test="${mem.memberId == 0}">
-                                    <input type="checkbox" disabled>
-                                </c:if>
-                                <c:if test="${mem.memberId != 0}">
-                                    <input type="checkbox" name="del_chk" value="${mem.memberId}">
-                                </c:if>
+                                <input type="checkbox" name="del_chk" value="${faq.id}">
                             </td>
-                            <td style="color:black">${mem.id}</td>
-                            <td>${mem.name}</td>
-                            <td>${mem.phone}</td>
-                            <td>${mem.email}</td>
-                            <td>${mem.nickname}</td>
-                            <td>
-                                <c:if test="${mem.gender eq 'M'}">M <i class="fas fa-mars" style="color:#3366ff"></i></c:if>
-                                <c:if test="${mem.gender eq 'F'}">F <i class="fas fa-venus" style="color:#ff3366"></i></c:if>
-                                <c:if test="${mem.gender eq 'X'}"><i class="fas fa-ad" style="color:red"></i></c:if>
-                            </td>
+                            <td>${faq.id}</td>
+                            <td style="color:black">${faq.title}</td>
+                            <td><img class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -122,12 +113,15 @@
 <!-- Page level custom scripts -->
 <script src="/resources/bootstrap-sb-admin/js/demo/datatables-demo.js"></script>
 <!-- 내가 추가한거 -->
-<script>var fromWhere = "member";</script>
+<script>var fromWhere = "faq";</script>
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
 <script src="/resources/js/admin/admin.js"></script>
 <script src="/resources/js/admin/list.js"></script>
-
-
+<script>
+    $('#sublist').click(function () {
+        location.href = "/admin/cs/notice";
+    })
+</script>
 </body>
 
 </html>
