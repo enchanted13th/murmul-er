@@ -26,10 +26,11 @@
                     <td class="tdAddr" colspan="2">${contract.address}</td>
                 </tr>
                 <tr>
-                    <td class="tdPrice" colspan="2">${contract.rentType} ${contract.deposit}
-                        / ${contract.monthlyCost}</td>
+                    <td class="tdPrice">
+                        보증금/월세 : ${contract.deposit} / ${contract.monthlyCost} ( ${contract.rentType} )
+                    </td>
                     <td class="tdDetail" rowspan="2">
-                        <button id="viewImage" class="btnDetail" value="${contract.id}">계약서 보기</button>
+                        <button id="viewImage${status.count}" class="btnDetail" value="${contract.id}">계약서 보기</button>
                     </td>
                 </tr>
                 <tr>
@@ -40,7 +41,6 @@
                         <span id="stayTo${status.count}">${contract.stayTo}</span>
                         (<span id="stayPeriod${status.count}"></span>)
                     </td>
-                    <td></td>
                 </tr>
             </table>
             <br/>

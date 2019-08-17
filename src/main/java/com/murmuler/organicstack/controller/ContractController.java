@@ -3,6 +3,7 @@ package com.murmuler.organicstack.controller;
 import com.murmuler.organicstack.service.ContractService;
 import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.util.FileHelper;
 import com.murmuler.organicstack.vo.ContractVO;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
@@ -23,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -242,20 +245,18 @@ public class ContractController {
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
         logger.info("upload method entered...");
-        String image="";
         String FOLDER_PATH = "/contract/";
         JSONObject res = new JSONObject();
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
 
         String uploadFileName = uploadFile.getOriginalFilename();
         uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/")+1);
-        image = "/"+uploadFileName;
 
         ContractVO contract = new ContractVO();
         contract.setSublessorId(member.getMemberId());
         contract.setSublesseeId(contactId);
         contract.setRoomId(roomId);
-        contract.setContractForm(image);
+        contract.setContractForm(uploadFileName);
         contract.setDeposit(deposit);
         contract.setMonthlyCost(monthlyCost);
         contract.setStayFrom(from);
@@ -281,5 +282,16 @@ public class ContractController {
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
+    }
+
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void downloadImage(@RequestParam String middlePath,
+                              @RequestParam String imageFileName,
+                              HttpServletRequest request,
+                              HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("text/html; charset=utf-8");
+
+        new FileHelper().downloadFile(middlePath, imageFileName, response);
     }
 }

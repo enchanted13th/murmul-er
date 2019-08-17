@@ -24,11 +24,14 @@
 
     <select id="selectAddressByRoomId" resultType="string">
         SELECT CONCAT(sido,' ',sigungu,' ',roadname,' ',road_jibun,' ', detail_addr) AS address
-        FROM location_tb JOIN room_tb USING(location_id) WHERE room_id = #{roomId};
+        FROM location_tb JOIN room_tb USING(location_id) WHERE room_id = #{roomId}
     </select>
 
     <select id="selectRentTypeByRoomId" resultType="string">
         SELECT rent_name AS rentType FROM rent_type_tb
-        JOIN sale_tb USING(rent_id) WHERE room_id = #{roomId};
+        JOIN sale_tb USING(rent_id) WHERE room_id = #{roomId}
+    </select>
+    <select id="selectContractImageById" resultType="string">
+        SELECT contract_form FROM contract_tb WHERE contract_id = #{contractId}
     </select>
 </mapper>

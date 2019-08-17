@@ -22,4 +22,9 @@ public class ContractServiceImpl implements ContractService {
     public List<ContractVO> getMyContracts(int memberId) {
         return dao.selectMyContracts(memberId);
     }
+
+    @Override
+    public String getContractImageById(int contractId) {
+        return dao.selectContractImageById(contractId);
+    }
 }

@@ -17,18 +17,17 @@
         location.href = "/";
         window.close();
     }
+    $(document).ready(function(){
+        let value = $('#uploadValue').val().split(',');
+        let middlePath = value[0];
+        let fileName = value[1];
+        let src = '/contract/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
+        console.log(src);
+        $('#contractImage').attr('src', src);
+    })
 </script>
-<div>
+<div align="center">
     <c:set var="middlePath" value="/contract/${contractId}"/>
-    <img id="contractImage" src="" style="width:400px; height:400px;" align="middle"/>
-    <input type="hidden" id="uploadValue" value="${middlePath},${review.image}">
+    <img id="contractImage" src="" style="width:1000px;" align="middle"/>
+    <input type="hidden" id="uploadValue" value="${middlePath},${image}">
 </div>
-<script>
-    let listSize = $('.tbList').length;
-    let value = $('#uploadValue' + i).val().split(',');
-    let middlePath = value[0];
-    let fileName = value[1];
-    let src = '/review/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
-    console.log(src);
-    $('#contractImage').attr('src', src);
-</script>

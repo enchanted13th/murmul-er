@@ -9,4 +9,6 @@ public interface ContractService {
     int registerContract(ContractVO contract);
 
     List<ContractVO> getMyContracts(int memberId);
+
+    String getContractImageById(int contractId);
 }

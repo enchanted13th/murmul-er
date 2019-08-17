@@ -195,7 +195,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 파일명입니다.");
             return false;
         }
-        String path = REPOSITORY_PATH + storagePath + "/" + fileName;
+        String path = MAC_SEOK_PATH + storagePath + "/" + fileName;
         logger.info("다운로드 경로 : " + path);
 
         File file = new File(path);
