@@ -46,23 +46,31 @@ public class TalkController {
             return null;
         }
         int me = memberVO.getMemberId();
+        boolean isExist;
 
         List<Map<String, Object>> talkInfoList = new ArrayList<>();
         List<Integer> talkList = talkHelper.getTalkList(me);
-        for(int contactMember : talkList) {
-            MessageVO messageVO = talkHelper.readLastMessage(me, contactMember);
-            if(messageVO != null) {
-                Map<String, Object> talkInfo = new HashMap<>();
-                talkInfo.put("contactMember", contactMember);
-                talkInfo.put("nickname", talkService.getNickname(contactMember));
-                talkInfo.put("lastMessage", messageVO);
-                talkInfoList.add(talkInfo);
-            }
+        if(talkList == null) {
+            isExist = false;
         }
-        Collections.sort(talkInfoList, new SortTalkList());
-        Collections.reverse(talkInfoList);
+        else {
+            for(int contactMember : talkList) {
+                MessageVO messageVO = talkHelper.readLastMessage(me, contactMember);
+                if(messageVO != null) {
+                    Map<String, Object> talkInfo = new HashMap<>();
+                    talkInfo.put("contactMember", contactMember);
+                    talkInfo.put("nickname", talkService.getNickname(contactMember));
+                    talkInfo.put("lastMessage", messageVO);
+                    talkInfoList.add(talkInfo);
+                }
+            }
+            Collections.sort(talkInfoList, new SortTalkList());
+            Collections.reverse(talkInfoList);
+            isExist = true;
+        }
         ModelAndView mav = new ModelAndView();
         mav.addObject("talkInfoList", talkInfoList);
+        mav.addObject("isExist", isExist);
         mav.setViewName("talkList");
         return mav;
     }
@@ -77,16 +85,16 @@ public class TalkController {
 
         int me = memberVO.getMemberId();
         List<MessageVO> dialogueList = talkHelper.readMessage(me, you);
-        String talkRoomId = null;
-        TalkRoom talkRoom = null;
+        String talkRoomId;
+        TalkRoom talkRoom;
 
         if (dialogueList.size() == 0) {
             talkRoom = TalkRoom.create();
             talkRoomId = talkRoom.getId();
             repository.addTalkRoom(talkRoom);
             // 생성된 채팅방 아이디를 대화 기록 맨 위에 저장
-            talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(me, you));
-            talkHelper.writeMessage("", talkRoomId, talkHelper.getFilePath(you, me));
+            talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(me, you));
+            talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(you, me));
         } else {
             talkRoom = TalkRoom.create();
             talkRoomId = dialogueList.get(0).getContent();
@@ -99,7 +107,6 @@ public class TalkController {
         }
 
         ModelAndView mav = new ModelAndView();
-        mav.addObject("me", me);
         mav.addObject("contactMember", you);
         mav.addObject("talkRoomId", talkRoomId);
         mav.addObject("nickname", talkService.getNickname(you));

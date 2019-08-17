@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
     <title>방 상세</title>
+    <script>
+        let loginMemberId = "${loginMember.memberId}";
+    </script>
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
