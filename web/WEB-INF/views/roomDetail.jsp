@@ -6,11 +6,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/roomDetail.css">
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
     <title>방 상세</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
@@ -28,9 +28,11 @@
     </div>
     <div class="location">
         <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} ${dtailAddr} </span>
-        <c:forEach var="hash" items="${hashtags}">
-            <span class="hashTag">#${hash}</span>
-        </c:forEach>
+        <c:if test="${hashtags!='[]'}">
+            <c:forEach var="hash" items="${hashtags}">
+                <span class="hashTag">#${hash}</span>
+            </c:forEach>
+        </c:if>
     </div>
     <div align="center">
         <ul class="slider">
@@ -45,7 +47,6 @@
             </c:forEach>
         </ul>
     </div>
-
     <div class="detailTitle">Comment</div>
     <div class="detailContent">${detail}</div>
     <div>
@@ -90,7 +91,6 @@
                         <td>${deposit}만 원</td>
                     </c:otherwise>
                 </c:choose>
-
                 <c:choose>
                     <c:when test="${manageCost eq 0}">
                         <td>-</td>
@@ -115,7 +115,6 @@
                         <td>N</td>
                     </c:otherwise>
                 </c:choose>
-
             </tr>
         </table>
     </div>
@@ -140,15 +139,13 @@
         <button class="report" id="report" type="button"><img id="reportImg"src="/resources/img/etc/report.png" width="45px" height="45px"></button>
     </div>
 </div>
-<script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/roomDetailMap.js"></script>
 <script src="/resources/js/contact.js"></script>
 <script src="/resources/js/report.js"></script>
 <script src="/resources/js/roomDetail.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
 <script>
     var temp = "${options}";
     temp = temp.substring(1, temp.length - 1);
