@@ -127,6 +127,12 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public int selectImgCntByRoomId(int roomId) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return mapper.selectImgCntByRoomId(roomId);
+    }
+
+    @Override
     public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = SUCCESS;
@@ -233,6 +239,12 @@ public class RoomDAOImpl implements RoomDAO {
 
 
     public int deleteRoomImage(int roomId, String[] imgUrlList) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return (mapper.deleteRoomImg(roomId) >= 1 ? 1: 0);
+    }
+
+    @Override
+    public int deleteRoomImage(int roomId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return (mapper.deleteRoomImg(roomId) >= 1 ? 1: 0);
     }

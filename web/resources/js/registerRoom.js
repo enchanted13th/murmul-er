@@ -90,7 +90,6 @@ function dataSubmit(){
             type: "POST",
             data: roomInfo
         }).then(function (data, status) {
-            // console.log(data+"\n"+status);
             if (status === "success") {
                 switch (data.registerResult) {
                     case "SUCCESS" :
@@ -164,21 +163,23 @@ function readURL(input) {
                 );
                 td.append(img);
                 $('#close'+index).click(function () {
-                    var fileArray = formData.getAll("uploadFile");
-                    var deleteName = $(this).parent().attr('name');
-                    console.log(deleteName);
-                    for(let i=0; i<fileArray.length; i++){
-                        if(fileArray[i].name == deleteName){
-                            fileArray.splice(i, 1);
-                            break;
+
+                    let rmDiv = $(this).parent()[0];
+                    let num;
+                    let imgDiv = $('.img-wrap');
+                    for(let i = 0; i < imgDiv.length; i++) {
+                        if (imgDiv[i] == rmDiv) {
+                            num = i;
                         }
                     }
+                    var fileArray = formData.getAll("uploadFile");
+                    fileArray.splice(num, 1);
                     formData.delete("uploadFile");
                     for(let i = 0;i<fileArray.length; i++){
                         formData.append("uploadFile", fileArray[i]);
                     }
-                    $('#close'+index).remove();
-                    $('#img-wrap'+ index).remove();
+                    rmDiv.remove();
+
                 });
             }
             reader.readAsDataURL(input.files[i-1]);

@@ -221,7 +221,8 @@
                     <input class="upload" id="upload" type="file" name="uploadFile" multiple="multiple" onchange="readURL(this);" style="display: none;">
                     <input type="hidden" id="uploadVal" value="${room.images}">
                     <c:forEach var="data" items="${room.images}" varStatus="status">
-                        <div class="img-wrap" id="img-wrap${status.count}" data-id="img-wrap${status.count}">
+                        <div class="img-wrap" id="img-wrap${status.count}" name=${data} data-id="img-wrap${status.count}">
+                            <input type="hidden" id="imgName${status.count}" value="${data}">
                             <span class="close" id="close${status.count}" data-id="close${status.count}">x</span>
                             <img class="addimage" id="rmimg${status.count}" data-id="rmimg${status.count}" src=""/>
                             <input type="hidden" id="roomValue${status.count}" value="${roomId},${data}">

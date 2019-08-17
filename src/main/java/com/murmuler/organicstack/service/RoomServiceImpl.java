@@ -395,5 +395,12 @@ public class RoomServiceImpl implements RoomService {
         return roomDAO.selectRoomIdByMemberId(memberId);
     }
 
-
+    @Override
+    public int modifyImg(int roomId, ArrayList<String> imgUrlList) {
+        int imgCnt = roomDAO.selectImgCntByRoomId(roomId);
+        if(imgCnt != 0){
+            roomDAO.deleteRoomImage(roomId);
+        }
+        return roomDAO.insertRoomImage(roomId, imgUrlList);
+    }
 }

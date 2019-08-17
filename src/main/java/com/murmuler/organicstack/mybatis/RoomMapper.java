@@ -32,6 +32,7 @@ public interface RoomMapper {
     LocationVO selectRoomLocation(int locationId);
     RoomVO selectRoomInfo(int roomId);
     SaleInfoVO selectRoomSaleInfo(int roomId);
+    int selectImgCntByRoomId(int roomId);
 
     int insertLocation(LocationVO locationVO);
     int insertRoom(RoomVO roomVO);
