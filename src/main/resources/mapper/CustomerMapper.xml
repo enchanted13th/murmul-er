@@ -72,4 +72,28 @@
     <select id="selectNoticeButtonCnt" resultType="int">
         SELECT CEIL(COUNT(*)/5) FROM notice_tb
     </select>
+
+    <select id="selectAllNoticeList" resultType="com.murmuler.organicstack.vo.NoticeVO">
+        SELECT notice_id AS id, notice_title AS title,
+        notice_content AS content, notice_date AS writeDate FROM notice_tb
+    </select>
+
+    <select id="selectAllFaqList" resultType="com.murmuler.organicstack.vo.FaqVO">
+        SELECT faq_id AS id, faq_title AS title, faq_content AS content FROM faq_tb
+    </select>
+
+    <delete id="deleteMultiFaq" parameterType="hashmap">
+        DELETE FROM faq_tb
+        WHERE faq_id in (
+        <foreach collection="ids" item="id" separator=",">#{id}</foreach>
+        )
+    </delete>
+
+    <delete id="deleteMultiNotice" parameterType="hashmap">
+        DELETE FROM notice_tb
+        WHERE notice_id in (
+        <foreach collection="ids" item="id" separator=",">#{id}</foreach>
+        )
+    </delete>
+
 </mapper>
