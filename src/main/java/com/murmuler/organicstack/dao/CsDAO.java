@@ -27,4 +27,10 @@ public interface CsDAO {
 
     int searchFaqButtonCnt();
     int searchNoticeButtonCnt();
+
+    List<NoticeVO> searchAllNoticeList();
+    List<FaqVO> searchAllFaqList();
+
+    int deleteMultiFaq(Map<String, Object> idMap);
+    int deleteMultiNotice(Map<String, Object> idMap);
 }

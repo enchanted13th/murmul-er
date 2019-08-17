@@ -1,0 +1,37 @@
+
+.container {
+    text-align: center;
+    width: 1050px;
+}
+
+.container > .headTitle {
+
+    background-color: transparent;
+    border: transparent;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #8FCC26;
+    border-color: #8FCC26;
+}
+
+.table .thead-dark th {
+    color: #fff;
+    background-color: #4CB050;
+    border-color: #4CB050;
+}
+.table .category {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table .selectedItem {
+    text-align: center;
+}
+
+.table .editBtn:hover{
+    cursor: pointer;
+}

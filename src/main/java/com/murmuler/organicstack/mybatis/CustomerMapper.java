@@ -28,4 +28,10 @@ public interface CustomerMapper {
 
     int selectFaqButtonCnt();
     int selectNoticeButtonCnt();
+
+    List<NoticeVO> selectAllNoticeList();
+    List<FaqVO> selectAllFaqList();
+
+    int deleteMultiFaq(Map<String, Object> idMap);
+    int deleteMultiNotice(Map<String, Object> idMap);
 }

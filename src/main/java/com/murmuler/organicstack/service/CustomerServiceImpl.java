@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -52,4 +53,16 @@ public class CustomerServiceImpl implements CustomerService {
     public int getNoticeButtonCnt() {
         return csDAO.searchNoticeButtonCnt();
     }
+
+    @Override
+    public int removeMultiFaq(Map<String, Object> idMap) {  return csDAO.deleteMultiFaq(idMap);  }
+
+    @Override
+    public int removeMultiNotice(Map<String, Object> idMap) {  return csDAO.deleteMultiNotice(idMap);  }
+
+    //    @Override
+//    public List<FaqVO> getAllFaqList() { return csDAO.searchAllFaqList(); }
+//
+//    @Override
+//    public List<NoticeVO> getAllNoticeList() { return csDAO.searchAllNoticeList(); }
 }

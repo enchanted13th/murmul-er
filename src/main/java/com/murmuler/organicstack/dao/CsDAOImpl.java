@@ -151,4 +151,28 @@ public class CsDAOImpl implements CsDAO {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.selectNoticeButtonCnt();
     }
+
+    @Override
+    public List<NoticeVO> searchAllNoticeList(){
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        return mapper.selectAllNoticeList();
+    }
+
+    @Override
+    public List<FaqVO> searchAllFaqList(){
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        return mapper.selectAllFaqList();
+    }
+
+    @Override
+    public int deleteMultiFaq(Map<String, Object> idMap) {
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        return mapper.deleteMultiFaq(idMap);
+    }
+
+    @Override
+    public int deleteMultiNotice(Map<String, Object> idMap) {
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        return mapper.deleteMultiNotice(idMap);
+    }
 }
