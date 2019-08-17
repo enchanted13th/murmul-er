@@ -4,6 +4,7 @@ import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.vo.MemberVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -51,12 +54,21 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
-    public String deleteAll(@RequestParam String del_ids){
+    public void deleteAll(@RequestParam String del_ids,
+                          HttpServletResponse response) throws IOException {
         logger.info("called delete All method");
         MemberVO delMember = new MemberVO();
         String[] ids = del_ids.split(",");
         delMember.setIds(ids);
-        service.removeMultiMember(delMember);
-        return "redirect:/admin/members";
+        int res = service.removeMultiMember(delMember);
+        JSONObject obj = new JSONObject();
+        if(res > 0){
+            obj.put("result","SUCCESS");
+        }
+        else{
+            obj.put("result","FAIL");
+        }
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(obj);
     }
 }
