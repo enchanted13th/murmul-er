@@ -85,10 +85,10 @@
                             <td align="center">
                                 <input type="checkbox" name="del_chk" value="${notice.id}">
                             </td>
-                            <td>${notice.id}</td>
+                            <td class="align-center">${notice.id}</td>
                             <td style="color:black">${notice.title}</td>
-                            <td>${notice.writeDate}</td>
-                            <td><img class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
+                            <td class="align-center">${notice.writeDate}</td>
+                            <td class="align-center"><img class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -100,6 +100,7 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="/resources/bootstrap-sb-admin/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/js/admin/admin.js"></script>
 <script src="/resources/bootstrap-sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -117,8 +118,9 @@
 <!-- 내가 추가한거 -->
 <script>var fromWhere = "notice";</script>
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
-<script src="/resources/js/admin/admin.js"></script>
 <script src="/resources/js/admin/list.js"></script>
+<script src="/resources/js/admin/csList.js"></script>
+
 <script>
     $('#sublist').click(function () {
         location.href = "/admin/cs/faq";

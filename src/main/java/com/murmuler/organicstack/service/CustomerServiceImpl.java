@@ -60,9 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int removeMultiNotice(Map<String, Object> idMap) {  return csDAO.deleteMultiNotice(idMap);  }
 
-    //    @Override
-//    public List<FaqVO> getAllFaqList() { return csDAO.searchAllFaqList(); }
-//
-//    @Override
-//    public List<NoticeVO> getAllNoticeList() { return csDAO.searchAllNoticeList(); }
+    @Override
+    public List<FaqVO> getAllFaqList() { return csDAO.searchAllFaqList(); }
+
+    @Override
+    public List<NoticeVO> getAllNoticeList() { return csDAO.searchAllNoticeList(); }
 }

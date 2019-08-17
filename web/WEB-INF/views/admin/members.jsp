@@ -47,7 +47,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Murmul-er Member list</h6>
-            <button id="delbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 20px;">
+            <button id="delbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 20px;" >
                     <span class="icon text-white-50">
                       <i class="fas fa-user-slash"></i>
                     </span>
@@ -126,7 +126,6 @@
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
 <script src="/resources/js/admin/admin.js"></script>
 <script src="/resources/js/admin/list.js"></script>
-
 
 </body>
 

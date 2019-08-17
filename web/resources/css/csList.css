@@ -35,3 +35,25 @@
 .table .editBtn:hover{
     cursor: pointer;
 }
+
+#editPopup {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 35000;
+}
+
+#editPopup > .termWrap {
+    margin: 0 auto;
+    width: 800px;
+    height: 350px;
+    background-color: white;
+    border-radius: 10px;
+    border: 4px solid #b6e2f8;
+}
+
+.menuPopup > .btns{
+    text-align: center;
+}
