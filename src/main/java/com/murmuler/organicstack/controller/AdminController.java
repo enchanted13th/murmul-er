@@ -106,12 +106,12 @@ public class AdminController {
         ModelAndView mav = new ModelAndView();
         switch (flag) {
             case "faq" :
-                List<FaqVO> faqList = csService.getFaqList(1);
+                List<FaqVO> faqList = csService.getAllFaqList();
                 mav.setViewName("admin/faqs");
                 mav.addObject("faqList", faqList);
                 break;
             case "notice" :
-                List<NoticeVO> noticeList = csService.getNoticeList(1);
+                List<NoticeVO> noticeList = csService.getAllNoticeList();
                 mav.setViewName("admin/notices");
                 mav.addObject("noticeList", noticeList);
                 break;

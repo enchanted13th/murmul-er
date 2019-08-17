@@ -19,7 +19,7 @@ public interface CustomerService {
     int removeMultiFaq(Map<String, Object> idMap);
     int removeMultiNotice(Map<String, Object> idMap);
 
-//    List<FaqVO> getAllFaqList();
-//    List<NoticeVO> getAllNoticeList();
+    List<FaqVO> getAllFaqList();
+    List<NoticeVO> getAllNoticeList();
 
 }
