@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+#page-top > #wrapper > .card {
+    margin: 0 auto;
+}
+
+@media (max-width: 1000px) {
+    #page-top > #wrapper {
+        width: 1000px;
+    }
+    #page-top > #wrapper > .card {
+        width: 1000px;
+    }
+    #page-top > #wrapper > .card > .card-header {
+        width: 1000px;
+    }
+    #page-top > #wrapper > .card > .card-body {
+        width: 1000px;
+    }
+}

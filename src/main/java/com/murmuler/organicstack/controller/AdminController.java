@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -100,16 +101,21 @@ public class AdminController {
         response.getWriter().print(obj);
     }
 
-    @RequestMapping(value = "/csList", method = RequestMethod.GET)
-    public ModelAndView showNoticeFaqList() {
-
-        List<FaqVO> faqList = csService.getFaqList(1);
-        List<NoticeVO> noticeList = csService.getNoticeList(1);
-
+    @RequestMapping(value = "/cs/{flag}", method = RequestMethod.GET)
+    public ModelAndView showNoticeFaqList(@PathVariable String flag) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("admin/csList");
-        mav.addObject("faqList", faqList);
-        mav.addObject("noticeList", noticeList);
+        switch (flag) {
+            case "faq" :
+                List<FaqVO> faqList = csService.getFaqList(1);
+                mav.setViewName("admin/faqs");
+                mav.addObject("faqList", faqList);
+                break;
+            case "notice" :
+                List<NoticeVO> noticeList = csService.getNoticeList(1);
+                mav.setViewName("admin/notices");
+                mav.addObject("noticeList", noticeList);
+                break;
+        }
         return mav;
     }
 }

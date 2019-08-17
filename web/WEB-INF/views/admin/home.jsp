@@ -10,26 +10,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>관리자 페이지</title>
+  <title>ADMIN 페이지</title>
   <!-- Custom fonts for this template -->
   <link href="/resources/bootstrap-sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="/resources/bootstrap-sb-admin/css/sb-admin-2.min.css" rel="stylesheet">
-
-  <style>
-    #wrapper {
-      height: 240px;
-      width: 400px;
-      margin: 0 auto;
-    }
-    #wrapper > div > div > div > a > span.text {
-      width: 200px;
-    }
-    #wrapper > div > div > div > a > span.icon {
-      width: 45px;
-    }
-  </style>
+  <link href="/resources/css/admin/home.css" rel="stylesheet">
 <script>
   let isadmin = ('${admin}' == 'true' ? true : false);
   if(isadmin === false){
@@ -54,7 +41,7 @@
           <span class="text">Show Member list</span>
         </a>
         <div class="my-2"></div>
-        <a href="#" class="btn btn-success btn-icon-split">
+        <a href="/admin/cs/faq" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-list-alt"></i>
                     </span>
@@ -81,12 +68,10 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="/resources/bootstrap-sb-admin/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/js/admin/admin.js"></script>
 <script>
     $(document).ready(function(){
-        let wh = $(window).height();
-        let ph = $('#wrapper').height();
-        let top = (wh - ph) / 2;
-        $('#wrapper').css('margin-top', top);
+        $.setCenter();
     })
 </script>
 </body>

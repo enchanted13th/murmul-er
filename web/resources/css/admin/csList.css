@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+#page-top > #wrapper {
+    margin: 0 auto;
+    width: 800px;
+}
+#page-top > #wrapper > .card {
+    margin: 0 auto;
+    width: 800px;
+}
+#page-top > #wrapper > .card > .card-header {
+    width: 800px;
+}
+#page-top > #wrapper > .card > .card-body {
+    width: 800px;
+}
+
+#sublist {
+    color: #666666!important;
+    font-weight: 400!important;
+}
+
+#sublist:hover {
+    cursor: pointer;
+}
