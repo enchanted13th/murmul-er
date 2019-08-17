@@ -24,17 +24,16 @@ public class ReviewVO {
     private String disadvantage;
     private char insectLevel;
     private char noiseLevel;
-    private boolean hashtagExist;
+    private String hashtagExist;
     private String image;
     private String sido;
     private String sigungu;
     private String roadname;
     private String detailAddr;
     private ArrayList<String> hashTagList;
-    private String memberId;
 
     public ReviewVO(int id, Date writeDate, String title, String content, int locationId, int residencePeriod,
-                    String periodUnit, int score, String advantage, String disadvantage, char insectLevel, char noiseLevel, boolean hashtagExist, String image,
+                    String periodUnit, int score, String advantage, String disadvantage, char insectLevel, char noiseLevel, String hashtagExist, String image,
                     String sido, String sigungu, String roadname, String detail_addr, ArrayList<String> hashTagList) {
         if (writeDate == null)
             writeDate = new Date(new java.util.Date().getTime());

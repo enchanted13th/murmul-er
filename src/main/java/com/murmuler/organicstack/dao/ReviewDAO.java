@@ -15,7 +15,7 @@ public interface ReviewDAO {
     int insertLocation(LocationVO locationVO);
     int insertReview(ReviewVO reviewVO);
     int searchReviewTotalCnt();
-    int insertReviewHashtag(int roomId, ArrayList<String> hashtagList);
+    void insertReviewHashtag(int roomId, ArrayList<String> hashtagList);
     List<String> serachHashTag(int reviewId);
     int insertReviewImage(int roomId, String image);
 }

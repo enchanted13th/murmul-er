@@ -387,17 +387,6 @@ $.clickEvent = function () {
 $.fn.clickSubmit = function(){
     $(this).click(function () {
 
-        if($('#hash1').val() !== "")
-            hashTagList.push($('#hash1').val());
-        if($('#hash2').val() !== "")
-            hashTagList.push($('#hash2').val());
-        if($('#hash3').val() !== "")
-            hashTagList.push($('#hash3').val());
-
-        console.log($("#hash1").val());
-        console.log($("#hash2").val());
-        console.log($("#hash3").val());
-
         var onlyNum = /^[0-9]*$/;
         let on1 = $('#inputSize').val();
         let on2 = $('#inputDeposit').val();
@@ -574,6 +563,13 @@ $.fn.clickSubmit = function(){
         } else {
             ps.keywordSearch($('#inputAddr').val(), placesSearchCB);
         }
+
+        if($('#hash1').val() !== "")
+            hashTagList.push($('#hash1').val());
+        if($('#hash2').val() !== "")
+            hashTagList.push($('#hash2').val());
+        if($('#hash3').val() !== "")
+            hashTagList.push($('#hash3').val());
     });
 }
 

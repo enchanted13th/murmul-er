@@ -1,3 +1,9 @@
+const 전세 = "1";
+const 월세 = "2";
+const 보증금월세 = "3";
+var midFlag = false;
+var remFlag = false;
+
 $(document).ready(function() {
     $.initSelectDate();
     $.calcSelectDay();
@@ -29,23 +35,26 @@ $.settingYear = function() {
     let year = today.getFullYear();
     let GAP = 5;
 
+    //전대차 계약 내용 기간
     for(let i = year; i < year+GAP; i++){
         let o1 = new Option(i+"", i);
         let o2 = new Option(i+"", i);
-        let o3 = new Option(i+"", i);
-        let o4 = new Option(i+"", i);
-        let o5 = new Option(i+"", i);
-        let o6 = new Option(i+"", i);
 
         let idx = document.contractForm.fromYearS.options.length;
 
-        document.contractForm.mdPayYear.options[idx] = o1;
-        document.contractForm.remainderYear.options[idx] = o2;
+        document.contractForm.fromYearS.options[idx] = o1;
+        document.contractForm.toYearS.options[idx] = o2;
+    }
 
-        document.contractForm.fromYearS.options[idx] = o3;
-        document.contractForm.toYearS.options[idx] = o4;
-        document.contractForm.fromYearL.options[idx] = o5;
-        document.contractForm.toYearL.options[idx] = o6;
+    //임대차 계약 내용 기간
+    for(let i = year-GAP; i < year+GAP; i++){
+        let o3 = new Option(i+"", i);
+        let o4 = new Option(i+"", i);
+
+        let idx = document.contractForm.fromYearL.options.length;
+
+        document.contractForm.fromYearL.options[idx] = o3;
+        document.contractForm.toYearL.options[idx] = o4;
     }
 }
 $.settingMonth = function() {
@@ -54,18 +63,13 @@ $.settingMonth = function() {
         let o2 = new Option(i+'', i.zf(2));
         let o3 = new Option(i+'', i.zf(2));
         let o4 = new Option(i+'', i.zf(2));
-        let o5 = new Option(i+'', i.zf(2));
-        let o6 = new Option(i+'', i.zf(2));
 
         let idx = document.contractForm.fromMonthS.options.length;
 
-        document.contractForm.mdPayMonth.options[idx] = o1;
-        document.contractForm.remainderMonth.options[idx] = o2;
-
-        document.contractForm.fromMonthS.options[idx] = o3;
-        document.contractForm.toMonthS.options[idx] = o4;
-        document.contractForm.fromMonthL.options[idx] = o5;
-        document.contractForm.toMonthL.options[idx] = o6;
+        document.contractForm.fromMonthS.options[idx] = o1;
+        document.contractForm.toMonthS.options[idx] = o2;
+        document.contractForm.fromMonthL.options[idx] = o3;
+        document.contractForm.toMonthL.options[idx] = o4;
     }
 }
 $.settingDay = function() {
@@ -77,11 +81,10 @@ $.settingDay = function() {
 }
 
 $.fn.isBlank = function(type) {
-    // console.log("this: ",$(this));
-    // console.log($(this).val());
-    if($(this).val() === "")
+    if($(this).val() === "" || $(this).val().replace(/^\s*|\s*$/g, '') === "")
     {
         alert(type+"을 입력하세요")
+        $(this).val('');
         $(this).focus();
         return true;
     }
@@ -150,6 +153,7 @@ $.fn.clickRegisterBtn = function() {
 $.fn.checkValid = function() {
 
     let checked = $('input[name="rentType"]:checked').val();
+    console.log("checked: "+ checked+" type: "+ typeof checked);
 
     if($('#buildingName').isBlank('건물명')) return false;
     if($('#buildingArea').isBlank('건물 면적')) return false;
@@ -166,67 +170,305 @@ $.fn.checkValid = function() {
         alert("임대 유형을 선택해주세요");
         return false;
     }
-    if($('input[name="mcType"]:checked').val() === undefined){
-        alert("월세 지불 방법을 선택해주세요");
-        return false;
-    }
 
     switch (checked) {
-        case '전세':
+        case 전세:
+            console.log("전세");
             if($('#deposit').isBlank("보증금 항목")) return false;
-            if($('#depositL').isBlank("보증금 항목"))  return false;
-            if($('#lessorName').isBlank("이름"))  return false;
             if(!$('#deposit').isNum($('#deposit').val())) return false;
+            if(!checkSelBoxTop()) return false;
+            if($('#depositL').isBlank("보증금 항목"))  return false;
             if(!$('#depositL').isNum($('#depositL').val())) return false;
-
-            break;
-        case '월세':
-            if($('#monthlyCost').isBlank("월세 항목"))  return false;
-            if($('#monthlyCostL').isBlank("월세 항목"))  return false;
             if($('#lessorName').isBlank("이름"))  return false;
-
-            if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
-            if(!$('#monthlyCostL').isNum($('#monthlyCostL').val())) return false;
-
-            if(!$('#mcPayDayS').isChecked()) return false;
-            if(!$('#mcPayDayL').isChecked()) return false;
-
+            if(!checkSelBoxBot()) return false;
             break;
-        case '보증금월세':
+
+        case 월세:
+            console.log("월세");
+            if($('#monthlyCost').isBlank("월세 항목"))  return false;
+            if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
+            if(!$('#mcPayDayS').isChecked()) return false;
+            if($('input[name="mcType"]:checked').val() === undefined){
+                alert("월세 지불 방법을 선택해주세요");
+                return false;
+            }
+            if(!checkSelBoxTop()) return false;
+            if($('#monthlyCostL').isBlank("월세 항목"))  return false;
+            if(!$('#monthlyCostL').isNum($('#monthlyCostL').val())) return false;
+            if(!$('#mcPayDayL').isChecked()) return false;
+            if($('#lessorName').isBlank("이름"))  return false;
+            if(!checkSelBoxBot()) return false;
+            break;
+
+        case 보증금월세 :
+            console.log("보증금월세");
             if($('#deposit').isBlank("보증금 항목")) return false;
             if($('#monthlyCost').isBlank("월세 항목"))  return false;
-            if($('#depositL').isBlank("보증금 항목"))  return false;
-            if($('#monthlyCostL').isBlank("월세 항목"))  return false;
-            if($('#lessorName').isBlank("이름"))  return false;
-
             if(!$('#deposit').isNum($('#deposit').val())) return false;
             if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
+            if(!$('#mcPayDayS').isChecked()) return false;
+            if($('input[name="mcType"]:checked').val() === undefined){
+                alert("월세 지불 방법을 선택해주세요");
+                return false;
+            }
+            if(!checkSelBoxTop()) return false;
+            if($('#depositL').isBlank("보증금 항목"))  return false;
+            if($('#monthlyCostL').isBlank("월세 항목"))  return false;
             if(!$('#depositL').isNum($('#depositL').val())) return false;
             if(!$('#monthlyCostL').isNum($('#monthlyCostL').val())) return false;
-
-            if(!$('#mcPayDayS').isChecked()) return false;
             if(!$('#mcPayDayL').isChecked()) return false;
-
+            if($('#lessorName').isBlank("이름"))  return false;
+            if(!checkSelBoxBot()) return false;
             break;
     }
+    return true;
+}
 
+$.fn.isValidTitle = function() {
+    $(this).keyup(function(event) {
+        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            let inputVal = $(this).val();
+            $(this).val(inputVal.replace(/[,.~`!@#$%^&*()_+=<>/]/gi,''));
+        }
+    });
+}
+
+var checkSelBoxTop= function() {
+    console.log("middlePayment val: "+$('#middlePayment').val()+", middlePayment type: "+ typeof $('#middlePayment').val());
+    if($('#middlePayment').val() !== "") {
+        if (!$('#middlePayment').isNum($('#middlePayment').val()))
+            return false;
+        else{
+            if(!$('#mdPayYear').isChecked()) return false;
+            if(!$('#mdPayMonth').isChecked()) return false;
+            if(!$('#mdPayDay').isChecked()) return false;
+        }
+    }
+    if(!$('#remainderPayment').val() === "") {
+        if (!$('#remainderPayment').isNum($('#remainderPayment').val()))
+            return false;
+        else {
+            if (!$('#remainderYear').isChecked()) return false;
+            if (!$('#remainderMonth').isChecked()) return false;
+            if (!$('#remainderDay').isChecked()) return false;
+        }
+    }
     if(!$('#fromYearS').isChecked()) return false;
     if(!$('#fromMonthS').isChecked()) return false;
     if(!$('#fromDayS').isChecked()) return false;
     if(!$('#toYearS').isChecked()) return false;
     if(!$('#toMonthS').isChecked()) return false;
     if(!$('#toDayS').isChecked()) return false;
+    return true;
+}
 
+var checkSelBoxBot= function() {
     if(!$('#fromYearL').isChecked()) return false;
     if(!$('#fromMonthL').isChecked()) return false;
     if(!$('#fromDayL').isChecked()) return false;
     if(!$('#toYearL').isChecked()) return false;
     if(!$('#toMonthL').isChecked()) return false;
     if(!$('#toDayL').isChecked()) return false;
-
     return true;
 }
 
+
+/*중도금, 잔금 select Box setting 하는 부분*/
+$.settingSelBox = function(type,value) {
+    value += '';
+    value = value.replace(/^\s*|\s*$/g, '');
+    if (value == '' || isNaN(value)) {
+        if(value ==="") {
+            switch (type) {
+                case "middle":
+                    midFlag = false;
+                    $('select[name="mdPayYear"] option').remove();
+                    $('select[name="mdPayMonth"] option').remove();
+                    $("select#mdPayYear").append("<option value=''>-------</option>");
+                    $("select#mdPayMonth").append("<option value=''>-------</option>");
+                    break;
+                case "remainder":
+                    remFlag = false;
+                    $('select[name="remainderYear"] option').remove();
+                    $('select[name="remainderMonth"] option').remove();
+                    $("select#remainderYear").append("<option value=''>-------</option>");
+                    $("select#remainderMonth").append("<option value=''>-------</option>");
+                    break;
+            }
+        }
+        if(value !== '')
+            alert('숫자만 입력하세요');
+        switch (type) {
+            case "middle":
+                $("#middlePayment").val('');
+                $("#middlePayment").focus();
+                return ;
+            case "remainder":
+                $("#remainderPayment").val('');
+                $("#remainderPayment").focus();
+                return ;
+        }
+    }
+    if(type === "middle")
+        $.set(value, midFlag, type);
+    else
+        $.set(value, remFlag, type);
+}
+
+
+$.set = function(value, flag, type){
+    if(value !== "" && flag === false) {
+        let today = new Date();
+        let year = today.getFullYear();
+        let GAP = 5;
+        let idx, i;
+
+        switch (type) {
+            case "middle":
+                midFlag = true;
+                for (i = year; i < year + GAP; i++) {
+                    let o1 = new Option(i + "", i);
+
+                    idx = document.contractForm.mdPayYear.options.length;
+                    document.contractForm.mdPayYear.options[idx] = o1;
+
+                }
+                for (i = 1; i <= 12; i++) {
+                    let o1 = new Option(i + '', i.zf(2));
+                    idx = document.contractForm.mdPayMonth.options.length;
+                    document.contractForm.mdPayMonth.options[idx] = o1;
+                }
+                break;
+
+            case "remainder":
+                remFlag = true;
+                for (i = year; i < year + GAP; i++) {
+                    let o1 = new Option(i + "", i);
+
+                    idx = document.contractForm.remainderYear.options.length;
+                    document.contractForm.remainderYear.options[idx] = o1;
+
+                }
+                for (i = 1; i <= 12; i++) {
+                    let o1 = new Option(i + '', i.zf(2));
+                    idx = document.contractForm.remainderMonth.options.length;
+                    document.contractForm.remainderMonth.options[idx] = o1;
+                }
+                break;
+        }
+    }
+}
+
+/*
+*  **계약서 체크 박스 유효성**
+*
+* 거주 시작기간 보다 거주종료 기간 날짜 늦게 셋팅하는 부분
+* */
+// $.fn.changeAll = function (type,value, date, id) {
+//     let i, idx;
+//     let GAP = 5;
+//     value *= 1;
+//     let opt;
+//
+//     console.log("fromYearS: "+$("#fromYearS").val());
+//
+//     $("select[id="+id+"] > option").remove();
+//     $("select[id="+id+"]").append("<option value=''>-------</option>");
+//
+//     switch (date) {
+//         case "year":
+//             if(type === "sub") {
+//                 for (i = value; i < value + GAP; i++) {
+//                     opt = new Option(i + "", i);
+//                     idx = document.contractForm.toYearS.options.length;
+//                     document.contractForm.toYearS.options[idx] = opt;
+//                 }
+//             }else{
+//                 for (i = value; i < value + GAP; i++) {
+//                     opt = new Option(i + "", i);
+//                     idx = document.contractForm.toYearL.options.length;
+//                     document.contractForm.toYearL.options[idx] = opt;
+//                 }
+//             }
+//             break;
+//         case "month":
+//             if(type === "sub") {
+//                 if($("#fromYearS").val() < $("#toYearS").val()) {
+//                     console.log("큰 년");
+//                     for (i = 1; i <= 12; i++) {
+//                         opt = new Option(i + "", i.zf(2));
+//                         let idx = document.contractForm.toMonthS.options.length;
+//                         document.contractForm.toMonthS.options[idx] = opt;
+//                     }
+//                 }
+//                 else if($("#fromYearS").val() == $("#toYearS").val()){
+//                     console.log("같은 년");
+//                     for (i = value; i <= 12; i++) {
+//                         opt = new Option(i + "", i.zf(2));
+//                         let idx = document.contractForm.toMonthS.options.length;
+//                         document.contractForm.toMonthS.options[idx] = opt;
+//                     }
+//                 }
+//                 else ;
+//             } else{
+//                 if($("#fromYearL").val() < $("#toYearL").val()) {
+//                     console.log("큰 년1")
+//                     for (i = 1; i <= 12; i++) {
+//                         opt = new Option(i + "", i.zf(2));
+//                         let idx = document.contractForm.toMonthL.options.length;
+//                         document.contractForm.toMonthL.options[idx] = opt;
+//                     }
+//                 }
+//                 else if($("#fromYearL").val() == $("#toYearL").val()){
+//                     console.log("같은 년1")
+//                     for (i = value; i <= 12; i++) {
+//                         opt = new Option(i + "", i.zf(2));
+//                         let idx = document.contractForm.toMonthL.options.length;
+//                         document.contractForm.toMonthL.options[idx] = opt;
+//                     }
+//                 }
+//                 else ;
+//             }
+//             break;
+//         case "day":
+//             if(type === "sub") {
+//                 if($("#fromMonthS").val() < $("#toMonthS").val()) {
+//                     console.log("fromMonth: "+ $("#fromMonthS").val());
+//                     console.log("toMonth: "+ $("#toMonthS").val());
+//                     console.log("큰 달")
+//                     for (i = 1; i <= 31; i++) {
+//                         opt = new Option(i + "", i);
+//                         let idx = document.contractForm.toDayS.options.length;
+//                         document.contractForm.toDayS.options[idx] = opt;
+//                     }
+//                 }else if($("#fromMonthS").val() == $("#toMonthS").val()){
+//                     console.log("같은 달")
+//                     for (i = value+1; i <= 31; i++) {
+//                         opt = new Option(i + "", i);
+//                         let idx = document.contractForm.toDayS.options.length;
+//                         document.contractForm.toDayS.options[idx] = opt;
+//                     }
+//                 } else ;
+//             }else{
+//                 if($("#fromMonthL").val() < $("#toMonthL").val()) {
+//                     console.log("큰 달1")
+//                     for (i = 1; i <= 31; i++) {
+//                         opt = new Option(i + "", i);
+//                         let idx = document.contractForm.toDayL.options.length;
+//                         document.contractForm.toDayL.options[idx] = opt;
+//                     }
+//                 }else if($("#fromMonthL").val() == $("#toMonthL").val()){
+//                     console.log("같은 달1")
+//                     for (i = value+1; i <= 31; i++) {
+//                         opt = new Option(i + "", i);
+//                         let idx = document.contractForm.toDayL.options.length;
+//                         document.contractForm.toDayL.options[idx] = opt;
+//                     }
+//                 } else ;
+//             }
+//             break;
+//     }
+// }
 
 
 // $.fn.clickRegisterBtn = function() {

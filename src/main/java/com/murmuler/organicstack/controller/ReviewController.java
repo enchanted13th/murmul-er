@@ -99,17 +99,6 @@ public class ReviewController {
                                   HttpServletRequest request,
                                   HttpServletResponse response) throws IOException{
 
-        ArrayList<String> hashTagList = new ArrayList<String>();
-        if(!hashTag1.equals("")){
-            hashTagList.add(hashTag1);
-        }
-        if(!hashTag2.equals("")){
-            hashTagList.add(hashTag2);
-        }
-        if(!hashTag3.equals("")){
-            hashTagList.add(hashTag3);
-        }
-
         JSONObject json = (JSONObject) JSONValue.parse(totAddr);
         json.put("detailAddr", detailAddr);
         Map<String, String> locationInfo = new HashMap<String, String>();
@@ -143,13 +132,25 @@ public class ReviewController {
         if(hashtagExist.equals("Y")){
             hashTagExist = true;
         }
-        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashTagExist,"","","","","", hashTagList));
-        int reviewId = res -1;
-        res -= reviewId;
+
+        ArrayList<String> hashTagList = null;
+        if(hashTagExist) {
+             hashTagList = new ArrayList<String>();
+            if (!hashTag1.equals("")) {
+                hashTagList.add(hashTag1);
+            }
+            if (!hashTag2.equals("")) {
+                hashTagList.add(hashTag2);
+            }
+            if (!hashTag3.equals("")) {
+                hashTagList.add(hashTag3);
+            }
+        }
+        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashtagExist,"","","","","", hashTagList));
         JSONObject jObj = new JSONObject();
-        if (res == 1) { // 문의 등록 성공
+        if (res > 0) { // 문의 등록 성공
             jObj.put("reviewWriteResult", "SUCCESS");
-            jObj.put("reviewId", reviewId);
+            jObj.put("reviewId", res);
         } else {
             jObj.put("reviewWriteResult", "WRITE_FAIL");
         }
@@ -210,10 +211,6 @@ public class ReviewController {
         String REPOSITORY_PATH = "C:\\util";
         OutputStream out = response.getOutputStream();
         String path = REPOSITORY_PATH + middlePath + "\\" + imageFileName;
-        System.out.println("path: "+ path);
-
-        System.out.println("middlePath: "+ middlePath);
-        System.out.println("Download imageFileName: "+ imageFileName);
 
         File imageFile = new File(path);
 
