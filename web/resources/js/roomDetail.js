@@ -146,21 +146,21 @@ $.inputOption = function () {
 
 $.inputDetailInfo = function () {
     let idx = option.indexOf("주차 가능");
-    if (idx > 0) {
+    if (idx >= 0) {
         $('#parking').text("가능");
         option.splice(idx, 1)
     } else {
         $('#parking').text("불가능");
     }
     idx = option.indexOf("엘리베이터 가능");
-    if (idx > 0) {
+    if (idx >= 0) {
         $('#elevator').text("있음");
         option.splice(idx, 1)
     } else {
         $('#elevator').text("없음");
     }
     idx = option.indexOf("반려동물 가능");
-    if (idx > 0) {
+    if (idx >= 0) {
         $('#pet').text("가능");
         option.splice(idx, 1)
     } else {
