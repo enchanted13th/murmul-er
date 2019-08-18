@@ -361,3 +361,17 @@ body {
     font-family: 'Nanum Gothic', sans-serif;
     font-size: 20px;
 }
+
+.infoWrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -130px;text-align: left;overflow: hidden;font-size: 13px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+.infoWrap * {padding: 0;margin: 0;}
+.infoWrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.infoWrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info .addr {padding: 5px 0 0 10px;height: 30px;line-height: 27px;background: #eee;border-bottom: 1px solid #ddd;font-size: 15px;font-weight: 400;}
+.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+.info .close:hover {cursor: pointer;}
+.info .body {position: relative;overflow: hidden;}
+.info .desc {position: relative;margin: 15px 0 0 15px;height: 75px;}
+.desc .title {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.desc .cost {font-size: 12px;color: #333333;margin: 3px 0 3px 0;}
+.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.info .link {color: #5085BB;}

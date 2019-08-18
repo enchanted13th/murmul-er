@@ -17,7 +17,8 @@
 
 <div class="wrap">
     <div class="topText">
-        <span>${writeDate}</span>
+        <span>[${writeDate}]</span>
+        <span> ${roomType}</span>
         <span>|</span>
         <span>${periodNum}${periodUnit} 가능</span>
     </div>
@@ -150,17 +151,18 @@
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
 <script>
-    var temp = "${options}";
+    let temp = "${options}";
     temp = temp.substring(1, temp.length - 1);
-    var option = temp.split(", ");
-    var area = ${area}+"m² / ";
-    var pyeong = Math.round(${area/3.3}) + "평";
-    var sellerNickname = "${sellerNickname}";
-    var sellerPhone = "${sellerPhone}";
-    var sellerMemberId = ${memberId};
-    var roomId = "${roomId}";
-    var likeList = ${likeList};
-    var roomImgNum = ${roomImgNum};
+    let option = temp.split(", ");
+    let area = ${area}+"m² / ";
+    let pyeong = Math.round(${area/3.3}) + "평";
+    let sellerNickname = "${sellerNickname}";
+    let sellerPhone = "${sellerPhone}";
+    let sellerMemberId = ${memberId};
+    let roomId = "${roomId}";
+    let likeList = ${likeList};
+    let roomImgNum = ${roomImgNum};
+    let roomType = "${roomType}";
 </script>
 </body>
 </html>
