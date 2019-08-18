@@ -17,13 +17,6 @@ public interface RoomMapper {
     String selectRoomImgOne(int roomId);
     List<RoomSummaryVO> selectRoomByRoomIds(List<Integer> ids);
     List<RoomSummaryVO> selectRoomByLikes(Map<String, Integer> map);
-    List<Map<String, Object>> selectRoomManage();
-    List<Map<String, Object>> selectRoomOption();
-    List<Map<String, Object>> selectHeatingType();
-    List<Map<String, Object>> selectPostStatusType();
-    List<Map<String, Object>> selectProcessStatusType();
-    List<Map<String, Object>> selectRentType();
-    List<Map<String, String>> selectRoomType();
     int selectOneRecentLocation();
     int selectOneRecentRoom();
     int selectLocationIdByRoomId(int roomId);
@@ -43,7 +36,6 @@ public interface RoomMapper {
     int insertRoomImage(Map<String, Object> map);
 
     int updateLocation(LocationVO locationVO);
-    
     int updateRoom(RoomVO roomVO);
     int updateDetailLocation(LocationVO locationVO);
     int updateSale(SaleInfoVO saleInfoVO);
@@ -55,6 +47,4 @@ public interface RoomMapper {
     int deleteManageCost(int roomId);
     int deleteRoomImg(int roomId);
     int deleteRoom(int roomId);
-
-
 }

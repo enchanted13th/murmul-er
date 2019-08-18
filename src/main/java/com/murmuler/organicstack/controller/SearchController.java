@@ -50,9 +50,9 @@ public class SearchController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView searchRoom() {
         ModelAndView mav = new ModelAndView();
-        List<Map<Long, String>> options = new ArrayList<>();
-        for (long key : optionRecord.keySet()) {
-            Map<Long, String> ops = new HashMap<>();
+        List<Map<Integer, String>> options = new ArrayList<>();
+        for (int key : optionRecord.keySet()) {
+            Map<Integer, String> ops = new HashMap<>();
             ops.put(key, optionRecord.get(key));
             options.add(ops);
         }

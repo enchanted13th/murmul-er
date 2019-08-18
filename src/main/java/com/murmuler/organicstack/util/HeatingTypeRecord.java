@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.util;
 
-import com.murmuler.organicstack.mybatis.RoomMapper;
+import com.murmuler.organicstack.mybatis.UtilMapper;
+import com.murmuler.organicstack.vo.HeatingTypeVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import java.util.*;
 public class HeatingTypeRecord {
     @Autowired
     private SqlSession sqlSession;
-    private Map<Long, String> heatingType;
+    private Map<Integer, String> heatingType;
 
     public HeatingTypeRecord() {
         heatingType = new HashMap<>();
@@ -20,20 +21,18 @@ public class HeatingTypeRecord {
 
     @PostConstruct
     private void initHeatingType() {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
-        List<Map<String, Object>> rs = mapper.selectHeatingType();
-        Iterator<Map<String, Object>> iterator = rs.iterator();
-        while(iterator.hasNext()){
-            Map<String, Object> temp = iterator.next();
-            heatingType.put((Long)temp.get("heatingId"), (String)temp.get("heatingName"));
+        UtilMapper mapper = sqlSession.getMapper((UtilMapper.class));
+        List<HeatingTypeVO> list = mapper.selectHeatingType();
+        for(HeatingTypeVO vo : list) {
+            heatingType.put(vo.getId(), vo.getName());
         }
     }
 
-    public String get(Long key) {
+    public String get(Integer key) {
         return heatingType.get(key);
     }
 
-    public Set<Long> keySet() {
+    public Set<Integer> keySet() {
         return heatingType.keySet();
     }
 
@@ -47,10 +46,11 @@ public class HeatingTypeRecord {
 
     public int getId(String value) {
         int id = 0;
-        switch (value) {
-            case "지역난방": id = 1; break;
-            case "개별난방": id = 2; break;
-            case "중앙난방": id = 3; break;
+        for (int key : heatingType.keySet()) {
+            if(heatingType.get(key).equals(value)) {
+                id = key;
+                break;
+            }
         }
         return id;
     }

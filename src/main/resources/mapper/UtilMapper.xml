@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.murmuler.organicstack.mybatis.UtilMapper">
+
+    <select id="selectRoomType" resultType="com.murmuler.organicstack.vo.RoomTypeVO">
+        SELECT room_type_id AS id, room_type_name AS name FROM room_type_tb
+    </select>
+
+    <select id="selectHeatingType" resultType="com.murmuler.organicstack.vo.HeatingTypeVO">
+        SELECT heating_id AS id, heating_name AS name FROM heating_tb
+    </select>
+
+    <select id="selectManageCost" resultType="com.murmuler.organicstack.vo.ManageCostVO">
+        SELECT manage_id AS id, manage_name AS name FROM manage_cost_tb
+    </select>
+
+    <select id="selectRoomOption" resultType="com.murmuler.organicstack.vo.OptionVO">
+        SELECT option_id AS id, option_name AS name FROM option_tb
+    </select>
+
+    <select id="selectPostStatusType" resultType="com.murmuler.organicstack.vo.PostStatusVO">
+        SELECT post_id AS id, post_name AS name FROM post_status_tb
+    </select>
+
+    <select id="selectProcessStatusType" resultType="com.murmuler.organicstack.vo.ProcessStatusVO">
+        SELECT process_id AS id, process_name AS name FROM process_status_tb
+    </select>
+
+    <select id="selectRentType" resultType="com.murmuler.organicstack.vo.RentTypeVO">
+        SELECT rent_id AS id, rent_name AS name FROM rent_type_tb
+    </select>
+
+    <select id="selectReportType" resultType="com.murmuler.organicstack.vo.ReportTypeVO">
+        SELECT report_type_id AS id, report_type_name AS name FROM report_type_tb
+    </select>
+
+</mapper>

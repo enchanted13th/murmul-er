@@ -164,7 +164,7 @@ public class RoomServiceImpl implements RoomService {
         paramMap.put("roomId", roomId);
         List<Integer> roomOptionsNum = roomDAO.selectRoomOptionByRoomId(paramMap);
         List<String> roomOptions = new ArrayList<>();
-        for (long l : roomOptionsNum) {
+        for (int l : roomOptionsNum) {
             roomOptions.add(optionRecord.get(l));
         }
         return roomOptions;
@@ -313,10 +313,10 @@ public class RoomServiceImpl implements RoomService {
             roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
             roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
             roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
-            roomSummaryViewVO.setPostType(postStatusRecord.get((long) roomSummaryVO.getPostId()));
+            roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
             roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
             roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
-            roomSummaryViewVO.setRentType(rentTypeRecord.get((long) roomSummaryVO.getRentId()));
+            roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
             roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
             roomSummaryViewVO.setDeposit(roomSummaryVO.getDeposit() / 10000);
             roomSummaryViewVO.setMonthlyCost(roomSummaryVO.getMonthlyCost() / 10000);
@@ -350,24 +350,24 @@ public class RoomServiceImpl implements RoomService {
         bean.setMemberId(roomDetailVO.getMemberId());
         bean.setArea(roomDetailVO.getArea());
         bean.setFloor(roomDetailVO.getFloor());
-        bean.setHeatType(heatingTypeRecord.get((long) roomDetailVO.getHeatType()));
+        bean.setHeatType(heatingTypeRecord.get(roomDetailVO.getHeatType()));
         bean.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
         bean.setTitle(roomDetailVO.getTitle());
-        bean.setRentType(rentTypeRecord.get((long) roomDetailVO.getRentType()));
+        bean.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
         bean.setPeriodNum(roomDetailVO.getPeriodNum());
         bean.setPeriodUnit(roomDetailVO.getPeriodUnit());
-        bean.setPostType(postStatusRecord.get((long) roomDetailVO.getPostType()));
+        bean.setPostType(postStatusRecord.get(roomDetailVO.getPostType()));
         bean.setDeposit(roomDetailVO.getDeposit());
         bean.setMonthlyCost(roomDetailVO.getMonthlyCost());
         bean.setManageCost(roomDetailVO.getManageCost());
         List<String> temp = new ArrayList<String>();
         for(Integer it: roomDetailVO.getManages()) {
-            temp.add(manageCostRecord.get((long) it));
+            temp.add(manageCostRecord.get(it));
         }
         bean.setManages(temp);
         List<String> temp2 = new ArrayList<String>();
         for(Integer it: roomDetailVO.getOptions()) {
-            temp2.add(optionRecord.get((long) it));
+            temp2.add(optionRecord.get(it));
         }
         bean.setOptions(temp2);
 

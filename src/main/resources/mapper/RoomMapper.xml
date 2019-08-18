@@ -88,69 +88,6 @@
         WHERE l.member_id = ${memberId}
     </select>
 
-    <resultMap id="roomManageMap" type="hashmap">
-        <id property="manageId" column="manage_id" jdbcType="INTEGER" />
-        <id property="manageName" column="manage_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="optionMap" type="hashmap">
-        <id property="optionId" column="option_id" jdbcType="INTEGER" />
-        <id property="optionName" column="option_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="heatTypeMap" type="hashmap">
-        <id property="heatingId" column="heating_id" jdbcType="INTEGER" />
-        <id property="heatingName" column="heating_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="postStatusMap" type="hashmap">
-        <id property="postId" column="post_id" jdbcType="INTEGER" />
-        <id property="postName" column="post_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="processStatusMap" type="hashmap">
-        <id property="processId" column="process_id" jdbcType="INTEGER" />
-        <id property="processName" column="process_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="rentTypeMap" type="hashmap">
-        <id property="rentId" column="rent_id" jdbcType="INTEGER" />
-        <id property="rentName" column="rent_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <resultMap id="roomTypeMap" type="hashmap">
-        <id property="roomTypeId" column="room_type_id" jdbcType="CHAR" />
-        <id property="roomTypeName" column="room_type_name" jdbcType="VARCHAR" />
-    </resultMap>
-
-    <select id="selectRoomManage" resultMap="roomManageMap">
-        SELECT * FROM manage_cost_tb
-    </select>
-
-    <select id="selectRoomOption" resultMap="optionMap">
-        SELECT * FROM option_tb
-    </select>
-
-    <select id="selectHeatingType" resultMap="heatTypeMap">
-        SELECT * FROM heating_tb
-    </select>
-
-    <select id="selectPostStatusType" resultMap="postStatusMap">
-        SELECT * FROM post_status_tb
-    </select>
-
-    <select id="selectProcessStatusType" resultMap="processStatusMap">
-        SELECT * FROM process_status_tb
-    </select>
-
-    <select id="selectRentType" resultMap="rentTypeMap">
-        SELECT * FROM rent_type_tb
-    </select>
-
-    <select id="selectRoomType" resultMap="roomTypeMap">
-        SELECT * FROM room_type_tb
-    </select>
-
     <select id="selectRoomIdByLocationId" parameterType="int" resultType="int">
         SELECT room_id
         FROM room_tb

@@ -2,7 +2,8 @@ package com.murmuler.organicstack.util;
 
 import java.util.*;
 
-import com.murmuler.organicstack.mybatis.RoomMapper;
+import com.murmuler.organicstack.mybatis.UtilMapper;
+import com.murmuler.organicstack.vo.RoomTypeVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,12 +22,10 @@ public class RoomTypeRecord {
 
     @PostConstruct
     private void initRoomType() {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
-        List<Map<String, String>> rs = mapper.selectRoomType();
-        Iterator<Map<String, String>> iterator = rs.iterator();
-        while(iterator.hasNext()){
-            Map<String, String> temp = iterator.next();
-            roomType.put((String)temp.get("roomTypeId"), (String)temp.get("roomTypeName"));
+        UtilMapper mapper = sqlSession.getMapper((UtilMapper.class));
+        List<RoomTypeVO> list = mapper.selectRoomType();
+        for(RoomTypeVO vo : list) {
+            roomType.put(vo.getId(), vo.getName());
         }
     }
 
@@ -48,12 +47,11 @@ public class RoomTypeRecord {
 
     public String getId(String value) {
         String id = "";
-        switch (value) {
-            case "아파트": id = "AP"; break;
-            case "오피스텔": id = "OP"; break;
-            case "원룸": id = "OR"; break;
-            case "투룸": id = "TR"; break;
-            case "빌라": id = "VI"; break;
+        for (String key : roomType.keySet()) {
+            if(roomType.get(key).equals(value)) {
+                id = key;
+                break;
+            }
         }
         return id;
     }

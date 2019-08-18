@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.util;
 
-import com.murmuler.organicstack.mybatis.RoomMapper;
+import com.murmuler.organicstack.mybatis.UtilMapper;
+import com.murmuler.organicstack.vo.ProcessStatusVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import java.util.*;
 public class ProcessStatusRecord {
     @Autowired
     private SqlSession sqlSession;
-    private Map<Long, String> processStatus;
+    private Map<Integer, String> processStatus;
 
     public ProcessStatusRecord() {
         processStatus = new HashMap<>();
@@ -20,20 +21,18 @@ public class ProcessStatusRecord {
 
     @PostConstruct
     private void initProcessStatus() {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
-        List<Map<String, Object>> rs = mapper.selectProcessStatusType();
-        Iterator<Map<String, Object>> iterator = rs.iterator();
-        while(iterator.hasNext()){
-            Map<String, Object> temp = iterator.next();
-            processStatus.put((Long)temp.get("processId"), (String)temp.get("processName"));
+        UtilMapper mapper = sqlSession.getMapper((UtilMapper.class));
+        List<ProcessStatusVO> list = mapper.selectProcessStatusType();
+        for(ProcessStatusVO vo : list) {
+            processStatus.put(vo.getId(), vo.getName());
         }
     }
 
-    public String get(Long key) {
+    public String get(Integer key) {
         return processStatus.get(key);
     }
 
-    public Set<Long> keySet() {
+    public Set<Integer> keySet() {
         return processStatus.keySet();
     }
 
@@ -47,11 +46,11 @@ public class ProcessStatusRecord {
 
     public int getId(String value) {
         int id = 0;
-        switch (value) {
-            case "처리대기": id = 1; break;
-            case "처리중": id = 2; break;
-            case "처리완료": id = 3; break;
-            case "처리불가": id = 4; break;
+        for (int key : processStatus.keySet()) {
+            if(processStatus.get(key).equals(value)) {
+                id = key;
+                break;
+            }
         }
         return id;
     }
