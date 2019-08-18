@@ -1,7 +1,7 @@
 package com.murmuler.organicstack.util;
 
-import com.murmuler.organicstack.mybatis.ReportMapper;
-import com.murmuler.organicstack.mybatis.RoomMapper;
+import com.murmuler.organicstack.mybatis.UtilMapper;
+import com.murmuler.organicstack.vo.ReportTypeVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,15 +21,10 @@ public class ReportTypeRecord {
 
     @PostConstruct
     public void initReportType() {
-        ReportMapper mapper = sqlSession.getMapper(ReportMapper.class);
-        List<Map<String, Object>> list = mapper.selectReportType();
-        Iterator<Map<String, Object>> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Map<String, Object> temp = iterator.next();
-            long tmp = (Long) temp.get("id");
-            int reportId = (int) tmp;
-            String reportName = (String) temp.get("content");
-            reportType.put(reportId, reportName);
+        UtilMapper mapper = sqlSession.getMapper((UtilMapper.class));
+        List<ReportTypeVO> list = mapper.selectReportType();
+        for(ReportTypeVO vo : list) {
+            reportType.put(vo.getId(), vo.getName());
         }
     }
 
@@ -51,13 +46,11 @@ public class ReportTypeRecord {
 
     public int getId(String value) {
         int id = 0;
-        switch (value) {
-            case "거래가 완료된 매물":
-                id = 1;
+        for (int key : reportType.keySet()) {
+            if(reportType.get(key).equals(value)) {
+                id = key;
                 break;
-            case "정보가 다른 매물":
-                id = 2;
-                break;
+            }
         }
         return id;
     }

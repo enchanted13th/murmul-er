@@ -75,10 +75,10 @@ public class MypageServiceImpl implements MypageService {
             roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
             roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
             roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
-            roomSummaryViewVO.setPostType(postStatusRecord.get((long) roomSummaryVO.getPostId()));
+            roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
             roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
             roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
-            roomSummaryViewVO.setRentType(rentTypeRecord.get((long)roomSummaryVO.getRentId()));
+            roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
             roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
             roomSummaryViewVO.setDeposit(roomSummaryVO.getDeposit());
             roomSummaryViewVO.setMonthlyCost(roomSummaryVO.getMonthlyCost());

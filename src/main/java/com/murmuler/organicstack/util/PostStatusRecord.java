@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.util;
 
-import com.murmuler.organicstack.mybatis.RoomMapper;
+import com.murmuler.organicstack.mybatis.UtilMapper;
+import com.murmuler.organicstack.vo.PostStatusVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public class PostStatusRecord {
 
     @Autowired
     private SqlSession sqlSession;
-    private Map<Long, String> postStatus;
+    private Map<Integer, String> postStatus;
 
     public PostStatusRecord() {
         postStatus = new HashMap<>();
@@ -26,20 +27,18 @@ public class PostStatusRecord {
 
     @PostConstruct
     private void initPostStatus() {
-        RoomMapper mapper = sqlSession.getMapper((RoomMapper.class));
-        List<Map<String, Object>> rs = mapper.selectPostStatusType();
-        Iterator<Map<String, Object>> iterator = rs.iterator();
-        while(iterator.hasNext()){
-            Map<String, Object> temp = iterator.next();
-            postStatus.put((Long)temp.get("postId"), (String)temp.get("postName"));
+        UtilMapper mapper = sqlSession.getMapper((UtilMapper.class));
+        List<PostStatusVO> list = mapper.selectPostStatusType();
+        for(PostStatusVO vo : list) {
+            postStatus.put(vo.getId(), vo.getName());
         }
     }
 
-    public String get(Long key) {
+    public String get(Integer key) {
         return postStatus.get(key);
     }
 
-    public Set<Long> keySet() {
+    public Set<Integer> keySet() {
         return postStatus.keySet();
     }
 
@@ -53,11 +52,11 @@ public class PostStatusRecord {
 
     public int getId(String value) {
         int id = 0;
-        switch(value) {
-            case "게시중" : id =  POST_POSTING; break;
-            case "게시종료" : id =  POST_END_POSTING; break;
-            case "거래완료" : id =  POST_DEAL_COMPLETE; break;
-            case "게시금지" : id =  POST_NO_POSTING; break;
+        for (int key : postStatus.keySet()) {
+            if(postStatus.get(key).equals(value)) {
+                id = key;
+                break;
+            }
         }
         return id;
     }
