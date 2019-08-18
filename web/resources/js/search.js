@@ -1,4 +1,5 @@
 var slideMenuFlag = false;
+
 $(window).resize(function () {
     if ($('#slideMenu').val() === "<") {
         if ($(window).width() < 1400) {
@@ -12,10 +13,10 @@ $(window).resize(function () {
         }
     }
 });
+
 $(document).ready(function () {
     $('#mapInputBox').keypress(function (e) {
         if (e.which === 13) {
-//				alert('검색');
             searchPlaces();
         }
     })
@@ -33,7 +34,6 @@ $(document).ready(function () {
 
         }
     });
-
 
     $('#btnMyFilter').click(function () {
         if ($('.myFilterWrap').css('display') == 'none') {

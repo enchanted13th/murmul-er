@@ -1,8 +1,14 @@
 var map;
 var point;
+var overlay;
 
-var idleFlag = true;
-var markerImageSrc = '/resources/img/etc/marker03.png';
+let idleFlag = true;
+
+let markerImageOR = '/resources/img/marker/mk_or.png';
+let markerImageTR = '/resources/img/marker/mk_tr.png';
+let markerImageVI = '/resources/img/marker/mk_vi.png';
+let markerImageOF = '/resources/img/marker/mk_of.png';
+let markerImageAP = '/resources/img/marker/mk_ap.png';
 
 $(document).ready(function (listener) {
 	var container = document.getElementById('map'); // 지도를 표시할 div
@@ -136,34 +142,9 @@ function placesSearchCB (data, status, pagination) {
 
 $.boundsLocation = function(res) {
     let bounds = new kakao.maps.LatLngBounds();
-	let room = {};
-	room.y = res.latitude;
-	room.x = res.longitude;
-	room.place_name = res.title;
-	displayMarker(room);
-	bounds.extend(new kakao.maps.LatLng(room.y, room.x));
-
-
-	// map.setBounds(bounds);
-
-	// let bounds = new kakao.maps.LatLngBounds();
-	// let obj = JSON.parse(data);
-	// for (let i = 0; i < markers.length; i++) {
-	// 	markers[i].setMap(null);
-	// }
-	//
-	// for (let i = 0; i < Object.keys(obj).length; i++) {
-	// 	let size = Object.keys(obj['item' + i]).length;
-	// 	let temp = obj['item' + i].substring(1, size - 1);
-	// 	let res = eval("(" + temp + ")");
-	// 	let room = {};
-	// 	room.y = res.latitude;
-	// 	room.x = res.longitude;
-	// 	room.place_name = res.title;
-	// 	displayMarker(room);
-	// 	bounds.extend(new kakao.maps.LatLng(room.y, room.x));
-	// }
-	// map.setBounds(bounds);
+	console.log(res);
+	displayMarker(res);
+	bounds.extend(new kakao.maps.LatLng(res.latitude, res.longitude));
 }
 
 $.showSubList = function(data){
@@ -177,7 +158,7 @@ $.showSubList = function(data){
 		if (filter(res) !== false) {
 			$.boundsLocation(res);
             $(''
-				+ '	<div class="item" style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95) + '%; height: 360px; display: inline-block;" onClick=location.href="searchRoom/' + res.roomId + '">'
+				+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95) + '%; height: 360px; display: inline-block;" onClick=location.href="searchRoom/' + res.roomId + '">'
 				+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/resources/' + res.roomImg + '"'
 				+ ' width="97%" height="100%"/></div>'
 				+ '			<p>' + res.roomType + '</p>'
@@ -186,31 +167,71 @@ $.showSubList = function(data){
 				+ '					<p>면적: ' + res.area + 'm²' + ', 관리비: ' + res.manageCost + '만 원</p>'
 				+ '	</div>').appendTo($('#itemsList'));
 		}
-
 	}
 }
-   // 지도에 마커를 표시하는 함수입니다
+// 지도에 마커를 표시하는 함수입니다
 function displayMarker(place) {
-
-		// 마커를 생성하고 지도에 표시합니다
-	var marker = new kakao.maps.Marker({
+	// 마커를 생성하고 지도에 표시합니다
+	let marker = new kakao.maps.Marker({
 		map: map,
-		position: new kakao.maps.LatLng(place.y, place.x)
-
+		position: new kakao.maps.LatLng(place.latitude, place.longitude)
 	});
-
 	marker.setMap(map);
 
-	var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
+	let type = place.roomType;
+	let markerImageSrc;
+	if(type==="원룸") {
+		markerImageSrc = markerImageOR;
+	}
+	else if(type==="투룸") {
+		markerImageSrc = markerImageTR;
+	}
+	else if(type==="빌라") {
+		markerImageSrc = markerImageVI;
+	}
+	else if(type==="오피스텔") {
+		markerImageSrc = markerImageOF;
+	}
+	else if(type==="아파트") {
+		markerImageSrc = markerImageAP;
+	}
+	let markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 64), new kakao.maps.Point(13, 34));
 	marker.setImage(markerImage);
 
 	markers.push(marker);
 
 	kakao.maps.event.addListener(marker, 'click', function() {
-           // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-		infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-		infowindow.open(map, marker);
+		openOverlay(place);
 	});
+}
+
+function openOverlay(place) {
+	let content = ''
+		+ '<div class="infoWrap" id=' + place.roomId + '>'
+		+ ' <div class="info">'
+		+ '		<div class="addr">' + place.address
+		+ '			<div class="close" onclick="closeOverlay('+ place.roomId +')" title="닫기"></div>'
+		+ '		</div>'
+		+ '		<div class="body">'
+		+ '			<div class="desc">'
+		+ '				<div class="content">[' + place.roomType + '] ' + place.title + '</div>'
+		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + (place.deposit != 0 ? (place.deposit + '만 원 / ') : '없음 / ')
+		+ '월세 ' + (place.monthlyCost != 0 ? (place.monthlyCost + '만 원 ) ') : '없음 )') + '</div>'
+		+ '				<div><a href="/searchRoom/' + place.roomId + '" target="_blank" class="link">방 보러가기</a></div>'
+		+ '         </div>'
+		+ '		</div>'
+		+ '	</div>'
+		+'</div>';
+	overlay = new kakao.maps.CustomOverlay({
+		content: content,
+		map: map,
+		position: new kakao.maps.LatLng(place.latitude, place.longitude)
+	});
+	overlay.setMap(map);
+}
+
+function closeOverlay(id) {
+	$('.infoWrap#' + id).remove();
 }
 
 function filter(obj) {
