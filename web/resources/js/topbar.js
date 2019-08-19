@@ -161,16 +161,19 @@ $.showLoginPopup = function (flag) {
                                 .then(function(){
                                     Swal.close();
                                     document.loginForm.id.focus();
-                                });
+                            });
                             break;
                         case "WRONG_PWD":
-                            Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error').then(function(){
+                            Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error')
+                                .then(function(){
                                 document.loginForm.pwd.focus();
                             });
                             break;
                         case "ADMIN_LOGIN":
-                            Swal.fire('','관리자 페이지로 이동합니다.',"success");
-                            location.href = "/admin";
+                            Swal.fire('','관리자 페이지로 이동합니다.',"success")
+                                .then(function () {
+                                location.href = "/admin";
+                            });
                             break;
                     }
                 }

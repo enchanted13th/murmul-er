@@ -403,4 +403,9 @@ public class RoomServiceImpl implements RoomService {
         }
         return roomDAO.insertRoomImage(roomId, imgUrlList);
     }
+
+    @Override
+    public int modifyMultiPostType(Map<String, Object> idMap) {
+        return roomDAO.updateMultiPostType(idMap);
+    }
 }

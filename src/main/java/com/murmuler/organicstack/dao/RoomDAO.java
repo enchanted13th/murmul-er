@@ -36,4 +36,5 @@ public interface RoomDAO {
     int deleteRoomImage(int roomId, String[] imgUrlList) ;
     int deleteRoom(int roomId);
     int deleteRoomImage(int roomId);
+    int updateMultiPostType(Map<String, Object> paramMap);
 }

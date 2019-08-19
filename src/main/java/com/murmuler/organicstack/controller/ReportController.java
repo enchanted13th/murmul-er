@@ -3,6 +3,7 @@ package com.murmuler.organicstack.controller;
 import com.murmuler.organicstack.service.ReportService;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomSummaryVO;
+import com.sun.deploy.net.HttpResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -47,4 +48,20 @@ public class ReportController {
         response.getWriter().print(res);
     }
 
+    @RequestMapping(value = "change-process-status", method = RequestMethod.POST)
+    public void changeProcessStatus(@RequestParam int id,
+                                    @RequestParam String processStatus,
+                                    HttpServletResponse response) throws IOException {
+        logger.info("change process status method entered...");
+        JSONObject res = new JSONObject();
+
+        if(reportService.changeProcessStatus(id, processStatus) > 0){
+            res.put("result", "SUCCESS");
+        } else {
+            res.put("result", "FAIL");
+        }
+
+        response.setContentType("application/json; charset=utf-8;");
+        response.getWriter().print(res);
+    }
 }
