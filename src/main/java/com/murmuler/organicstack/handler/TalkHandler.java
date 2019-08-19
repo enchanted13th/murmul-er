@@ -37,11 +37,11 @@ public class TalkHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
-        logger.info("payload : " + payload);
         MessageVO payloadMessage = objectMapper.readValue(payload, MessageVO.class);
 
         MessageVO messageMe = null;
         File file;
+
         int me = Integer.parseInt(payloadMessage.getSender());
         int you = Integer.parseInt(payloadMessage.getReceiver());
 
@@ -67,28 +67,26 @@ public class TalkHandler extends TextWebSocketHandler {
             }
         }
 
+        TalkRoom talkRoom;
+
         if (messageMe != null) {
+            if (repository.getTalkRoom(payloadMessage.getTalkRoomId()) == null) {
+                talkRoom = TalkRoom.create();
+                talkRoom.setId(payloadMessage.getTalkRoomId());
+                repository.addTalkRoom(talkRoom);
+            } else {
+                talkRoom = repository.getTalkRoom(payloadMessage.getTalkRoomId());
+            }
             messageMe.setTalkRoomId(payloadMessage.getTalkRoomId());
             messageMe.setSender(payloadMessage.getSender());
             messageMe.setReceiver(payloadMessage.getReceiver());
             messageMe.setType(payloadMessage.getType());
-            TalkRoom talkRoom = repository.getTalkRoom(messageMe.getTalkRoomId());
             talkRoom.handleMessage(session, messageMe, objectMapper);
         }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        for (TalkRoom talkRoom : repository.getTalkRooms()) {
-            if (talkRoom.hasSession(session)) {
-                talkRoom.chatExit(session);
-                logger.info("chat exit");
-//                if (talkRoom.isEmpty()) {
-//                    System.out.println("room remove");
-//                    repository.getTalkRooms().remove(talkRoom);
-//                }
-            }
-        }
-        System.out.println(repository.getTalkRooms().size());
+        repository.clearSession(session);
     }
 }

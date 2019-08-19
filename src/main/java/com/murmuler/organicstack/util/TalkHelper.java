@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.Buffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -23,8 +21,8 @@ import java.util.*;
 
 @Component
 public class TalkHelper {
-    private static final String REPOSITORY_PATH = "C:/util";
-    private static final String MAC_PATH = "/Users/seokjung/util";
+//    private static final String REPOSITORY_PATH = "/home/murmuler";
+    private static final String REPOSITORY_PATH = "/Users/ine";
     private static final String PATH = "/talkList";
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
@@ -149,6 +147,40 @@ public class TalkHelper {
         return talkList;
     }
 
+    public String getTalkRoomId(int me, int you) {
+        String filePath = REPOSITORY_PATH + PATH + "/" + me + "/" + you + "/talk.txt";
+        Path path = Paths.get(filePath);
+        String talkRoomId = "";
+        BufferedReader reader = null;
+        if (Files.exists(path)) {
+            try {
+                reader = Files.newBufferedReader(path);
+                String msg = reader.readLine();
+                String msgInfo = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+                String content = msg.substring(msg.indexOf(']') + 2);
+                String[] temp = msgInfo.split("\\^");
+                String sender = temp[0];
+                if (sender.equals("ID")) {
+                    talkRoomId = content;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        else {
+            return null;
+        }
+        return talkRoomId;
+    }
+
     public MessageVO readLastMessage(int me, int you) {
         String filePath = PATH + "/" + me + "/" + you + "/talk.txt";
         MessageVO lastMessage = null;
@@ -170,7 +202,7 @@ public class TalkHelper {
                 }
                 String date = temp[1];
                 String time = temp[2];
-                lastMessage = new MessageVO("", sender, "", content, "", date, time);
+                lastMessage = new MessageVO(getTalkRoomId(me, you), sender, "", content, "", date, time);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

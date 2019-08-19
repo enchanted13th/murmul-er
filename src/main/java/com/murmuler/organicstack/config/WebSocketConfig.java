@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.config;
 
 import com.murmuler.organicstack.handler.TalkHandler;
+import com.murmuler.organicstack.util.TalkHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,11 +13,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
+
     @Autowired
     private TalkHandler talkHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(talkHandler, "/talkHandler").setAllowedOrigins("*").withSockJS();
+        webSocketHandlerRegistry.addHandler(talkHandler, "/talkHandler").setAllowedOrigins("*").withSockJS().setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1.3.0/dist/sockjs.min.js");
     }
 }

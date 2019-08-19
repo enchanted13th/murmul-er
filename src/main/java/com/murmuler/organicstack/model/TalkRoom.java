@@ -13,8 +13,6 @@ import java.util.UUID;
 
 public class TalkRoom {
     private String id;
-    // private String name;
-    // 해당 채팅 방에 연결 된 session 저장 Collection
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     public static TalkRoom create() {
@@ -33,9 +31,9 @@ public class TalkRoom {
 
     public void handleMessage(WebSocketSession session, MessageVO messageVO, ObjectMapper objectMapper) {
         if (messageVO.getType().equals("JOIN")) {
-            System.out.println("JOIN");
-            chatInit(session);
+            sessions.add(session);
         }
+
         if (messageVO.getContent() != null && !(messageVO.getContent().equals(""))) {
             try {
                 send(messageVO, objectMapper);
@@ -45,14 +43,8 @@ public class TalkRoom {
         }
     }
 
-    private void chatInit(WebSocketSession session) {
-        sessions.add(session);
-    }
-
     private <T> void send(T messageObject, ObjectMapper objectMapper) throws JsonProcessingException {
         TextMessage message = new TextMessage(objectMapper.writeValueAsString(messageObject));
-        System.out.println("send message : " + message);
-        System.out.println("send payload : " + message.getPayload());
         sessions.parallelStream().forEach(session -> {
             try {
                 session.sendMessage(message);

@@ -24,9 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -35,9 +33,9 @@ import java.util.*;
 @RequestMapping("/contract")
 public class ContractController {
     Log logger = LogFactory.getLog(ContractController.class);
-//    @Autowired
-//    private ContractService contractService;
-    private static final String REPO_PATH = "/Users/seokjung/util";
+
+//    private static final String REPO_PATH = "/home/murmuler";
+    private static final String REPO_PATH = "/Users/ine";
     @Autowired
     private RoomService roomService;
     @Autowired
@@ -262,7 +260,7 @@ public class ContractController {
         contract.setStayFrom(from);
         contract.setStayTo(to);
 
-        if(contractService.registerContract(contract) > 0 ) {
+        if(contractService.registerContract(contract) > 0) {
             FOLDER_PATH += contract.getId();
             File uploadPath = new File(REPO_PATH, FOLDER_PATH);
             if(uploadPath.exists() == false){

@@ -12,7 +12,6 @@ var connectSock = function () {
 
         // onmessage : message를 받았을 때의 callback
         sock.onmessage = function (e) {
-            console.log(e);
             let newMessage = JSON.parse(e.data);
             if (newMessage.sender == me) {
                 sendMessage(newMessage);
@@ -32,8 +31,13 @@ $(document).ready(function () {
     $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
     $('#btnWriteContract').selectRoom('write');
     $('#btnUploadContract').selectRoom('register');
-    window.resizeTo(516, 820);
-    connectSock();
+    (function() {
+        setTimeout(function() {
+            connectSock();
+            window.resizeTo(516, 820);
+        }, 1000);
+    })();
+
 });
 
 $.fn.showTalkList = function () {
@@ -152,7 +156,6 @@ var receiveMessage = function (newMessage) {
         }
         newDiv.appendTo($('#divContent:last-child'));
     }
-    $('#textInputDialog').val('');
     $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
 }
 

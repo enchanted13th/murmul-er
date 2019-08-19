@@ -21,7 +21,7 @@ public class MessageVO {
         return "{" +
                 "talkRoomId:\"" + talkRoomId + "\"" +
                 ", sender:\"" + sender + "\"" +
-                ", receiver\"" + receiver + "\"" +
+                ", receiver:\"" + receiver + "\"" +
                 ", content:\"" + content + "\"" +
                 ", type:\"" + type + "\"" +
                 ", date:\"" + date + "\"" +

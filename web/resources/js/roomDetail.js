@@ -82,6 +82,7 @@ $.showTalk = function() {
     }
 	else {
         window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+        // window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
     }
 }
 
