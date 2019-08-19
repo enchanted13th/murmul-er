@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Service
 public class RoomServiceImpl implements RoomService {
-    private final int listSize = 6;
     @Autowired
     private RoomDAO roomDAO;
     @Autowired
@@ -35,11 +34,6 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomSummaryViewVO> getRoomsByLocation(Map<String, Object> map) {
         if(map == null)
             return null;
-        int page = (Integer) map.get("page");
-        page = (page - 1) * listSize;
-        if (page < 0) page = 0;
-        map.replace("page", page);
-        map.put("listSize", listSize);
         return convertVoToViewVo(roomDAO.selectRoomSummaryByLocation(map));
     }
 
@@ -103,8 +97,6 @@ public class RoomServiceImpl implements RoomService {
         saleInfoVO.setMonthlyCost(Integer.parseInt(roomInfo.get("monthlyCost")));
         int manageCost = roomInfo.get("manageCost").equals("") ? 0 : Integer.parseInt(roomInfo.get("manageCost"));
         saleInfoVO.setManageCost(manageCost);
-//        saleInfoVO.setWriteDate(new Date(0));
-//        saleInfoVO.setViews(0);
         saleInfoVO.setDetailExplain(roomInfo.get("detailExplain"));
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
         String hashtagExist = roomInfo.get("hashtagExist").equals("true") ? "Y" : "N";

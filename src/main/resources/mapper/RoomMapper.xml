@@ -47,7 +47,6 @@
         AND longitude &gt;= (${west})
         AND longitude &lt;= (${east})
         AND post_id = 1
-        LIMIT ${page}, ${listSize}
     </select>
 
     <select id="selectMyRoomById" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" >

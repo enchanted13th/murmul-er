@@ -1,6 +1,8 @@
 var map;
 var point;
 var overlay;
+//마커를 담을 배열
+let markers = [];
 
 let idleFlag = true;
 
@@ -11,24 +13,22 @@ let markerImageOF = '/resources/img/marker/mk_of.png';
 let markerImageAP = '/resources/img/marker/mk_ap.png';
 
 $(document).ready(function (listener) {
-	var container = document.getElementById('map'); // 지도를 표시할 div
-	var options = {
+	let container = document.getElementById('map'); // 지도를 표시할 div
+	let options = {
 	    center: new kakao.maps.LatLng(37.4839778342191, 126.955578840377), // 지도의 중심 좌표
 	    level: 3
 	};
 
 	map = new kakao.maps.Map(container, options); // 지도를 생성
-    var zoomControl = new kakao.maps.ZoomControl();
+    let zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-	kakao.maps.event.addListener(map, 'dragend', function() {
-		// var latlng = map.getCenter(); // 지도의 중심좌표를 얻어옵니다
-
-		// var bounds = new kakao.maps.LatLngBounds();
-		var bounds = map.getBounds();
+	kakao.maps.event.addListener(map, 'idle', function() {
+		let bounds = map.getBounds();
 
 		if(!idleFlag) return;
 		idleFlag = false;
+		if(filter)
 		$.ajax({
 				url: "searchRoom/search",
 				type: "GET",
@@ -36,9 +36,7 @@ $(document).ready(function (listener) {
                     southWest: bounds.getSouthWest().toString(),
                     northEast: bounds.getNorthEast().toString()
 				}, success: function (data) {
-					for (let i = 0; i < markers.length; i++) {
-						markers[i].setMap(null);
-					}
+					markers = [];
 					if (data != '{}') {
 						$('#slideMenu').css("visibility", "visible");
 						$.showSubList(data);
@@ -53,8 +51,6 @@ $(document).ready(function (listener) {
 				}
 			});
 		});
-	// 키워드로 장소를 검색
-	// searchPlaces();
 	ps.keywordSearch("렉토피아", placesSearchCB);
 });
 
@@ -82,14 +78,8 @@ var setWindow = function() {
 	}
 }
 
-//마커를 담을 배열
-var markers = [];
-
 //장소 검색 객체 생성
 var ps = new kakao.maps.services.Places();
-
-//검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 //키워드 검색을 요청하는 함수
 function searchPlaces(){
@@ -104,11 +94,9 @@ function searchPlaces(){
 }
 
 //키워드 검색 완료 시 호출되는 콜백함수 입니다
-function placesSearchCB (data, status, pagination) {
+function placesSearchCB (data, status) {
 	if (status === kakao.maps.services.Status.OK) {
 		var bounds = new kakao.maps.LatLngBounds();
-		pLat = data[0].y;
-		pLng = data[0].x;
 		bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
 		map.setBounds(bounds);
 		var bounds = map.getBounds();
@@ -121,9 +109,7 @@ function placesSearchCB (data, status, pagination) {
                 southWest: southWest,
                 northEast: northEast
 			}, success: function (data) {
-				for (let i = 0; i < markers.length; i++) {
-					markers[i].setMap(null);
-				}
+				markers = [];
 				if (data != '{}') {
 					$('#slideMenu').css("visibility", "visible");
 					$.showSubList(data);
@@ -142,7 +128,6 @@ function placesSearchCB (data, status, pagination) {
 
 $.boundsLocation = function(res) {
     let bounds = new kakao.maps.LatLngBounds();
-	console.log(res);
 	displayMarker(res);
 	bounds.extend(new kakao.maps.LatLng(res.latitude, res.longitude));
 }
@@ -150,25 +135,27 @@ $.boundsLocation = function(res) {
 $.showSubList = function(data){
    	let obj = JSON.parse(data);
 	$('.item').remove();
+	markers = [];
 	for(let i = 0; i < Object.keys(obj).length; i++) {
 	   	let size = Object.keys(obj['item'+i]).length;
 		let temp = obj['item'+i].substring(1, size-1);
 		let res = eval("("+ temp +")");
-
 		if (filter(res) !== false) {
 			$.boundsLocation(res);
             $(''
-				+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95) + '%; height: 360px; display: inline-block;" onClick=location.href="searchRoom/' + res.roomId + '">'
-				+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/resources/' + res.roomImg + '"'
-				+ ' width="97%" height="100%"/></div>'
-				+ '			<p>' + res.roomType + '</p>'
-				+ '				<span style="font-size: 20px; font-weight: bold;">보증금 ' + (res.deposit != 0 ? (res.deposit + '만 원 / ') : '없음 / ') + '</span>'
-				+ '				<span style="font-size: 20px; font-weight: bold;">' + res.rentType + ' ' + (res.monthlyCost != 0 ? (res.monthlyCost + '만 원') : ' ') + '</span>'
-				+ '					<p>면적: ' + res.area + 'm²' + ', 관리비: ' + res.manageCost + '만 원</p>'
-				+ '	</div>').appendTo($('#itemsList'));
+			+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
+			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
+			+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/resources/' + res.roomImg + '"'
+			+ ' width="97%" height="100%"/></div>'
+			+ '			<p style="font-size: 15px;">' + res.roomType + ' | ' + res.rentType + ' | ' + res.period + ' 가능</p>'
+			+ '				<span style="font-size: 17px; font-weight: bold;">보증금 ' + $.changeCost(res.deposit) + ' / </span>'
+			+ '				<span style="font-size: 17px; font-weight: bold;">월세 ' + $.changeCost(res.monthlyCost) + '</span>'
+			+ '					<p style="font-size: 16px; font-weight: 500;">' + res.title + '</p>'
+			+ '	</div>').appendTo($('#itemsList'));
 		}
 	}
 }
+
 // 지도에 마커를 표시하는 함수입니다
 function displayMarker(place) {
 	// 마커를 생성하고 지도에 표시합니다
@@ -201,6 +188,9 @@ function displayMarker(place) {
 	markers.push(marker);
 
 	kakao.maps.event.addListener(marker, 'click', function() {
+		if($('.infoWrap#' + place.roomId)) {
+			$('.infoWrap#' + place.roomId).remove();
+		}
 		openOverlay(place);
 	});
 }
@@ -214,9 +204,9 @@ function openOverlay(place) {
 		+ '		</div>'
 		+ '		<div class="body">'
 		+ '			<div class="desc">'
-		+ '				<div class="content">[' + place.roomType + '] ' + place.title + '</div>'
-		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + (place.deposit != 0 ? (place.deposit + '만 원 / ') : '없음 / ')
-		+ '월세 ' + (place.monthlyCost != 0 ? (place.monthlyCost + '만 원 ) ') : '없음 )') + '</div>'
+		+ '				<div class="content">[' + place.roomType + '] ' + $.changeTitle(place.title) + '</div>'
+		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + $.changeCost(place.deposit)
+		+ ' / 월세 ' + $.changeCost(place.monthlyCost) + ' )</div>'
 		+ '				<div><a href="/searchRoom/' + place.roomId + '" target="_blank" class="link">방 보러가기</a></div>'
 		+ '         </div>'
 		+ '		</div>'
@@ -235,16 +225,15 @@ function closeOverlay(id) {
 }
 
 function filter(obj) {
-
-   	var roomTypeFlag = false;
+   	let roomTypeFlag = false;
    	for (let i = 0; i < roomTypeList.length; i++) {
    		if (obj.roomType === roomTypeList[i]) roomTypeFlag = true;
 	}
 
    	if (roomTypeFlag === false) return false;
 
-   	var periodNum = obj.period.replace(/[^0-9]/g,"");
-   	var rentD;
+   	let periodNum = obj.period.replace(/[^0-9]/g,"");
+   	let rentD;
 
 	if (obj.period.includes("주")) {
 		rentD = periodNum * 7;
@@ -254,7 +243,7 @@ function filter(obj) {
 		rentD = periodNum * 365
 	}
 
-	var rentRange = 99999;
+	let rentRange = 99999;
 	switch($('#rentRange').val()) {
 		case '0': rentRange = 0; break;
 		case '1': rentRange = 30; break;
@@ -266,7 +255,7 @@ function filter(obj) {
 		return false;
 	}
 
-	var depositRange = 99999;
+	let depositRange = 99999999;
 	switch($('#deposit').val()) {
 		case '0' : depositRange = 0; break;
 		case '1' : depositRange = 300; break;
@@ -307,4 +296,33 @@ function filter(obj) {
 	}
 
 	return true;
+}
+
+$.changeTitle = function(title) {
+	if(title.length > 17) {
+		let temp = title.substr(0, 17);
+		title = temp + '...';
+	}
+	return title;
+}
+
+$.changeCost = function(cost){
+	cost += '';
+	let res = '';
+	if(cost === '0')
+		return '없음';
+	if(cost.length > 4) {
+		let uk = cost.substr(0, cost.length - 4);
+		res = uk + '억';
+		let man = parseInt(cost.substr(-4), 10);
+		if(man !== 0)
+			res += man + '만';
+	}
+	else
+		res = cost + '만';
+	return res;
+}
+
+function showRoom(roomId) {
+	window.open("/searchRoom/" + roomId,"_blank");
 }
