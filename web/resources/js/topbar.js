@@ -307,6 +307,10 @@ $.showJoinPopup = function () {
         });
         popup.find('#isdupli').click(function () {
             let id = $('#inputId').val();
+            if(id.includes(" ")){
+                includeBlank("아이디 입력란")
+                return;
+            }
             if (id.length < 6 || id.length > 20) {
                 Swal.fire('','아이디는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
                 document.joinForm.id.focus();
@@ -363,6 +367,11 @@ var guitar = function () {
     }
 }
 
+var includeBlank = function(type) {
+    Swal.fire('',type+'에 공백 문자를 입력할 수 없습니다.');
+    return false;
+}
+
 var isDuplicatedCheck = false;
 $.validJoinInfo = function () {
     let id = $('#inputId').val();
@@ -375,8 +384,12 @@ $.validJoinInfo = function () {
     let phone1 = $('#frontNum').val();
     let phone2 = $('#middleNum').val();
     let phone3 = $('#backNum').val();
+    let nameCheck = /[^ㄱ-힣a-zA-Z]/gi;
+    let emailCheck = /[^0-9a-zA-Z-_]/gi;
+
     if (id === "" || pwd === "" || pwd2 === "" || realname === "" || nickname === "" || emailId === "" || domain === "" || phone1 === "" || phone2 === "" || phone3 === "")
         return false;
+
     if (id.length < 6 || id.length > 20) {
         Swal.fire('','아이디는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
         document.joinForm.id.focus();
@@ -397,9 +410,12 @@ $.validJoinInfo = function () {
         document.joinForm.pwd2.focus();
         return false;
     }
-    if (emailId === '') {
-        Swal.fire('','이메일을 등록해주세요.',"warning");
-        document.joinForm.emailId.focus();
+    if(realname.includes(" ")){
+        return includeBlank("이름 항목");
+    }
+    if(nameCheck.test(realname)){
+        Swal.fire('','이름 항목에는 한글,영문만 입력가능합니다.',"warning");
+        document.joinForm.realname.focus();
         return false;
     }
     if (realname === '' || realname.length > 10) {
@@ -411,6 +427,25 @@ $.validJoinInfo = function () {
         Swal.fire('','닉네임은 10자 이하입니다.',"warning");
         document.joinForm.nickname.focus();
         return false;
+    }
+    if(emailId.includes(" ")){
+        return includeBlank("이메일 입력란");
+    }
+    if (emailId === '') {
+        Swal.fire('','이메일을 등록해주세요.',"warning");
+        document.joinForm.emailId.focus();
+        return false;
+    }
+    if(emailCheck.test(emailId)){
+        Swal.fire('','올바르지 않은 이메일 양식입니다.',"warning");
+        document.joinForm.emailId.focus();
+        return false;
+    }
+    if(phone2.includes(" ")){
+        return includeBlank("휴대번호 입력란");
+    }
+    if(phone3.includes(" ")){
+        return includeBlank("휴대번호 입력란");
     }
     if (!isNumber(phone2)) {
         Swal.fire('','휴대번호는 숫자만 입력해주세요.',"warning");
