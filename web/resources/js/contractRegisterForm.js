@@ -112,7 +112,9 @@ $.uploadImage = function () {
     // console.log(formData.get("monthlyCost"));
     // console.log(formData.get("from"));
     // console.log(formData.get("to"));
-
+    console.log(formData.get("uploadFile"));
+    console.log(formData.get("deposit"));
+    console.log(formData.get("from"));
     $.ajax({
         url: '/contract/uploadContract',
         processData: false,
@@ -122,6 +124,7 @@ $.uploadImage = function () {
         dataType: 'json',
         type: 'POST'
     }).then(function (data, status) {
+        console.log(data);
         if (status === "success") {
             // console.log(data.uploadResult);
             switch (data.uploadResult) {

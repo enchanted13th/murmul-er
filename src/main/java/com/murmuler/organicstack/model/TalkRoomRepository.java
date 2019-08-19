@@ -1,16 +1,14 @@
 package com.murmuler.organicstack.model;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.socket.WebSocketSession;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class TalkRoomRepository {
     private final Map<String, TalkRoom> talkRoomMap;
-    private Collection<TalkRoom> talkRooms;
+    private List<TalkRoom> talkRooms;
 
     public TalkRoomRepository() {
         talkRoomMap = new HashMap<>();
@@ -26,7 +24,19 @@ public class TalkRoomRepository {
         return talkRoomMap.get(id);
     }
 
-    public Collection<TalkRoom> getTalkRooms() {
-        return talkRooms;
+    public synchronized void clearSession(WebSocketSession session) {
+        int index = 0;
+        while (talkRooms.size() > index) {
+            TalkRoom talkRoom = talkRooms.get(index);
+            if (talkRoom.hasSession(session)) {
+                talkRoom.chatExit(session);
+                if (talkRoom.isEmpty()) {
+                    talkRoomMap.remove(talkRoom.getId());
+                    talkRooms.remove(index);
+                    continue;
+                }
+            }
+            index++;
+        }
     }
 }

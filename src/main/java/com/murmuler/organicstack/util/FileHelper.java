@@ -12,9 +12,8 @@ import java.util.List;
 
 @Component
 public class FileHelper {
-    private static final String REPOSITORY_PATH = "C:/util";
-    private static final String MAC_INE_PATH = "/Users/ine";
-    private static final String MAC_SEOK_PATH = "/Users/seokjung/util";
+//    private static final String REPOSITORY_PATH = "/home/murmuler";
+    private static final String REPOSITORY_PATH = "/Users/ine";
 
     private Log logger = LogFactory.getLog(FileHelper.class);
 
@@ -195,7 +194,7 @@ public class FileHelper {
             logger.error("실패: 잘못된 파일명입니다.");
             return false;
         }
-        String path = MAC_SEOK_PATH + storagePath + "/" + fileName;
+        String path = REPOSITORY_PATH + storagePath + "/" + fileName;
         logger.info("다운로드 경로 : " + path);
 
         File file = new File(path);

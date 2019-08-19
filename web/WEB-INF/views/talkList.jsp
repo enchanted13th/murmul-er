@@ -7,6 +7,11 @@
     <title>머물-톡</title>
     <link rel="stylesheet" href="/resources/css/talkList.css"/>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="/resources/js/sockjs.js"></script>
+    <script>
+        let talkInfoList = eval(${talkInfoList});
+        let me = '${me}';
+    </script>
     <script src="/resources/js/talkList.js"></script>
 </head>
 <body>
@@ -20,7 +25,7 @@
             <div class="divContent">
                 <c:if test="${isExist==true}">
                     <c:forEach var="talkInfo" items="${talkInfoList}">
-                        <div class="divRoom">
+                        <div class="divRoom" id="member${talkInfo.contactMember}">
                             <c:set var="contactMember" value="${talkInfo.contactMember}"/>
                             <c:set var="lastMessage" value="${talkInfo.lastMessage}"/>
                             <table>

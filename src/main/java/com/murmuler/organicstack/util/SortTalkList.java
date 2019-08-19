@@ -1,15 +1,16 @@
 package com.murmuler.organicstack.util;
 
 import com.murmuler.organicstack.vo.MessageVO;
+import org.json.simple.JSONObject;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
-public class SortTalkList implements Comparator<Map<String, Object>> {
+public class SortTalkList implements Comparator<JSONObject> {
 
     @Override
-    public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+    public int compare(JSONObject o1, JSONObject o2) {
         MessageVO m1 = (MessageVO) o1.get("lastMessage");
         MessageVO m2 = (MessageVO) o2.get("lastMessage");
 
