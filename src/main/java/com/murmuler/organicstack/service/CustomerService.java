@@ -22,4 +22,9 @@ public interface CustomerService {
     List<FaqVO> getAllFaqList();
     List<NoticeVO> getAllNoticeList();
 
+    int updateFaq(int id, String title, String content);
+    int updateNotice(int id, String title, String content);
+
+    int addNotice(String title, String content);
+    int addFaq(String title, String content);
 }

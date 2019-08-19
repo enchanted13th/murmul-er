@@ -62,8 +62,7 @@ public class CsDAOImpl implements CsDAO {
         Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("content", content);
-        int cnt = mapper.insertFaq(map);
-        return cnt;
+        return mapper.insertFaq(map);
     }
 
     @Override
@@ -72,8 +71,7 @@ public class CsDAOImpl implements CsDAO {
         Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("content", content);
-        int cnt = mapper.insertNotice(map);
-        return cnt;
+        return mapper.insertNotice(map);
     }
 
     @Override
