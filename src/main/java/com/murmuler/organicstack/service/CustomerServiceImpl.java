@@ -65,4 +65,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<NoticeVO> getAllNoticeList() { return csDAO.searchAllNoticeList(); }
+
+    @Override
+    public int updateFaq(int id, String title, String content) { return csDAO.updateFaq(id, title, content); }
+
+    @Override
+    public int updateNotice(int id, String title, String content) { return csDAO.updateNotice(id, title, content); }
+
+    @Override
+    public int addNotice(String title, String content) { return csDAO.insertNotice(title, content); }
+
+    @Override
+    public int addFaq(String title, String content) { return csDAO.insertFaq(title, content); }
 }

@@ -80,15 +80,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="notice" items="${noticeList}">
+                    <c:forEach var="notice" items="${noticeList}" varStatus="noticeNum">
                         <tr>
                             <td align="center">
                                 <input type="checkbox" name="del_chk" value="${notice.id}">
                             </td>
-                            <td class="align-center">${notice.id}</td>
-                            <td style="color:black">${notice.title}</td>
-                            <td class="align-center">${notice.writeDate}</td>
-                            <td class="align-center"><img class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
+                            <td class="align-center" value="${noticeNum.count}">${notice.id}</td>
+                            <td class="underline" id="question${noticeNum.count}" onclick="$.showContent(${noticeNum.count})">${notice.title}</td>
+                            <td class="align-center" id="date">${notice.writeDate}</td>
+                            <td class="align-center"><img id="img${notice.id}img${noticeNum.count}" class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
+                            <input type="hidden" id="answer${noticeNum.count}" value="${notice.content}">
                         </tr>
                     </c:forEach>
                     </tbody>
