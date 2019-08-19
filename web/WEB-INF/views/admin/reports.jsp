@@ -50,7 +50,7 @@
                     <span class="icon text-white-50">
                       <i class="fas fa-ban"></i>
                     </span>
-                <span class="text">게시금지</span>
+                <span class="text">게시금지</span>\
             </button>
             <a href="/admin" class="btn btn-primary btn-icon-split" style="float: right; margin-right: 20px;">
                     <span class="icon text-white-50">

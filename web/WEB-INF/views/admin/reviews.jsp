@@ -70,7 +70,7 @@
                     <c:forEach var="review" items="${reviews}">
                         <tr id="${review.writeDate}">
                             <td align="center">
-                                <input type="checkbox" name="del_chk" value="${review.id}">
+                                <input type="checkbox" name="del_chk" value="${review.id}" onchange="$(this).checkOnOff(${review.id})">
                             </td>
                             <td class="writeDate">${review.writeDate}</td>
                             <td class="title" id="${review.id}" style="color:black">${review.title}</td>

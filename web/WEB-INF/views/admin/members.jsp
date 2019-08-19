@@ -83,7 +83,7 @@
                                     <input type="checkbox" disabled>
                                 </c:if>
                                 <c:if test="${mem.memberId != 0}">
-                                    <input type="checkbox" name="del_chk" value="${mem.memberId}" onchange="$(this).changeChk()">
+                                    <input type="checkbox" name="del_chk" value="${mem.memberId}" onchange="$(this).checkOnOff(${mem.memberId})">
                                 </c:if>
                             </td>
                             <td style="color:black">${mem.id}</td>
