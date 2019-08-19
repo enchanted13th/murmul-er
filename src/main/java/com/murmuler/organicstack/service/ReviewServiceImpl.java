@@ -18,6 +18,15 @@ public class ReviewServiceImpl implements ReviewService {
     private ReviewDAO reviewDAO;
 
     @Override
+    public ReviewVO getReviewListByReviewId(int reviewId) {
+        ReviewVO reviewVO = reviewDAO.searchReviewListByReviewId(reviewId);
+        List<String> hashTagList = new ArrayList<String>();
+        hashTagList = reviewDAO.serachHashTag(reviewVO.getId());
+        reviewVO.setHashTagList(new ArrayList<String>(hashTagList));
+        return reviewVO;
+    }
+
+    @Override
     public List<ReviewVO> getReviewList(int pageNum) {
         int page = (pageNum-1)*3;
         List<ReviewVO> reviewVOList = reviewDAO.searchReviewList(page);
@@ -66,6 +75,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<ReviewVO> getAllReviewList() {
+        List<ReviewVO> reviewVOList = reviewDAO.selectAllReviewList();
+        List<String> hashTagList = new ArrayList<String>();
+        for(ReviewVO rv : reviewVOList){
+            hashTagList = reviewDAO.serachHashTag(rv.getId());
+            rv.setHashTagList(new ArrayList<String>(hashTagList));
+        }
+        return reviewVOList;
+    }
+
+    @Override
     public int getReviewButtonCnt() {
         return reviewDAO.searchReviewButtonCnt();
     }
@@ -100,5 +120,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public int addImg(int reviewId, String image) {
         return reviewDAO.insertReviewImage(reviewId, image);
+    }
+
+    @Override
+    public int removeMultiReivew(Map<String, Object> idMap) {
+        return reviewDAO.deleteMultiReview(idMap);
     }
 }

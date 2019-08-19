@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+#page-top > #wrapper {
+    margin: 0 auto;
+    width: 1000px;
+}
+#page-top > #wrapper > .card {
+    margin: 0 auto;
+    width: 1000px;
+}
+#page-top > #wrapper > .card > .card-header {
+    width: 1000px;
+}
+#page-top > #wrapper > .card > .card-body {
+    width: 1000px;
+}
+
+#sublist {
+    color: #666666!important;
+    font-weight: 400!important;
+}
+
+#sublist:hover {
+    cursor: pointer;
+}
+
+.title:hover {
+    cursor: pointer;
+}
+
+#reviewPopup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 50;
+}
+
+.reviewTitle {
+    position: relative;
+    width: 100%;
+    height: 70px;
+}
+
+.reviewTitle>div {
+    position: absolute;
+    width : 100%;
+    height: 36px;
+    font-size: 30px;
+    top: 50%;
+    margin-top: -18px;
+    text-align: center;
+    width: 100%;
+}
+
+.divOption1 {
+    margin: 25px auto;
+    width: 1070px;
+}
+
+.totalCnt {
+    font-size: 14px;
+    text-align: left;
+}
+
+.totalCntColor {
+    font-size: 14px;
+    text-align: left;
+    font-weight: bold;
+    color: rgb(146, 189, 223);
+}
+
+.filter {
+    float: right;
+    border: 0;
+    outline: 0;
+}
+
+.filter:hover {
+    cursor: pointer;
+}
+
+.divOption2 {
+    margin: 15px auto;
+    width: 1070px;
+}
+
+.selAlign {
+    font-size: 20px;
+    height: 35px;
+}
+
+.addReview {
+    float: right;
+    width: 140px;
+    height: 45px;
+    border: 0;
+    outline: 0;
+    font-size: 20px;
+    border: 2px solid rgb(182, 226, 248);
+}
+
+.divOption2>.addReview:hover {
+    cursor: pointer;
+    background-color: rgb(182, 226, 248);
+}
+
+.element{
+    margin: 25px auto;
+    border: 1px solid rgb(182, 226, 248);
+    background-color: white;
+    width: 1070px;
+}
+
+.topText {
+    margin: 25px 30px;
+    font-size: 20px;
+    color: #808080;
+}
+
+.title {
+    margin: 25px 30px;
+    font-size: 20px;
+}
+
+.location {
+    margin: 25px 30px;
+    font-size: 17px;
+    color: #404040;
+}
+
+.content {
+    margin: 25px 30px;
+    display: flex;
+}
+
+.picture {
+    width: 400px;
+    margin-top: 20px;
+    padding-right: 40px;
+}
+
+.hashtag {
+    margin-top: 20px;
+    color: #93CBF1;
+    font-size: 17pt;
+}
+
+.hashtag>span {
+    padding-right: 20px;
+}
+
+.content>.text {
+    margin-top: 5px;
+    padding-left: 40px;
+    width: 500px;
+    border-left: 1px solid #bfbfbf;
+}
+
+.textTitle {
+    /*height: 40px;*/
+    padding-top: 20px;
+    padding-bottom: 5px; font-size : 20pt;
+    font-weight: 500;
+    font-size: 20pt
+}
+
+.overall{
+    height: 70px;
+}
+
+.overall>span {
+    float: left;
+}
+
+.rank {
+    padding-top: 10px;
+    margin-left: 20px;
+    float: left;
+}
+
+.level>span {
+    float: left;
+}
+
+.review_text {
+    display: inline-block;
+}
+
+.insect, .noise {
+    padding-top: 15px;
+    margin: 0 50px 0 20px;
+    float: left;
+    width: 50px;
+    /*height: 50px;*/
+}
+
+.textTitle{
+    font-weight: bold;
+}
+
+.close:hover {
+    cursor: pointer;
+}
+
+.btnDelete{
+    border: 2px solid rgb(182,226,248);
+    background-color: white;
+    width: calc(25% - 5px);
+    height: 50px;
+    font-size: 16px;
+    width: 100px;
+}
+
+.btnDelete:hover{
+    background-color: rgb(182,226,248);
+    color: white;
+    cursor: pointer;
+}
+
+.btns{
+    text-align: center;
+}
+
+.space, #space{
+    margin-right: 10px;
+}

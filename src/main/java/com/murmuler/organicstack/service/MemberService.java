@@ -3,6 +3,7 @@ package com.murmuler.organicstack.service;
 import com.murmuler.organicstack.vo.MemberVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     List<MemberVO> getAllMembers();

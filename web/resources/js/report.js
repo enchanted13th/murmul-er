@@ -2,7 +2,6 @@ $(document).ready(function () {
     $("#report").click(function () {
         $.report();
     })
-
 })
 
 $.report = function () {
