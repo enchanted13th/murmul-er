@@ -21,4 +21,5 @@ public interface RoomService {
     int removeRoom(int roomId);
     int getRoomIdByMemberId(int memberId);
     int modifyImg(int roomId, ArrayList<String> imgUrlList);
+    int modifyMultiPostType(Map<String, Object> idMap);
 }

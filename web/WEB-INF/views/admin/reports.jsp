@@ -1,11 +1,10 @@
 <%--
   Created by IntelliJ IDEA.
   User: seokjung
-  Date: 06/08/2019
-  Time: 7:13 PM
+  Date: 18/08/2019
+  Time: 9:08 PM
   To change this template use File | Settings | File Templates.
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -19,7 +18,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ADMIN - Members</title>
+    <title>ADMIN - Reports</title>
 
     <!-- Custom fonts for this template -->
     <link href="/resources/bootstrap-sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -46,12 +45,12 @@
 <div id="wrapper">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Murmul-er Member list</h6>
-            <button id="delbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 20px;" >
+            <h6 class="m-0 font-weight-bold text-primary" style="display: inline">List of Report about Room</h6>
+            <button id="banbtn" class="btn btn-danger btn-icon-split" style="float: right; margin-right: 20px;" >
                     <span class="icon text-white-50">
-                      <i class="fas fa-user-slash"></i>
+                      <i class="fas fa-ban"></i>
                     </span>
-                <span class="text">회원삭제</span>
+                <span class="text">게시금지</span>
             </button>
             <a href="/admin" class="btn btn-primary btn-icon-split" style="float: right; margin-right: 20px;">
                     <span class="icon text-white-50">
@@ -67,34 +66,28 @@
                     <tr>
                         <td align="center"><input type="checkbox" id="check_all"></td>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th width="103px">Phone</th>
-                        <th>Email</th>
-                        <th>Nickname</th>
-                        <th>Gender</th>
+                        <th>방번호</th>
+                        <th>신고유형</th>
+                        <th>내용</th>
+                        <th>처리상태</th>
+                        <th>상태변경</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <c:forEach var="mem" items="${members}">
+                    <c:forEach var="report" items="${reports}">
                         <tr>
                             <td align="center">
-                                <c:if test="${mem.memberId == 0}">
-                                    <input type="checkbox" disabled>
-                                </c:if>
-                                <c:if test="${mem.memberId != 0}">
-                                    <input type="checkbox" name="del_chk" value="${mem.memberId}" onchange="$(this).changeChk()">
-                                </c:if>
+                                <input type="checkbox" name="ban_chk" onchange="$(this).checkOnOff(${report.id},${report.roomId})">
+                                <input type="hidden" id="ct${report.id}" value="${report.content}">
                             </td>
-                            <td style="color:black">${mem.id}</td>
-                            <td>${mem.name}</td>
-                            <td>${mem.phone}</td>
-                            <td>${mem.email}</td>
-                            <td>${mem.nickname}</td>
-                            <td>
-                                <c:if test="${mem.gender eq 'M'}">M <i class="fas fa-mars" style="color:#3366ff"></i></c:if>
-                                <c:if test="${mem.gender eq 'F'}">F <i class="fas fa-venus" style="color:#ff3366"></i></c:if>
-                                <c:if test="${mem.gender eq 'X'}"><i class="fas fa-ad" style="color:red"></i></c:if>
+                            <td class="align-center" id="id${report.id}">${report.id}</td>
+                            <td class="align-center room-id underline" onclick="$.openDetail(${report.roomId})">${report.roomId}</td>
+                            <td class="report-type align-center" id="rt${report.id}">${report.reportType}</td>
+                            <td class="content underline" onclick="$.showContent(${report.id})">${report.content}</td>
+                            <td class="align-center" id="ps${report.id}" >${report.processStatus}</td>
+                            <td class="align-center">
+                                <button class="btns underline" id="btn${report.id}" onclick="$(this).selectStatus()">변경</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -122,10 +115,11 @@
 <!-- Page level custom scripts -->
 <script src="/resources/bootstrap-sb-admin/js/demo/datatables-demo.js"></script>
 <!-- 내가 추가한거 -->
-<script>var fromWhere = "member";</script>
+<script>var fromWhere = "report";</script>
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
 <script src="/resources/js/admin/admin.js"></script>
 <script src="/resources/js/admin/list.js"></script>
+<script src="/resources/js/admin/reports.js"></script>
 
 </body>
 

@@ -50,12 +50,19 @@
         <div class="my-2"></div>
         <a href="#" class="btn btn-info btn-icon-split">
                     <span class="icon text-white-50">
-                      <i class="fas fa-info-circle"></i>
+                      <i class="fas fa-star-half-alt"></i>
                     </span>
-          <span class="text">Blah Blah Blah</span>
+          <span class="text">Show Review list</span>
         </a>
         <div class="my-2"></div>
-        <a href="/admin/logout" class="btn btn-info btn-icon-split" style="background-color: #346998">
+        <a href="/admin/report" class="btn btn-report btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-exclamation-circle"></i>
+                    </span>
+          <span class="text">Show Report list</span>
+        </a>
+        <div class="my-2"></div>
+        <a href="/admin/logout" class="btn btn-icon-split btn-logout">
                     <span class="icon text-white-50">
                       <i class="fas fa-backspace"></i>
                     </span>

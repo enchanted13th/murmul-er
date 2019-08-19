@@ -3,6 +3,15 @@
 #page-top > #wrapper > .card {
     margin: 0 auto;
 }
+.align-center {
+    text-align: center;
+}
+
+.underline:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: black;
+}
 
 @media (max-width: 1000px) {
     #page-top > #wrapper {

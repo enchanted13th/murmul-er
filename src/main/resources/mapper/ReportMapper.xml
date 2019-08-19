@@ -14,7 +14,24 @@
     </select>
 
     <insert id="insertReport" parameterType="hashmap">
-        INSERT INTO report_tb (room_id, report_type_id, additional_explain, process_id) VALUES(#{roomId}, #{reportTypeId}, #{content}, 2)
+        INSERT INTO report_tb (room_id, report_type_id, additional_explain, process_id) VALUES(#{roomId}, #{reportTypeId}, #{content}, 1)
     </insert>
+
+    <select id="selectAllReports" resultType="com.murmuler.organicstack.vo.ReportViewVO">
+        SELECT report_id AS id, room_id AS roomId, report_type_id AS reportType, additional_explain AS content, process_name AS processStatus
+        FROM report_tb JOIN process_status_tb USING(process_id)
+    </select>
+
+    <delete id="deleteMultiReport" parameterType="hashmap">
+        DELETE FROM report_tb
+        WHERE report_id in (
+        <foreach collection="ids" item="id" separator=",">#{id}</foreach>
+        )
+    </delete>
+
+    <update id="updateProcessStatus" parameterType="hashmap">
+        UPDATE report_tb SET process_id=${processId}
+        WHERE report_id=${id}
+    </update>
 
 </mapper>

@@ -2,7 +2,6 @@ $(document).ready(function () {
     $.setCenter();
 })
 
-
 $("#check_all").click(function(){
     $("#dataTable > tbody > tr > td > input[name='del_chk']").prop('checked', $(this).is(":checked"));
 });

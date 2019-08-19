@@ -47,4 +47,6 @@ public interface RoomMapper {
     int deleteManageCost(int roomId);
     int deleteRoomImg(int roomId);
     int deleteRoom(int roomId);
+
+    int updateMultiPostType(Map<String, Object> paramMap);
 }

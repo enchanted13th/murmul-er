@@ -238,4 +238,11 @@
         DELETE FROM location_tb WHERE location_id = (SELECT location_id FROM room_tb WHERE room_id = #{roomId})
     </delete>
 
+    <update id="updateMultiPostType" parameterType="hashmap">
+        UPDATE sale_tb SET post_id = 4
+        WHERE room_id in (
+        <foreach collection="ids" item="id" separator=",">#{id}</foreach>
+        )
+    </update>
+
 </mapper>

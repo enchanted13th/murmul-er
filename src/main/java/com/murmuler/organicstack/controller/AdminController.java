@@ -2,9 +2,9 @@ package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.CustomerService;
 import com.murmuler.organicstack.service.MemberService;
-import com.murmuler.organicstack.vo.FaqVO;
-import com.murmuler.organicstack.vo.MemberVO;
-import com.murmuler.organicstack.vo.NoticeVO;
+import com.murmuler.organicstack.service.ReportService;
+import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.vo.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,10 +31,16 @@ import java.util.Map;
 public class AdminController {
     private Log logger = LogFactory.getLog(MemberController.class);
     @Autowired
-    private MemberService service;
+    private MemberService memberService;
 
     @Autowired
     private CustomerService csService;
+
+    @Autowired
+    private ReportService reportService;
+
+    @Autowired
+    private RoomService roomService;
 
     @RequestMapping("")
     public String home(){
@@ -50,7 +57,7 @@ public class AdminController {
     @RequestMapping("/members")
     public ModelAndView showMemberList(){
         logger.info("called members method");
-        List<MemberVO> list = service.getAllMembers();
+        List<MemberVO> list = memberService.getAllMembers();
 
         if( list == null ){
             logger.warn(String.format("list is null."));
@@ -61,6 +68,28 @@ public class AdminController {
         mav.addObject("members", list);
 
         return mav;
+    }
+
+    @RequestMapping(value = "ban-rooms", method = RequestMethod.POST)
+    public void banRooms(@RequestParam String ban_ids,
+                         ServletResponse response) throws IOException {
+        logger.info("called ban rooms method entered...");
+        String[] ids = ban_ids.split(",");
+
+        List<String> idList = new ArrayList<>();
+        for(String id : ids)
+            idList.add(id);
+        System.out.println(idList);
+        Map<String, Object> idMap = new HashMap<>();
+        idMap.put("ids", idList);
+        int res = roomService.modifyMultiPostType(idMap);
+        JSONObject obj = new JSONObject();
+        if(res > 0)
+            obj.put("result","SUCCESS");
+        else
+            obj.put("result","FAIL");
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(obj);
     }
 
     @RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
@@ -82,13 +111,16 @@ public class AdminController {
             case "member":
                 MemberVO delMember = new MemberVO();
                 delMember.setIds(ids);
-                res = service.removeMultiMember(delMember);
+                res = memberService.removeMultiMember(delMember);
                 break;
             case "faq":
                 res = csService.removeMultiFaq(idMap);
                 break;
             case "notice":
                 res = csService.removeMultiNotice(idMap);
+                break;
+            case "report":
+                res = reportService.removeMultiReport(idMap);
                 break;
         }
 
@@ -119,6 +151,23 @@ public class AdminController {
         return mav;
     }
 
+    @RequestMapping("/report")
+    public ModelAndView showReportList(){
+        logger.info("called report list method entered....");
+        List<ReportViewVO> list = reportService.getAllReports();
+        ModelAndView mav = new ModelAndView();
+
+        if( list == null ){
+            logger.warn(String.format("list is null."));
+            mav.setViewName("admin/home");
+        }
+        else {
+            mav.setViewName("admin/reports");
+            mav.addObject("reports", list);
+        }
+
+        return mav;
+    }
     @RequestMapping(value="/do/{flag}", method = RequestMethod.POST)
     public void addUpdateArticle(@RequestParam String articleNum,
                               @RequestParam String title,
@@ -161,68 +210,4 @@ public class AdminController {
         response.getWriter().print(obj);
 
     }
-
-//    @RequestMapping(value="/update", method = RequestMethod.POST)
-//    public void updateArticle(@RequestParam String articleNum,
-//                       @RequestParam String title,
-//                       @RequestParam String content,
-//                       @RequestParam String category,
-//                       HttpServletResponse response) throws IOException{
-//
-//        int id = Integer.parseInt(articleNum);
-//        int res = 0;
-//        switch(category){
-//            case "notice":
-//                res = csService.updateNotice(id, title, content);
-//                break;
-//            case "faq":
-//                res = csService.updateFaq(id, title, content);
-//                break;
-//        }
-//        JSONObject obj = new JSONObject();
-//        if(res > 0) {
-//            obj.put("result","SUCCESS");
-//        } else {
-//            obj.put("result","FAIL");
-//        }
-//        response.setContentType("application/json; charset=utf-8");
-//        response.getWriter().print(obj);
-//    }
-//
-//    @RequestMapping(value="/add", method = RequestMethod.POST)
-//    public void addArticle(
-//                       @RequestParam String title,
-//                       @RequestParam String content,
-//                       @RequestParam String category,
-//                       HttpServletResponse response) throws IOException{
-//
-//        int res = 0;
-//        switch(category){
-//            case "notice":
-//                res = csService.addNotice(title, content);
-//                break;
-//            case "faq":
-//                res = csService.addFaq(title, content);
-//                break;
-//        }
-//        JSONObject obj = new JSONObject();
-//        if(res > 0) {
-//            obj.put("result","SUCCESS");
-//        } else {
-//            obj.put("result","FAIL");
-//        }
-//        response.setContentType("application/json; charset=utf-8");
-//        response.getWriter().print(obj);
-//    }
-
-//    @RequestMapping(value="/update/{flag}", method = RequestMethod.POST)
-//    public void getContent(@PathVariable String flag){
-//        switch(flag){
-//            case "notice":
-//                csService.get
-//                break;
-//            case "faq":
-//                break;
-//        }
-//    }
 }

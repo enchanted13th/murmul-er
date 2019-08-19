@@ -250,6 +250,12 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public int updateMultiPostType(Map<String, Object> paramMap) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        return mapper.updateMultiPostType(paramMap);
+    }
+
+    @Override
     public int deleteRoom(int roomId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.deleteRoom(roomId);
