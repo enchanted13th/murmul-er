@@ -1,7 +1,11 @@
 // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+let infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
-var markerImageSrc = '/resources/img/etc/marker03.png';
+let markerImageOR = '/resources/img/marker/mk_or.png';
+let markerImageTR = '/resources/img/marker/mk_tr.png';
+let markerImageVI = '/resources/img/marker/mk_vi.png';
+let markerImageOF = '/resources/img/marker/mk_of.png';
+let markerImageAP = '/resources/img/marker/mk_ap.png';
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
@@ -21,11 +25,10 @@ ps.keywordSearch($("#addr").text(), placesSearchCB);
 // 키워드 검색 완료 시 호출되는 콜백함수 입니다
 function placesSearchCB (data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
-
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         var bounds = new kakao.maps.LatLngBounds();
-		displayMarker(data[0]); 
+		displayMarker(data[0]);
         bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -35,14 +38,28 @@ function placesSearchCB (data, status, pagination) {
 
 // 지도에 마커를 표시하는 함수입니다
 function displayMarker(place) {
-    
     // 마커를 생성하고 지도에 표시합니다
     var marker = new kakao.maps.Marker({
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
-
     marker.setMap(map);
-    var markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 60), new kakao.maps.Point(13, 34));
+    let markerImageSrc;
+    if(roomType==="원룸") {
+        markerImageSrc = markerImageOR;
+    }
+    else if(roomType==="투룸") {
+        markerImageSrc = markerImageTR;
+    }
+    else if(roomType==="빌라") {
+        markerImageSrc = markerImageVI;
+    }
+    else if(roomType==="오피스텔") {
+        markerImageSrc = markerImageOF;
+    }
+    else if(roomType==="아파트") {
+        markerImageSrc = markerImageAP;
+    }
+    let markerImage = new kakao.maps.MarkerImage(markerImageSrc, new kakao.maps.Size(50, 64), new kakao.maps.Point(13, 34));
     marker.setImage(markerImage);
 }

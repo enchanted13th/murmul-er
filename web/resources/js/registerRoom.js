@@ -20,7 +20,6 @@ var formData = new FormData();
 var ps = new kakao.maps.services.Places();
 
 $(document).ready(function () {
-
     $('#btnPutRoom').parent().css('border-bottom', '6px solid #b6e2f8');
     // javascript:scroll(0, 0);
     $.clickEvent();
