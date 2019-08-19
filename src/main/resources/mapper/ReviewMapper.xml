@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.murmuler.organicstack.mybatis.ReviewMapper">
 
+    <select id="selectReviewListByReviewId"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel, review_img AS image
+        FROM review_tb LEFT JOIN location_tb USING(location_id) WHERE review_id=#{reviewId}
+    </select>
+
     <select id="selectReviewList"  resultType="com.murmuler.organicstack.vo.ReviewVO">
         SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel, review_img AS image
         FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY review_id DESC LIMIT #{page}, 3
@@ -64,5 +69,17 @@
     <update id="insertReviewImage" parameterType="hashmap">
         UPDATE review_tb SET review_img =#{image} WHERE review_id= #{reviewId};
     </update>
+
+    <select id="selectAllReviewList"  resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id, review_date AS writeDate, residence_period AS residencePeriod, period_unit AS periodUnit, review_title AS title, sido, sigungu, roadname, detail_addr AS detailAddr, score, review_content AS content, advantage, disadvantage, insect_level AS insectLevel, noise_level AS noiseLevel, review_img AS image
+        FROM review_tb LEFT JOIN location_tb USING(location_id) ORDER BY review_id DESC
+    </select>
+
+    <delete id="deleteMultiReview" parameterType="hashmap">
+        DELETE FROM review_tb
+        WHERE review_id in (
+        <foreach collection="ids" item="id" separator=",">#{id}</foreach>
+        )
+    </delete>
 
 </mapper>

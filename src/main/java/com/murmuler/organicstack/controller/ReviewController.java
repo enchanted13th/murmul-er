@@ -75,6 +75,22 @@ public class ReviewController {
         return mav;
     }
 
+    @RequestMapping(value="/popup", method= RequestMethod.POST)
+    @ResponseBody
+    public Object reviewListByReviewId(@RequestParam("reviewId") int reviewId,
+                                             HttpServletResponse response) throws IOException{
+
+        ReviewVO reviewVO = reviewService.getReviewListByReviewId(reviewId);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (reviewVO != null) {
+            map.put("reviewResult", "SUCCESS");
+            map.put("review", reviewVO);
+        } else {
+            map.put("reviewResult", "FAIL");
+        }
+        return map;
+    }
+
     @RequestMapping(value="/write", method= RequestMethod.GET)
     public String reviewWrite(){
         return "reviewWrite";
