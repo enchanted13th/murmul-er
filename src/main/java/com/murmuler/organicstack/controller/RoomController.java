@@ -103,7 +103,13 @@ public class RoomController {
         } else {
             jibunAddress = addrInfo.get("autoJibunAddressEnglish").toString().split(",");
         }
+        if(jibunAddress[0].charAt(0)=='B') {
+            jibunAddress[0] = jibunAddress[0].replace("B", "지하");
+        }
         String[] roadAddress = addrInfo.get("roadAddressEnglish").toString().split(",");
+        if(roadAddress[0].charAt(0)=='B') {
+            roadAddress[0] = roadAddress[0].replace("B", "지하");
+        }
         roomInfo.put("jibun", jibunAddress[0]);
         roomInfo.put("roadJibun", roadAddress[0]);
         roomInfo.put("latitude", (String) addrInfo.get("latitude"));
@@ -363,8 +369,13 @@ public class RoomController {
             } else {
                 jibunAddress = addrInfo.get("autoJibunAddressEnglish").toString().split(",");
             }
-
+            if(jibunAddress[0].charAt(0)=='B') {
+                jibunAddress[0] = jibunAddress[0].replace("B", "지하");
+            }
             String[] roadAddress = addrInfo.get("roadAddressEnglish").toString().split(",");
+            if(roadAddress[0].charAt(0)=='B') {
+                roadAddress[0] = roadAddress[0].replace("B", "지하");
+            }
             roomInfo.put("jibun", jibunAddress[0]);
             roomInfo.put("roadJibun", roadAddress[0]);
             roomInfo.put("latitude", (String) addrInfo.get("latitude"));

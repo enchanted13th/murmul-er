@@ -28,14 +28,13 @@ $(document).ready(function () {
 })
 
 $.setImage = function(){
-    // let listSize = $('.tbList').length;
-    console.log(roomImgNum);
+    if (roomImgNum === '') return;
+    roomImgNum = roomImgNum * 1;
     for(let i = 0; i < roomImgNum; i++) {
         let value = $('#roomValue' + i).val().split(',');
         let roomId = value[0];
         let fileName = value[1];
         let src = '/manage/download?middlePath=/room/roomId_' + encodeURI(roomId) + '&imageFileName=' + encodeURI(fileName);
-        console.log(src);
         $('#preview' + i).attr('src', src);
     }
 }

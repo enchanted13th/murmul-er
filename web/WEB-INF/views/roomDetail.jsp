@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/resources/css/roomDetail.css">
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
-    <title>방 상세</title>
+    <title>방 상세: ${title}</title>
     <script>
         let loginMemberId = "${loginMember.memberId}";
     </script>
@@ -23,12 +23,12 @@
         <span>[${writeDate}]</span>
         <span> ${roomType}</span>
         <span>|</span>
+        <span>${rentType}</span>
+        <span>|</span>
         <span>${periodNum}${periodUnit} 가능</span>
     </div>
     <div class="title">
         <span>${title}</span>
-        <span>|</span>
-        <span>${rentType} ${monthlyCost}만원</span>
     </div>
     <div class="location">
         <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} ${dtailAddr} </span>
@@ -161,7 +161,7 @@
     let sellerMemberId = ${memberId};
     let roomId = "${roomId}";
     let likeList = ${likeList};
-    let roomImgNum = ${roomImgNum};
+    let roomImgNum = "${roomImgNum}";
     let roomType = "${roomType}";
 </script>
 </body>
