@@ -1,7 +1,9 @@
 package com.murmuler.organicstack.service;
 
 import com.murmuler.organicstack.dao.CsDAO;
+import com.murmuler.organicstack.util.ProcessStatusRecord;
 import com.murmuler.organicstack.vo.FaqVO;
+import com.murmuler.organicstack.vo.InquiryViewVO;
 import com.murmuler.organicstack.vo.NoticeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.Map;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CsDAO csDAO;
+    @Autowired
+    private ProcessStatusRecord processStatusRecord;
 
     @Override
     public List<FaqVO> getFaqList(int pageNum) {
@@ -67,6 +71,11 @@ public class CustomerServiceImpl implements CustomerService {
     public List<NoticeVO> getAllNoticeList() { return csDAO.searchAllNoticeList(); }
 
     @Override
+    public List<InquiryViewVO> getAllInquiryList() {
+        return csDAO.searchAllInquiryList();
+    }
+
+    @Override
     public int updateFaq(int id, String title, String content) { return csDAO.updateFaq(id, title, content); }
 
     @Override
@@ -77,4 +86,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public int addFaq(String title, String content) { return csDAO.insertFaq(title, content); }
+
+    @Override
+    public int changeProcessStatus(int id, String processStatus) {
+        int processId = processStatusRecord.getId(processStatus);
+        return csDAO.updateProcessStatus(id, processId);
+    }
 }
