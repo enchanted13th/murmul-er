@@ -48,6 +48,13 @@
           <span class="text">Show Notice & FAQ list</span>
         </a>
         <div class="my-2"></div>
+        <a href="/admin/cs/inquiry" class="btn btn-inquiry btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-question-circle"></i>
+                    </span>
+          <span class="text">Show 1:1 Inquiry list</span>
+        </a>
+        <div class="my-2"></div>
         <a href="#" class="btn btn-info btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-star-half-alt"></i>

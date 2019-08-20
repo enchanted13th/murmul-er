@@ -1,9 +1,11 @@
 package com.murmuler.organicstack.dao;
 
 import com.murmuler.organicstack.mybatis.CustomerMapper;
+import com.murmuler.organicstack.mybatis.ReportMapper;
 import com.murmuler.organicstack.mybatis.RoomMapper;
 import com.murmuler.organicstack.vo.FaqVO;
 import com.murmuler.organicstack.vo.InquiryVO;
+import com.murmuler.organicstack.vo.InquiryViewVO;
 import com.murmuler.organicstack.vo.NoticeVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,6 +165,12 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
+    public List<InquiryViewVO> searchAllInquiryList() {
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        return mapper.selectAllInquiryList();
+    }
+
+    @Override
     public int deleteMultiFaq(Map<String, Object> idMap) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteMultiFaq(idMap);
@@ -172,5 +180,14 @@ public class CsDAOImpl implements CsDAO {
     public int deleteMultiNotice(Map<String, Object> idMap) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteMultiNotice(idMap);
+    }
+
+    @Override
+    public int updateProcessStatus(int id, int processId) {
+        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("id", id);
+        map.put("processId", processId);
+        return mapper.updateProcessStatus(map);
     }
 }

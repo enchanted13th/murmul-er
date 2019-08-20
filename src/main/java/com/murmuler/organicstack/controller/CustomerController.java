@@ -152,4 +152,22 @@ public class CustomerController {
         response.setContentType("text/html; charset=utf-8");
         response.getWriter().print(jobj);
     }
+
+    @RequestMapping(value = "change-process-status", method = RequestMethod.POST)
+    public void changeProcessStatus(@RequestParam int id,
+                                    @RequestParam String processStatus,
+                                    HttpServletResponse response) throws IOException {
+        logger.info("change process status method entered...");
+        JSONObject res = new JSONObject();
+
+        if(customerService.changeProcessStatus(id, processStatus) > 0){
+            res.put("result", "SUCCESS");
+        } else {
+            res.put("result", "FAIL");
+        }
+
+        response.setContentType("application/json; charset=utf-8;");
+        response.getWriter().print(res);
+    }
+
 }

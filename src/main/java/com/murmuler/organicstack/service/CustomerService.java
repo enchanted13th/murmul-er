@@ -1,7 +1,8 @@
 package com.murmuler.organicstack.service;
 
 import com.murmuler.organicstack.vo.FaqVO;
-        import com.murmuler.organicstack.vo.NoticeVO;
+import com.murmuler.organicstack.vo.InquiryViewVO;
+import com.murmuler.organicstack.vo.NoticeVO;
 
         import java.util.List;
 import java.util.Map;
@@ -21,10 +22,13 @@ public interface CustomerService {
 
     List<FaqVO> getAllFaqList();
     List<NoticeVO> getAllNoticeList();
+    List<InquiryViewVO> getAllInquiryList();
 
     int updateFaq(int id, String title, String content);
     int updateNotice(int id, String title, String content);
 
     int addNotice(String title, String content);
     int addFaq(String title, String content);
+
+    int changeProcessStatus(int id, String processStatus);
 }

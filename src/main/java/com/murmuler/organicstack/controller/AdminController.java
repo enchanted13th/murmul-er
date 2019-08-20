@@ -147,6 +147,11 @@ public class AdminController {
                 mav.setViewName("admin/notices");
                 mav.addObject("noticeList", noticeList);
                 break;
+            case "inquiry" :
+                List<InquiryViewVO> inquiryList = csService.getAllInquiryList();
+                mav.setViewName("admin/inquiries");
+                mav.addObject("inquiryList", inquiryList);
+                break;
         }
         return mav;
     }

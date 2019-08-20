@@ -2,6 +2,7 @@ package com.murmuler.organicstack.dao;
 
 import com.murmuler.organicstack.vo.FaqVO;
 import com.murmuler.organicstack.vo.InquiryVO;
+import com.murmuler.organicstack.vo.InquiryViewVO;
 import com.murmuler.organicstack.vo.NoticeVO;
 
 import java.util.List;
@@ -30,7 +31,10 @@ public interface CsDAO {
 
     List<NoticeVO> searchAllNoticeList();
     List<FaqVO> searchAllFaqList();
+    List<InquiryViewVO> searchAllInquiryList();
 
     int deleteMultiFaq(Map<String, Object> idMap);
     int deleteMultiNotice(Map<String, Object> idMap);
+
+    int updateProcessStatus(int id, int processId);
 }

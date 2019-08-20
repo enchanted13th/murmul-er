@@ -11,6 +11,8 @@
     text-decoration: underline;
     cursor: pointer;
     color: black;
+    background-color: #80a7e5;
+    background-color: #a1c4ed;
 }
 
 @media (max-width: 1000px) {

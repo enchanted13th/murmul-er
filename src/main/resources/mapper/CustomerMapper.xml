@@ -82,6 +82,11 @@
         SELECT faq_id AS id, faq_title AS title, faq_content AS content FROM faq_tb
     </select>
 
+    <select id="selectAllInquiryList" resultType="com.murmuler.organicstack.vo.InquiryViewVO">
+        SELECT inquiry_id AS id, inquiry_email AS email, inquiry_content AS content, inquiry_date AS writeDate, process_name AS processStatus
+        FROM inquiry_tb JOIN process_status_tb USING(process_id) ORDER BY process_id ASC
+    </select>
+
     <delete id="deleteMultiFaq" parameterType="hashmap">
         DELETE FROM faq_tb
         WHERE faq_id in (
@@ -95,5 +100,10 @@
         <foreach collection="ids" item="id" separator=",">#{id}</foreach>
         )
     </delete>
+
+    <update id="updateProcessStatus" parameterType="hashmap">
+        UPDATE inquiry_tb SET process_id=${processId}
+        WHERE inquiry_id=${id}
+    </update>
 
 </mapper>

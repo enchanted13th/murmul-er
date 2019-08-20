@@ -3,6 +3,7 @@ package com.murmuler.organicstack.mybatis;
 
 import com.murmuler.organicstack.vo.FaqVO;
 import com.murmuler.organicstack.vo.InquiryVO;
+import com.murmuler.organicstack.vo.InquiryViewVO;
 import com.murmuler.organicstack.vo.NoticeVO;
 
 import java.util.List;
@@ -31,7 +32,10 @@ public interface CustomerMapper {
 
     List<NoticeVO> selectAllNoticeList();
     List<FaqVO> selectAllFaqList();
+    List<InquiryViewVO> selectAllInquiryList();
 
     int deleteMultiFaq(Map<String, Object> idMap);
     int deleteMultiNotice(Map<String, Object> idMap);
+
+    int updateProcessStatus(Map<String, Integer> map);
 }
