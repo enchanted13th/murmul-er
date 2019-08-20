@@ -5,13 +5,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>방 등록하기 </title>
 	<link rel="stylesheet" href="/resources/css/registerRoom.css" />
-
 </head>
 <body>
 <jsp:include page="../topbar.jsp"/>
-
 <div class="wrap">
 	<jsp:include page="manageSubtitle.jsp"/>
+
 	<div class="addRoomForm">
 		<table class="tbRoomType">
 			<tr>
@@ -64,6 +63,7 @@
 				<td>
 					<input type="text" id="inputFloor" class="alignRight"/>
 					<label>층</label>
+					<label style="color: cornflowerblue; font-size: 14px; margin-left: 10px;">* 지하일 경우 '-'를 붙여주세요 (예) 지하2층 > -2</label>
 				</td>
 			</tr>
 			<tr>
@@ -196,7 +196,6 @@
 		</table>
 		<div class="lastBtns">
 			<button class="lastBtn" id="cancel">취소</button>
-			<!-- <button class="lastBtn" id="lastBtn" onclick="confirm('등록하시겠어요?')">등록</button> -->
 			<button class="lastBtn" id="lastBtn">등록</button>
 		</div>
 	</div>
@@ -207,6 +206,5 @@
 <script src="http://t1.daumcdn.net/mapjsapi/js/main/4.1.7/kakao.js"></script>
 <script src="http://s1.daumcdn.net/svc/attach/U03/cssjs/mapapi/libs/1.0.1/1515130215283/services.js"></script>
 <script src="/resources/js/registerRoom.js"></script>
-<!-- <script src="../js/uploadTest.js"></script> -->
 </body>
 </html>

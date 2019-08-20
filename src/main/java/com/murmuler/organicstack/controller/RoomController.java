@@ -416,7 +416,6 @@ public class RoomController {
 
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
-//        return "redirect:/manage";
     }
 
     @RequestMapping(value = "/update/{roomId}", method = RequestMethod.GET)
