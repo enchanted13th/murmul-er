@@ -16,7 +16,7 @@
         <load-on-startup>1</load-on-startup>
 <!--        =========================== 추가 ===========================-->
         <multipart-config>
-            <location>/Users/ine</location>
+            <location>/home/murmuler</location>
             <max-file-size>20917520</max-file-size>
             <max-request-size>41943040</max-request-size>
             <file-size-threshold>20971520</file-size-threshold>

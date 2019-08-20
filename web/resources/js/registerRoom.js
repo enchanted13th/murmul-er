@@ -35,6 +35,12 @@ function placesSearchCB(data, status) {
         allAddr.latitude = data[0].y;
         allAddr.longitude = data[0].x;
         // console.log(allAddr);
+        if($("#hash1").val() !== "")
+            hashTagList.push($('#hash1').val());
+        if($("#hash2").val() !== "")
+            hashTagList.push($('#hash2').val());
+        if($("#hash3").val() !== "")
+            hashTagList.push($('#hash3').val());
         dataSubmit();
     } else {
         // console.log("if조건에 안걸린다");
@@ -445,13 +451,6 @@ $.fn.clickSubmit = function() {
         } else {
             hashtagExist = true;
         }
-
-        if($("#hash1").val() !== "")
-        hashTagList.push($('#hash1').val());
-        if($("#hash2").val() !== "")
-        hashTagList.push($('#hash2').val());
-        if($("#hash3").val() !== "")
-        hashTagList.push($('#hash3').val());
 
         Swal.fire({
             title: "방 등록",

@@ -182,8 +182,8 @@ public class ReviewController {
                             HttpServletResponse response) throws IOException {
 
         String image="";
-        String uploadFolder = "C:\\util";
-        String uploadFolderPath = "review\\reviewId_" + reviewId;
+        String uploadFolder = "/home/murmuler";
+        String uploadFolderPath = "review/reviewId_" + reviewId;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
         if(uploadPath.exists() == false){
@@ -195,8 +195,8 @@ public class ReviewController {
         int i=0;
         for(MultipartFile multipartFile : uploadFile){
             String uploadFileName = multipartFile.getOriginalFilename();
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-            image = "\\"+uploadFileName;
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/")+1);
+            image = "/"+uploadFileName;
 
             try{
                 File saveFile = new File(uploadPath, uploadFileName);
@@ -224,9 +224,9 @@ public class ReviewController {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
 
-        String REPOSITORY_PATH = "C:\\util";
+        String REPOSITORY_PATH = "/home/murmuler";
         OutputStream out = response.getOutputStream();
-        String path = REPOSITORY_PATH + middlePath + "\\" + imageFileName;
+        String path = REPOSITORY_PATH + middlePath + "/" + imageFileName;
 
         File imageFile = new File(path);
 

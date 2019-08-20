@@ -153,7 +153,7 @@ $.showSubList = function(data){
             $(''
 			+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
 			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
-			+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/resources/' + res.roomImg + '"'
+			+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/manage/download?middlePath=/room/roomId_' + res.roomId + '&imageFileName=' + res.roomImg + '"'
 			+ ' width="97%" height="100%"/></div>'
 			+ '			<p style="font-size: 15px;">' + res.roomType + ' | ' + res.rentType + ' | ' + res.period + ' 가능</p>'
 			+ '				<span style="font-size: 17px; font-weight: bold;">보증금 ' + $.changeCost(res.deposit) + ' / </span>'

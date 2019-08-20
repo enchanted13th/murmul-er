@@ -21,8 +21,8 @@ import java.util.*;
 
 @Component
 public class TalkHelper {
-//    private static final String REPOSITORY_PATH = "/home/murmuler";
-    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String REPOSITORY_PATH = "/home/murmuler";
+//    private static final String REPOSITORY_PATH = "/Users/ine";
     private static final String PATH = "/talkList";
     private Log logger = LogFactory.getLog(TalkHelper.class);
 
