@@ -27,7 +27,6 @@ $(document).ready(function (listener) {
 
 var searchRoomFromMap = function() {
 	let bounds = map.getBounds();
-	console.log(idleFlag);
 	if(!idleFlag) return;
 	idleFlag = false;
 	$.ajax({
@@ -37,7 +36,6 @@ var searchRoomFromMap = function() {
 			southWest: bounds.getSouthWest().toString(),
 			northEast: bounds.getNorthEast().toString()
 		}, success: function (data) {
-			console.log(markers);
 			setMarkers(null);
 			markers = [];
 			if (data != '{}') {
@@ -148,7 +146,6 @@ $.showSubList = function(data){
 		let temp = obj['item'+i].substring(1, size-1);
 		let res = eval("("+ temp +")");
 		if (filter(res) !== false) {
-			console.log("filter is true");
 			$.boundsLocation(res);
             $(''
 			+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
@@ -233,8 +230,6 @@ function closeOverlay(id) {
 }
 
 function filter(obj) {
-	console.log(markers);
-
    	let roomTypeFlag = false;
    	for (let i = 0; i < roomTypeList.length; i++) {
    		if (obj.roomType === roomTypeList[i]) roomTypeFlag = true;

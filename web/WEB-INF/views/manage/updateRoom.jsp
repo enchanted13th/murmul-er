@@ -1,15 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: seokjung
-  Date: 11/08/2019
-  Time: 10:24 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,16 +13,9 @@
 <jsp:include page="../topbar.jsp"/>
 <c:set var="periodUnit" value="'${room.saleVO.periodUnit}'"/>
 <c:set var="isUpdateForm" value="${room}"/>
-<%--<c:forEach var="option" items="${room.option}">--%>
-<%--    option: ${option}--%>
-<%--</c:forEach>--%>
 <div class="wrap">
     <jsp:include page="manageSubtitle.jsp"/>
-    <%--<div class="addRoomTitle">--%>
-        <%--<div>방 수정</div>--%>
-        <input type="hidden" id="roomId" value="${roomId}"/>
-    <%--</div>--%>
-
+    <input type="hidden" id="roomId" value="${roomId}"/>
     <div class="addRoomForm">
         <table class="tbRoomType">
             <tr>
@@ -236,7 +221,6 @@
         </table>
         <div class="lastBtns">
             <button class="lastBtn" id="cancel">취소</button>
-            <!-- <button class="lastBtn" id="lastBtn" onclick="confirm('등록하시겠어요?')">등록</button> -->
             <button class="lastBtn" id="lastBtn">수정</button>
         </div>
     </div>

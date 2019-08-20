@@ -17,7 +17,6 @@
 <body>
 <jsp:include page="topbar.jsp"/>
 <div class="wrap">
-
     <jsp:include page="csSubtitle.jsp"/>
 
     <div class="content">
@@ -28,7 +27,6 @@
         </c:forEach>
     </div>
     <div class="pageBtns">
-
         <div>
             <button >&lt;&lt;</button>
             <button >&lt;</button>

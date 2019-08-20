@@ -86,10 +86,21 @@
                 <td width=20%>단기임대</td>
             </tr>
             <tr>
-                <td>${monthlyCost}만 원</td>
+                <c:choose>
+                    <c:when test="${monthlyCost eq 0}">
+                        <td>-</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${monthlyCost}만 원</td>
+                    </c:otherwise>
+                </c:choose>
                 <c:choose>
                     <c:when test="${deposit eq 0}">
                         <td>-</td>
+                    </c:when>
+                    <c:when test="${deposit>9999}">
+                        <c:set var="change" value="${fn:replace(deposit/10000-deposit/10000%1, '.0', '')}억 ${deposit%10000}만 원"/>
+                        <td>${change}</td>
                     </c:when>
                     <c:otherwise>
                         <td>${deposit}만 원</td>
