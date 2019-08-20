@@ -117,3 +117,18 @@ button:hover {
     text-align: center;
     color: #5CC3F6;
 }
+
+.exitChatRoom {
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    font-size: 15pt;
+    background-color: lightskyblue;
+    display: none;
+    color: #FFFFFF;
+}
+
+.exitChatRoom:hover {
+    border-radius: 5%;
+
+}

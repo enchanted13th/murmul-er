@@ -74,7 +74,7 @@
                 </div>
                 <div class="content">
                     <div class="picture">
-                        <c:set var="middlePath" value="\\review\\reviewId_${review.id}"/>
+                        <c:set var="middlePath" value="/review/reviewId_${review.id}"/>
                         <img class="room" id="preview${status.index}" src="" style="width:400px; height:400px;" align="middle"/>
                         <input type="hidden" id="uploadValue${status.index}" value="${middlePath},${review.image}">
                         <div class="hashtag">

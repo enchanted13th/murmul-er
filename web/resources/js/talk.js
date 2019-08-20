@@ -35,7 +35,7 @@ $(document).ready(function () {
         setTimeout(function() {
             connectSock();
             window.resizeTo(516, 820);
-        }, 1000);
+        }, 500);
     })();
 
 });

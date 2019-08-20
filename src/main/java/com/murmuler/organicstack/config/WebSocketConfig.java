@@ -19,6 +19,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(talkHandler, "/talkHandler").setAllowedOrigins("*").withSockJS().setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1.3.0/dist/sockjs.min.js");
+        webSocketHandlerRegistry.addHandler(talkHandler, "/talkHandler").setAllowedOrigins("*").withSockJS();
     }
 }

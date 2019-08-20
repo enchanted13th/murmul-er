@@ -160,8 +160,8 @@ public class RoomController {
         int roomId = roomService.getRoomIdByMemberId(memberId);
         ArrayList<String> imgUrlList = new ArrayList<>();
 
-        String uploadFolder = "C:\\util";
-        String uploadFolderPath = "room\\roomId_"+roomId;
+        String uploadFolder = "/home/murmuler";
+        String uploadFolderPath = "room/roomId_"+roomId;
 
         // 폴더 생성
         File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -173,7 +173,7 @@ public class RoomController {
         int i = 1;
         for(MultipartFile multipartFile : uploadFile){
             String uploadFileName = multipartFile.getOriginalFilename();
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/")+1);
             String extension = uploadFileName.substring(uploadFileName.lastIndexOf("."));
             String transFileName = "room"+i+extension;
             i++;
@@ -213,8 +213,8 @@ public class RoomController {
         }else{
             ArrayList<String> imgUrlList = new ArrayList<>();
 
-            String uploadFolder = "C:\\util";
-            String uploadFolderPath = "room\\roomId_"+roomId;
+            String uploadFolder = "/home/murmuler";
+            String uploadFolderPath = "room/roomId_"+roomId;
 
             // 폴더 생성
             File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -246,7 +246,7 @@ public class RoomController {
 
             for(MultipartFile multipartFile : oldFile){
                 String oldFileName = multipartFile.getOriginalFilename();
-                oldFileName = oldFileName.substring(oldFileName.lastIndexOf("\\")+1);
+                oldFileName = oldFileName.substring(oldFileName.lastIndexOf("/")+1);
                 String extension = oldFileName.substring(oldFileName.lastIndexOf("."));
                 String[] str1 = oldFileName.split("\\.");
                 String num = str1[0].substring(4);
@@ -258,7 +258,7 @@ public class RoomController {
 
             for(MultipartFile multipartFile : uploadFile){
                 String uploadFileName = multipartFile.getOriginalFilename();
-                uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+                uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/")+1);
                 String extension = uploadFileName.substring(uploadFileName.lastIndexOf("."));
                 String transFileName = "room"+i+extension;
                 i++;
@@ -298,9 +298,9 @@ public class RoomController {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
 
-        String REPOSITORY_PATH = "C:\\util";
+        String REPOSITORY_PATH = "/home/murmuler";
         OutputStream out = response.getOutputStream();
-        String path = REPOSITORY_PATH + middlePath + "\\" + imageFileName;
+        String path = REPOSITORY_PATH + middlePath + "/" + imageFileName;
 
         File imageFile = new File(path);
 
