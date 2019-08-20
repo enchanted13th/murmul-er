@@ -7,4 +7,4 @@
 ...
 
 
-Copyright(C) 2019. OrganicStack. All rights reserved.
+<p align="center">Copyright&copy; 2019. OrganicStack. All rights reserved.</p>
