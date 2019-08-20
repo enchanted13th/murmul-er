@@ -49,7 +49,7 @@ $.reviewPopup = function() {
             + '<div class="content">'
             + '<div class="picture">'
             + '<img class="room" id="preview" src="" style="width:400px; height:400px;" align="middle"/>'
-            + '<input type="hidden" id="upload" value="\\review\\reviewId_' + review.id + ',' + review.image + '">'
+            + '<input type="hidden" id="upload" value="/review/reviewId_' + review.id + ',' + review.image + '">'
             + '<div class="hashtag">'
             + '<input type="hidden" id="hashTagCnt" value="' + review.hashTagList.length + '">'
             + '<input type="hidden" id="hashTag" value=' + review.hashTagList + '>'

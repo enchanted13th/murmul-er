@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#btnClose').cancel();
-    $('#btnMore').showDelete();
+    $('.btnMore').showDelete();
     $('#divMid').scrollTop(0);
     window.resizeTo(516, 820);
     for (let i = 0; i < talkInfoList.length; i++) {
@@ -25,7 +25,6 @@ var connectSock = function (talkRoomId, contactMember) {
         // send : connection으로 message를 전달
         // connection이 맺어진 후 가입(JOIN) 메시지를 전달
         sock.send(JSON.stringify({talkRoomId: talkRoomId, type: 'JOIN', sender: me, receiver: contactMember}));
-        console.log("open sock");
         // onmessage : message를 받았을 때의 callback
         sock.onmessage = function (e) {
             console.log(e);
@@ -68,8 +67,12 @@ var connectSock = function (talkRoomId, contactMember) {
 }
 
 var showTalk = function(contactMember) {
-    // location.href = "http://www.murmul-er.com:8080/talk/" + contactMember;
-    location.href = "/talk/" + contactMember;
+    location.href = "http://www.murmul-er.com:8080/talk/" + contactMember;
+    // location.href = "/talk/" + contactMember;
+}
+
+var deleteTalk = function(contactMember) {
+
 }
 
 $.fn.cancel = function () {
@@ -79,7 +82,14 @@ $.fn.cancel = function () {
 }
 
 $.fn.showDelete = function() {
-    $(this).click(function () {
-        /* 삭제하기 메뉴 띄우고 삭제 기능 추가하기 */
-    })
+    // $(this).click(function () {
+    //     let closeBtn = $(this).parents('div')[0].getElementsByClassName('exitChatRoom');
+    //     console.log(closeBtn);
+    //     /* 삭제하기 메뉴 띄우고 삭제 기능 추가하기 */
+    //     if ($(closeBtn).css('display') === 'none') {
+    //         $(closeBtn).css('display', 'table-cell');
+    //     } else {
+    //         $(closeBtn).css('display', 'none');
+    //     }
+    // })
 }

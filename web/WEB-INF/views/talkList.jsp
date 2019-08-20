@@ -33,15 +33,16 @@
                                     <td rowspan="3" id="profileImg" class="profile" onclick="showTalk(${contactMember})">
                                         <img src="/resources/img/talk/profile.png"/></td>
                                     <th class="nickName" onclick="showTalk(${contactMember})">${talkInfo.nickname}</th>
-                                    <td>
-                                        <button id="btnMore"><img src="/resources/img/talk/add.png"/></button>
+<%--                                    <td width="102px"><button class="exitChatRoom" onClick="deleteTalk(${contactMember})">나가기</button></td>--%>
+                                    <td width="30px">
+                                        <button id="btnMore" class="btnMore"><img src="/resources/img/talk/add.png"/></button>
                                     </td>
                                 </tr>
                                 <tr onclick="showTalk(${contactMember})">
-                                    <td colspan="2" class="content">${lastMessage.content}</td>
+                                    <td colspan="3" class="content">${lastMessage.content}</td>
                                 </tr>
                                 <tr onclick="showTalk(${contactMember})">
-                                    <td colspan="2" class="date">${lastMessage.date} ${lastMessage.time}</td>
+                                    <td colspan="3" class="date">${lastMessage.date} ${lastMessage.time}</td>
                                 </tr>
                             </table>
                         </div>

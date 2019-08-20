@@ -22,7 +22,7 @@
                 <td class="tableTitle">게시상태</td>
                 <td class="tdroomImg" id="tdroomImg" rowspan="7">
 <%--                    ============================= 작업중 =============================--%>
-                        <c:set var="middlePath" value="\\room\\roomId_${data.roomId}"/>
+                        <c:set var="middlePath" value="/room/roomId_${data.roomId}"/>
                         <img class="uploadImg" width=320 height=320 src="" id="preview${status.index}">
                         <input type="hidden" id="uploadValue${status.index}" value="${middlePath},${data.roomImg}">
 <%--                    ============================= 작업중 =============================--%>
