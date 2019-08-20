@@ -9,7 +9,6 @@
     <title>방 검색</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap">
     <link rel="stylesheet" href="/resources/css/search.css"/>
-
 </head>
 <body>
 <jsp:include page="topbar.jsp"/>
@@ -17,7 +16,6 @@
 <div class="wrap">
     <div class="mapWrap">
         <div class="map" id="map"></div>
-
 
         <div class="sub">
             <input type="button" class="slideMenu" id="slideMenu" value="<">
@@ -119,7 +117,6 @@
             </div>
         </div>
     </div>
-
     <div class="wrapOption">
         <table class="filterOption">
             <c:forEach var="i" begin="1" end="${fn:length(options)}" step="2">
@@ -153,126 +150,5 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/search.js"></script>
 <script src="/resources/js/searchMap.js"></script>
-<script>
-    $(document).ready(function () {
-        var jsonData = JSON.stringify("4");
-
-        /*  $('#btnSubmit').click(function() {
-            var addr = $('#tbAddress').val();
-            var bt = $('[name=buildingType]').val();
-             var rtRange = $('[name=rentRange]').val();
-             var deposit = $('[name=deposit]').val();
-             var monthlyCost = $('[name=monthlyCost]').val();
-             var options = $('.optionCheckbox').val();
-            console.log(addr+' '+bt+' '+ rtRange+' '+deposit+' '+ monthlyCost+' '+options);
-            $.ajax({
-               url: "roomList",
-               type: "POST",
-               data: {
-                  filter : $("input:radio[name=myFilter]:checked").val(),
-                  address : $('#tbAddress').val(),
-                  buildingType : $('input[name=buildingType]').val(),
-                  rentRange : $('[name=rentRange]').val(),
-                  deposit : $('[name=deposit]').val(),
-                  monthlyCost : $('[name=monthlyCost]').val(),
-                  options : $('.optionCheckbox').val()
-               }, success: function(data) {
-                  console.log('ajax 성공');
-                  $('.filterWrap').css('display', 'none');
-                  $('#mapInputBox').val(data);
-                  searchPlaces();
-               }
-            })
-         }); */
-        $('#btnSubmit').click(function () {
-            console.log('확인');
-            $('.filterWrap').css('z-index', 'auto');
-            $('.filterWrap').css('display', 'none');
-        })
-    });
-    /* var addr = $('#tbAddress').val();
-    var optionList = new Array();
-    var month; var rentRange ; var deposit;
-
-    switch($('#rentRange').val()){
-    case "0":
-        rentRange="없음";
-        break;
-    case "1":
-        rentRange="1개월";
-        break;
-    case "2":
-        rentRange="6개월";
-        break;
-    case "3":
-        rentRange="1년";
-        break;
-    default :
-        rentRange="최대";
-        break;
-  }
-
-    switch($('#deposit').val()){
-    case "0":
-        deposit="없음";
-        break;
-    case "1":
-        deposit="300만";
-        break;
-    case "2":
-        deposit="500만";
-        break;
-    case "3":
-        deposit="1000만";
-        break;
-    default :
-        deposit="최대";
-        break;
-  }
-
-    switch($('#monthlyCost').val()){
-    case "0":
-        month="없음";
-        break;
-    case "1":
-        month="30만";
-        break;
-    case "2":
-        month="50만";
-        break;
-    case "3":
-        month="100만";
-        break;
-    default :
-        month="최대";
-        break;
-    }
-
-    $(".optionCheckbox:checked").each(function() {
-        var i = 0;
-            optionList[i] = $(this).val();
-            console.log(optionList[i]);
-            i++;
-        }); */
-
-    /* $.ajax({
-       url: "roomList",
-       type: "POST",
-       data: {
-                address : addr,
-                roomTypeList : JSON.stringify(roomTypeList),
-                rentRange : rentRange,
-                deposit : deposit,
-                monthlyCost : month,
-                options : JSON.stringify(optionList)
-           }
-       }).then(function(data, status) {
-          console.log('ajax 성공');
-          $('.filterWrap').css('display', 'none');
-          $('#mapInputBox').val(data);
-          searchPlaces();
-       });
-     }); */
-</script>
 </body>
 </html>

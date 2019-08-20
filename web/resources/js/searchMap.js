@@ -3,7 +3,6 @@ var point;
 var overlay;
 //마커를 담을 배열
 let markers = [];
-
 let idleFlag = true;
 
 let markerImageOR = '/resources/img/marker/mk_or.png';
@@ -16,43 +15,52 @@ $(document).ready(function (listener) {
 	let container = document.getElementById('map'); // 지도를 표시할 div
 	let options = {
 	    center: new kakao.maps.LatLng(37.4839778342191, 126.955578840377), // 지도의 중심 좌표
-	    level: 3
+	    level: 1
 	};
-
 	map = new kakao.maps.Map(container, options); // 지도를 생성
     let zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-	kakao.maps.event.addListener(map, 'idle', function() {
-		let bounds = map.getBounds();
-
-		if(!idleFlag) return;
-		idleFlag = false;
-		if(filter)
-		$.ajax({
-				url: "searchRoom/search",
-				type: "GET",
-				data: {
-                    southWest: bounds.getSouthWest().toString(),
-                    northEast: bounds.getNorthEast().toString()
-				}, success: function (data) {
-					markers = [];
-					if (data != '{}') {
-						$('#slideMenu').css("visibility", "visible");
-						$.showSubList(data);
-						setWindow();
-					} else {
-						$('.item').remove();
-						$('.sub').css("width", "0%");
-						$('#map').css('width', "100%");
-						$('#slideMenu').css("visibility", "hidden");
-					}
-					idleFlag = true;
-				}
-			});
-		});
+	kakao.maps.event.addListener(map, 'idle', searchRoomFromMap);
 	ps.keywordSearch("렉토피아", placesSearchCB);
 });
+
+var searchRoomFromMap = function() {
+	let bounds = map.getBounds();
+	console.log(idleFlag);
+	if(!idleFlag) return;
+	idleFlag = false;
+	$.ajax({
+		url: "/searchRoom/search",
+		type: "GET",
+		data: {
+			southWest: bounds.getSouthWest().toString(),
+			northEast: bounds.getNorthEast().toString()
+		}, success: function (data) {
+			console.log(markers);
+			setMarkers(null);
+			markers = [];
+			if (data != '{}') {
+				$('#slideMenu').css("visibility", "visible");
+				$.showSubList(data);
+				setWindow();
+			} else {
+				$('.item').remove();
+				$('.sub').css("width", "0%");
+				$('#map').css('width', "100%");
+				$('#slideMenu').css("visibility", "hidden");
+			}
+		}
+	}).then(function () {
+		idleFlag = true;
+	});
+}
+
+function setMarkers(map) {
+	for (let i = 0; i < markers.length; i++) {
+		markers[i].setMap(map);
+	}
+}
 
 var setWindow = function() {
 	if ($("#slideMenu").val() == '<') {
@@ -88,7 +96,6 @@ function searchPlaces(){
 		alert('키워드를 입력해주세요!');
 		return false;
 	}
-
 	// 장소 검색 객체를 통해 키워드로 장소검색을 요청
 	ps.keywordSearch(keyword, placesSearchCB);
 }
@@ -109,6 +116,7 @@ function placesSearchCB (data, status) {
                 southWest: southWest,
                 northEast: northEast
 			}, success: function (data) {
+				setMarkers(null);
 				markers = [];
 				if (data != '{}') {
 					$('#slideMenu').css("visibility", "visible");
@@ -135,12 +143,12 @@ $.boundsLocation = function(res) {
 $.showSubList = function(data){
    	let obj = JSON.parse(data);
 	$('.item').remove();
-	markers = [];
 	for(let i = 0; i < Object.keys(obj).length; i++) {
 	   	let size = Object.keys(obj['item'+i]).length;
 		let temp = obj['item'+i].substring(1, size-1);
 		let res = eval("("+ temp +")");
 		if (filter(res) !== false) {
+			console.log("filter is true");
 			$.boundsLocation(res);
             $(''
 			+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
@@ -152,6 +160,7 @@ $.showSubList = function(data){
 			+ '				<span style="font-size: 17px; font-weight: bold;">월세 ' + $.changeCost(res.monthlyCost) + '</span>'
 			+ '					<p style="font-size: 16px; font-weight: 500;">' + res.title + '</p>'
 			+ '	</div>').appendTo($('#itemsList'));
+		} else {
 		}
 	}
 }
@@ -186,7 +195,6 @@ function displayMarker(place) {
 	marker.setImage(markerImage);
 
 	markers.push(marker);
-
 	kakao.maps.event.addListener(marker, 'click', function() {
 		if($('.infoWrap#' + place.roomId)) {
 			$('.infoWrap#' + place.roomId).remove();
@@ -225,6 +233,8 @@ function closeOverlay(id) {
 }
 
 function filter(obj) {
+	console.log(markers);
+
    	let roomTypeFlag = false;
    	for (let i = 0; i < roomTypeList.length; i++) {
    		if (obj.roomType === roomTypeList[i]) roomTypeFlag = true;

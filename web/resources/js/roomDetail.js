@@ -81,7 +81,6 @@ $.showTalk = function() {
     }
 	else {
         window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
-        // window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
     }
 }
 
@@ -138,9 +137,8 @@ $.inputOption = function () {
                 op_name = "noimg.png";
                 break;
         }
-        let td = $(
-            '<td><img src="/resources/img/option/' + op_name + '"><div>' + option[i]
-            + '</div></td>').appendTo(tr);
+        $('<td><img src="/resources/img/option/' + op_name + '"><div>'
+            + option[i] + '</div></td>').appendTo(tr);
     }
 }
 
