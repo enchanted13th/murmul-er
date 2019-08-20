@@ -51,11 +51,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#btnSubmit').click(function () {
+        $('.filterWrap').css('z-index', 'auto');
+        $('.filterWrap').css('display', 'none');
+        searchRoomFromMap();
+    })
+
     $('#btnDefaultSet').click(function () {
         $(".optionCheckbox").each(function () {
             this.checked = false;
         });
-
     });
 
     $('#btnApply').click(function () {
