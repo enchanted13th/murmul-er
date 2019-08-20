@@ -19,6 +19,13 @@ public class ReviewDAOImpl implements ReviewDAO {
     private SqlSession sqlSession;
 
     @Override
+    public ReviewVO searchReviewListByReviewId(int reviewId) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        ReviewVO reviewVO = mapper.selectReviewListByReviewId(reviewId);
+        return reviewVO;
+    }
+
+    @Override
     public List<ReviewVO> searchReviewList(int page) {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         List<ReviewVO> list = mapper.selectReviewList(page);
@@ -51,6 +58,13 @@ public class ReviewDAOImpl implements ReviewDAO {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         int cnt = mapper.selectReviewButtonCnt();
         return cnt;
+    }
+
+    @Override
+    public List<ReviewVO> selectAllReviewList() {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        List<ReviewVO> list = mapper.selectAllReviewList();
+        return list;
     }
 
     @Override
@@ -110,5 +124,11 @@ public class ReviewDAOImpl implements ReviewDAO {
         paramMap.put("reviewId", reviewId);
         paramMap.put("image", image);
         return mapper.insertReviewImage(paramMap);
+    }
+
+    @Override
+    public int deleteMultiReview(Map<String, Object> idMap) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        return mapper.deleteMultiReview(idMap);
     }
 }

@@ -57,5 +57,10 @@ $.validPwd = function(){
         document.updateForm.newpwd1.focus();
         return false;
     }
+    if(curpwd === newpwd1){
+        Swal.fire('','변경할 비밀번호가 이전 비밀번호와 동일합니다.',"warning");
+        document.updateForm.curpwd.focus();
+        return false;
+    }
     return true;
 }

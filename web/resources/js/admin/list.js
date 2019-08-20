@@ -1,3 +1,5 @@
+var checkList = [];
+
 $(document).ready(function () {
     $.setCenter();
 })
@@ -6,8 +8,25 @@ $("#check_all").click(function(){
     $("#dataTable > tbody > tr > td > input[name='del_chk']").prop('checked', $(this).is(":checked"));
 });
 
+$.fn.checkOnOff = function(id) {
+    if($(this).is(':checked')){
+        checkList.push(id);
+        console.log(checkList);
+    }else{
+        let idx = checkList.indexOf(id);
+        checkList.splice(idx, 1);
+    }
+}
+
+$.checkListToString = function(checkList){
+    let string = "";
+    for(let value in checkList)
+        string += checkList[value]+",";
+    return string;
+}
+
 $('#delbtn').click(function(){
-    let temp_ids = "";
+    let temp_ids = $.checkListToString(checkList);
     $('input:checkbox[name="del_chk"]').each(function () {
         if (this.checked) {
             temp_ids += this.value + ",";

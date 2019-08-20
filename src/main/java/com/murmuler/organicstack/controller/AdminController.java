@@ -5,6 +5,11 @@ import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.service.ReportService;
 import com.murmuler.organicstack.service.RoomService;
 import com.murmuler.organicstack.vo.*;
+import com.murmuler.organicstack.service.ReviewService;
+import com.murmuler.organicstack.vo.FaqVO;
+import com.murmuler.organicstack.vo.MemberVO;
+import com.murmuler.organicstack.vo.NoticeVO;
+import com.murmuler.organicstack.vo.ReviewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -41,6 +46,9 @@ public class AdminController {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @RequestMapping("")
     public String home(){
@@ -121,6 +129,8 @@ public class AdminController {
                 break;
             case "report":
                 res = reportService.removeMultiReport(idMap);
+            case "review":
+                res = reviewService.removeMultiReivew(idMap);
                 break;
         }
 
@@ -179,21 +189,21 @@ public class AdminController {
                               @RequestParam String content,
                               @RequestParam String category,
                               @PathVariable String flag,
-                              HttpServletResponse response) throws IOException{
+                              HttpServletResponse response) throws IOException {
 
         int id = Integer.parseInt(articleNum);
         int res = 0;
-        switch(flag) {
+        switch (flag) {
             case "update":
-            switch (category) {
-                case "notice":
-                    res = csService.updateNotice(id, title, content);
-                    break;
-                case "faq":
-                    res = csService.updateFaq(id, title, content);
-                    break;
-            }
-            break;
+                switch (category) {
+                    case "notice":
+                        res = csService.updateNotice(id, title, content);
+                        break;
+                    case "faq":
+                        res = csService.updateFaq(id, title, content);
+                        break;
+                }
+                break;
             case "add":
                 switch (category) {
                     case "notice":
@@ -203,16 +213,30 @@ public class AdminController {
                         res = csService.addFaq(title, content);
                         break;
                 }
-            break;
+                break;
         }
         JSONObject obj = new JSONObject();
-        if(res > 0) {
-            obj.put("result","SUCCESS");
+        if (res > 0) {
+            obj.put("result", "SUCCESS");
         } else {
-            obj.put("result","FAIL");
+            obj.put("result", "FAIL");
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(obj);
+    }
 
+    @RequestMapping("/reviews")
+    public ModelAndView showReviewList(){
+        List<ReviewVO> list = reviewService.getAllReviewList();
+
+        if( list == null ){
+            logger.warn(String.format("list is null."));
+        }
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("admin/reviews");
+        mav.addObject("reviews", list);
+
+        return mav;
     }
 }

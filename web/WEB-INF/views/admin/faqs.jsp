@@ -82,11 +82,11 @@
                     <c:forEach var="faq" items="${faqList}" varStatus="faqNum">
                         <tr>
                             <td align="center">
-                                <input type="checkbox" name="del_chk" value="${faq.id}">
+                                <input type="checkbox" name="del_chk" value="${faq.id}" onchange="$(this).checkOnOff(${faq.id})">
                             </td>
                             <td class="align-center" value="${faqNum.count}">${faq.id}</td>
                             <td class="underline" id="question${faqNum.count}" onclick="$.showContent(${faqNum.count})">${faq.title}</td>
-                            <td class="align-center"><img id="img${faq.id}img${faqNum.count}" class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;"></td>
+                            <td class="align-center"><img id="img${faq.id}img${faqNum.count}" class="editBtn selectedItem" src="/resources/img/etc/pencil.png" style="height: 20px; width: 20px;" onClick="$(this).edit()"></td>
                             <input type="hidden" id="answer${faqNum.count}" value="${faq.content}">
                         </tr>
                     </c:forEach>

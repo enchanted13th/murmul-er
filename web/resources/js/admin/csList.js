@@ -1,25 +1,21 @@
 const ADD = 0;
+var checkList = [];
 
 $(document).ready(function(){
-
-
-    $('.editBtn').click(function(){
-        // const {value: text} = Swal.fire({
-        //     input: 'textarea'
-        // });
-
-        let id = $(this).attr('id').split('img')[1];
-        let num = $(this).attr('id').split('img')[2];
-        $.allPopup(id, num);
-        // if (text) {
-        //     Swal.fire(text)
-        // }
-    })
-
     $('#addbtn').click(function(){
         $.allPopup(ADD, ADD);
     })
 })
+
+$.fn.edit = function(){
+    //     // if (text) {
+    //     //     Swal.fire(text)
+    //     // }
+    // })
+    let id = $(this).attr('id').split('img')[1];
+    let num = $(this).attr('id').split('img')[2];
+    $.allPopup(id, num);
+}
 
 $.showContent = function(num){
     Swal.fire({
@@ -38,15 +34,15 @@ $.allPopup = function(id, num) {
             + '		<div class="csWrap">'
             + '			<div id="termContent" style="padding: 10px 30px 10px 30px;">'
             + (id == ADD ? '<input type="text" id="title" name="title" class="title" placeholder="제목을 입력하세요.">'
-                         : '<input type="text" id="title" name="title" class="title" value="'+question+'">')
+                : '<input type="text" id="title" name="title" class="title" value="'+question+'">')
             + '				<br>'
             + (id == ADD ? '<textarea id="content" style="resize: none; width: 100%; height: 200px;" placeholder="내용을 입력하세요."></textarea>'
-                          : '<textarea id="content" style="resize: none; width: 100%; height: 200px;">'+ answer +'</textarea>')
+                : '<textarea id="content" style="resize: none; width: 100%; height: 200px;">'+ answer +'</textarea>')
             + '			</div>'
             + '         <div class="align-center">'
             + '             <button name="cancel" id="cancel" class="lastBtns" onClick="cancel()">취소</button> '
             + (id == ADD ? '<button name="cancel" id="cancel" class="lastBtns" onClick="doChange('+id+')">등록</button>'
-                         : '<button name="cancel" id="cancel" class="lastBtns" onClick="doChange('+id+')">수정</button>' )
+                : '<button name="cancel" id="cancel" class="lastBtns" onClick="doChange('+id+')">수정</button>' )
             + '         </div>'
             + '	    </div>'
             + '	</div>').appendTo($('body'));
@@ -63,8 +59,6 @@ $.allPopup = function(id, num) {
 }
 
 var doChange = function(id) {
-    console.log(id);
-    console.log("doChange()");
     let postInfo;
     let type;
 

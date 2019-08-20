@@ -77,7 +77,6 @@ public class SearchController {
         JSONObject roomInfo = new JSONObject();
 
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("page", 1);
         paramMap.put("south", south);
         paramMap.put("west", west);
         paramMap.put("north", north);
