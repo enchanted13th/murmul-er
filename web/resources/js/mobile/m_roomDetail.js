@@ -13,8 +13,8 @@ $(document).ready(function () {
     // $('.bx-viewport').css("height","440px");
     // $('.bx-viewport').style.removeProperty('height');
     // $('.bx-viewport').css("height","");
-    let width = $('.top').outerWidth()/10.548;
-    document.getElementById("detailShow").style.width = width + "px";
+    // let width = $('.top').outerWidth()/10.548;
+    // document.getElementById("detailShow").style.width = width + "px";
     $.setImage();
     $('.slider').bxSlider({
         auto: false, // 자동 애니메이션
@@ -43,8 +43,10 @@ var likeFlag = false;
 
 function clickLike(){
     if(document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png"){
+        console.log("off");
         document.getElementById('heartImg').setAttribute("src", "/resources/img/etc/heart.png");
     }else{
+        console.log("on");
         document.getElementById('heartImg').setAttribute("src", "/resources/img/etc/heartClick.png");
     }
 }
@@ -81,7 +83,7 @@ function clickLike(){
 // }
 
 function clickBack() {
-    location.href = '/searchRoom';
+    history.back();
 }
 
 $.showTalk = function() {

@@ -32,7 +32,7 @@
 <div class="wrap">
     <div class="topText">
         <div class="writeDate">[${writeDate}]</div>
-        <span> ${roomType}</span>
+        <span>${roomType}</span>
         <span>|</span>
         <span>${rentType}</span>
         <span>|</span>
@@ -42,7 +42,7 @@
         <span id="title">${title}</span>
     </div>
     <div class="location" id="location">
-        <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} ${dtailAddr} </span>
+        <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} ${detailAddr} </span>
     </div>
     <div class="hashTag">
         <c:if test="${hashtags!='[]'}">

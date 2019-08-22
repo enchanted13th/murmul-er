@@ -1,9 +1,6 @@
-$(document).ready(function () {
-    // let wh = $(window).height();
-    // let ph = 622;
-    // let top = (wh - ph) / 2;
-    // $('body').find('.wrapLogin').children('div').css('margin-top', top);
+var loginInfo = {}
 
+$(document).ready(function () {
     $('.loginBtn').click(function(){
         $.sendData();
     })
@@ -29,9 +26,8 @@ $.sendData = function(){
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function(){
-                        if (flag === "mypage") location.href = "/mypage/recent";
-                        else if (flag === "talk") { $.showTalk(); location.href="";}
-                        else location.href = "/test/main";
+                        // 액티비티에 알려줘야함
+                        window.login.setLogin(data.nick, data.id);
                     })
                     break;
                 case "WRONG_ID":
@@ -64,6 +60,5 @@ $.checkValid = function() {
         $('#inputPwd').focus();
         return false;
     }
-
     return true;
 }
