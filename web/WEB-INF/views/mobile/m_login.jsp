@@ -20,7 +20,7 @@
     <form method="post" onsubmit="return false;">
         <div class="wrapLogin">
             <div class="background">
-                <img src="/resources/img/etc/background.png">
+<%--                <img src="/resources/img/mobile/background.png">--%>
             </div>
             <div class="divlogo">
                 <img src="/resources/img/mobile/logo_white.png" class="logo">
