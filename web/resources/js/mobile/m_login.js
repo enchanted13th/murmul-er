@@ -31,7 +31,7 @@ $.sendData = function(){
                     }).then(function(){
                         if (flag === "mypage") location.href = "/mypage/recent";
                         else if (flag === "talk") { $.showTalk(); location.href="";}
-                        else location.href = "";
+                        else location.href = "/test/main";
                     })
                     break;
                 case "WRONG_ID":
