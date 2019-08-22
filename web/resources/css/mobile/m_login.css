@@ -1,46 +1,72 @@
+body {
+    margin : 0;
+    padding: 0;
+}
 .wrapLogin{
+    width: 100%;
     position: relative;
-    width: 350px;
-    height: 622px
-    /*width: auto;*/
-    /*height: auto;*/
 }
 
-.background {
+.wrapLogin > .background {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
 }
 
-.logo {
-    position: absolute;
-    top: 110px;
-    left: 55px;
+.wrapLogin > .background > img {
+    width: 100%;
+    height: 100%;
 }
 
-.wrapLogin > .content {
-    position: absolute;
-    z-index: 10;
-    left: 23px;
-    width: 300px;
-    height: 40px;
+.wrapLogin > .divlogo {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 30%;
+}
+.wrapLogin > .divlogo > .logo {
+    width: 70%;
+}
+
+.wrapLogin > .divinput {
+    position: relative;
+    padding: 30px 10px;
+}
+
+.wrapLogin > .divinput > .input {
+    width: 80%;
     font-size: 18px;
+    padding: 10px;
+    margin: 10%;
+    border-radius: 7px;
+    border: 2px solid #b6e3f9;
+    text-align: center;
+    outline: 0;
 }
 
-.wrapLogin > .id{
-    top: 270px;
+.wrapLogin > .divinput > .input.id {
+    margin-bottom: 3%;
+    outline: 0;
+}
+.wrapLogin > .divinput > .input.pwd {
+    margin-top: 3%;
+}
+.wrapLogin > .divloginBtn{
+    background : url("/resources/img/mobile/loginBtn.png");
+    position: relative;
+    width: 70%;
+    padding: 10px;
+    margin: 12%;
+    border-radius: 7px;
+    /*border: 2px solid #b6e3f9;*/
+    text-align: center;
 }
 
-.wrapLogin > .pwd{
-    top: 320px;
-}
-
-.wrapLogin > .loginBtn{
-    top: 470px;
-    background: url("/resources/img/etc/loginBtn.png");
-    color: white;
+.wrapLogin > .divloginBtn > .loginBtn{
     border: 0;
-}
-
-.wrapLogin > .loginBtn:hover{
-    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    font-size: 18px;
 }
