@@ -4,7 +4,7 @@ body{
     margin: 0;
 }
 .wrap {
-    width: 350px;
+    width: 100%;
 }
 .headTitle {
     width: 100%;
@@ -52,6 +52,7 @@ body{
 }
 
 .rightContent{
+    position: relative;
     width: 30%;
     float: right;
 }
@@ -79,8 +80,8 @@ body{
 .imgHeart {
     position: absolute;
     cursor: pointer;
-    left: 308px;
-    top: 115px;
+    top: 5px;
+    right: 5px;
 }
 
 .simpleLine{

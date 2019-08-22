@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    let wh = $(window).height();
-    let ph = 622;
-    let top = (wh - ph) / 2;
-    $('body').find('.wrapLogin').children('div').css('margin-top', top);
+    // let wh = $(window).height();
+    // let ph = 622;
+    // let top = (wh - ph) / 2;
+    // $('body').find('.wrapLogin').children('div').css('margin-top', top);
 
     $('.loginBtn').click(function(){
         $.sendData();

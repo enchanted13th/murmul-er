@@ -1,53 +1,52 @@
-var btnExit = function () {
-    $.showLoginPopup();
+$(document).ready(function () {
+    let itemLen = $('.divItem').length
+    $('#recentCnt').text(itemLen);
+
+    let top = $('.imgHeart').css('top').split('px')[0] * 1;
+    for (let i = 0; i < itemLen; i++) {
+
+        let deposit = $('#deposit' + (i + 1)).text();
+        if (deposit == 0) {
+            $('#deposit' + (i + 1)).text("없음");
+        } else {
+            deposit /= 10000;
+            $('#deposit' + (i + 1)).text(deposit + "만원");
+        }
+
+        let monthlyCost = $('#monthlyCost' + (i + 1)).text();
+        if (monthlyCost == 0) {
+            $('#monthlyCost' + (i + 1)).text("없음");
+        } else {
+            monthlyCost /= 10000;
+            $('#monthlyCost' + (i + 1)).text(monthlyCost + "만원");
+        }
+
+        let manageCost = $('#manageCost' + (i + 1)).text();
+        if (manageCost == 0) {
+            $('#manageCost' + (i + 1)).text("없음");
+        } else {
+            manageCost /= 10000;
+            $('#manageCost' + (i + 1)).text(manageCost + "만원");
+        }
+
+        // $('#like'+(i+1)).css('top', top + (122.333 * i) );
+    }
+
+    $('#btnLikeList').css('border-bottom', '6px solid #b6e2f8');
+})
+
+function clickLike(i, roomId) {
+    $.ajax('/mypage/like', {
+        type: 'POST',
+        data: { roomId: roomId }
+    }).then(function (data, status) {
+        var obj = JSON.parse(data);
+        if (obj.res === 'SUCCESS') {
+            document.getElementById("like" + i).parentElement.remove();
+            $('#recentCnt').text($('.divItem').length);
+        } else {
+        }
+    })
 }
 
-$.showLoginPopup = function () {
-    if ($('#menuPopup').length !== 0) {
-        $(document.body).css('overflow', '');
-        $('body').find('.menuPopup').remove();
-    }
-    if ($('.menuPopup').length === 0) {
-        $(document.body).css('overflow', 'hidden');
-        let popup = $(''
-            + '<div id="loginPopup" class="menuPopup">'
-            + '	<div class="loginPopup">'
-            + '		<div class="divClose">'
-            + '			<button onclick="btnExit()">X</button>'
-            + '		</div>'
-            + '		<div class="logo">'
-            + '			<img src="img/topbar/logo.png"></img>'
-            + '		</div>'
-            + '		<form method="post" name="loginForm" onsubmit="return false;">'
-            + '			<div class="divInput">'
-            + '				<input type="text" id="inputId" name="id" class="textbox" placeholder="아이디" required/>'
-            + '				<input type="password" id="inputPwd" name="pwd" class="textbox" placeholder="비밀번호" required/>'
-            + '			</div>'
-            + '			<div class="hintForm">'
-            + '				<a class="hint" href="">아이디 또는 비밀번호를 잊으셨나요?</a>'
-            + '			</div>'
-            + '			<div class="btns">'
-            + '				<button type="button" id="join" class="btn" >회원가입</button>'
-            + '				<button id="login" class="btn" >로그인</button>'
-            + '			</div>'
-            + '		</form>'
-            + '	</div>'
-            + '</div>').appendTo($('body'));
-
-        popup.find('#login').click(function () {
-            document.loginForm.action = "login.do";
-            document.loginForm.submit();
-        });
-
-        let wh = $(window).height();
-        let ph = 470;
-        let top = (wh - ph) / 2 - 75;
-        console.log("top:", top);
-        popup.children('div').css('margin-top', top);
-
-    } else {
-        console.log("remove");
-        $(document.body).css('overflow', '');
-        $('body').find('.menuPopup').remove();
-    }
-}
+$
