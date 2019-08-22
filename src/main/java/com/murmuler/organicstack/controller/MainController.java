@@ -14,4 +14,10 @@ public class MainController {
         logger.info("called home method");
         return "index";
     }
+
+    @RequestMapping("/mobile")
+    public String mobileHome(){
+        logger.info("called mobile home method");
+        return "mobile/m_main";
+    }
 }
