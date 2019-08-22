@@ -242,14 +242,13 @@
 }
 
 .detailShow {
-    display: inline-block;
+    position: fixed;
+    width: 70%;
     text-align: center;
-    /*font-size: 50px;*/
     font-size: 18px;
-    /*width: 70%;*/
     font-weight: bold;
-    padding-left: 93px;
-    margin-top: 17px;
+    left: 0;
+    margin: 15px 15%;
 }
 
 .footer > .f_button button:hover {

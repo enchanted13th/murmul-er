@@ -5,6 +5,9 @@ import com.murmuler.organicstack.service.MypageService;
 import com.murmuler.organicstack.service.RoomService;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
+import com.murmuler.organicstack.vo.RoomSummaryViewVO;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/mobile")
 public class MobileController {
+    private Log logger = LogFactory.getLog(MainController.class);
+    private static final int SEOKJUNG = 38;
 
     @Autowired
     private MypageService mypageService;
@@ -32,15 +37,36 @@ public class MobileController {
     @Autowired
     private ContactService contactService;
 
+    @RequestMapping(value = "", method=RequestMethod.GET)
+    public String login(){
+        return "mobile/m_login";
+    }
+
+    @RequestMapping("/main")
+    public String mobileHome(){
+        logger.info("called mobile home method");
+        return "mobile/m_main";
+    }
+
+    @RequestMapping(value = "/like/{memberId}", method = RequestMethod.GET)
+    public String testLike(@PathVariable int memberId,
+                           HttpServletRequest request) {
+        List<RoomSummaryViewVO> roomList = mypageService.getLikeRoom(memberId);
+        request.setAttribute("roomArray", roomList);
+        return "mobile/m_likeList";
+    }
+
     @RequestMapping(value = "/searchRoom/{room_id}", method = RequestMethod.GET)
     public ModelAndView detail(@PathVariable("room_id") String roomId, HttpServletRequest request) {
+        logger.info("called search Room detail method");
         HttpSession session = request.getSession();
-        if (session.getAttribute("recentRoom") == null) {
-            List<Integer> recentRoomList = new ArrayList<>();
+        List<Integer> recentRoomList = (List<Integer>)session.getAttribute("recentRoom");
+        if (recentRoomList == null) {
+            recentRoomList = new ArrayList<>();
             recentRoomList.add(Integer.parseInt(roomId));
             session.setAttribute("recentRoom", recentRoomList);
         } else {
-            ((List<Integer>) session.getAttribute("recentRoom")).add(Integer.parseInt(roomId));
+            recentRoomList.add(Integer.parseInt(roomId));
         }
 
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
@@ -105,7 +131,7 @@ public class MobileController {
         mav.addObject("sellerNickname", sellerInfo.get("sellerNickname"));
         mav.addObject("sellerPhone", sellerInfo.get("sellerPhone"));
 
-        mav.setViewName("m_roomDetail");
+        mav.setViewName("mobile/m_roomDetail");
         return mav;
     }
 }
