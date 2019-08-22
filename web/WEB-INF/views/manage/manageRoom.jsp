@@ -45,11 +45,11 @@
                 <td class="val" id="tdPriceVal">
                     <c:set var="deposit" value="${data.deposit}"/>
                     보증금<c:choose>
-                    <c:when test="${deposit==0}">
+                    <c:when test="${data.deposit==0}">
                        <c:set var="deposit" value="없음"/>
                     </c:when>
-                    <c:when test="${deposit>9999}">
-                        <c:set var="deposit" value="${fn:replace(deposit/10000-deposit/10000%1, '.0', '')}억 ${deposit%10000}만"/>
+                    <c:when test="${data.deposit>9999}">
+                        <c:set var="deposit" value="${fn:replace(data.deposit/10000-data.deposit/10000%1, '.0', '')}억 ${data.deposit%10000}만"/>
                     </c:when>
                     <c:otherwise>
                         <c:set var="deposit" value="${deposit}만"/>
