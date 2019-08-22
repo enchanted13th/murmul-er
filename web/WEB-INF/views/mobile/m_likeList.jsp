@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="rightContent">
-                        <a href="/searchRoom/${room.roomId}"><img class="roomImage" src="/manage/download?middlePath=/room/roomId_${room.roomId}&imageFileName=${room.roomImg}" width="250px" height="250px"/></a>
+                        <a href="/mobile/searchRoom/${room.roomId}"><img class="roomImage" src="/manage/download?middlePath=/room/roomId_${room.roomId}&imageFileName=${room.roomImg}" width="250px" height="250px"/></a>
                         <img id="like${rm.count}" class="imgHeart" onclick="clickLike(${rm.count}, ${room.roomId})" src="/resources/img/etc/heartClick.png"
                              width="25px" height="25px"/>
                     </div>
