@@ -3,11 +3,13 @@ package com.murmuler.organicstack.controller;
 import com.murmuler.organicstack.service.ContactService;
 import com.murmuler.organicstack.service.MypageService;
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.util.OptionRecord;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,9 @@ public class MobileController {
 
     @Autowired
     private ContactService contactService;
+
+    @Autowired
+    private OptionRecord optionRecord;
 
     @RequestMapping(value = "", method=RequestMethod.GET)
     public String login(){
@@ -133,5 +140,19 @@ public class MobileController {
 
         mav.setViewName("mobile/m_roomDetail");
         return mav;
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public void searchRoom(HttpServletResponse response) throws IOException {
+        JSONObject res = new JSONObject();
+        List<Map<Integer, String>> options = new ArrayList<>();
+        for (int key : optionRecord.keySet()) {
+            Map<Integer, String> ops = new HashMap<>();
+            ops.put(key, optionRecord.get(key));
+            options.add(ops);
+        }
+        res.put("options", options);
+        response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print(res);
     }
 }
