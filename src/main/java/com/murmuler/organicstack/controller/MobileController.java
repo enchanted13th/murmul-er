@@ -58,7 +58,7 @@ public class MobileController {
     @RequestMapping(value = "/like/{memberId}", method = RequestMethod.GET)
     public String testLike(@PathVariable int memberId,
                            HttpServletRequest request) {
-        List<RoomSummaryViewVO> roomList = mypageService.getLikeRoom(memberId);
+        List<RoomDetailViewVO> roomList = mypageService.getLikeRoomDetail(memberId);
         request.setAttribute("roomArray", roomList);
         return "mobile/m_likeList";
     }
