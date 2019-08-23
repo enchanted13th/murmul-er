@@ -30,8 +30,7 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<RoomSummaryViewVO> getRecentRoom(List<Integer> ids) {
-      // return convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
-        return null;
+       return convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
     }
 
     @Override
@@ -136,8 +135,6 @@ public class MypageServiceImpl implements MypageService {
         map.put("memberId", memberId);
 
         List<RoomDetailVO> roomDetailVOList = roomDAO.selectRoomByLikesDetail(map);
-
-        //RoomDetailVO roomDetailVO = roomDAO.selectRoomDetailByRoomId(map);
 
         for(int i=0; i < roomDetailVOList.size(); i++){
             RoomDetailVO roomDetailVO = roomDetailVOList.get(i);
