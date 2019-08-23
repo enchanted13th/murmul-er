@@ -3,6 +3,8 @@ package com.murmuler.organicstack.service;
 import com.murmuler.organicstack.dao.MemberDAO;
 import com.murmuler.organicstack.dao.RoomDAO;
 import com.murmuler.organicstack.util.*;
+import com.murmuler.organicstack.vo.RoomDetailVO;
+import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,8 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<RoomSummaryViewVO> getRecentRoom(List<Integer> ids) {
-        return convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
+      // return convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
+        return null;
     }
 
     @Override
@@ -95,4 +98,59 @@ public class MypageServiceImpl implements MypageService {
         }
         return beanList;
     }
+
+    private List<RoomDetailViewVO> convertVoToViewVoDetail(List<RoomDetailVO> voList){
+        if(voList == null)
+            return null;
+
+        List<RoomDetailViewVO> beanList = new ArrayList<>();
+        RoomDetailVO roomDetailVO;
+
+
+        for(int i=0; i < voList.size(); i++) {
+            roomDetailVO = voList.get(i);
+            RoomDetailViewVO roomDetailViewVO = new RoomDetailViewVO();
+            roomDetailViewVO.setDeposit(roomDetailVO.getDeposit());
+            roomDetailViewVO.setRoomId(roomDetailVO.getRoomId());
+            roomDetailViewVO.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
+            roomDetailViewVO.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
+            roomDetailViewVO.setMonthlyCost(roomDetailVO.getMonthlyCost());
+            //roomDetailViewVO.setManageCost(roomDetailVO.getManageCost());
+            //roomDetailViewVO.setViews(roomDetailVO.getViews());
+            roomDetailViewVO.setHashtags(roomDetailVO.getHashtags());
+            roomDetailViewVO.setRoomImg(roomDetailVO.getRoomImg());
+            roomDetailViewVO.setSido(roomDetailVO.getSido());
+            roomDetailViewVO.setSigungu(roomDetailVO.getSigungu());
+            roomDetailViewVO.setRoadName(roomDetailVO.getRoadname());
+            roomDetailViewVO.setPeriodNum(roomDetailVO.getPeriodNum());
+            roomDetailViewVO.setPeriodUnit(roomDetailVO.getPeriodUnit());
+            beanList.add(roomDetailViewVO);
+        }
+        return beanList;
+    }
+
+    @Override
+    public List<RoomDetailViewVO> getLikeRoomDetail(int memberId) {
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("memberId", memberId);
+
+        List<RoomDetailVO> roomDetailVOList = roomDAO.selectRoomByLikesDetail(map);
+
+        //RoomDetailVO roomDetailVO = roomDAO.selectRoomDetailByRoomId(map);
+
+        for(int i=0; i < roomDetailVOList.size(); i++){
+            RoomDetailVO roomDetailVO = roomDetailVOList.get(i);
+            map.put("roomId",roomDetailVO.getRoomId());
+            List<String> roomHashtags = roomDAO.selectRoomHashtagByRoomId(map);
+            List<String> roomImgUrls = roomDAO.selectRoomImgUrlByRoomId(map);
+
+            roomDetailVO.setHashtags(roomHashtags);
+            roomDetailVO.setRoomImg(roomImgUrls);
+            map.clear();
+        }
+
+        return convertVoToViewVoDetail(roomDetailVOList);
+    }
+
 }

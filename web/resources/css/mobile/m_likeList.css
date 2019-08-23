@@ -46,6 +46,12 @@ body{
     clear: both;
 }
 
+.divhashtag {
+    margin-top: 30px;
+    color: #b6e2f8;
+    font-weight: bold;
+}
+
 .leftContent{
     width: 70%;
     float: left;
@@ -87,4 +93,89 @@ body{
 .simpleLine{
     width: 100%;
     border: 0.5px solid #d9d9d9;
+}
+
+/*------------라이브러리-----------------*/
+
+.bx-wrapper {
+    position: relative;
+    margin-bottom: 60px;
+    padding: 0;
+    *zoom: 1;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    width: 100px;
+    height: 100px;
+    float: right;
+    -moz-box-shadow: 0 0 0 #ccc;
+    -webkit-box-shadow: 0 0 0 #ccc;
+    box-shadow: 0 0 0px #ccc;
+}
+.bx-wrapper img {
+    max-width: 100%;
+    display: block;
+}
+.bxslider {
+    margin: 0;
+    padding: 0;
+}
+ul.bxslider {
+    list-style: none;
+}
+.bx-viewport {
+    /*fix other elements on the page moving (on Chrome)*/
+    -webkit-transform: translatez(0);
+}
+/** THEME
+===================================*/
+.bx-wrapper {
+    -moz-box-shadow: 0 0 5px #ccc;
+    -webkit-box-shadow: 0 0 5px #ccc;
+    box-shadow: 0 0 5px #ccc;
+    border: 5px solid #fff;
+    background: #fff;
+}
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto {
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+}
+/* LOADER */
+.bx-wrapper .bx-loading {
+    min-height: 50px;
+    /*background: url('images/bx_loader.gif') center center no-repeat #ffffff;*/
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+/* PAGER */
+.bx-wrapper .bx-pager {
+    display: none;
+}
+/* DIRECTION CONTROLS (NEXT / PREV) */
+.bx-wrapper .bx-prev {
+  display: none;
+}
+.bx-wrapper .bx-next {
+  display: none;
+}
+/* IMAGE CAPTIONS */
+.bx-wrapper .bx-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #666;
+    background: rgba(80, 80, 80, 0.75);
+    width: 100%;
+}
+.bx-wrapper .bx-caption span {
+    color: #fff;
+    font-family: Arial;
+    display: block;
+    font-size: .85em;
+    padding: 10px;
 }

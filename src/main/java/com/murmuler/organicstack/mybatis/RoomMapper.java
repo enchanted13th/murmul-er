@@ -49,4 +49,6 @@ public interface RoomMapper {
     int deleteRoom(int roomId);
 
     int updateMultiPostType(Map<String, Object> paramMap);
+
+    List<RoomDetailVO> selectRoomByLikesDetail(Map<String, Integer> map);
 }

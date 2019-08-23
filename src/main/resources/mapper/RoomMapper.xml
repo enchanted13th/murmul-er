@@ -76,16 +76,16 @@
         </foreach>
     </select>
 
-    <select id="selectRoomByLikes" resultType="com.murmuler.organicstack.vo.RoomSummaryVO" parameterType="hashmap">
-        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,
-               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate, views,
-               sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit
-        FROM like_list_tb AS l
-        JOIN sale_tb USING(room_id)
-        JOIN room_tb USING(room_id)
-        JOIN location_tb USING(location_id)
-        WHERE l.member_id = ${memberId}
-    </select>
+<!--    <select id="selectRoomByLikes" resultType="com.murmuler.organicstack.vo.RoomDetailViewVO" parameterType="hashmap">-->
+<!--        SELECT room_id AS roomId, latitude, longitude, post_id AS postId, sale_title AS saleTitle, room_type_id AS roomTypeId,-->
+<!--               rent_id AS rentId, room_area AS roomArea, deposit, monthly_cost AS monthlyCost, manage_cost AS manageCost, sale_date AS saleDate, views,-->
+<!--               sido, sigungu, roadname, period_num AS periodNum, period_unit AS periodUnit-->
+<!--        FROM like_list_tb AS l-->
+<!--        JOIN sale_tb USING(room_id)-->
+<!--        JOIN room_tb USING(room_id)-->
+<!--        JOIN location_tb USING(location_id)-->
+<!--        WHERE l.member_id = ${memberId}-->
+<!--    </select>-->
 
     <select id="selectRoomIdByLocationId" parameterType="int" resultType="int">
         SELECT room_id
@@ -243,5 +243,15 @@
         <foreach collection="ids" item="id" separator=",">#{id}</foreach>
         )
     </update>
+
+    <select id="selectRoomByLikesDetail" resultType="com.murmuler.organicstack.vo.RoomDetailVO" parameterType="hashmap">
+        SELECT room_id AS roomId, room_type_id AS roomType, rent_id AS rentType, deposit, monthly_cost AS monthlyCost,
+               sido, sigungu, roadname as roadName, period_num AS periodNum, period_unit AS periodUnit
+        FROM like_list_tb AS l
+        JOIN sale_tb USING(room_id)
+        JOIN room_tb USING(room_id)
+        JOIN location_tb USING(location_id)
+        WHERE l.member_id = ${memberId}
+    </select>
 
 </mapper>
