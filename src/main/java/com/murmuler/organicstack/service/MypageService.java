@@ -1,5 +1,6 @@
 package com.murmuler.organicstack.service;
 
+import com.murmuler.organicstack.vo.RoomDetailViewVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface MypageService {
     List<Integer> getLikeRoomNumber(int memberId);
     int addLikeRoom(int memberId, int roomId);
     int removeLikeRoom(int memberId, int rooomId);
+
+    List<RoomDetailViewVO> getLikeRoomDetail(int memberId);
 }

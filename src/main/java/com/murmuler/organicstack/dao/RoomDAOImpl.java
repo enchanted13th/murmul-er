@@ -261,4 +261,11 @@ public class RoomDAOImpl implements RoomDAO {
         return mapper.deleteRoom(roomId);
     }
 
+    @Override
+    public List<RoomDetailVO> selectRoomByLikesDetail(Map<String, Integer> map) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        List<RoomDetailVO> list = mapper.selectRoomByLikesDetail(map);
+        return list;
+    }
+
 }
