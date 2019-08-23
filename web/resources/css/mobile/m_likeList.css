@@ -36,7 +36,8 @@ body{
 .divItem {
     margin: 10px auto;
     width: 92%;
-    height: auto;
+    /*height: auto;*/
+    height: 120px;
     font-size: 13px;
 }
 
@@ -50,6 +51,10 @@ body{
     margin-top: 30px;
     color: #b6e2f8;
     font-weight: bold;
+}
+
+.linkToDetail{
+    color: black;
 }
 
 .leftContent{
@@ -99,7 +104,7 @@ body{
 
 .bx-wrapper {
     position: relative;
-    margin-bottom: 60px;
+    /*margin-bottom: 60px;*/
     padding: 0;
     *zoom: 1;
     -ms-touch-action: pan-y;

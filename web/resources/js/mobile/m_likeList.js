@@ -38,8 +38,11 @@ function clickLike(i, roomId) {
     }).then(function (data, status) {
         var obj = JSON.parse(data);
         if (obj.res === 'SUCCESS') {
-            document.getElementById("like" + i).parentElement.remove();
-            $('#recentCnt').text($('.divItem').length);
+            console.log(i);
+            document.getElementById("like" + i).parentElement.parentElement.remove();
+            document.getElementById("line" + i).remove();
+            // $('#recentCnt').text($('.divItem').length);
+            $('#recentCnt').text($('#recentCnt').text()*1-1);
         } else {
         }
     })

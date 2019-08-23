@@ -27,8 +27,9 @@
         </div>
         <div class="divList">
             <c:forEach var="room" items="${roomArray}" varStatus="rm">
-                <hr class="simpleLine">
+                <hr id="line${rm.count}" class="simpleLine">
                 <div id="item${rm.count}" class="divItem">
+                    <a class="linkToDetail" href="/mobile/searchRoom/${room.roomId}">
                     <div class="leftContent">
                         <div class="divPrice">
                             보증금
@@ -83,6 +84,7 @@
                             </c:if>
                         </div>
                     </div>
+                    </a>
                     <div class="rightContent">
                         <ul class="slider">
                             <c:forEach var="data" items="${room.roomImg}" varStatus="status">
