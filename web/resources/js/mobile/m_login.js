@@ -33,7 +33,6 @@ $.sendData = function(){
                 case "WRONG_ID":
                     Swal.fire('로그인 실패', '존재하지 않는 아이디입니다.', 'error')
                         .then(function() {
-                            Swal.close();
                             $('#inputId').focus();
                         })
                     break;
@@ -49,16 +48,8 @@ $.sendData = function(){
 }
 
 $.checkValid = function() {
-    if($('#inputId').val() === ''){
-       Swal.fire('', '아이디를 입력하세요.','warning');
-        $('#inputId').focus();
-        return false;
-    }
-
-    if($('#inputPwd').val() == ''){
-        Swal.fire('', '비밀번호를 입력하세요.','warning');
-        $('#inputPwd').focus();
-        return false;
-    }
+    let id = $('#inputId').val();
+    let pwd = $('#inputPwd').val();
+    if(id === '' || pwd === '') return false;
     return true;
 }
