@@ -10,6 +10,7 @@
 <head>
     <title>메인 화면</title>
     <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
+    <link rel="stylesheet" href="/resources/css/mobile/m_main.css"/>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function() {
