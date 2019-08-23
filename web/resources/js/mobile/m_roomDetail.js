@@ -41,46 +41,28 @@ $.setImage = function(){
 
 var likeFlag = false;
 
-function clickLike(){
-    if(document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png"){
-        console.log("off");
-        document.getElementById('heartImg').setAttribute("src", "/resources/img/etc/heart.png");
-    }else{
-        console.log("on");
-        document.getElementById('heartImg').setAttribute("src", "/resources/img/etc/heartClick.png");
+function clickLike() {
+    if (document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png") {
+        likeFlag = true;
     }
+    $.ajax(roomId, {
+        type: 'POST',
+        data: {roomId: roomId, flag: likeFlag}
+    }).then(function (data, status) {
+        var obj = JSON.parse(data);
+        switch (obj.res) {
+            case 'ADD':
+                document.getElementById('heartImg').src = '/resources/img/etc/heartClick.png';
+                break;
+            case 'REMOVE':
+                document.getElementById('heartImg').src = '/resources/img/etc/heart.png';
+                break;
+            default:
+                break;
+        }
+        likeFlag = false;
+    })
 }
-
-// function clickLike() {
-//     if (document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png") {
-//         likeFlag = true;
-//     }
-//     $.ajax(roomId, {
-//         type: 'POST',
-//         data: {roomId: roomId, flag: likeFlag}
-//     }).then(function (data, status) {
-//         var obj = JSON.parse(data);
-//         switch (obj.res) {
-//             case 'ADD':
-//                 document.getElementById('heartImg').src = '/resources/img/etc/heartClick.png';
-//                 break;
-//             case 'REMOVE':
-//                 document.getElementById('heartImg').src = '/resources/img/etc/heart.png';
-//                 break;
-//             default:
-//                 break;
-//         }
-//         likeFlag = false;
-//     })
-// }
-//
-// function checkLike() {
-//     for (let i = 0; i < likeList.length; i++) {
-//         if (roomId == likeList[i]) {
-//             document.getElementById('heartImg').setAttribute("src", "/resources/img/etc/heartClick.png");
-//         }
-//     }
-// }
 
 function clickBack() {
     history.back();
