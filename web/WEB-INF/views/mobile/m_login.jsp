@@ -26,8 +26,8 @@
                 <img src="/resources/img/mobile/logo_white.png" class="logo">
             </div>
             <div class="divinput">
-                <input type="text" id="inputId" class="input id" placeholder="아이디를 입력하세요." autocomplete="off">
-                <input type="password" id="inputPwd" class="input pwd" placeholder="비밀번호를 입력하세요." autocomplete="off">
+                <input type="text" id="inputId" class="input id" placeholder="아이디를 입력하세요." autocomplete="off" required>
+                <input type="password" id="inputPwd" class="input pwd" placeholder="비밀번호를 입력하세요." autocomplete="off" required>
             </div>
             <div class="divloginBtn">
                 <button class="loginBtn">로그인</button>
