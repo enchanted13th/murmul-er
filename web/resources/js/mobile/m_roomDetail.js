@@ -25,7 +25,12 @@ $(document).ready(function () {
         pager:true, // 페이지 보여짐
         captions: true // 이미지위에 텍스트 넣기
     });
+    $('#showSellerInfo').click(function () {
+        Swal.fire(sellerNickname, sellerPhone);
+    })
 })
+
+
 
 $.setImage = function(){
     if (roomImgNum === '') return;
@@ -65,25 +70,17 @@ function clickLike() {
 }
 
 function clickBack() {
-    history.back();
+    if(isActivity === 'true'){
+        window.detail.back();
+    } else {
+        history.back();
+    }
 }
 
-$.showTalk = function() {
-    var popupX = (window.screen.width / 2) - (500 / 2);
-    var popupY = (window.screen.height / 2) - (900 / 2);
-    loginMemberId = loginMemberId * 1;
-    if(islogin && sellerMemberId === loginMemberId) {
-        Swal.fire('', '회원님이 등록하신 방입니다,', 'warning')
-    }
-    else {
-        window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
-    }
-}
 
 $.inputOption = function () {
     let tr;
     for (let i = 0; i < option.length; i++) {
-        // if (i % 5 === 0) {
         if (i % 3 === 0) {
             tr = $('<tr />').appendTo($('#optionTb'));
         }
@@ -162,16 +159,3 @@ $.inputDetailInfo = function () {
         $('#pet').text("불가능");
     }
 }
-
-// $(window).resize(function () {
-//     $.footerControl();
-// });
-//
-// $.footerControl = function () {
-//     if ($(window).width() > 1070) {
-//         let width = $(window).width();
-//         let ph = 1070;
-//         let left = (width - ph) / 2;
-//         $('.footer').css('left', left);
-//     }
-// }
