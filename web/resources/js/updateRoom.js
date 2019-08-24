@@ -233,12 +233,12 @@ $.colorHeatBtn = function(value) {
 $.colorRentBtn = function(value) {
     switch (value) {
         case '1':
-            $('#btnRi1').css('background-color', '#b6e2f8');
-            selectedRi = 1;
-            break;
-        case '2':
             $('#btnRi2').css('background-color', '#b6e2f8');
             selectedRi = 2;
+            break;
+        case '2':
+            $('#btnRi1').css('background-color', '#b6e2f8');
+            selectedRi = 1;
             break;
         case '3':
             $('#btnRi3').css('background-color', '#b6e2f8');
