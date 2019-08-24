@@ -19,11 +19,11 @@ body{
     font-size: 14px;
     margin: 20px 0;
 }
-.content {
+/*.content {
     width: 100%;
     margin: 0 auto;
     font-size: 11px;
-}
+}*/
 .divList {
     width: 100%;
 }
@@ -36,8 +36,6 @@ body{
 .divItem {
     margin: 10px auto;
     width: 92%;
-    /*height: auto;*/
-    height: 120px;
     font-size: 13px;
 }
 
@@ -49,7 +47,7 @@ body{
 
 .divhashtag {
     margin-top: 30px;
-    color: #b6e2f8;
+    color: rgb(146, 189, 223);
     font-weight: bold;
 }
 
@@ -85,13 +83,13 @@ body{
 .roomImage{
     position : relative;
     width: 100%;
-    height: 100px;
+    height: 110px;
 }
 
 .imgHeart {
     position: absolute;
     cursor: pointer;
-    top: 5px;
+    top: 23px;s
     right: 5px;
 }
 
@@ -100,21 +98,18 @@ body{
     border: 0.5px solid #d9d9d9;
 }
 
-/*------------라이브러리-----------------*/
-
+/** VARIABLES
+===================================*/
+/** RESET AND LAYOUT
+===================================*/
 .bx-wrapper {
     position: relative;
-    /*margin-bottom: 60px;*/
+    margin-bottom: 10px;
+    margin-top: 10px;
     padding: 0;
     *zoom: 1;
     -ms-touch-action: pan-y;
     touch-action: pan-y;
-    width: 100px;
-    height: 100px;
-    float: right;
-    -moz-box-shadow: 0 0 0 #ccc;
-    -webkit-box-shadow: 0 0 0 #ccc;
-    box-shadow: 0 0 0px #ccc;
 }
 .bx-wrapper img {
     max-width: 100%;
@@ -133,54 +128,31 @@ ul.bxslider {
 }
 /** THEME
 ===================================*/
-.bx-wrapper {
-    -moz-box-shadow: 0 0 5px #ccc;
-    -webkit-box-shadow: 0 0 5px #ccc;
-    box-shadow: 0 0 5px #ccc;
-    border: 5px solid #fff;
-    background: #fff;
-}
-.bx-wrapper .bx-pager,
-.bx-wrapper .bx-controls-auto {
-    position: absolute;
-    bottom: -30px;
-    width: 100%;
-}
-/* LOADER */
-.bx-wrapper .bx-loading {
-    min-height: 50px;
-    /*background: url('images/bx_loader.gif') center center no-repeat #ffffff;*/
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2000;
-}
+
 /* PAGER */
 .bx-wrapper .bx-pager {
     display: none;
 }
+.bx-wrapper .bx-pager.bx-default-pager a {
+    display: none;
+}
+.bx-wrapper .bx-pager-item {
+   display:  none;
+}
 /* DIRECTION CONTROLS (NEXT / PREV) */
 .bx-wrapper .bx-prev {
-  display: none;
+    display: none;
 }
 .bx-wrapper .bx-next {
-  display: none;
+    display: none;
 }
-/* IMAGE CAPTIONS */
-.bx-wrapper .bx-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: #666;
-    background: rgba(80, 80, 80, 0.75);
-    width: 100%;
+.bx-wrapper .bx-next:hover,
+.bx-wrapper .bx-next:focus {
+    background-position: -43px 0;
 }
-.bx-wrapper .bx-caption span {
-    color: #fff;
-    font-family: Arial;
-    display: block;
-    font-size: .85em;
-    padding: 10px;
+.bx-wrapper .bx-controls-direction a {
+    display: none;
+}
+.bx-wrapper .bx-controls-direction a.disabled {
+    display: none;
 }

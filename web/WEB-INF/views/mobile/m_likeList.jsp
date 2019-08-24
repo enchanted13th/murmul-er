@@ -15,7 +15,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>안드로이드용 관심목록</title>
     <link rel="stylesheet" href="/resources/css/mobile/m_likeList.css"/>
+<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">--%>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script src="/resources/js/mobile/m_likeList.js"></script>
 </head>
 <body>
@@ -86,16 +88,16 @@
                     </div>
                     </a>
                     <div class="rightContent">
-                        <ul class="slider">
+                        <input type="hidden" id="totCntImg${rm.count}" value="${fn:length(room.roomImg)}">
+                        <input type="hidden" id="roomId${rm.count}" value="${room.roomId}">
+                        <input type="hidden" id="roomImg${rm.count}" value="${room.roomImg}">
+                        <ul class="slider" id="slider${rm.count}">
                             <c:forEach var="data" items="${room.roomImg}" varStatus="status">
                                 <li>
-                                    <img class="roomImage" id="preview${status.index}" width="100px" height="100px" src=""/>
-                                    <input type="hidden" id="roomValue${status.index}" value="${room.roomId},${data}">
+                                    <img class="roomImage" id="preview${room.roomId}-${status.index}" width="120px" height="120px" src=""/>
+                                    <input type="hidden" id="roomValue${room.roomId}-${status.index}" value="${data}">
                                     <c:set var="roomId" value="${room.roomId}"/>
                                 </li>
-                                <c:if test="${status.last}">
-                                    <c:set var="roomImgNum" value="${status.count}"/>
-                                </c:if>
                             </c:forEach>
                         </ul>
                         <img id="like${rm.count}" class="imgHeart" onclick="clickLike(${rm.count}, ${room.roomId})" src="/resources/img/etc/heartClick.png"
@@ -108,10 +110,7 @@
     </div>
 </div>
 <script>
-    let roomImgNum = "${roomImgNum}";
-    let roomId = "${roomId}";
 </script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 </body>
 </html>
 
