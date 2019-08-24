@@ -77,9 +77,11 @@
                     <button id="btnRi1" value="2">전세</button>
                     <button id="btnRi2" value="1">월세</button>
                     <button id="btnRi3" value="3">단기</button>
-                    <input type="text" id="inputDeposit" class="alignRight" value="<fmt:formatNumber value="${room.saleVO.deposit/10000}" maxFractionDigits="0" />" placeholder="보증금"/>
+                    <fmt:parseNumber var="deposit" integerOnly="true" value="${room.saleVO.deposit/10000}" />
+                    <input type="text" id="inputDeposit" class="alignRight" value="${deposit}" placeholder="보증금"/>
                     <label>/</label>
-                    <input type="text" id="inputPrice" class="alignRight" value="<fmt:formatNumber value="${room.saleVO.monthlyCost/10000}" maxFractionDigits="0" />" placeholder="월세 or 가격"/>
+                    <fmt:parseNumber var="monthlyCost" integerOnly="true" value="${room.saleVO.monthlyCost/10000}" />
+                    <input type="text" id="inputPrice" class="alignRight" value="${monthlyCost}" placeholder="월세 or 가격"/>
                     <label>만원</label>
                     <input id="rentType" type="hidden" value="${room.saleVO.rentType}"></input>
                 </td>

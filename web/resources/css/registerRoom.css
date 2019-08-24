@@ -201,4 +201,8 @@ textarea {
 .img-wrap:hover .close {
     opacity: 1;
 }
+
+.inputAdminFee{
+    text-align: right;
+}
 /* content_end */
