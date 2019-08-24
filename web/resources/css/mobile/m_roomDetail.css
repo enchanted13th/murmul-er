@@ -1,5 +1,8 @@
 @charset "UTF-8";
-
+body {
+    margin: 0;
+    background-color: white;
+}
 .wrap {
     width: auto;
     height: auto;
