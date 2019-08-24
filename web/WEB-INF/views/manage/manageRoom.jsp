@@ -56,7 +56,7 @@
                     </c:otherwise>
                 </c:choose>
                     <b>${deposit}</b>
-                    / 월세<c:choose>
+                    / ${data.rentType}<c:choose>
                     <c:when test="${data.monthlyCost==0}">
                         <b>없음</b>
                     </c:when>
