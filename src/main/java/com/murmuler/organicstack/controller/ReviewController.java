@@ -4,7 +4,7 @@ import com.murmuler.organicstack.service.ReviewService;
 import com.murmuler.organicstack.util.Constants;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.ReviewVO;
-import oracle.jdbc.driver.Const;
+//import oracle.jdbc.driver.Const;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;

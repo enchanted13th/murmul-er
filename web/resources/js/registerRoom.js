@@ -198,12 +198,25 @@ function readURL(input) {
     }
     cnt += loopCnt;
 }
-function changeSize() {
-    let area = parseFloat($('#inputSize').val() * 3.305785).toFixed(2);
-    $('#inputArea').val(area);
+
+$.fn.changeSize = function() {
+    $(this).keyup(function(event) {
+        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            var inputVal = $(this).val();
+            $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_+=<>/]/gi,''));
+        }
+        let area = parseFloat($('#inputSize').val() * 3.305785).toFixed(2);
+        $('#inputArea').val(area);
+    });
 }
 
-function changeArea() {
+$.fn.changeArea = function() {
+    $(this).keyup(function(event) {
+        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            var inputVal = $(this).val();
+            $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_+=<>/]/gi,''));
+        }
+    });
     let area = Math.round($('#inputArea').val() / 3.305785);
     $('#inputSize').val(area);
 }
@@ -403,11 +416,9 @@ $.fn.clickSubmit = function() {
             return;
         }
 
-        if (!onlyNum.test(on1) || !onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
+        if (!onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
             alert("숫자만 입력하세요.");
-            if (!onlyNum.test(on1)) {
-                $('#inputSize').focus();
-            } else if (!onlyNum.test(on2)) {
+            if (!onlyNum.test(on2)) {
                 $('#inputDeposit').focus();
             } else if (!onlyNum.test(on3)) {
                 $('#inputPrice').focus();
@@ -633,4 +644,13 @@ $.fn.clickOp = function () {
             console.log(optionList)
         }
     })
+}
+
+$.fn.onlyNum = function() {
+    $(this).keyup(function(event) {
+        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            var inputVal = $(this).val();
+            $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_+=<>/]/gi,''));
+        }
+    });
 }

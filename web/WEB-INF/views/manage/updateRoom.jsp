@@ -58,16 +58,16 @@
             <tr>
                 <td class="tbSubtitle">면적</td>
                 <td>
-                    <input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup='changeSize()'/>
+                    <input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup="$(this).changeSize()"/>
                     <label>평</label>
-                    <input type="text" id="inputArea" class="alignRight" placeholder="105.78" value="${room.roomVO.area}" onkeyup='changeArea()'/>
+                    <input type="text" id="inputArea" class="alignRight" placeholder="105.78" value="${room.roomVO.area}" onkeyup="$(this).changeArea()"/>
                     <label>M^2</label>
                 </td>
             </tr>
             <tr>
                 <td class="tbSubtitle">층수</td>
                 <td>
-                    <input type="text" id="inputFloor" class="alignRight" value="${room.roomVO.floor}"/>
+                    <input type="text" id="inputFloor" class="alignRight" value="${room.roomVO.floor}" onkeyup="$(this).onlyNum()"/>
                     <label>층</label>
                 </td>
             </tr>
@@ -78,10 +78,10 @@
                     <button id="btnRi2" value="1">월세</button>
                     <button id="btnRi3" value="3">단기</button>
                     <fmt:parseNumber var="deposit" integerOnly="true" value="${room.saleVO.deposit/10000}" />
-                    <input type="text" id="inputDeposit" class="alignRight" value="${deposit}" placeholder="보증금"/>
+                    <input type="text" id="inputDeposit" class="alignRight" value="${deposit}" placeholder="보증금" onkeyup="$(this).onlyNum()"/>
                     <label>/</label>
                     <fmt:parseNumber var="monthlyCost" integerOnly="true" value="${room.saleVO.monthlyCost/10000}" />
-                    <input type="text" id="inputPrice" class="alignRight" value="${monthlyCost}" placeholder="월세 or 가격"/>
+                    <input type="text" id="inputPrice" class="alignRight" value="${monthlyCost}" placeholder="월세 or 가격" onkeyup="$(this).onlyNum()"/>
                     <label>만원</label>
                     <input id="rentType" type="hidden" value="${room.saleVO.rentType}"></input>
                 </td>
@@ -89,7 +89,7 @@
             <tr>
                 <td class="tbSubtitle">임대기간</td>
                 <td>
-                    <input type="text" class="alignRight" value="${room.saleVO.periodNum}" id="inputPeriodNum">
+                    <input type="text" class="alignRight" value="${room.saleVO.periodNum}" id="inputPeriodNum" onkeyup="$(this).onlyNum()">
                     <select id="inputPeriodUnit">
                         <option id="Y" value="Y">년</option>
                         <option id="M" value="M">개월</option>
@@ -108,7 +108,7 @@
                 <td class="tdContent" colspan=3>
                     <button id="btnAF1" value="없음">없음</button>
                     <button id="btnAF2" value="있음">있음</button>
-                    <input type="text" class="alignRight" id="inputAdminFee" readonly value="<fmt:formatNumber value="${room.saleVO.manageCost/10000}" maxFractionDigits="0" />"/>
+                    <input type="text" class="alignRight" id="inputAdminFee" readonly value="<fmt:formatNumber value="${room.saleVO.manageCost/10000}" maxFractionDigits="0" />" onkeyup="$(this).onlyNum()"/>
                     <label>만원</label>
                     <input id="isMangeCost" type="hidden" value="${room.saleVO.manageCost}"></input>
                 </td>
