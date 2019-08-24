@@ -67,8 +67,8 @@ var connectSock = function (talkRoomId, contactMember) {
 }
 
 var showTalk = function(contactMember) {
-    location.href = "http://www.murmul-er.com:8080/talk/" + contactMember;
-    // location.href = "/talk/" + contactMember;
+    // location.href = "http://www.murmul-er.com:8080/talk/" + contactMember;
+    location.href = "/talk/" + contactMember;
 }
 
 var deleteTalk = function(contactMember) {

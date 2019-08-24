@@ -1,8 +1,10 @@
 package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.service.ReviewService;
+import com.murmuler.organicstack.util.Constants;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.ReviewVO;
+import oracle.jdbc.driver.Const;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -182,7 +184,7 @@ public class ReviewController {
                             HttpServletResponse response) throws IOException {
 
         String image="";
-        String uploadFolder = "/home/murmuler";
+        String uploadFolder = Constants.REPOSITORY_PATH;
         String uploadFolderPath = "review/reviewId_" + reviewId;
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -224,7 +226,7 @@ public class ReviewController {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
 
-        String REPOSITORY_PATH = "/home/murmuler";
+        String REPOSITORY_PATH = Constants.REPOSITORY_PATH;
         OutputStream out = response.getOutputStream();
         String path = REPOSITORY_PATH + middlePath + "/" + imageFileName;
 
