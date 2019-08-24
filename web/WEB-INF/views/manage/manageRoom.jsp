@@ -60,6 +60,10 @@
                     <c:when test="${data.monthlyCost==0}">
                         <b>없음</b>
                     </c:when>
+                    <c:when test="${data.monthlyCost>9999}">
+                        <c:set var="monthlyCost" value="${fn:replace(data.monthlyCost/10000-data.monthlyCost/10000%1, '.0', '')}억 ${data.monthlyCost%10000}만"/>
+                        <b>${monthlyCost}</b>
+                    </c:when>
                     <c:otherwise>
                         <b>${data.monthlyCost}만</b>
                     </c:otherwise>

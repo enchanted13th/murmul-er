@@ -308,6 +308,16 @@ $.fn.clickSubmit = function() {
         }
 
         check = 0;
+        if($('#inputDeposit').val() <= 210000 && $('#inputPrice').val() <= 210000 && $('#inputAdminFee').val() <= 210000){
+            check++;
+        }
+        if(check == 0){
+            document.getElementById('inputDeposit').scrollIntoView();
+            alert("가격정보중 잘못된 입력값이 있습니다.");
+            return;
+        }
+
+        check = 0;
         for (var i = 1; i <= 2; i++) {
             if ($('#btnAF' + i).css('background-color') === "rgb(182, 226, 248)") {
                 check++;

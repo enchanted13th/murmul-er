@@ -99,7 +99,7 @@
 				<td class="tdContent" colspan=3>
 					<button id="btnAF1" value="없음">없음</button>
 					<button id="btnAF2" value="있음">있음</button>
-					<input type="text" id="inputAdminFee" readonly/>
+					<input type="text" class="inputAdminFee" id="inputAdminFee" readonly/>
 					<label>만원</label>
 				</td>
 			</tr>
