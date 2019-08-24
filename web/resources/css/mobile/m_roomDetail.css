@@ -175,7 +175,7 @@
 
 .wrap .mapWrap {
     position: relative;
-    margin: 100px auto;
+    margin: 100px auto 20px auto;
     /*width: 60%;*/
     width: 80%;
     /*height: 100%;*/
@@ -183,6 +183,7 @@
 }
 
 .wrap .mapWrap .map {
+    margin: 0 auto;
     width: 500px;
     height: 400px;
     z-index: 1;
@@ -279,6 +280,26 @@
 
 .writeDate{
     text-align: center;
+}
+
+.divSeller {
+    margin: 100px auto;
+    text-align: center;
+}
+.divSeller > #showSellerInfo {
+    font-size: 17px;
+    border: 0;
+    background-color: transparent;
+    outline: 0;
+    height: 45px;
+    border: 1px solid #b6e2f8;
+    border-radius: 10px;
+    padding: 5px 50px;
+    margin: 0 10px;
+}
+.divSeller > #showSellerInfo:hover{
+    background-color: #e9f8ff;
+    cursor: pointer;
 }
 
 /**=============== box-slider ==============**/

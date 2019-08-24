@@ -10,10 +10,9 @@
     <link rel="stylesheet" href="/resources/css/mobile/m_roomDetail.css">
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
+    <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
+    <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
     <title>방 상세: ${title}</title>
-    <script>
-        let loginMemberId = "${loginMember.memberId}";
-    </script>
 </head>
 <body>
 <div class="footer">
@@ -42,7 +41,7 @@
         <span id="title">${title}</span>
     </div>
     <div class="location" id="location">
-        <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} ${detailAddr} </span>
+        <span id="addr"> ${sido} ${sigungu} ${roadName} ${roadJibun} </span>
     </div>
     <div class="hashTag">
         <c:if test="${hashtags!='[]'}">
@@ -169,13 +168,14 @@
         <div id="locationDong" class="detailLocation"> ${sido} ${sigungu} ${bname1} ${bname2} </div>
         <div class="map" id="map"></div>
     </div>
+    <div class="divSeller">
+        <button id="showSellerInfo">판매자 연락처 보기</button>
+    </div>
 </div>
 <script src="/resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/roomDetailMap.js"></script>
-<script src="/resources/js/contact.js"></script>
-<script src="/resources/js/report.js"></script>
 <script src="/resources/js/mobile/m_roomDetail.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <script>
@@ -191,6 +191,7 @@
     let likeList = ${likeList};
     let roomImgNum = "${roomImgNum}";
     let roomType = "${roomType}";
+    let isActivity = "${isActivity}";
 </script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,8 +65,18 @@ public class MobileController {
     }
 
     @RequestMapping(value = "/searchRoom/{room_id}", method = RequestMethod.GET)
-    public ModelAndView detail(@PathVariable("room_id") String roomId, HttpServletRequest request) {
+    public ModelAndView detail(@PathVariable("room_id") String roomId,
+                               @RequestParam(value = "flag", required = false, defaultValue = "false") boolean isActivity,
+                               HttpServletRequest request) {
         logger.info("called search Room detail method");
+        logger.info("is Activity : " + isActivity);
+
+        ModelAndView mav = new ModelAndView();
+
+        if(isActivity) {
+            mav.addObject("isActivity", true);
+        }
+
         HttpSession session = request.getSession();
         List<Integer> recentRoomList = (List<Integer>)session.getAttribute("recentRoom");
         if (recentRoomList == null) {
@@ -82,7 +93,6 @@ public class MobileController {
             likeRoomList = mypageService.getLikeRoomNumber(memberVO.getMemberId());
         }
 
-        ModelAndView mav = new ModelAndView();
         Map<String, Integer> paramMap = new HashMap<>();
         paramMap.put("roomId", Integer.parseInt(roomId));
         RoomDetailViewVO roomDetailViewVO = roomService.getRoomDetailByRoomId(paramMap);
