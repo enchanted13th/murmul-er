@@ -3,6 +3,7 @@ package com.murmuler.organicstack.controller;
 import com.murmuler.organicstack.service.ContractService;
 import com.murmuler.organicstack.service.MemberService;
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.util.Constants;
 import com.murmuler.organicstack.util.FileHelper;
 import com.murmuler.organicstack.vo.ContractVO;
 import com.murmuler.organicstack.vo.MemberVO;
@@ -33,9 +34,7 @@ import java.util.*;
 @RequestMapping("/contract")
 public class ContractController {
     Log logger = LogFactory.getLog(ContractController.class);
-
-//    private static final String REPO_PATH = "/home/murmuler";
-    private static final String REPO_PATH = "/Users/ine";
+    private static final String REPO_PATH = Constants.REPOSITORY_PATH;
     @Autowired
     private RoomService roomService;
     @Autowired
@@ -243,7 +242,7 @@ public class ContractController {
                             HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
         logger.info("upload method entered...");
-        String FOLDER_PATH = "/contract/";
+        String FOLDER_PATH = Constants.CONTRACT_PATH;
         JSONObject res = new JSONObject();
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
 
@@ -261,7 +260,7 @@ public class ContractController {
         contract.setStayTo(to);
 
         if(contractService.registerContract(contract) > 0) {
-            FOLDER_PATH += contract.getId();
+            FOLDER_PATH += "/"+ contract.getId();
             File uploadPath = new File(REPO_PATH, FOLDER_PATH);
             if(uploadPath.exists() == false){
                 uploadPath.mkdirs();

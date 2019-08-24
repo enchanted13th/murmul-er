@@ -2,6 +2,7 @@ package com.murmuler.organicstack.controller;
 
 import com.murmuler.organicstack.dao.RoomDAO;
 import com.murmuler.organicstack.service.RoomService;
+import com.murmuler.organicstack.util.Constants;
 import com.murmuler.organicstack.util.PostStatusRecord;
 import com.murmuler.organicstack.vo.MemberVO;
 
@@ -29,6 +30,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/manage")
 public class RoomController {
+    private static final String REPOSITORY_PATH = Constants.REPOSITORY_PATH;
     private Log logger = LogFactory.getLog(RoomController.class);
 
     @Autowired
@@ -160,8 +162,8 @@ public class RoomController {
         int roomId = roomService.getRoomIdByMemberId(memberId);
         ArrayList<String> imgUrlList = new ArrayList<>();
 
-        String uploadFolder = "/home/murmuler";
-        String uploadFolderPath = "room/roomId_"+roomId;
+        String uploadFolder = REPOSITORY_PATH;
+        String uploadFolderPath = Constants.ROOM_IMG_PATH + roomId;
 
         // 폴더 생성
         File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -213,8 +215,8 @@ public class RoomController {
         }else{
             ArrayList<String> imgUrlList = new ArrayList<>();
 
-            String uploadFolder = "/home/murmuler";
-            String uploadFolderPath = "room/roomId_"+roomId;
+            String uploadFolder = REPOSITORY_PATH;
+            String uploadFolderPath = Constants.ROOM_IMG_PATH + roomId;
 
             // 폴더 생성
             File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -298,7 +300,6 @@ public class RoomController {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html; charset=utf-8");
 
-        String REPOSITORY_PATH = "/home/murmuler";
         OutputStream out = response.getOutputStream();
         String path = REPOSITORY_PATH + middlePath + "/" + imageFileName;
 

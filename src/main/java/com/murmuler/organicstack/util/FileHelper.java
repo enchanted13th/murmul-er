@@ -12,8 +12,7 @@ import java.util.List;
 
 @Component
 public class FileHelper {
-    private static final String REPOSITORY_PATH = "/home/murmuler";
-//    private static final String REPOSITORY_PATH = "/Users/ine";
+    private static final String REPOSITORY_PATH = Constants.REPOSITORY_PATH;
 
     private Log logger = LogFactory.getLog(FileHelper.class);
 
