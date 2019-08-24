@@ -52,16 +52,16 @@
 			<tr>
 				<td class="tbSubtitle">면적</td>
 				<td>
-					<input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup='changeSize()'/>
+					<input type="text" id="inputSize" class="alignRight" placeholder="32" onkeyup="$(this).changeSize()"/>
 					<label>평</label>
-					<input type="text" id="inputArea" class="alignRight" placeholder="105.78" onkeyup='changeArea()'/>
+					<input type="text" id="inputArea" class="alignRight" placeholder="105.78" onkeyup="$(this).changeArea()"/>
 					<label>M^2</label>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">층수</td>
 				<td>
-					<input type="text" id="inputFloor" class="alignRight"/>
+					<input type="text" id="inputFloor" class="alignRight" onkeyup="$(this).onlyNum()"/>
 					<label>층</label>
 					<label style="color: cornflowerblue; font-size: 14px; margin-left: 10px;">* 지하일 경우 '-'를 붙여주세요 (예) 지하2층 > -2</label>
 				</td>
@@ -72,16 +72,16 @@
 					<button id="btnRi1" value="전세">전세</button>
 					<button id="btnRi2" value="월세">월세</button>
 					<button id="btnRi3" value="단기">단기</button>
-					<input type="text" id="inputDeposit" class="alignRight" placeholder="보증금"/>
+					<input type="text" id="inputDeposit" class="alignRight" placeholder="보증금" onkeyup="$(this).onlyNum()"/>
 					<label>/</label>
-					<input type="text" id="inputPrice" class="alignRight" placeholder="월세 or 가격"/>
+					<input type="text" id="inputPrice" class="alignRight" placeholder="월세 or 가격" onkeyup="$(this).onlyNum()"/>
 					<label>만원</label>
 				</td>
 			</tr>
 			<tr>
 				<td class="tbSubtitle">임대기간</td>
 				<td>
-					<input type="text" id="inputPeriodNum" class="alignRight">
+					<input type="text" id="inputPeriodNum" class="alignRight" onkeyup="$(this).onlyNum()">
 					<select id="inputPeriodUnit">
 						<option value="Y">년</option>
 						<option value="M">개월</option>
@@ -99,7 +99,7 @@
 				<td class="tdContent" colspan=3>
 					<button id="btnAF1" value="없음">없음</button>
 					<button id="btnAF2" value="있음">있음</button>
-					<input type="text" class="inputAdminFee" id="inputAdminFee" readonly/>
+					<input type="text" class="inputAdminFee" id="inputAdminFee" readonly onkeyup="$(this).onlyNum()"/>
 					<label>만원</label>
 				</td>
 			</tr>
