@@ -33,11 +33,13 @@ $(document).ready(function () {
     $.colorArrBtn($('#option').val(), $('#optionLen').val(),'option');
     $.colorArrBtn($('#manage').val(), $('#manageLen').val(),'manage');
 
+    $.setInputAdminFee();
+
     $('#btnImg').click(selectFile);
 
     // $.imageArrBtn();
     $.setImage();
-    // changeArea();
+    changeArea();
 
     $('.img-wrap .close').click(function () {
         var imgId = $(this).closest('.img-wrap').find('img').data('id');
@@ -63,6 +65,8 @@ $(document).ready(function () {
         let extName = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
         formData.append("oldFile",new File([""], fileName));
     }
+
+
 })
 
 
@@ -839,6 +843,16 @@ $.fn.onlyNum = function() {
             $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_+=<>/]/gi,''));
         }
     });
+}
+function changeArea() {
+    let area = Math.round($('#inputArea').val() / 3.305785);
+    $('#inputSize').val(area);
+}
+
+$.setInputAdminFee = function() {
+    if($('#btnAF2').css('background-color') === "rgb(182, 226, 248)"){
+        $('#inputAdminFee').removeAttr('readonly')
+    }
 }
 
 
