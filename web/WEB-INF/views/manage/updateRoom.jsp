@@ -74,8 +74,8 @@
             <tr>
                 <td class="tbSubtitle">금액</td>
                 <td>
-                    <button id="btnRi1" value="1">전세</button>
-                    <button id="btnRi2" value="2">월세</button>
+                    <button id="btnRi1" value="2">전세</button>
+                    <button id="btnRi2" value="1">월세</button>
                     <button id="btnRi3" value="3">단기</button>
                     <input type="text" id="inputDeposit" class="alignRight" value="<fmt:formatNumber value="${room.saleVO.deposit/10000}" maxFractionDigits="0" />" placeholder="보증금"/>
                     <label>/</label>

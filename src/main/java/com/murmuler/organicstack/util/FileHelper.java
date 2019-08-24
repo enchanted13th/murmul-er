@@ -106,9 +106,6 @@ public class FileHelper {
             if (fileName.contains("/")) {
                 fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
             }
-            if (fileName.contains("\\")) {
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-            }
             try {
                 File saveFile = new File(path, fileName);
                 if (saveFile.isFile()) { // 중복된 이름의 파일이 있는 경우
