@@ -7,12 +7,13 @@ var hashtagExist;
 var ps = new kakao.maps.services.Places();
 var imgLeft;
 
+var x = 'x';
+var formData = new FormData();
+
 $(document).ready(function(){
     if(islogin === false){
         location.href="/review?page=1&order=latest";
     }
-    let leftpx = $(".imgPreview").css('left');
-    imgLeft = leftpx.substr(0, leftpx.length - 2) * 1;
 
     starRating();
     $.resizeEvent();
@@ -90,7 +91,7 @@ function placesSearchCB (data, status, pagination) {
         totAddr.latitude = data[0].y;
         totAddr.longitude = data[0].x;
 
-        let formData = new FormData();
+        // let formData = new FormData();
         let inputFile = $("input[name='uploadFile']");
         let files = inputFile[0].files;
         for(let i = 0; i < files.length; i++){
@@ -186,15 +187,27 @@ var readName = function(input){
         }
 
         let reader = new FileReader();
-        reader.onload = function (e) {
-            $('#rmimg').attr('src', e.target.result);
-            $('.imgPreview').css('display', 'block');
-        }
+        reader.onload=function (e) {
 
-        $('#close').click(function () {
-            $('#rmimg').attr('src', "");
-            $('.imgPreview').css('display', 'hidden');
-        });
+            if($('.img-wrap') != null){
+                formData.delete("uploadFile");
+                $('.img-wrap').remove();
+            }
+
+            let img = $(''
+                +'<div class="img-wrap" id=img-wrap name="'+imgName+'">'
+                +'<span class="close" id=close>' + x + '</span>'
+                +'<img class="addimage" data-id=rmimg src='+ e.target.result +' name="addImage"/>'
+                +'</div>'
+            );
+            td.append(img);
+            $('#close').click(function () {
+
+                let rmDiv = $(this).parent()[0];
+                formData.delete("uploadFile");
+                rmDiv.remove();
+            });
+        }
         reader.readAsDataURL(input.files[0]);
     }
 }
