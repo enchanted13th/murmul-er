@@ -21,7 +21,7 @@
                 </tr>
                 <tr class="low">
                     <td class="item">주소</td>
-                    <td><input type="text"  name="inputAddr" id="inputAddr" class="inputAddr" placeholder="주소를 작성해주세요." autocomplete="off" required readOnly/><button type="button" id="btnAddr">주소 검색</button></td>
+                    <td><input type="text"  name="inputAddr" id="inputAddr" class="inputAddr" placeholder="주소를 작성해주세요." autocomplete="off" required readOnly/><button type="button" class="btnAddr" id="btnAddr">주소 검색</button></td>
                 </tr>
                 <tr class="low">
                     <td></td>
@@ -134,13 +134,9 @@
                 </tr>
                 <tr class="low">
                     <td class="item">이미지 첨부</td>
-                    <td id="tdImg">
-                        <button type="button" onclick="readFile()">파일선택</button>
-                        <input type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
-                        <div class="imgPreview">
-                            <span class="close" id="close">x</span>
-                            <img style="width: 100%; height: 100%;" class="addimage" id="rmimg" src="" name="addImage" class="addimage">
-                        </div>
+                    <td class="tdImg" id="tdImg">
+                        <button class="upload" type="button" onclick="readFile()"><img class="img" src="/resources/img/etc/addimage1.png"/></button>
+                        <input class="upload" type="file" name="uploadFile" id="uploadFile" onchange="readName(this)" />
                     </td>
                 </tr>
                 <tr>

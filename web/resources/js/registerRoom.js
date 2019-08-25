@@ -524,6 +524,18 @@ $.fn.clickRi = function () {
         }
         $(this).css('background-color', '#b6e2f8');
         selectedRi = $(this).attr('id').split('btnRi')[1];
+
+        if(selectedRi == 1) {
+            $('#inputPrice').attr("readonly", true);
+            $('#inputDeposit').attr("placeholder", "전세");
+            $('#inputDeposit').val("");
+            $('#inputPrice').val("0");
+        }else{
+            $('#inputPrice').removeAttr('readonly');
+            $('#inputDeposit').attr("placeholder", "보증금");
+            $('#inputDeposit').val("");
+            $('#inputPrice').val("");
+        }
     })
 }
 $.fn.clickAF = function () {
@@ -535,7 +547,7 @@ $.fn.clickAF = function () {
         $(this).css('background-color', '#b6e2f8');
         selectedAF = $(this).attr('id').split('btnAF')[1];
         if ($('#btnAF' + selectedAF).val() == "있음") {
-            $('#inputAdminFee').removeAttr('readonly')
+            $('#inputAdminFee').removeAttr('readonly');
         } else {
             $('#inputAdminFee').val('');
             $("#inputAdminFee").attr("readonly", true);

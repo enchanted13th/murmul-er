@@ -73,7 +73,7 @@
 					<button id="btnRi2" value="월세">월세</button>
 					<button id="btnRi3" value="단기">단기</button>
 					<input type="text" id="inputDeposit" class="alignRight" placeholder="보증금" onkeyup="$(this).onlyNum()"/>
-					<label>/</label>
+					<label id="slash">/</label>
 					<input type="text" id="inputPrice" class="alignRight" placeholder="월세 or 가격" onkeyup="$(this).onlyNum()"/>
 					<label>만원</label>
 				</td>
