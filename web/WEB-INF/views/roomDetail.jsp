@@ -58,7 +58,15 @@
         <table class="detailTb">
             <tr>
                 <td width=25%>해당층</td>
-                <td width=25%>${floor}층</td>
+                <c:choose>
+                    <c:when test="${floor<0}">
+                        <c:set var="UnderFloor" value="${fn:replace(floor, '-', '지하 ')}"/>
+                        <td width=25%>${UnderFloor}층</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td width=25%>${floor}층</td>
+                    </c:otherwise>
+                </c:choose>
                 <td width=25%>난방종류</td>
                 <td width=25%>${heating}</td>
             </tr>
