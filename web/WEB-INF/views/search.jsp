@@ -125,15 +125,15 @@
                         <c:if test="${count.count == i || count.count == i + 1}">
                             <td>
                                 <c:forEach var="op" items="${option}">
-                                    <input type="checkbox" name="optionCheckbox" class="optionCheckbox" value="${op.value}" checked/>${op.value}
+                                    <input type="checkbox" name="optionCheckbox" class="optionCheckbox" value="${op.value}"/>${op.value}
                                 </c:forEach>
                             </td>
-                <c:if test="${i == fn:length(options)}">
-                    <td></td>
-                </c:if>
-                </c:if>
-                </c:forEach>
-            </tr>
+                            <c:if test="${i == fn:length(options)}">
+                                <td></td>
+                            </c:if>
+                        </c:if>
+                    </c:forEach>
+                </tr>
             </c:forEach>
             <tr>
                 <td>

@@ -284,22 +284,21 @@ function filter(obj) {
 		return false;
 	}
 
-	var checkedOptions = [];
+	let checkedOptions = [];
 	$("input:checkbox[name='optionCheckbox']").each(function(){
 		if($(this).is(":checked") == true) {
 			checkedOptions.push($(this).val());
 		}
 	});
 
-	var optionFlag;
-	for (let i = 0; i < obj.roomOptions.length; i++) {
+	let optionFlag;
+	for (let i = 0; i < checkedOptions.length; i++) {
 		optionFlag = false;
-		for (let j = 0; j < checkedOptions.length; j++) {
-			if (obj.roomOptions[i] === checkedOptions[j]) optionFlag = true;
+		for (let j = 0; j < obj.roomOptions.length; j++) {
+			if (obj.roomOptions[j] === checkedOptions[i]) optionFlag = true;
 		}
 		if (optionFlag === false) return false;
 	}
-
 	return true;
 }
 
