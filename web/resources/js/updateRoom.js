@@ -243,6 +243,9 @@ $.colorRentBtn = function(value) {
         case '2':
             $('#btnRi1').css('background-color', '#b6e2f8');
             selectedRi = 1;
+            $('#inputPrice').attr("readonly", true);
+            $('#inputDeposit').attr("placeholder", "전세");
+            $('#inputPrice').val("0");
             break;
         case '3':
             $('#btnRi3').css('background-color', '#b6e2f8');
@@ -704,6 +707,18 @@ $.fn.clickRi = function () {
         }
         $(this).css('background-color', '#b6e2f8');
         selectedRi = $(this).attr('id').split('btnRi')[1];
+
+        if(selectedRi == 1) {
+            $('#inputPrice').attr("readonly", true);
+            $('#inputDeposit').attr("placeholder", "전세");
+            $('#inputDeposit').val("");
+            $('#inputPrice').val("0");
+        }else{
+            $('#inputPrice').removeAttr('readonly');
+            $('#inputDeposit').attr("placeholder", "보증금");
+            $('#inputDeposit').val("");
+            $('#inputPrice').val("");
+        }
     })
 }
 $.fn.clickAF = function () {
