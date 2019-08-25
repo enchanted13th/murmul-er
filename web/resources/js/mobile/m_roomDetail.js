@@ -3,18 +3,11 @@ $(document).ready(function () {
     $('#area').text(area + pyeong);
     $.inputDetailInfo();
     $.inputOption();
+    $.setHeartImg();
     // checkLike();
     let height = $("#detailContent").outerHeight()+120;
     document.getElementById("dtlTitle").style.marginTop = height +'px';
-    let titleHeight = $("#title").outerHeight();
-    // document.getElementById("divTitle").style.marginBottom = titleHeight + 100 + 'px';
-    // document.getElementById("location").style.marginTop = titleHeight*3 + 'px';
-    // $('.bx-viewport').style.height = '440px';
-    // $('.bx-viewport').css("height","440px");
-    // $('.bx-viewport').style.removeProperty('height');
-    // $('.bx-viewport').css("height","");
-    // let width = $('.top').outerWidth()/10.548;
-    // document.getElementById("detailShow").style.width = width + "px";
+
     $.setImage();
     $('.slider').bxSlider({
         auto: false, // 자동 애니메이션
@@ -30,42 +23,51 @@ $(document).ready(function () {
     })
 })
 
-
+$.setHeartImg = function () {
+    if (likeList.includes(roomId)) {
+        $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
+    }
+}
 
 $.setImage = function(){
     if (roomImgNum === '') return;
     roomImgNum = roomImgNum * 1;
     for(let i = 0; i < roomImgNum; i++) {
         let value = $('#roomValue' + i).val().split(',');
-        let roomId = value[0];
         let fileName = value[1];
-        let src = '/manage/download?middlePath=/room/roomId_' + encodeURI(roomId) + '&imageFileName=' + encodeURI(fileName);
+        let src = '/manage/download?middlePath=/room/roomId_' + roomId + '&imageFileName=' + encodeURI(fileName);
         $('#preview' + i).attr('src', src);
     }
 }
 
-var likeFlag = false;
-
 function clickLike() {
-    if (document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png") {
+    let likeFlag = false;
+    if ($('#heartImg').attr('src') === "/resources/img/etc/heartClick.png") {
         likeFlag = true;
     }
-    $.ajax(roomId, {
+    $.ajax('/searchRoom/like', {
         type: 'POST',
         data: {roomId: roomId, flag: likeFlag}
     }).then(function (data, status) {
-        var obj = JSON.parse(data);
-        switch (obj.res) {
-            case 'ADD':
-                document.getElementById('heartImg').src = '/resources/img/etc/heartClick.png';
-                break;
-            case 'REMOVE':
-                document.getElementById('heartImg').src = '/resources/img/etc/heart.png';
-                break;
-            default:
-                break;
+        if (status === 'success') {
+            console.log(data);
+            switch (data.res) {
+                case 'ADD':
+                    $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
+                    console.log("찜 하기");
+                    break;
+                case 'REMOVE':
+                    $('#heartImg').attr('src', '/resources/img/etc/heart.png');
+                    console.log("찜 취소");
+                    break;
+                case 'FAIL':
+                    Swal.fire('찜 실패', '찜하기가 실패하였습니다.', 'error');
+                default:
+                    break;
+            }
+        } else {
+            Swal.fire('연결 실패', '잠시 후 다시 시도해주세요.', 'error');
         }
-        likeFlag = false;
     })
 }
 

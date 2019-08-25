@@ -140,6 +140,7 @@ $.showLoginPopup = function (flag) {
                 data: {id: $('#inputId').val(), pwd: $('#inputPwd').val()}
             }).then(function (data, status) {
                 if (status === 'success') {
+                    console.log(data);
                     switch (data.loginResult) {
                         case "SUCCESS":
                             Swal.fire({
