@@ -114,7 +114,7 @@ function placesSearchCB (data, status, pagination) {
             hashTag2: $('#hashTag2').val(),
             hashTag3: $('#hashTag3').val()
         };
-        if(formData.get("uploadFile") == null){
+        if(formData.get("uploadFile") == null || $('.addimage').length != 1){
             Swal.fire('사진을 등록해주세요', '', 'warning');
             return;
         }
