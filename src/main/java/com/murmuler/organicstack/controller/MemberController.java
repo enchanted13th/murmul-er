@@ -36,11 +36,11 @@ public class MemberController {
         MemberVO member = service.login(id, pwd);
         JSONObject res = new JSONObject();
 
-            if(member == null){
-                res.put("loginResult", "WRONG_ID");
-            }
-            else if(member.getMemberId() == -1){
-                res.put("loginResult", "WRONG_PWD");
+        if(member == null){
+            res.put("loginResult", "WRONG_ID");
+        }
+        else if(member.getMemberId() == -1){
+            res.put("loginResult", "WRONG_PWD");
         }
         else if(member.getMemberId() == 0){
             HttpSession session = request.getSession();

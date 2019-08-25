@@ -6,13 +6,33 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>방 상세: ${title}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/mobile/m_roomDetail.css">
     <link rel="stylesheet" href="/resources/css/contactPopup.css">
     <link rel="stylesheet" href="/resources/css/report.css">
     <link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.css"/>
+    <script src="/resources/js/jquery-3.4.1.min.js"></script>
     <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
-    <title>방 상세: ${title}</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+    <script>
+        let temp = "${options}";
+        temp = temp.substring(1, temp.length - 1);
+        let option = temp.split(", ");
+        let area = ${area}+"m² / ";
+        let pyeong = Math.round(${area/3.3}) + "평";
+        let sellerNickname = "${sellerNickname}";
+        let sellerPhone = "${sellerPhone}";
+        let sellerMemberId = ${memberId};
+        let roomId = ${roomId};
+        let likeList = ${likeList};
+        let roomImgNum = "${roomImgNum}";
+        let roomType = "${roomType}";
+        let isActivity = "${isActivity}";
+    </script>
 </head>
 <body>
 <div class="footer">
@@ -55,7 +75,7 @@
             <c:forEach var="data" items="${roomImg}" varStatus="status">
                 <li>
                     <img class="roomImg" id="preview${status.index}" width="700px" height="400x" src=""/>
-                    <input type="hidden" id="roomValue${status.index}" value="${roomId},${data}">
+                    <input type="hidden" id="roomValue${status.index}" value="${data}">
                 </li>
                 <c:if test="${status.last}">
                     <c:set var="roomImgNum" value="${status.count}"/>
@@ -172,26 +192,7 @@
         <button id="showSellerInfo">판매자 연락처 보기</button>
     </div>
 </div>
-<script src="/resources/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/resources/js/roomDetailMap.js"></script>
 <script src="/resources/js/mobile/m_roomDetail.js"></script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-<script>
-    let temp = "${options}";
-    temp = temp.substring(1, temp.length - 1);
-    let option = temp.split(", ");
-    let area = ${area}+"m² / ";
-    let pyeong = Math.round(${area/3.3}) + "평";
-    let sellerNickname = "${sellerNickname}";
-    let sellerPhone = "${sellerPhone}";
-    let sellerMemberId = ${memberId};
-    let roomId = "${roomId}";
-    let likeList = ${likeList};
-    let roomImgNum = "${roomImgNum}";
-    let roomType = "${roomType}";
-    let isActivity = "${isActivity}";
-</script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-let infowindow = new kakao.maps.InfoWindow({zIndex:1});
+// let infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 let markerImageOR = '/resources/img/marker/mk_or.png';
 let markerImageTR = '/resources/img/marker/mk_tr.png';

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -190,31 +189,37 @@ public class SearchController {
         return mav;
     }
 
-    @RequestMapping(value = "/{room_id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
     public void likeListRoomButton(@RequestParam int roomId,
                                    @RequestParam boolean flag,
                                    HttpServletRequest request,
                                    HttpServletResponse response) throws IOException {
-        response.setContentType("text/html; charset=utf-8;");
         HttpSession session = request.getSession();
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
         JSONObject data = new JSONObject();
         int memberId;
         if (memberVO != null) {
-            memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();
+            memberId = memberVO.getMemberId();
             int res;
             if (flag) {
                 res = mypageService.removeLikeRoom(memberId, roomId);
                 if (res > 0) {
                     data.put("res", "REMOVE");
+                } else {
+                    data.put("res", "FAIL");
                 }
             } else {
                 res = mypageService.addLikeRoom(memberId, roomId);
                 if (res > 0) {
                     data.put("res", "ADD");
+                } else {
+                    data.put("res", "FAIL");
                 }
             }
+        } else {
+            data.put("res", "FAIL");
         }
+        response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(data);
     }
 }
