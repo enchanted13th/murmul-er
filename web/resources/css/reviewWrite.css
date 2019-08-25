@@ -86,24 +86,63 @@ input[type=text] {
    vertical-align: middle;
 }
 
-.tbWrite button {
-   margin-left: 20px;
-   width: 130px;
-   background-color: rgb(182, 226, 248);
-   color: rgb(38, 38, 38);
-   height: 44px;
-   cursor: pointer;
-   outline: 0;
-   font-size: 13pt;
+/*.tbWrite button {*/
+/*    margin-left: 20px;*/
+/*    width: 130px;*/
+/*    background-color: rgb(182, 226, 248);*/
+/*    color: rgb(38, 38, 38);*/
+/*    height: 44px;*/
+/*    cursor: pointer;*/
+/*    outline: 0;*/
+/*    font-size: 13pt;*/
+/* }*/
+
+/*.tbWrite button:hover {*/
+/*   color: white;*/
+/*}*/
+
+.btnAddr {
+    margin-left: 20px;
+    width: 130px;
+    background-color: rgb(182, 226, 248);
+    color: rgb(38, 38, 38);
+    height: 44px;
+    cursor: pointer;
+    outline: 0;
+    font-size: 13pt;
+ }
+
+.btnAddr:hover {
+   color: white;
 }
 
-.tbWrite button:hover {
-   color: white;
+.upload {
+   width: 124px;
+   height: 124px;
+   margin: 20px;
+   border: 2px solid #b6e2f8;
+   vertical-align: top;
+   outline: 0;
+}
+
+.upload:hover {
+   cursor: pointer;
+   background-color: #e9f8ff;
 }
 
 #fileName{
    font-size: 20px;
    margin: 0px 10px;
+}
+
+.tdImg button{
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 2px 13px;
+ }
+
+.img {
+   height: 90px;
 }
 
 textarea {
@@ -295,20 +334,17 @@ input[type="radio"] {
    color: black;
 }
 
-.imgPreview {
-   display: none;
-   width:100px;
-   height: 100px;
-   position: absolute;
-   top:1028px;
-   left:470px;
+.img-wrap {
+   position: relative;
+   display: inline-block;
 }
 
-.imgPreview .close {
+.img-wrap .close {
    position: absolute;
    right: 5px;
    z-index: 1000;
-   padding: 5px 2px;
+   /*padding: 26px 23px;*/ /*사진 모서리*/
+   padding: 5px 2px; /*사진 벗어난 모서리*/
    color: #000;
    font-weight: bold;
    cursor: pointer;
@@ -317,6 +353,18 @@ input[type="radio"] {
    font-size: 22px;
    line-height: 10px;
 }
-.imgPreview:hover .close {
+
+.img-wrap:hover .close {
    opacity: 1;
+}
+
+.addimage {
+   width: 120px;
+   height: 120px;
+   margin: 20px;
+   border: 2px solid #b6e2f8;
+   border-radius: 13px;
+   -moz-border-radius: 13px;
+   -khtml-border-radius: 13px;
+   -webkit-border-radius: 13px;
 }
