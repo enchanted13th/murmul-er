@@ -197,9 +197,8 @@ public class SearchController {
         HttpSession session = request.getSession();
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
         JSONObject data = new JSONObject();
-        int memberId;
         if (memberVO != null) {
-            memberId = memberVO.getMemberId();
+            int memberId = memberVO.getMemberId();
             int res;
             if (flag) {
                 res = mypageService.removeLikeRoom(memberId, roomId);

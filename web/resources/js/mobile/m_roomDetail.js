@@ -4,7 +4,6 @@ $(document).ready(function () {
     $.inputDetailInfo();
     $.inputOption();
     $.setHeartImg();
-    // checkLike();
     let height = $("#detailContent").outerHeight()+120;
     document.getElementById("dtlTitle").style.marginTop = height +'px';
 

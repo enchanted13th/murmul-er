@@ -37,17 +37,24 @@ public class MypageController {
     private ContractService contractService;
 
     @RequestMapping(value ="/recent", method = RequestMethod.GET)
-    public String recentListRoom(HttpServletRequest request) {
+    public ModelAndView recentListRoom(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        List<Integer> recentRoomIds = (List<Integer>) session.getAttribute("recentRoom");
-        List<RoomSummaryViewVO> roomList = null;
-        if (recentRoomIds != null) {
-            roomList = mypageService.getRecentRoom(recentRoomIds);
+        MemberVO memberVO = (MemberVO)session.getAttribute("loginMember");
+        ModelAndView mav = new ModelAndView();
+        if(memberVO == null){
+            mav.setViewName("redirect:/");
+        } else {
+            List<Integer> recentRoomIds = (List<Integer>) session.getAttribute("recentRoom");
+            List<RoomSummaryViewVO> roomList = null;
+            if (recentRoomIds != null) {
+                roomList = mypageService.getRecentRoom(recentRoomIds);
+            }
+            List<Integer> likeRoomList = mypageService.getLikeRoomNumber(memberVO.getMemberId());
+            mav.addObject("roomArray", roomList);
+            mav.addObject("likeList", likeRoomList);
+            mav.setViewName("recentList");
         }
-        List<Integer> likeRoomList = mypageService.getLikeRoomNumber(((MemberVO)session.getAttribute("loginMember")).getMemberId());
-        request.setAttribute("roomArray", roomList);
-        request.setAttribute("likeList", likeRoomList);
-        return "recentList";
+        return mav;
     }
 
     @RequestMapping(value ="/recent", method = RequestMethod.POST)
@@ -56,18 +63,27 @@ public class MypageController {
                                          HttpServletRequest request,
                                          HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();
+        MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
         JSONObject data = new JSONObject();
-        int res;
-        if(flag) {
-            res = mypageService.removeLikeRoom(memberId, roomId);
-            if (res > 0) {
-                data.put("res", "REMOVE");
-            }
+        if(memberVO == null) {
+            data.put("res", "FAIL");
         } else {
-            res = mypageService.addLikeRoom(memberId, roomId);
-            if (res > 0) {
-                data.put("res", "ADD");
+            int memberId = memberVO.getMemberId();
+            int res;
+            if (flag) {
+                res = mypageService.removeLikeRoom(memberId, roomId);
+                if (res > 0) {
+                    data.put("res", "REMOVE");
+                } else {
+                    data.put("res", "FAIL");
+                }
+            } else {
+                res = mypageService.addLikeRoom(memberId, roomId);
+                if (res > 0) {
+                    data.put("res", "ADD");
+                } else {
+                    data.put("res", "FAIL");
+                }
             }
         }
         response.setContentType("text/html; charset=utf-8;");
@@ -75,13 +91,20 @@ public class MypageController {
     }
 
     @RequestMapping(value = "/like", method = RequestMethod.GET)
-    public String likeListRoom(HttpServletRequest request){
+    public ModelAndView likeListRoom(HttpServletRequest request){
         HttpSession session = request.getSession();
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
-        int memberId = memberVO.getMemberId();
-        List<RoomSummaryViewVO> roomList = mypageService.getLikeRoom(memberId);
-        request.setAttribute("roomArray", roomList);
-        return "likeList";
+        ModelAndView mav = new ModelAndView();
+        if(memberVO == null) {
+            mav.setViewName("redirect:/");
+        } else {
+            int memberId = memberVO.getMemberId();
+            List<RoomSummaryViewVO> roomList = mypageService.getLikeRoom(memberId);
+            mav.addObject("roomArray", roomList);
+            mav.setViewName("likeList");
+        }
+
+        return mav;
     }
 
     @RequestMapping(value = "/like", method = RequestMethod.POST)
@@ -89,13 +112,18 @@ public class MypageController {
                                      HttpServletRequest request,
                                      HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int memberId = ((MemberVO) session.getAttribute("loginMember")).getMemberId();;
+        MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
         JSONObject data = new JSONObject();
-        int res = mypageService.removeLikeRoom(memberId, roomId);
-        if (res > 0) {
-            data.put("res", "SUCCESS");
-        } else {
+        if(memberVO == null) {
             data.put("res", "FAIL");
+        } else {
+            int memberId = memberVO.getMemberId();
+            int res = mypageService.removeLikeRoom(memberId, roomId);
+            if (res > 0) {
+                data.put("res", "SUCCESS");
+            } else {
+                data.put("res", "FAIL");
+            }
         }
         response.setContentType("text/html; charset=utf-8;");
         response.getWriter().print(data);
@@ -110,8 +138,11 @@ public class MypageController {
             List<ContractVO> contracts = contractService.getMyContracts(memberVO.getMemberId());
             System.out.println(contracts);
             mav.addObject("contracts", contracts);
+            mav.setViewName("myContractList");
         }
-        mav.setViewName("myContractList");
+        else {
+            mav.setViewName("redirect:/");
+        }
         return mav;
     }
 
@@ -164,7 +195,10 @@ public class MypageController {
         HttpSession session = request.getSession();
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
         JSONObject data = new JSONObject();
-        if (!pwd.equals(memberVO.getPwd())) {
+        if (memberVO == null) {
+            data.put("updateResult", "FAIL");
+        }
+        else if (!pwd.equals(memberVO.getPwd())) {
             data.put("updateResult", "WRONG_PWD");
         }
         else {
