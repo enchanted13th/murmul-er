@@ -81,13 +81,18 @@ public class MemberController {
 
         JSONObject res = new JSONObject();
 
-        int result = service.join(member);
-
-        if(result > 0){
-            res.put("joinResult", "SUCCESS");
+        if(service.isDuplicatedId(id)) {
+            res.put("joinResult", "ALREADY_EXIST");
         } else {
-            res.put("joinResult", "JOIN_FAIL");
+            int result = service.join(member);
+
+            if(result > 0){
+                res.put("joinResult", "SUCCESS");
+            } else {
+                res.put("joinResult", "JOIN_FAIL");
+            }
         }
+
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
     }
