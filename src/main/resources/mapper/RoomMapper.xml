@@ -127,7 +127,7 @@
         WHERE room_id = #{roomId}
     </select>
 
-    <insert id="insertLocation" parameterType="com.murmuler.organicstack.vo.LocationVO">
+    <insert id="insertLocation" parameterType="com.murmuler.organicstack.vo.LocationVO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO location_tb (sido, sigungu, bname, bname1, bname2, jibun, roadname, road_jibun, detail_addr, latitude, longitude)
         VALUES (#{sido}, #{sigungu}, #{bname}, #{bname1}, #{bname2}, #{jibun}, #{roadName}, #{roadJibun}, #{detailAddr}, #{latitude}, #{longitude})
     </insert>
@@ -136,7 +136,7 @@
         SELECT location_id FROM location_tb ORDER BY location_id DESC LIMIT 1
     </select>
 
-    <insert id="insertRoom" parameterType="com.murmuler.organicstack.vo.RoomVO">
+    <insert id="insertRoom" parameterType="com.murmuler.organicstack.vo.RoomVO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO room_tb (room_area, room_floor, heating_id, room_type_id, location_id)
         VALUES (#{area}, #{floor}, #{heatType}, #{roomType}, #{locationId})
     </insert>

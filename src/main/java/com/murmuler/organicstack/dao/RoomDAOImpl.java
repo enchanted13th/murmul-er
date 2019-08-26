@@ -135,19 +135,20 @@ public class RoomDAOImpl implements RoomDAO {
     @Override
     synchronized public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
-        int result = SUCCESS;
-        result &= mapper.insertLocation(locationVO);
-        int locationId = mapper.selectOneRecentLocation();
-        roomVO.setLocationId(locationId);
-        result &= mapper.insertRoom(roomVO);
-        int roomId = mapper.selectOneRecentRoom();
-        saleInfoVO.setRoomId(roomId);
-        result &= mapper.insertSaleInfo(saleInfoVO);
-        if (result == SUCCESS) {
-            return roomId;
-        } else {
+        if(mapper.insertLocation(locationVO) == 0) {
             return FAIL;
         }
+        int locationId = locationVO.getId();
+        roomVO.setLocationId(locationId);
+        if(mapper.insertRoom(roomVO) == 0) {
+            return FAIL;   // db에서 location 날리기 (트랜잭션)
+        }
+        int roomId = roomVO.getId();
+        saleInfoVO.setRoomId(roomId);
+        if(mapper.insertSaleInfo(saleInfoVO) == 0) {
+            return FAIL;   // db에서 location이랑 Room 날리기 (트랜잭션)
+        }
+        return roomId;
     }
 
     @Override
