@@ -44,8 +44,10 @@ public class TalkController {
     public ModelAndView showTalkList(HttpServletRequest request,
                                      HttpServletResponse response) {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        ModelAndView mav = new ModelAndView();
         if (memberVO == null) {
-            return null;
+            mav.setViewName("redirect:/");
+            return mav;
         }
         int me = memberVO.getMemberId();
         String nickname = memberVO.getNickname();
@@ -72,8 +74,8 @@ public class TalkController {
             Collections.reverse(talkInfoList);
             isExist = true;
         }
-        ModelAndView mav = new ModelAndView();
-        response.setContentType("application/json");
+
+        response.setContentType("application/json; charset=utf-8");
         mav.addObject("talkInfoList", talkInfoList);
         mav.addObject("isExist", isExist);
         mav.addObject("me", me);

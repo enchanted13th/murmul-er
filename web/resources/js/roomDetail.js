@@ -51,7 +51,7 @@ function clickLike() {
         data: {roomId: roomId, flag: likeFlag}
     }).then(function (data, status) {
         if (status === 'success') {
-            console.log(data);
+            // console.log(data);
             switch (data.res) {
                 case 'ADD':
                     $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
@@ -91,7 +91,8 @@ $.showTalk = function() {
         Swal.fire('', '회원님이 등록하신 방입니다,', 'warning')
     }
 	else {
-        window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+        // window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+        window.open("/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
     }
 }
 

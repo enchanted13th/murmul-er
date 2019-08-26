@@ -7,11 +7,15 @@ $(document).ready(function () {
     $.checkPeriodUnit($('.periodUnit'));
 
     $('.addReview').click(function () {
+<<<<<<< Updated upstream
         if (islogin === false) {
             $.loginCheck("reviewWrite", "/review/write");
         } else {
             location.href = "/review/write";
         }
+=======
+        $.loginCheck("reviewWrite", "/review/write");
+>>>>>>> Stashed changes
     })
 
     let btns = $('.pageBtns > div > button');

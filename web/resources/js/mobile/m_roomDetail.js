@@ -49,7 +49,7 @@ function clickLike() {
         data: {roomId: roomId, flag: likeFlag}
     }).then(function (data, status) {
         if (status === 'success') {
-            console.log(data);
+            // console.log(data);
             switch (data.res) {
                 case 'ADD':
                     $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
