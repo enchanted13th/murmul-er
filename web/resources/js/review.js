@@ -8,9 +8,7 @@ $(document).ready(function () {
 
     $('.addReview').click(function () {
         if (islogin === false) {
-            Swal.fire('로그인해야 이용가능합니다.', "", "error").then(function () {
-                $.showLoginPopup("reviewWrite");
-            });
+            $.loginCheck("reviewWrite", "/review/write");
         } else {
             location.href = "/review/write";
         }

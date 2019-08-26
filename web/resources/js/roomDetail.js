@@ -63,6 +63,9 @@ function clickLike() {
                     break;
                 case 'FAIL':
                     Swal.fire('찜 실패', '찜하기가 실패하였습니다.', 'error');
+                    break;
+                case 'REQUIRED_LOGIN':
+                    $.loginCheck("roomDetail", "/searchRoom/"+roomId);
                 default:
                     break;
             }

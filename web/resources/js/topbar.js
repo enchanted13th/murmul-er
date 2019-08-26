@@ -46,7 +46,7 @@ $.loginCheck = function(flag, url){
     if (islogin === false) {
         Swal.fire('','로그인해야 이용가능한 서비스입니다.',"warning")
             .then(function(){
-                $.showLoginPopup(flag);
+                $.showLoginPopup(flag, url);
             })
     } else {
         location.href = url;
@@ -101,7 +101,7 @@ $.showPopup = function () {
     }
 }
 
-$.showLoginPopup = function (flag) {
+$.showLoginPopup = function (flag, url) {
     if ($('#menuPopup').length !== 0 || $('#joinPopup').length !== 0) {
         $(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
@@ -150,11 +150,19 @@ $.showLoginPopup = function (flag) {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function(){
-                                if (flag === "register") location.href = "/manage";
-                                else if (flag === "mypage") location.href = "/mypage/recent";
-                                else if (flag === "reviewWrite") location.href = "/review/write";
-                                else if (flag === "talk") { $.showTalk(); location.href="";}
-                                else location.href = "";
+                                switch (flag) {
+                                    case "register":
+                                    case "mypage":
+                                    case "reviewWrite":
+                                    case "roomDetail":
+                                        location.href = url;
+                                        break;
+                                    case "talk":
+                                        $.showTalk();
+                                    default:
+                                        location.href = "";
+                                        break;
+                                }
                             })
                             break;
                         case "WRONG_ID":
