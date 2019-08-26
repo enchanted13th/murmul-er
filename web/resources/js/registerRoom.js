@@ -58,6 +58,11 @@ function convertList(list){
     return listString;
 }
 
+function defence(string) {
+    // replace string
+    return string;
+}
+
 function dataSubmit(){
     let adminFeeListString = convertList(adminFeeList);
     let optionListString = convertList(optionList);

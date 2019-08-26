@@ -309,9 +309,15 @@ $.showJoinPopup = function () {
                         case "JOIN_FAIL":
                             Swal.fire('','회원가입에 실패하셨습니다.',"error");
                             break;
+                        case "ALREADY_EXIST":
+                            Swal.fire('', '이미 존재하는 아이디입니다.', 'warning');
+                            break;
                     }
-                    isDuplicatedCheck = false;
+                } else {
+                    Swal.fire('연결 오류', '잠시 후 다시 시도해주세요.', 'error');
+                    // alert(1);
                 }
+                isDuplicatedCheck = false;
             })
         });
         popup.find('#isdupli').click(function () {
