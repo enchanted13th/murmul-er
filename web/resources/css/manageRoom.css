@@ -46,3 +46,11 @@
 .tableTitle {
    background-color: rgb(225,244,255);
 }
+.noContent {
+   height: 670px;
+   line-height: 600px;
+   font-size: 16pt;
+   font-weight: 600;
+   text-align: center;
+   color: #5CC3F6;
+}
