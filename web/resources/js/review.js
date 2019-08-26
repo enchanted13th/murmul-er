@@ -7,6 +7,7 @@ $(document).ready(function () {
     $.checkPeriodUnit($('.periodUnit'));
 
     $('.addReview').click(function () {
+<<<<<<< Updated upstream
         if (islogin === false) {
             Swal.fire('로그인해야 이용가능합니다.', "", "error").then(function () {
                 $.showLoginPopup("reviewWrite");
@@ -14,6 +15,9 @@ $(document).ready(function () {
         } else {
             location.href = "/review/write";
         }
+=======
+        $.loginCheck("reviewWrite", "/review/write");
+>>>>>>> Stashed changes
     })
 
     let btns = $('.pageBtns > div > button');

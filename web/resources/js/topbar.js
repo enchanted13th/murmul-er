@@ -356,7 +356,8 @@ $.showJoinPopup = function () {
 $.showTalkList = function() {
     var popupX = (window.screen.width / 2) - (500 / 2);
     var popupY = (window.screen.height / 2) - (900 / 2);
-    window.open("http://www.murmul-er.com:8080/talk", "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+    // window.open("http://www.murmul-er.com:8080/talk", "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+    window.open("/talk", "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
 }
 
 var guitar = function () {
