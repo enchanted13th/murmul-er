@@ -39,8 +39,6 @@ $.setImage = function(){
     }
 }
 
-
-
 function clickLike() {
     let likeFlag = false;
     if ($('#heartImg').attr('src') === "/resources/img/etc/heartClick.png") {
@@ -51,7 +49,6 @@ function clickLike() {
         data: {roomId: roomId, flag: likeFlag}
     }).then(function (data, status) {
         if (status === 'success') {
-            // console.log(data);
             switch (data.res) {
                 case 'ADD':
                     $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
@@ -140,7 +137,7 @@ $.inputOption = function () {
                 op_name = "desk.svg";
                 break;
             case "현관문 안전장치":
-                op_name = "noimg.png";
+                op_name = "safetydoor.png";
                 break;
             case "세탁기":
                 op_name = "laundry.svg";
@@ -152,7 +149,7 @@ $.inputOption = function () {
                 op_name = "noimg.png";
                 break;
         }
-        $('<td><img src="/resources/img/option/' + op_name + '"><div>'
+        $('<td><img src="/resources/img/option/' + op_name + '" width="40px" height="40px"><div>'
             + option[i] + '</div></td>').appendTo(tr);
     }
 }
