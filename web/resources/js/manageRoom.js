@@ -78,9 +78,9 @@ $.fn.clickDeleteBtn = function () {
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
+                let roomId = $(this).val();
                 $('#delete'+roomId).attr('disabled', true);
                 $('#modify'+roomId).attr('disabled', true);
-                let roomId = $(this).val();
                 $.deleteRoom(roomId, function(deleteResult){
                     switch (deleteResult) {
                         case "SUCCESS" :
@@ -95,6 +95,8 @@ $.fn.clickDeleteBtn = function () {
                         case "CONNECT_ERROR" :
                             Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error'); break;
                     }
+                    $('#delete'+roomId).attr('disabled', false);
+                    $('#modify'+roomId).attr('disabled', false);
                 });
             }
         });
