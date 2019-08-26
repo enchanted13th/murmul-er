@@ -32,9 +32,8 @@ $.setImage = function(){
     if (roomImgNum === '') return;
     roomImgNum = roomImgNum * 1;
     for(let i = 0; i < roomImgNum; i++) {
-        let value = $('#roomValue' + i).val().split(',');
-        let fileName = value[1];
-        let src = '/manage/download?middlePath=/room/roomId_' + roomId + '&imageFileName=' + encodeURI(fileName);
+        let fileName = $('#roomValue' + i).val();
+        let src = 'http://www.murmul-er.com/manage/download?middlePath=/room/roomId_' + roomId + '&imageFileName=' + encodeURI(fileName);
         $('#preview' + i).attr('src', src);
     }
 }
