@@ -171,10 +171,11 @@ function dataSubmit(){
             } else {
                 Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
             }
+            $('#lastBtn').attr('disabled', false);
+            $('#cancel').attr('disabled', false);
         });
     }
-    $('#lastBtn').attr('enabled', true);
-    $('#cancel').attr('enabled', true);
+
 }
 
 var changeAddr = function () {

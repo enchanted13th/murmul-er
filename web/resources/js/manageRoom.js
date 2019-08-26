@@ -78,6 +78,8 @@ $.fn.clickDeleteBtn = function () {
             cancelButtonText: '취소'
         }).then(result => {
             if (result.value) {
+                $('#delete'+roomId).attr('disabled', true);
+                $('#modify'+roomId).attr('disabled', true);
                 let roomId = $(this).val();
                 $.deleteRoom(roomId, function(deleteResult){
                     switch (deleteResult) {
