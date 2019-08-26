@@ -31,13 +31,12 @@ $(document).ready(function () {
     $('#divMid').scrollTop($('#divMid')[0].scrollHeight);
     $('#btnWriteContract').selectRoom('write');
     $('#btnUploadContract').selectRoom('register');
-    // (function() {
-    //     setTimeout(function() {
-    //         connectSock();
-    //         // window.resizeTo(516, 820);
-    //         window.resizeTo(430, 850);
-    //     }, 500);
-    // })();
+
+    setTimeout(function() {
+        connectSock();
+        // window.resizeTo(516, 820);
+        // window.resizeTo(430, 850);
+    }, 500);
 });
 
 $.fn.showTalkList = function () {
