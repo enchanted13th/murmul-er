@@ -54,8 +54,8 @@
             </tr>
             <tr>
                 <td id="tdbtns${status.index}" class="tdbtns" colspan="2">
-                    <button class="button btnModify" value="${data.roomId}">수정</button>
-                    <button class="button btnDelete" value="${data.roomId}">삭제</button>
+                    <button class="button btnModify" id="modify${data.roomId}" value="${data.roomId}">수정</button>
+                    <button class="button btnDelete" id="delete${data.roomId}" value="${data.roomId}">삭제</button>
                     <button class="button btnPt btnPost" value="${data.roomId}">게시종료</button>
                     <button class="button btnPt btnDeal" value="${data.roomId}">거래완료</button>
                 </td>

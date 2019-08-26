@@ -126,6 +126,8 @@ function dataSubmit(){
     if(formData.get("uploadFile") == null && formData.get("oldFile") == null){
         Swal.fire('사진을 등록해주세요', '', 'warning');
     }else{
+        $('#lastBtn').attr('disabled', true);
+        $('#cancel').attr('disabled', true);
         $.ajax("/manage/room/update",{
             type: "POST",
             data: roomInfo
@@ -171,6 +173,8 @@ function dataSubmit(){
             }
         });
     }
+    $('#lastBtn').attr('enabled', true);
+    $('#cancel').attr('enabled', true);
 }
 
 var changeAddr = function () {
