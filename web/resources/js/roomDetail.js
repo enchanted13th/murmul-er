@@ -84,8 +84,8 @@ function checkLike() {
 }
 
 $.showTalk = function() {
-    let width = 380;
-    let height = 620;
+    let width = 450;
+    let height = 830;
     let popupX = (window.screen.width / 2) - (width / 2);
     let popupY = (window.screen.height / 2) - (height / 2);
 
