@@ -84,14 +84,18 @@ function checkLike() {
 }
 
 $.showTalk = function() {
-	var popupX = (window.screen.width / 2) - (500 / 2);
-	var popupY = (window.screen.height / 2) - (900 / 2);
+    let width = 380;
+    let height = 620;
+    let popupX = (window.screen.width / 2) - (width / 2);
+    let popupY = (window.screen.height / 2) - (height / 2);
+
     loginMemberId = loginMemberId * 1;
 	if(islogin && sellerMemberId === loginMemberId) {
         Swal.fire('', '회원님이 등록하신 방입니다,', 'warning')
     }
 	else {
-        window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width=500px, height=758px, left=" + popupX + "px, top=" + popupY + "px");
+        window.open("http://www.murmul-er.com:8080/talk/"+sellerMemberId, "", "status=no, width="+width+"px, height="+height+"px, left="+popupX+"px, top="+popupY+"px");
+        // window.open("/talk/"+sellerMemberId, "", "status=no, width="+width+"px, height="+height+"px, left="+popupX+"px, top="+popupY+"px");
     }
 }
 
