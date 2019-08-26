@@ -96,7 +96,7 @@ var ps = new kakao.maps.services.Places();
 function searchPlaces(){
 	var keyword = $('#mapInputBox').val();
 	if(!keyword.replace(/^\s+|\s+$/g, '')){
-		alert('키워드를 입력해주세요!');
+		Swal.fire('키워드를 입력해주세요!');
 		return false;
 	}
 	// 장소 검색 객체를 통해 키워드로 장소검색을 요청

@@ -329,7 +329,7 @@ $.fn.clickSubmit = function() {
         }
         if(check == 0){
             document.getElementById('inputDeposit').scrollIntoView();
-            alert("가격정보중 잘못된 입력값이 있습니다.");
+            Swal.fire("가격정보중 잘못된 입력값이 있습니다.");
             return;
         }
 
@@ -418,11 +418,9 @@ $.fn.clickSubmit = function() {
             Swal.fire("옵션 항목을 선택하세요.");
             return;
         }
-        if (!onlyNum.test(on1) || !onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
+        if (!onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
             Swal.fire("숫자만 입력하세요.");
-            if (!onlyNum.test(on1)) {
-                $('#inputSize').focus();
-            } else if (!onlyNum.test(on2)) {
+            if (!onlyNum.test(on2)) {
                 $('#inputDeposit').focus();
             } else if (!onlyNum.test(on3)) {
                 $('#inputPrice').focus();

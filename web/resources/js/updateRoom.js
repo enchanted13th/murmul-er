@@ -178,7 +178,7 @@ function dataSubmit(){
 }
 
 var changeAddr = function () {
-    alert('값변경');
+    Swal.fire('값변경');
     ps.keywordSearch($('#inputAddr'), placesSearchCB);
 }
 
@@ -483,7 +483,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnRt1').scrollIntoView();
-            alert("매물종류를 선택하세요.");
+            Swal.fire("매물종류를 선택하세요.");
             return;
         }
 
@@ -495,7 +495,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnRi1').scrollIntoView();
-            alert("금액을 선택하세요.");
+            Swal.fire("금액을 선택하세요.");
             return;
         }
 
@@ -505,7 +505,7 @@ $.fn.clickSubmit = function(){
         }
         if(check == 0){
             document.getElementById('inputDeposit').scrollIntoView();
-            alert("가격정보중 잘못된 입력값이 있습니다.");
+            Swal.fire("가격정보중 잘못된 입력값이 있습니다.");
             return;
         }
 
@@ -517,7 +517,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnAF1').scrollIntoView();
-            alert("관리비를 선택하세요.");
+            Swal.fire("관리비를 선택하세요.");
             return;
         }
 
@@ -530,7 +530,7 @@ $.fn.clickSubmit = function(){
             }
             if (check === 0) {
                 document.getElementById('btnAFL1').scrollIntoView();
-                alert("관리비 포함 항목을 선택하세요.");
+                Swal.fire("관리비 포함 항목을 선택하세요.");
                 return;
             }
         }
@@ -543,7 +543,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnHeat1').scrollIntoView();
-            alert("난방 종류를 선택하세요.");
+            Swal.fire("난방 종류를 선택하세요.");
             return;
         }
 
@@ -555,7 +555,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnAnimal1').scrollIntoView();
-            alert("반려 동물 여부를 선택하세요.");
+            Swal.fire("반려 동물 여부를 선택하세요.");
             return;
         }
 
@@ -567,7 +567,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnParking1').scrollIntoView();
-            alert("주차장 여부를 선택하세요.");
+            Swal.fire("주차장 여부를 선택하세요.");
             return;
         }
 
@@ -579,7 +579,7 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnEv1').scrollIntoView();
-            alert("엘리베이터 여부를 선택하세요.");
+            Swal.fire("엘리베이터 여부를 선택하세요.");
             return;
         }
 
@@ -591,16 +591,12 @@ $.fn.clickSubmit = function(){
         }
         if (check === 0) {
             document.getElementById('btnOption1').scrollIntoView();
-            alert("옵션 항목을 선택하세요.");
+            Swal.fire("옵션 항목을 선택하세요.");
             return;
         }
 
-        // if (!onlyNum.test(on1) || !onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
         if (!onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
-            alert("숫자만 입력하세요.");
-            // if (!onlyNum.test(on1)) {
-            //     $('#inputSize').focus();
-            // } else
+            Swal.fire("숫자만 입력하세요.");
             if (!onlyNum.test(on2)) {
                 $('#inputDeposit').focus();
             } else if (!onlyNum.test(on3)) {
@@ -614,22 +610,22 @@ $.fn.clickSubmit = function(){
         }
         if (on1 == "" || on3 == "" || on5 == "" || $('#inputTitle').val() == "" || $('#txtDetail').val() == "" || $('#inputAddr').val() == "") {
             if ($('#inputAddr').val() == "") {
-                alert("주소를 입력하세요.");
+                Swal.fire("주소를 입력하세요.");
                 $('#inputAddr').focus();
             } else if (on1 == "") {
-                alert("면적을 입력하세요.");
+                Swal.fire("면적을 입력하세요.");
                 $('#inputSize').focus();
             } else if (on3 == "") {
-                alert("금액을 입력하세요.");
+                Swal.fire("금액을 입력하세요.");
                 $('#inputPrice').focus();
             } else if (on5 == "") {
-                alert("임대기간을 입력하세요.");
+                Swal.fire("임대기간을 입력하세요.");
                 $('#inputPeriodNum').focus();
             } else if ($('#inputTitle').val() == "") {
-                alert("제목을 입력하세요.");
+                Swal.fire("제목을 입력하세요.");
                 $('#inputTitle').focus();
             } else if ($('#txtDetail').val() == "") {
-                alert("상세 설명을 입력하세요.");
+                Swal.fire("상세 설명을 입력하세요.");
                 $('#txtDetail').focus();
             } else {
                 ;
@@ -639,14 +635,14 @@ $.fn.clickSubmit = function(){
         }
         if (on4 == "") {
             if ($('#btnAF2').css('background-color') === "rgb(182, 226, 248)") {
-                alert("관리비를 입력하세요.");
+                Swal.fire("관리비를 입력하세요.");
                 $('#inputAdminFee').focus();
                 return;
             }
         }
 
         if($('.addimage').length<2 || $('.addimage').length>10){
-            alert("사진을 2~10장 올려주세요");
+            Swal.fire("사진을 2~10장 올려주세요");
             return;
         }
 

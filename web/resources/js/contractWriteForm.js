@@ -81,7 +81,7 @@ $.settingDay = function() {
 $.fn.isBlank = function(type) {
     if($(this).val() === "" || $(this).val().replace(/^\s*|\s*$/g, '') === "")
     {
-        alert(type+"을 입력하세요")
+        Swal.fire(type+"을 입력하세요");
         $(this).val('');
         $(this).focus();
         return true;
@@ -93,7 +93,7 @@ $.fn.isNum = function(num) {
     num += '';
     num = num.replace(/^\s*|\s*$/g, '');
     if (num == '' || isNaN(num)) {
-        alert('숫자만 입력하세요');
+        Swal.fire('숫자만 입력하세요');
         $(this).val('');
         $(this).focus();
         return false;
@@ -103,7 +103,7 @@ $.fn.isNum = function(num) {
 
 $.fn.isChecked = function() {
     if($(this).val() === ""){
-        alert('필수항목을 선택해주세요');
+        Swal.fire('필수항목을 선택해주세요');
         $(this).focus();
         return false;
     }
@@ -159,12 +159,12 @@ $.fn.checkValid = function() {
     if($('#jeondaeUsage').isBlank('용도')) return false;
 
     if($('input[name="house"]:checked').val() === undefined){
-        alert("건물 유형을 선택해주세요");
+        Swal.fire("건물 유형을 선택해주세요");
         return false;
     }
 
     if($('input[name="rentType"]:checked').val() === undefined){
-        alert("임대 유형을 선택해주세요");
+        Swal.fire("임대 유형을 선택해주세요");
         return false;
     }
 
@@ -186,7 +186,7 @@ $.fn.checkValid = function() {
             if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
             if(!$('#mcPayDayS').isChecked()) return false;
             if($('input[name="mcType"]:checked').val() === undefined){
-                alert("월세 지불 방법을 선택해주세요");
+                Swal.fire("월세 지불 방법을 선택해주세요");
                 return false;
             }
             if(!checkSelBoxTop()) return false;
@@ -205,7 +205,7 @@ $.fn.checkValid = function() {
             if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
             if(!$('#mcPayDayS').isChecked()) return false;
             if($('input[name="mcType"]:checked').val() === undefined){
-                alert("월세 지불 방법을 선택해주세요");
+                Swal.fire("월세 지불 방법을 선택해주세요");
                 return false;
             }
             if(!checkSelBoxTop()) return false;
@@ -294,7 +294,7 @@ $.settingSelBox = function(type,value) {
             }
         }
         if(value !== '')
-            alert('숫자만 입력하세요');
+            Swal.fire('숫자만 입력하세요');
         switch (type) {
             case "middle":
                 $("#middlePayment").val('');

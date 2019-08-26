@@ -388,7 +388,7 @@ function checkLength(obj, maxlength) {
     }
 
     if (ko_byte > max_length) {
-        alert(max_length + " 글자 이상 입력할 수 없습니다.");
+        Swal.fire(max_length + " 글자 이상 입력할 수 없습니다.");
         str2 = str.substr(0, max_length);
         obj.value = str2;
     }
