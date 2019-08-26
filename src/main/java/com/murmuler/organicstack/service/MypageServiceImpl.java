@@ -3,10 +3,7 @@ package com.murmuler.organicstack.service;
 import com.murmuler.organicstack.dao.MemberDAO;
 import com.murmuler.organicstack.dao.RoomDAO;
 import com.murmuler.organicstack.util.*;
-import com.murmuler.organicstack.vo.RoomDetailVO;
-import com.murmuler.organicstack.vo.RoomDetailViewVO;
-import com.murmuler.organicstack.vo.RoomSummaryVO;
-import com.murmuler.organicstack.vo.RoomSummaryViewVO;
+import com.murmuler.organicstack.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,38 +65,63 @@ public class MypageServiceImpl implements MypageService {
         return memberDAO.deleteLikeRoom(paramMap);
     }
 
-    private List<RoomDetailViewVO> convertVoToViewVoDetail(List<RoomDetailVO> voList){
+    private List<RoomMobileViewVO> convertVoToViewVo(List<RoomDetailVO> voList){
         if(voList == null)
             return null;
 
-        List<RoomDetailViewVO> beanList = new ArrayList<>();
+        List<RoomMobileViewVO> beanList = new ArrayList<>();
         RoomDetailVO roomDetailVO;
-
 
         for(int i=0; i < voList.size(); i++) {
             roomDetailVO = voList.get(i);
-            RoomDetailViewVO roomDetailViewVO = new RoomDetailViewVO();
-            roomDetailViewVO.setDeposit(roomDetailVO.getDeposit());
-            roomDetailViewVO.setRoomId(roomDetailVO.getRoomId());
-            roomDetailViewVO.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
-            roomDetailViewVO.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
-            roomDetailViewVO.setMonthlyCost(roomDetailVO.getMonthlyCost());
-            //roomDetailViewVO.setManageCost(roomDetailVO.getManageCost());
-            //roomDetailViewVO.setViews(roomDetailVO.getViews());
-            roomDetailViewVO.setHashtags(roomDetailVO.getHashtags());
-            roomDetailViewVO.setRoomImg(roomDetailVO.getRoomImg());
-            roomDetailViewVO.setSido(roomDetailVO.getSido());
-            roomDetailViewVO.setSigungu(roomDetailVO.getSigungu());
-            roomDetailViewVO.setRoadName(roomDetailVO.getRoadname());
-            roomDetailViewVO.setPeriodNum(roomDetailVO.getPeriodNum());
-            roomDetailViewVO.setPeriodUnit(roomDetailVO.getPeriodUnit());
-            beanList.add(roomDetailViewVO);
+            RoomMobileViewVO roomMobileViewVO = new RoomMobileViewVO();
+            roomMobileViewVO.setRoomId(roomDetailVO.getRoomId());
+            roomMobileViewVO.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
+            roomMobileViewVO.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
+            roomMobileViewVO.setPeriodNum(roomDetailVO.getPeriodNum());
+            if(roomDetailVO.getPeriodUnit().equals("Y")) {
+                roomMobileViewVO.setPeriodUnit("년");
+            } else if(roomDetailVO.getPeriodUnit().equals("M")) {
+                roomMobileViewVO.setPeriodUnit("개월");
+            } else if(roomDetailVO.getPeriodUnit().equals("W")) {
+                roomMobileViewVO.setPeriodUnit("주");
+            }
+            int deposit = roomDetailVO.getDeposit() / 10000;
+            if(deposit == 0) {
+                roomMobileViewVO.setDeposit("없음");
+            }
+            else if(deposit > 9999) {
+                roomMobileViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+            }
+            else {
+                roomMobileViewVO.setDeposit(deposit + "만");
+            }
+            int monthlyCost = roomDetailVO.getMonthlyCost() / 10000;
+            if(monthlyCost == 0) {
+                roomMobileViewVO.setMonthlyCost("없음");
+            }
+            else if(monthlyCost > 9999) {
+                String cost = monthlyCost/10000 + "억 ";
+                if(monthlyCost%10000 != 0) {
+                    cost += monthlyCost%10000 + "만";
+                }
+                roomMobileViewVO.setMonthlyCost(cost);
+            }
+            else {
+                roomMobileViewVO.setMonthlyCost(monthlyCost + "만");
+            }
+            roomMobileViewVO.setHashtags(roomDetailVO.getHashtags());
+            roomMobileViewVO.setRoomImg(roomDetailVO.getRoomImg());
+            roomMobileViewVO.setSido(roomDetailVO.getSido());
+            roomMobileViewVO.setSigungu(roomDetailVO.getSigungu());
+            roomMobileViewVO.setRoadName(roomDetailVO.getRoadname());
+            beanList.add(roomMobileViewVO);
         }
         return beanList;
     }
 
     @Override
-    public List<RoomDetailViewVO> getLikeRoomDetail(int memberId) {
+    public List<RoomMobileViewVO> getLikeRoomDetail(int memberId) {
 
         Map<String, Integer> map = new HashMap<>();
         map.put("memberId", memberId);
@@ -111,13 +133,11 @@ public class MypageServiceImpl implements MypageService {
             map.put("roomId",roomDetailVO.getRoomId());
             List<String> roomHashtags = roomDAO.selectRoomHashtagByRoomId(map);
             List<String> roomImgUrls = roomDAO.selectRoomImgUrlByRoomId(map);
-
             roomDetailVO.setHashtags(roomHashtags);
             roomDetailVO.setRoomImg(roomImgUrls);
             map.clear();
         }
-
-        return convertVoToViewVoDetail(roomDetailVOList);
+        return convertVoToViewVo(roomDetailVOList);
     }
 
 }

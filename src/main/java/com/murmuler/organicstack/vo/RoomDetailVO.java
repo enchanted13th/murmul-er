@@ -20,19 +20,19 @@ public class RoomDetailVO {
     private String title;
     private int rentType;
     private int periodNum;
-    private char periodUnit;
+    private String periodUnit;
     private int postType;
     private int deposit;
     private int monthlyCost;
     private int manageCost;
-    private List<Integer> manages; //관리비 종류
-    private List<Integer> options; //옵션 종류
+    private List<Integer> manages;
+    private List<Integer> options;
     private boolean hashtagExist;
-    private List<String> hashtags; //
+    private List<String> hashtags;
     private int views;
     private String detailExplain;
     private Date writeDate;
-    private List<String> roomImg; //
+    private List<String> roomImg;
     private String sido;
     private String sigungu;
     private String bname;

@@ -155,26 +155,13 @@ public class SearchController {
         mav.addObject("detailAddr", roomDetailViewVO.getDetailAddr());
         mav.addObject("writeDate", roomDetailViewVO.getWriteDate());
         mav.addObject("periodNum", roomDetailViewVO.getPeriodNum());
-        String periodUnit = null;
-        char key = roomDetailViewVO.getPeriodUnit();
-        switch (key) {
-            case 'Y':
-                periodUnit = "년";
-                break;
-            case 'M':
-                periodUnit = "개월";
-                break;
-            case 'W':
-                periodUnit = "주";
-                break;
-        }
-        mav.addObject("periodUnit", periodUnit);
+        mav.addObject("periodUnit", roomDetailViewVO.getPeriodUnit());
         mav.addObject("title", roomDetailViewVO.getTitle());
         mav.addObject("hashtags", roomDetailViewVO.getHashtags());
         mav.addObject("rentType", roomDetailViewVO.getRentType());
-        mav.addObject("deposit", roomDetailViewVO.getDeposit() / 10000);
-        mav.addObject("monthlyCost", roomDetailViewVO.getMonthlyCost() / 10000);
-        mav.addObject("manageCost", roomDetailViewVO.getManageCost() / 10000);
+        mav.addObject("deposit", roomDetailViewVO.getDeposit());
+        mav.addObject("monthlyCost", roomDetailViewVO.getMonthlyCost());
+        mav.addObject("manageCost", roomDetailViewVO.getManageCost());
         mav.addObject("postType", roomDetailViewVO.getPostType());
         mav.addObject("roomImg", roomDetailViewVO.getRoomImg());
         mav.addObject("detail", roomDetailViewVO.getDetailExplain());

@@ -293,39 +293,43 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList){
-        if(voList == null)
-            return null;
+                if(voList == null)
+                    return null;
 
-        List<RoomSummaryViewVO> beanList = new ArrayList<>();
-        RoomSummaryVO roomSummaryVO;
+                List<RoomSummaryViewVO> beanList = new ArrayList<>();
+                RoomSummaryVO roomSummaryVO;
 
-        for (int i = 0; i < voList.size(); i++) {
-            roomSummaryVO = voList.get(i);
-            RoomSummaryViewVO roomSummaryViewVO = new RoomSummaryViewVO();
-            roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
-            roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
-            roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
-            roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
-            roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
-            roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
-            roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
-            roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
-            int deposit = roomSummaryVO.getDeposit() / 10000;
-            if(deposit == 0) {
-                roomSummaryViewVO.setDeposit("없음");
-            }
-            else if(deposit > 9999) {
-                roomSummaryViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
-            }
-            else {
-                roomSummaryViewVO.setDeposit(deposit + "만");
-            }
-            int monthlyCost = roomSummaryVO.getMonthlyCost() / 10000;
-            if(monthlyCost == 0) {
+                for (int i = 0; i < voList.size(); i++) {
+                    roomSummaryVO = voList.get(i);
+                    RoomSummaryViewVO roomSummaryViewVO = new RoomSummaryViewVO();
+                    roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
+                    roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
+                    roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
+                    roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
+                    roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
+                    roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
+                    roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
+                    roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
+                    int deposit = roomSummaryVO.getDeposit() / 10000;
+                    if(deposit == 0) {
+                        roomSummaryViewVO.setDeposit("없음");
+                    }
+                    else if(deposit > 9999) {
+                        roomSummaryViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+                    }
+                    else {
+                        roomSummaryViewVO.setDeposit(deposit + "만");
+                    }
+                    int monthlyCost = roomSummaryVO.getMonthlyCost() / 10000;
+                    if(monthlyCost == 0) {
                 roomSummaryViewVO.setMonthlyCost("없음");
             }
             else if(monthlyCost > 9999) {
-                roomSummaryViewVO.setMonthlyCost(monthlyCost/10000 + "억 " + monthlyCost%10000 + "만");
+                String cost = monthlyCost/10000 + "억 ";
+                if(monthlyCost%10000 != 0) {
+                    cost += monthlyCost%10000 + "만";
+                }
+                roomSummaryViewVO.setMonthlyCost(cost);
             }
             else {
                 roomSummaryViewVO.setMonthlyCost(monthlyCost + "만");
@@ -361,50 +365,83 @@ public class RoomServiceImpl implements RoomService {
         if(roomDetailVO == null)
             return null;
 
-        RoomDetailViewVO bean = new RoomDetailViewVO();
+        RoomDetailViewVO roomDetailViewVO = new RoomDetailViewVO();
 
-        bean.setRoomId(roomDetailVO.getRoomId());
-        bean.setMemberId(roomDetailVO.getMemberId());
-        bean.setArea(roomDetailVO.getArea());
-        bean.setFloor(roomDetailVO.getFloor());
-        bean.setHeatType(heatingTypeRecord.get(roomDetailVO.getHeatType()));
-        bean.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
-        bean.setTitle(roomDetailVO.getTitle());
-        bean.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
-        bean.setPeriodNum(roomDetailVO.getPeriodNum());
-        bean.setPeriodUnit(roomDetailVO.getPeriodUnit());
-        bean.setPostType(postStatusRecord.get(roomDetailVO.getPostType()));
-        bean.setDeposit(roomDetailVO.getDeposit());
-        bean.setMonthlyCost(roomDetailVO.getMonthlyCost());
-        bean.setManageCost(roomDetailVO.getManageCost());
-        List<String> temp = new ArrayList<String>();
+        roomDetailViewVO.setRoomId(roomDetailVO.getRoomId());
+        roomDetailViewVO.setMemberId(roomDetailVO.getMemberId());
+        roomDetailViewVO.setArea(roomDetailVO.getArea());
+        roomDetailViewVO.setFloor(roomDetailVO.getFloor());
+        roomDetailViewVO.setHeatType(heatingTypeRecord.get(roomDetailVO.getHeatType()));
+        roomDetailViewVO.setRoomType(roomTypeRecord.get(roomDetailVO.getRoomType()));
+        roomDetailViewVO.setTitle(roomDetailVO.getTitle());
+        roomDetailViewVO.setRentType(rentTypeRecord.get(roomDetailVO.getRentType()));
+        roomDetailViewVO.setPeriodNum(roomDetailVO.getPeriodNum());
+        if(roomDetailVO.getPeriodUnit().equals("Y")) {
+            roomDetailViewVO.setPeriodUnit("년");
+        } else if(roomDetailVO.getPeriodUnit().equals("M")) {
+            roomDetailViewVO.setPeriodUnit("개월");
+        } else if(roomDetailVO.getPeriodUnit().equals("W")) {
+            roomDetailViewVO.setPeriodUnit("주");
+        }
+        roomDetailViewVO.setPostType(postStatusRecord.get(roomDetailVO.getPostType()));
+        int deposit = roomDetailVO.getDeposit() / 10000;
+        if(deposit == 0) {
+            roomDetailViewVO.setDeposit("없음");
+        }
+        else if(deposit > 9999) {
+            roomDetailViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+        }
+        else {
+            roomDetailViewVO.setDeposit(deposit + "만");
+        }
+        int monthlyCost = roomDetailVO.getMonthlyCost() / 10000;
+        if(monthlyCost == 0) {
+            roomDetailViewVO.setMonthlyCost("없음");
+        }
+        else if(monthlyCost > 9999) {
+            String cost = monthlyCost/10000 + "억 ";
+            if(monthlyCost%10000 != 0) {
+                cost += monthlyCost%10000 + "만";
+            }
+            roomDetailViewVO.setMonthlyCost(cost);
+        }
+        else {
+            roomDetailViewVO.setMonthlyCost(monthlyCost + "만");
+        }
+        int manageCost = roomDetailVO.getManageCost() / 10000;
+        if(manageCost == 0) {
+            roomDetailViewVO.setManageCost("없음");
+        }
+        else {
+            roomDetailViewVO.setManageCost(manageCost + "만");
+        }
+        List<String> mTemp = new ArrayList<String>();
         for(Integer it: roomDetailVO.getManages()) {
-            temp.add(manageCostRecord.get(it));
+            mTemp.add(manageCostRecord.get(it));
         }
-        bean.setManages(temp);
-        List<String> temp2 = new ArrayList<String>();
+        roomDetailViewVO.setManages(mTemp);
+        List<String> oTemp = new ArrayList<String>();
         for(Integer it: roomDetailVO.getOptions()) {
-            temp2.add(optionRecord.get(it));
+            oTemp.add(optionRecord.get(it));
         }
-        bean.setOptions(temp2);
+        roomDetailViewVO.setOptions(oTemp);
+        roomDetailViewVO.setHashtagExist(roomDetailVO.isHashtagExist());
+        roomDetailViewVO.setHashtags(roomDetailVO.getHashtags());
+        roomDetailViewVO.setViews(roomDetailVO.getViews());
+        roomDetailViewVO.setDetailExplain(roomDetailVO.getDetailExplain());
+        roomDetailViewVO.setWriteDate(roomDetailVO.getWriteDate());
+        roomDetailViewVO.setRoomImg(roomDetailVO.getRoomImg());
+        roomDetailViewVO.setSido(roomDetailVO.getSido());
+        roomDetailViewVO.setSigungu(roomDetailVO.getSigungu());
+        roomDetailViewVO.setBname(roomDetailVO.getBname());
+        roomDetailViewVO.setBname1(roomDetailVO.getBname1());
+        roomDetailViewVO.setBname2(roomDetailVO.getBname2());
+        roomDetailViewVO.setJibun(roomDetailVO.getJibun());
+        roomDetailViewVO.setRoadName(roomDetailVO.getRoadname());
+        roomDetailViewVO.setRoadJibun(roomDetailVO.getRoadJibun());
+        roomDetailViewVO.setDetailAddr(roomDetailVO.getDetailAddr());
 
-        bean.setHashtagExist(roomDetailVO.isHashtagExist());
-        bean.setHashtags(roomDetailVO.getHashtags());
-        bean.setViews(roomDetailVO.getViews());
-        bean.setDetailExplain(roomDetailVO.getDetailExplain());
-        bean.setWriteDate(roomDetailVO.getWriteDate());
-        bean.setRoomImg(roomDetailVO.getRoomImg());
-        bean.setSido(roomDetailVO.getSido());
-        bean.setSigungu(roomDetailVO.getSigungu());
-        bean.setBname(roomDetailVO.getBname());
-        bean.setBname1(roomDetailVO.getBname1());
-        bean.setBname2(roomDetailVO.getBname2());
-        bean.setJibun(roomDetailVO.getJibun());
-        bean.setRoadName(roomDetailVO.getRoadname());
-        bean.setRoadJibun(roomDetailVO.getRoadJibun());
-        bean.setDetailAddr(roomDetailVO.getDetailAddr());
-
-        return bean;
+        return roomDetailViewVO;
     }
 
     @Override

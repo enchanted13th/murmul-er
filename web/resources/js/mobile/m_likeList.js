@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let itemLen = $('.divItem').length;
-    $('#recentCnt').text(itemLen);
+    $('#likeCnt').text(itemLen);
 
 
     let text;
@@ -47,11 +47,8 @@ function clickLike(i, roomId) {
             console.log(i);
             document.getElementById("like" + i).parentElement.parentElement.remove();
             document.getElementById("line" + i).remove();
-            // $('#recentCnt').text($('.divItem').length);
-            $('#recentCnt').text($('#recentCnt').text()*1-1);
+            $('#likeCnt').text($('#likeCnt').text()*1-1);
         } else {
         }
     })
 }
-
-$
