@@ -51,14 +51,15 @@ public class TalkController {
         }
         int me = memberVO.getMemberId();
         String nickname = memberVO.getNickname();
-        boolean isExist;
+        boolean isExist = false;
 
         List<JSONObject> talkInfoList = new ArrayList<>();
         List<Integer> talkList = talkHelper.getTalkList(me);
-        if(talkList == null) {
-            isExist = false;
-        }
-        else {
+//        if(talkList == null) {
+//            isExist = false;
+//        }
+//        else {
+        if (talkList != null) {
             for(int contactMember : talkList) {
                 MessageVO messageVO = talkHelper.readLastMessage(me, contactMember);
                 if(messageVO != null) {
@@ -68,11 +69,11 @@ public class TalkController {
                     talkInfo.put("lastMessage", messageVO);
                     talkInfo.put("talkRoomId", messageVO.getTalkRoomId());
                     talkInfoList.add(talkInfo);
+                    isExist = true;
                 }
             }
             Collections.sort(talkInfoList, new SortTalkList());
             Collections.reverse(talkInfoList);
-            isExist = true;
         }
 
         response.setContentType("application/json; charset=utf-8");
