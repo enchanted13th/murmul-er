@@ -8,8 +8,13 @@ body {
 }
 
 .divWrap {
-    width: 500px;
+    /* width: 500px; */
     height: 800px;
+}
+@media (max-width: 400px) {
+    .divWrap {
+        width: 400px;
+    }
 }
 
 .divTop {
@@ -38,7 +43,7 @@ body {
 .divMid {
     margin: 0 auto;
     padding: 0;
-    width: 500px;
+    /* width: 500px; */
     height: 670px;
     overflow: auto;
     overflow-x: hidden;
@@ -57,6 +62,7 @@ body {
 .divRoom > table {
     margin: 0;
     padding-top: 15px;
+    width: 100%;
     padding-bottom: 15px;
     height: 100px;
 }
@@ -77,21 +83,21 @@ body {
 
 .nickName {
     padding-left: 10px;
-    width: 345px;
+    /*width: 345px;*/
     font-size: 16pt;
     text-align: left;
 }
 
 .content {
     padding-left: 10px;
-    width: 400px;
+    /*width: 400px;*/
     font-size: 14pt;
     text-align: left;
 }
 
 .date {
     padding-left: 10px;
-    width: 400px;
+    /*width: 400px;*/
     font-size: 13pt;
     text-align: left;
     color: gray;

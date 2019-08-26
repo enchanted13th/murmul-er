@@ -9,19 +9,25 @@ body {
 
 .divWrap {
     margin: 0 auto;
-    width: 500px;
+    width: 100%;
     height: 800px;
+}
+@media (max-width: 400px) {
+    .divWrap {
+        width: 400px;
+    }
 }
 
 .divTop {
     height: 90px;
     line-height: 90px;
     background-color: rgb(182, 226, 248);
+    text-align: center;
 }
 
 .nickName {
     display: inline-block;
-    width: 340px;
+    /*width: 340px;*/
     font-size: 19pt;
     text-align: center;
     color: rgb(77, 77, 77);
@@ -62,7 +68,8 @@ body {
     margin: 0 auto;
     padding: 0;
     border-bottom: 1px solid lightgray;
-    width: 500px;
+    /* width: 500px; */
+    width: 100%;
     height: 600px;
     overflow: auto;
     overflow-x: hidden;
@@ -160,11 +167,12 @@ body {
     left: 10px;
 }
 
-
 .divBottom {
     margin: 0 auto;
     padding: 0;
-    width: 500px;
+    /* width: 500px; */
+    width: 100%;
+    text-align: center;
     height: 70px;
     background-color: rgb(182, 226, 248);
 }
@@ -173,7 +181,7 @@ body {
     margin-top: 10px;
     margin-left: 10px;
     border: 0;
-    width: 358px;
+    /*width: 358px;*/
     height: 43px;
     font-size: 14pt;
 }
@@ -202,7 +210,7 @@ body {
 }
 
 .divOption {
-    width: 500px;
+    width: 100%;
     background-color: rgb(182, 226, 248);
 }
 

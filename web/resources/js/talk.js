@@ -38,6 +38,14 @@ $(document).ready(function () {
         }, 500);
     })();
 
+    let divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
+    document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
+
+    $( window ).resize( function() {
+        // console.log("변경");
+    let divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
+    document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
+    } );
 });
 
 $.fn.showTalkList = function () {
@@ -55,11 +63,8 @@ $.fn.cancel = function () {
 var showOption = function () {
     if ($("#divOption").is(":hidden")) {
         $("#divOption").slideDown(300);
-        window.resizeTo(516, 890);
     } else {
-        $("#divOption").slideUp(300, function () {
-            window.resizeTo(516, 820);
-        });
+        $("#divOption").slideUp(300, function () {;});
     }
 }
 
@@ -218,3 +223,5 @@ $.fn.selectRoom = function (forwhat) {
         window.open("/contract/select?contactId=" + contactMember + "&forwhat=" + forwhat, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
     })
 }
+
+

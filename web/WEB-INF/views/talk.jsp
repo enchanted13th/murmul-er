@@ -26,7 +26,7 @@
 <div>
     <div id="talkPopup" class="menuPopup">
         <div class="divWrap">
-            <div class="divTop">
+            <div class="divTop" id="divTop">
                 <button id="btnBack" class="btnBack"><img src="/resources/img/talk/back.png"/></button>
                 <div id="nickName" class="nickName">${nickname}</div>
                 <button id="btnClose" class="btnClose"><img src="/resources/img/talk/exit.png"/></button>
@@ -85,7 +85,7 @@
                     </c:forEach>
                 </div>
             </div>
-            <div class="divBottom">
+            <div class="divBottom" id="divBottom">
                 <form name="sendForm" onsubmit="return false">
                     <button type="button" id="btnOption" class="btnOption">
                         <img id="imgOption" src="/resources/img/talk/option.png"/>
