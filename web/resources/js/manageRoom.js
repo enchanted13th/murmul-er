@@ -53,8 +53,11 @@ $.setBtnDisabled = function (listNum) {
 }
 
 $.fn.clickModifyBtn = function () {
+    let roomId;
     $(this).click(function () {
-        let roomId = $(this).val();
+        //roomId = $(this).attr('value');
+        roomId = $(this).val();
+        $('#delete'+roomId).attr('disabled', true);
         location.href = "/manage/update/"+roomId;
     })
 }
@@ -98,6 +101,7 @@ $.fn.clickDeleteBtn = function () {
 
 $.deleteRoom = function (roomId, callback) {
     console.log('delete');
+    $('#modify'+roomId).attr('disabled', true);
     $.ajax('/manage/room/delete', {
         type: 'POST',
         data: {roomId: roomId}
