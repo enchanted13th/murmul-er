@@ -123,26 +123,22 @@
             <tr>
                 <td width=25%>월세</td>
                 <c:choose>
-                    <c:when test="${monthlyCost eq 0}">
+                    <c:when test="${monthlyCost eq '없음'}">
                         <td>-</td>
                     </c:when>
                     <c:otherwise>
-                        <td>${monthlyCost}만 원</td>
+                        <td>${monthlyCost} 원</td>
                     </c:otherwise>
                 </c:choose>
             </tr>
             <tr>
                 <td width=25%>보증금</td>
                 <c:choose>
-                    <c:when test="${deposit eq 0}">
+                    <c:when test="${deposit eq '없음'}">
                         <td>-</td>
                     </c:when>
-                    <c:when test="${deposit>9999}">
-                        <c:set var="change" value="${fn:replace(deposit/10000-deposit/10000%1, '.0', '')}억 ${deposit%10000}만 원"/>
-                        <td>${change}</td>
-                    </c:when>
                     <c:otherwise>
-                        <td>${deposit}만 원</td>
+                        <td>${deposit} 원</td>
                     </c:otherwise>
                 </c:choose>
             </tr>
@@ -160,11 +156,11 @@
             <tr>
                 <td width=25%>관리비</td>
                 <c:choose>
-                    <c:when test="${manageCost eq 0}">
+                    <c:when test="${manageCost eq '없음'}">
                         <td>-</td>
                     </c:when>
                     <c:otherwise>
-                        <td>${manageCost}만 원<br>(
+                        <td>${manageCost} 원<br>(
                             <c:forEach var="manage" items="${manages}" varStatus="manageloop">
                                 ${manage}
                                 <c:if test="${not manageloop.last}">

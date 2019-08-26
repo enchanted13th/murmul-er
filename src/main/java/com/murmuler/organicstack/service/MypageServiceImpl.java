@@ -91,7 +91,11 @@ public class MypageServiceImpl implements MypageService {
                 roomMobileViewVO.setDeposit("없음");
             }
             else if(deposit > 9999) {
-                roomMobileViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+                String cost = deposit/10000 + "억 ";
+                if(deposit%10000 != 0) {
+                    cost += deposit%10000 + "만";
+                }
+                roomMobileViewVO.setDeposit(cost);
             }
             else {
                 roomMobileViewVO.setDeposit(deposit + "만");
