@@ -293,35 +293,39 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList){
-                if(voList == null)
-                    return null;
+        if(voList == null)
+            return null;
 
-                List<RoomSummaryViewVO> beanList = new ArrayList<>();
-                RoomSummaryVO roomSummaryVO;
+        List<RoomSummaryViewVO> beanList = new ArrayList<>();
+        RoomSummaryVO roomSummaryVO;
 
-                for (int i = 0; i < voList.size(); i++) {
-                    roomSummaryVO = voList.get(i);
-                    RoomSummaryViewVO roomSummaryViewVO = new RoomSummaryViewVO();
-                    roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
-                    roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
-                    roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
-                    roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
-                    roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
-                    roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
-                    roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
-                    roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
-                    int deposit = roomSummaryVO.getDeposit() / 10000;
-                    if(deposit == 0) {
-                        roomSummaryViewVO.setDeposit("없음");
-                    }
-                    else if(deposit > 9999) {
-                        roomSummaryViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
-                    }
-                    else {
-                        roomSummaryViewVO.setDeposit(deposit + "만");
-                    }
-                    int monthlyCost = roomSummaryVO.getMonthlyCost() / 10000;
-                    if(monthlyCost == 0) {
+        for (int i = 0; i < voList.size(); i++) {
+            roomSummaryVO = voList.get(i);
+            RoomSummaryViewVO roomSummaryViewVO = new RoomSummaryViewVO();
+            roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
+            roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
+            roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
+            roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
+            roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
+            roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
+            roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
+            roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
+            int deposit = roomSummaryVO.getDeposit() / 10000;
+            if(deposit == 0) {
+                roomSummaryViewVO.setDeposit("없음");
+            }
+            else if(deposit > 9999) {
+                String cost = deposit/10000 + "억 ";
+                if(deposit%10000 != 0) {
+                    cost += deposit%10000 + "만";
+                }
+                roomSummaryViewVO.setDeposit(cost);
+            }
+            else {
+                roomSummaryViewVO.setDeposit(deposit + "만");
+            }
+            int monthlyCost = roomSummaryVO.getMonthlyCost() / 10000;
+            if(monthlyCost == 0) {
                 roomSummaryViewVO.setMonthlyCost("없음");
             }
             else if(monthlyCost > 9999) {
@@ -389,7 +393,11 @@ public class RoomServiceImpl implements RoomService {
             roomDetailViewVO.setDeposit("없음");
         }
         else if(deposit > 9999) {
-            roomDetailViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+            String cost = deposit/10000 + "억 ";
+            if(deposit%10000 != 0) {
+                cost += deposit%10000 + "만";
+            }
+            roomDetailViewVO.setDeposit(cost);
         }
         else {
             roomDetailViewVO.setDeposit(deposit + "만");
