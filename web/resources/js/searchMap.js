@@ -121,7 +121,6 @@ function placesSearchCB (data, status) {
                 northEast: northEast
 			}, success: function (data) {
 				for (let i = 0; i < subData.length; i++){
-					console.log(subData[i]);
 					closeOverlay(subData[i]);
 				}
 				subData = [];

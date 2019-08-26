@@ -37,19 +37,19 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public int insertMember(MemberVO member) {
+    synchronized public int insertMember(MemberVO member) {
         MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
         return mapper.insertMember(member);
     }
 
     @Override
-    public int deleteMultiMember(MemberVO member) {
+    synchronized public int deleteMultiMember(MemberVO member) {
         MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
         return mapper.deleteMultiMember(member);
     }
 
     @Override
-    public int insertLikeRoom(Map<String, Integer> map) {
+    synchronized public int insertLikeRoom(Map<String, Integer> map) {
         MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
         return mapper.insertLikeRoom(map);
     }
@@ -68,13 +68,13 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public int updateMemberInfoByMemberId(Map<String, String> map) {
+    synchronized public int updateMemberInfoByMemberId(Map<String, String> map) {
         MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
         return mapper.updateMemberInfoByMemberId(map);
     }
 
     @Override
-    public int updatePasswordByMemberId(Map<String, String> map) {
+    synchronized public int updatePasswordByMemberId(Map<String, String> map) {
         MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
         return mapper.updatePasswordByMemberId(map);
     }
