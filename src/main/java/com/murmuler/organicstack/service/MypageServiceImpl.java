@@ -22,6 +22,8 @@ public class MypageServiceImpl implements MypageService {
     @Autowired
     private RoomDAO roomDAO;
     @Autowired
+    private RoomService roomService;
+    @Autowired
     RoomTypeRecord roomTypeRecord;
     @Autowired
     RentTypeRecord rentTypeRecord;
@@ -30,14 +32,17 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<RoomSummaryViewVO> getRecentRoom(List<Integer> ids) {
-       return convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
+        if(ids == null) {
+            return null;
+        }
+        return roomService.convertVoToViewVo(roomDAO.selectRoomByRoomIds(ids));
     }
 
     @Override
     public List<RoomSummaryViewVO> getLikeRoom(int memberId) {
         Map<String, Integer> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
-        return convertVoToViewVo(roomDAO.selectRoomByLikes(paramMap));
+        return roomService.convertVoToViewVo(roomDAO.selectRoomByLikes(paramMap));
     }
 
     @Override
@@ -61,41 +66,6 @@ public class MypageServiceImpl implements MypageService {
         paramMap.put("memberId", memberId);
         paramMap.put("roomId", roomId);
         return memberDAO.deleteLikeRoom(paramMap);
-    }
-
-    private List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList){
-        if(voList == null)
-            return null;
-
-        List<RoomSummaryViewVO> beanList = new ArrayList<>();
-        RoomSummaryVO roomSummaryVO;
-
-
-        for(int i=0; i < voList.size(); i++) {
-            roomSummaryVO = voList.get(i);
-            RoomSummaryViewVO roomSummaryViewVO = new RoomSummaryViewVO();
-            roomSummaryViewVO.setRoomId(roomSummaryVO.getRoomId());
-            roomSummaryViewVO.setLatitude(roomSummaryVO.getLatitude());
-            roomSummaryViewVO.setLongitude(roomSummaryVO.getLongitude());
-            roomSummaryViewVO.setPostType(postStatusRecord.get(roomSummaryVO.getPostId()));
-            roomSummaryViewVO.setTitle(roomSummaryVO.getSaleTitle());
-            roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
-            roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
-            roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
-            roomSummaryViewVO.setDeposit(roomSummaryVO.getDeposit());
-            roomSummaryViewVO.setMonthlyCost(roomSummaryVO.getMonthlyCost());
-            roomSummaryViewVO.setManageCost(roomSummaryVO.getManageCost());
-            roomSummaryViewVO.setWriteDate(roomSummaryVO.getSaleDate());
-            roomSummaryViewVO.setViews(roomSummaryVO.getViews());
-            roomSummaryViewVO.setRoomImg(roomSummaryVO.getRoomImg());
-            roomSummaryViewVO.setSido(roomSummaryVO.getSido());
-            roomSummaryViewVO.setSigungu(roomSummaryVO.getSigungu());
-            roomSummaryViewVO.setRoadname(roomSummaryVO.getRoadname());
-            roomSummaryViewVO.setPeriodNum(roomSummaryVO.getPeriodNum());
-            roomSummaryViewVO.setPeriodUnit(roomSummaryVO.getPeriodUnit());
-            beanList.add(roomSummaryViewVO);
-        }
-        return beanList;
     }
 
     private List<RoomDetailViewVO> convertVoToViewVoDetail(List<RoomDetailVO> voList){

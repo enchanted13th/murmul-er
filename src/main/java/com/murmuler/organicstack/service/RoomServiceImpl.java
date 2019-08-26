@@ -58,6 +58,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Map<String, Object> getRoomInfo(int roomId) {
+        return roomDAO.selectRoomInfo(roomId);
+    }
+
+    @Override
+    public List<String> getRoomOptions(int roomId) {
+        Map<String, Integer> paramMap = new HashMap<>();
+        paramMap.put("roomId", roomId);
+        List<Integer> roomOptionsNum = roomDAO.selectRoomOptionByRoomId(paramMap);
+        List<String> roomOptions = new ArrayList<>();
+        for (int l : roomOptionsNum) {
+            roomOptions.add(optionRecord.get(l));
+        }
+        return roomOptions;
+    }
+
+    @Override
     public int addRoom(Map<String, String> roomInfo) {
         if(roomInfo == null)
             return 0;
@@ -143,23 +160,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public int addImg(int roomId, ArrayList<String> imgUrlList) {
         return roomDAO.insertRoomImage(roomId, imgUrlList);
-    }
-
-    @Override
-    public Map<String, Object> getRoomInfo(int roomId) {
-        return roomDAO.selectRoomInfo(roomId);
-    }
-
-    @Override
-    public List<String> getRoomOptions(int roomId) {
-        Map<String, Integer> paramMap = new HashMap<>();
-        paramMap.put("roomId", roomId);
-        List<Integer> roomOptionsNum = roomDAO.selectRoomOptionByRoomId(paramMap);
-        List<String> roomOptions = new ArrayList<>();
-        for (int l : roomOptionsNum) {
-            roomOptions.add(optionRecord.get(l));
-        }
-        return roomOptions;
     }
 
     @Override
@@ -286,13 +286,13 @@ public class RoomServiceImpl implements RoomService {
             return 0;
     }
 
-
     @Override
     public int removeRoom(int roomId) {
         return roomDAO.deleteRoom(roomId);
     }
 
-    private List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList){
+    @Override
+    public List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList){
         if(voList == null)
             return null;
 
@@ -310,9 +310,33 @@ public class RoomServiceImpl implements RoomService {
             roomSummaryViewVO.setRoomType(roomTypeRecord.get(roomSummaryVO.getRoomTypeId()));
             roomSummaryViewVO.setRentType(rentTypeRecord.get(roomSummaryVO.getRentId()));
             roomSummaryViewVO.setArea(roomSummaryVO.getRoomArea());
-            roomSummaryViewVO.setDeposit(roomSummaryVO.getDeposit() / 10000);
-            roomSummaryViewVO.setMonthlyCost(roomSummaryVO.getMonthlyCost() / 10000);
-            roomSummaryViewVO.setManageCost(roomSummaryVO.getManageCost() / 10000);
+            int deposit = roomSummaryVO.getDeposit() / 10000;
+            if(deposit == 0) {
+                roomSummaryViewVO.setDeposit("없음");
+            }
+            else if(deposit > 9999) {
+                roomSummaryViewVO.setDeposit(deposit/10000 + "억 " + deposit%10000 + "만");
+            }
+            else {
+                roomSummaryViewVO.setDeposit(deposit + "만");
+            }
+            int monthlyCost = roomSummaryVO.getMonthlyCost() / 10000;
+            if(monthlyCost == 0) {
+                roomSummaryViewVO.setMonthlyCost("없음");
+            }
+            else if(monthlyCost > 9999) {
+                roomSummaryViewVO.setMonthlyCost(monthlyCost/10000 + "억 " + monthlyCost%10000 + "만");
+            }
+            else {
+                roomSummaryViewVO.setMonthlyCost(monthlyCost + "만");
+            }
+            int manageCost = roomSummaryVO.getManageCost() / 10000;
+            if(manageCost == 0) {
+                roomSummaryViewVO.setManageCost("없음");
+            }
+            else {
+                roomSummaryViewVO.setManageCost(manageCost + "만");
+            }
             roomSummaryViewVO.setWriteDate(roomSummaryVO.getSaleDate());
             roomSummaryViewVO.setViews(roomSummaryVO.getViews());
             roomSummaryViewVO.setRoomImg(roomSummaryVO.getRoomImg());
@@ -332,7 +356,8 @@ public class RoomServiceImpl implements RoomService {
         return beanList;
     }
 
-    private RoomDetailViewVO convertVoToViewVo(RoomDetailVO roomDetailVO){
+    @Override
+    public RoomDetailViewVO convertVoToViewVo(RoomDetailVO roomDetailVO){
         if(roomDetailVO == null)
             return null;
 

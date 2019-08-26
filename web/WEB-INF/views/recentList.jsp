@@ -31,10 +31,10 @@
                     <div class="divTitle" id="title${rm.count}">${room.title}</div>
                     <div class="divFloat">
                         <div class="divLocation">${room.sido} ${room.sigungu} ${room.roadname}</div>
-                        <div class="divPrice">${room.rentType} 보증금 <span id="deposit${rm.count}">${room.deposit}</span>/월세
-                            <span id="monthlyCost${rm.count}">${room.monthlyCost}</span></div>
+                        <div class="divPrice">보증금 <span id="deposit${rm.count}">${room.deposit} </span>
+                            <c:if test="${room.rentType!='전세'}">/ 월세 <span id="monthlyCost${rm.count}">${room.monthlyCost}</span></c:if></div>
                     </div>
-                    <div class="divSummary">${room.roomType}, ${room.area}m^2, 관리비 <span
+                    <div class="divSummary">${room.rentType}, ${room.roomType}, ${room.area}m^2, 관리비 <span
                             id="manageCost${rm.count}">${room.manageCost}</span><br/>
                     </div>
                 </div>
@@ -42,6 +42,5 @@
     </div>
 </div>
 <script src="/resources/js/recentList.js"></script>
-
 </body>
 </html>

@@ -24,9 +24,9 @@ public class RoomSummaryViewVO {
     private String roomType;
     private String rentType;
     private double area;
-    private int deposit;
-    private int monthlyCost;
-    private int manageCost;
+    private String deposit;
+    private String monthlyCost;
+    private String manageCost;
     private Date writeDate;
     private int views;
     private String roomImg;

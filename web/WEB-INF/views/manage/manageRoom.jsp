@@ -43,44 +43,14 @@
             <tr>
                 <td class="tableTitle">가격</td>
                 <td class="val" id="tdPriceVal">
-                    <c:set var="deposit" value="${data.deposit}"/>
-                    보증금<c:choose>
-                    <c:when test="${data.deposit==0}">
-                       <c:set var="deposit" value="없음"/>
-                    </c:when>
-                    <c:when test="${data.deposit>9999}">
-                        <c:set var="deposit" value="${fn:replace(data.deposit/10000-data.deposit/10000%1, '.0', '')}억 ${data.deposit%10000}만"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="deposit" value="${deposit}만"/>
-                    </c:otherwise>
-                </c:choose>
-                    <b>${deposit}</b>
-                    / ${data.rentType}<c:choose>
-                    <c:when test="${data.monthlyCost==0}">
-                        <b>없음</b>
-                    </c:when>
-                    <c:when test="${data.monthlyCost>9999}">
-                        <c:set var="monthlyCost" value="${fn:replace(data.monthlyCost/10000-data.monthlyCost/10000%1, '.0', '')}억 ${data.monthlyCost%10000}만"/>
-                        <b>${monthlyCost}</b>
-                    </c:when>
-                    <c:otherwise>
-                        <b>${data.monthlyCost}만</b>
-                    </c:otherwise>
-                </c:choose>
-                    / 관리비<c:choose>
-                    <c:when test="${data.manageCost==0}">
-                        <b>없음</b>
-                    </c:when>
-                    <c:otherwise>
-                        <b>${data.manageCost}만</b>
-                    </c:otherwise>
-                </c:choose>
+                    보증금 <b>${data.deposit} </b>
+                    <c:if test="${data.rentType!='전세'}">/ 월세 <b>${data.monthlyCost} </b></c:if>
+                    / 관리비 <b>${data.manageCost}</b>
                 </td>
             </tr>
             <tr>
                 <td class="tableTitle">임대기간</td>
-                <td class="val" id="tdPriodVal"><b>${data.periodNum}</b> ${data.periodUnit}</td>
+                <td class="val" id="tdPriodVal">${data.rentType} / <b>${data.periodNum}</b> ${data.periodUnit}</td>
             </tr>
             <tr>
                 <td id="tdbtns${status.index}" class="tdbtns" colspan="2">
