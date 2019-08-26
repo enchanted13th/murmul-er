@@ -1,4 +1,5 @@
 var sock;
+var divBtnWidth = 820;
 
 var connectSock = function () {
     sock = new SockJS("/talkHandler");
@@ -38,13 +39,13 @@ $(document).ready(function () {
         }, 500);
     })();
 
-    let divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
-    document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
+    let BtnWidth = document.getElementById('divBottom' ).offsetWidth ;
+    document.getElementById('textInputDialog' ).style.width = BtnWidth - 142 + "px";
 
     $( window ).resize( function() {
         // console.log("변경");
-    let divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
-    document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
+        divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
+        document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
     } );
 });
 
@@ -63,8 +64,11 @@ $.fn.cancel = function () {
 var showOption = function () {
     if ($("#divOption").is(":hidden")) {
         $("#divOption").slideDown(300);
+        window.resizeTo(divBtnWidth, 890);
     } else {
-        $("#divOption").slideUp(300, function () {;});
+        $("#divOption").slideUp(300, function () {
+            window.resizeTo(divBtnWidth, 820);
+        });
     }
 }
 
@@ -223,5 +227,3 @@ $.fn.selectRoom = function (forwhat) {
         window.open("/contract/select?contactId=" + contactMember + "&forwhat=" + forwhat, "", "status=no, width=1150px, height=800px, left=" + popupX + "px, top=" + popupY + "px");
     })
 }
-
-
