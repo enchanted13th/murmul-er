@@ -39,28 +39,36 @@ $.setImage = function(){
     }
 }
 
-var likeFlag = false;
+
 
 function clickLike() {
-    if (document.getElementById('heartImg').getAttribute("src") === "/resources/img/etc/heartClick.png") {
+    let likeFlag = false;
+    if ($('#heartImg').attr('src') === "/resources/img/etc/heartClick.png") {
         likeFlag = true;
     }
-    $.ajax(roomId, {
+    $.ajax('/searchRoom/like', {
         type: 'POST',
         data: {roomId: roomId, flag: likeFlag}
     }).then(function (data, status) {
-        var obj = JSON.parse(data);
-        switch (obj.res) {
-            case 'ADD':
-                document.getElementById('heartImg').src = '/resources/img/etc/heartClick.png';
-                break;
-            case 'REMOVE':
-                document.getElementById('heartImg').src = '/resources/img/etc/heart.png';
-                break;
-            default:
-                break;
+        if (status === 'success') {
+            console.log(data);
+            switch (data.res) {
+                case 'ADD':
+                    $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
+                    console.log("찜 하기");
+                    break;
+                case 'REMOVE':
+                    $('#heartImg').attr('src', '/resources/img/etc/heart.png');
+                    console.log("찜 취소");
+                    break;
+                case 'FAIL':
+                    Swal.fire('찜 실패', '찜하기가 실패하였습니다.', 'error');
+                default:
+                    break;
+            }
+        } else {
+            Swal.fire('연결 실패', '잠시 후 다시 시도해주세요.', 'error');
         }
-        likeFlag = false;
     })
 }
 
