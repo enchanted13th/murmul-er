@@ -16,8 +16,8 @@
         <load-on-startup>1</load-on-startup>
 <!--        =========================== 추가 ===========================-->
         <multipart-config>
-                <location>/Users/ine</location>
-<!--            <location>/home/murmuler</location>-->
+<!--                <location>/Users/ine</location>-->
+            <location>/home/murmuler</location>
             <!--<location>/Users/seokjung/util</location>-->
 <!--            <location>C:\\upload\\temp</location>-->
             <max-file-size>20917520</max-file-size>

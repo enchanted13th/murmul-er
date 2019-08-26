@@ -13,18 +13,18 @@
 <body>
 <jsp:include page="topbar.jsp"/>
 
-<div class="wrap">
-    <div class="mapWrap">
-        <div class="map" id="map"></div>
-        <div class="sub">
-            <input type="button" class="slideMenu" id="slideMenu" value="<">
-            <div class="itemsList" id="itemsList"></div>
-        </div>
-        <div class="searchWrap">
-            <input id="mapInputBox" type="text" placeholder="아파트, 지역, 지하철, 학교검색">
-            <button id="btnMapSearch" style="background-color:white;" onClick="searchPlaces()">&nbsp;</button>
-            <button id="btnFilter" style="background-color:white;">필터</button>
-        </div>
+        <div class="wrap">
+            <div class="mapWrap">
+                <div class="map" id="map"></div>
+                <div class="sub">
+                    <input type="button" class="slideMenu" id="slideMenu" value="<">
+                    <div class="itemsList" id="itemsList"></div>
+                </div>
+                <div class="searchWrap">
+                    <input id="mapInputBox" type="text" placeholder="아파트, 지역, 지하철, 학교검색">
+                    <button id="btnMapSearch" style="background-color:white;" onClick="searchPlaces()">&nbsp;</button>
+                    <button id="btnFilter" style="background-color:white;">필터</button>
+                </div>
     </div>
 </div>
 <div class="filterWrap">

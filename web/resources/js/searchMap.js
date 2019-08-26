@@ -36,6 +36,11 @@ var searchRoomFromMap = function() {
 			southWest: bounds.getSouthWest().toString(),
 			northEast: bounds.getNorthEast().toString()
 		}, success: function (data) {
+			for (let i = 0; i < subData.length; i++){
+				console.log(subData[i]);
+				closeOverlay(subData[i]);
+			}
+			subData = [];
 			setMarkers(null);
 			markers = [];
 			if (data != '{}') {
@@ -98,6 +103,7 @@ function searchPlaces(){
 	ps.keywordSearch(keyword, placesSearchCB);
 }
 
+var subData = [];
 //키워드 검색 완료 시 호출되는 콜백함수 입니다
 function placesSearchCB (data, status) {
 	if (status === kakao.maps.services.Status.OK) {
@@ -114,6 +120,11 @@ function placesSearchCB (data, status) {
                 southWest: southWest,
                 northEast: northEast
 			}, success: function (data) {
+				for (let i = 0; i < subData.length; i++){
+					console.log(subData[i]);
+					closeOverlay(subData[i]);
+				}
+				subData = [];
 				setMarkers(null);
 				markers = [];
 				if (data != '{}') {
@@ -145,6 +156,7 @@ $.showSubList = function(data){
 	   	let size = Object.keys(obj['item'+i]).length;
 		let temp = obj['item'+i].substring(1, size-1);
 		let res = eval("("+ temp +")");
+		subData.push(res.roomId);
 		let subList = ''
 			+ '<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
 			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
