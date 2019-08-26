@@ -14,7 +14,7 @@ $.setImage = function(){
         let middlePath = value[0];
         let fileName = value[1];
         let src = '/manage/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
-        console.log(src);
+        // console.log(src);
         $('#preview' + i).attr('src', src);
     }
 }
@@ -66,7 +66,7 @@ $.fn.clickDeleteBtn = function () {
 
     $(this).click(function () {
         let listNum = $(this).parent().attr('id').split('tdbtns')[1];
-        console.log(listNum);
+        // console.log(listNum);
         Swal.fire({
             title: "방 삭제",
             text: "이 방을 정말로 삭제하시겠습니까?",
@@ -104,7 +104,7 @@ $.fn.clickDeleteBtn = function () {
 }
 
 $.deleteRoom = function (roomId, callback) {
-    console.log('delete');
+    // console.log('delete');
     $('#modify'+roomId).attr('disabled', true);
     $.ajax('/manage/room/delete', {
         type: 'POST',
@@ -130,7 +130,9 @@ $.fn.changePostType = function (callback){
         if (status === 'success') {
             switch (data.result) {
                 case "UPDATE_FAIL" :
-                    console.log('update fail..'); callback(false); return;
+                    // console.log('update fail..');
+                    callback(false);
+                    return;
                 case "POSTING" :
                     $('#tdroomState'+listNum).text('게시중'); break;
                 case "END_POSTING" :
@@ -143,7 +145,7 @@ $.fn.changePostType = function (callback){
             $.setPostTypeEach(listNum);
             callback($('#tdroomState'+listNum).text());
         } else {
-            console.log(',,,,');
+            // console.log(',,,,');
             return;
         }
     })
@@ -180,7 +182,7 @@ $.fn.clickPostStatBtn = function(){
         }).then(result => {
             if (result.value) {
                 $(this).changePostType(function(postType){
-                    console.log(postType);
+                    // console.log(postType);
                     if (postType === false) {
                         Swal.fire('오류발생', '게시상태 변경에 실패하였습니다.', 'error');
                     } else {

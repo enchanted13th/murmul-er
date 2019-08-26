@@ -42,11 +42,11 @@ $.showLoginPopup = function () {
         let wh = $(window).height();
         let ph = 470;
         let top = (wh - ph) / 2 - 75;
-        console.log("top:", top);
+        // console.log("top:", top);
         popup.children('div').css('margin-top', top);
 
     } else {
-        console.log("remove");
+        // console.log("remove");
         $(document.body).css('overflow', '');
         $('body').find('.menuPopup').remove();
     }

@@ -4,8 +4,8 @@ $(document).ready(function () {
 
 var pwdUpdate = function () {
     if(!$.validPwd()) return;
-    let curpwd = $('#curpwd').val();
-    let newpwd = $('#newpwd1').val();
+    let curpwd = defend($('#curpwd').val());
+    let newpwd = defend($('#newpwd1').val());
     $.changePwd(curpwd, newpwd);
 }
 
@@ -15,7 +15,7 @@ $.changePwd = function(curpwd, newpwd){
         data: { curpwd: curpwd, newpwd: newpwd }
     }).then(function(data, status) {
         if(status === 'success') {
-            console.log(data);
+            // console.log(data);
             switch (data.pwdResult) {
                 case "SUCCESS":
                     Swal.fire('비밀번호 변경이 완료되었습니다.', "", "success")
@@ -35,9 +35,9 @@ $.changePwd = function(curpwd, newpwd){
 }
 
 $.validPwd = function(){
-    let curpwd = $('#curpwd').val();
-    let newpwd1 = $('#newpwd1').val();
-    let newpwd2 = $('#newpwd2').val();
+    let curpwd = defend($('#curpwd').val());
+    let newpwd1 = defend($('#newpwd1').val());
+    let newpwd2 = defend($('#newpwd2').val());
 
     if (curpwd === '' || newpwd1 === '' || newpwd2 === '') {
         return false;
@@ -52,7 +52,7 @@ $.validPwd = function(){
         document.updateForm.newpwd1.focus();
         return false;
     }
-    if ($('#newpwd1').val() !== $('#newpwd2').val()) {
+    if (defend($('#newpwd1').val()) !== defend($('#newpwd2').val())) {
         Swal.fire('','변경할 비밀번호가 비밀번호 확인과 일치하지 않습니다.',"warning");
         document.updateForm.newpwd1.focus();
         return false;

@@ -107,9 +107,9 @@ $.setNumberUnit = function() {
     $(".imdae-monthly-num").addComma();
 }
 $.setSpecialProvision = function () {
-    let manageCost = $('.manage-cost').text();
-    let manages = $('.manage-cost-item').text();
-    let options = $('.option-item').text();
+    let manageCost = defend($('.manage-cost').text());
+    let manages = defend($('.manage-cost-item').text());
+    let options = defend($('.option-item').text());
 
     if(manageCost === '0') {
         $('.manage-cost').text('');
@@ -124,7 +124,7 @@ $.setSpecialProvision = function () {
 }
 
 $.fn.addMan = function(){
-    let text = $(this).text();
+    let text = defend($(this).text());
     if(text === '')
         return;
     if(text.length > 4) {
@@ -138,7 +138,7 @@ $.fn.addMan = function(){
 }
 
 $.fn.addComma = function () {
-    let number = $(this).text()+'0000';
+    let number = defend($(this).text())+'0000';
     let commaNum = number.format();
     $(this).text(commaNum);
 }

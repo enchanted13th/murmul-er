@@ -45,8 +45,8 @@ var clickTerm = function () {
 
 $.termPopup = function () {
     if ($('#termPopup').length === 0) {
-        console.log($('.inquiryForm').offset());
-        console.log($('.inquiryForm').position());
+        // console.log($('.inquiryForm').offset());
+        // console.log($('.inquiryForm').position());
 //		$(document.body).css('overflow', 'hidden');
         let popup = $(''
             + '	<div id="termPopup" class="menuPopup" onClick="clickTerm()">'
@@ -82,8 +82,8 @@ $.termPopup = function () {
 }
 
 var validate = function () {
-    let email = $('#inputEmail').val();
-    let domain = $('#inputDomain').val();
+    let email = defend($('#inputEmail').val());
+    let domain = defend($('#inputDomain').val());
     let emailRegExp = /^[a-z0-9_]{3,15}$/;
     let domainRegExp = /[a-z]{2,10}\.(com|net|co.kr|ac.kr|kr|org)$/;
 
