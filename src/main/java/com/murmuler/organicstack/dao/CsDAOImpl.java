@@ -49,7 +49,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int insertInquiry(String email, String content) {
+    synchronized public int insertInquiry(String email, String content) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
@@ -59,7 +59,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int insertFaq(String title, String content) {
+    synchronized public int insertFaq(String title, String content) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("title", title);
@@ -68,7 +68,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int insertNotice(String title, String content) {
+    synchronized public int insertNotice(String title, String content) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("title", title);
@@ -77,7 +77,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int updateFaq(int id, String title, String content) {
+    synchronized public int updateFaq(int id, String title, String content) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -88,7 +88,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int updateNotice(int id, String title, String content) {
+    synchronized public int updateNotice(int id, String title, String content) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -99,7 +99,7 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int updateInquiry(int id, int processId) {
+    synchronized public int updateInquiry(int id, int processId) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
@@ -109,19 +109,19 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int deleteFaq(int id) {
+    synchronized public int deleteFaq(int id) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteFaq(id);
     }
 
     @Override
-    public int deleteNotice(int id) {
+    synchronized public int deleteNotice(int id) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteNotice(id);
     }
 
     @Override
-    public int deleteInquiry(int id) {
+    synchronized public int deleteInquiry(int id) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteInquiry(id);
     }
@@ -171,19 +171,19 @@ public class CsDAOImpl implements CsDAO {
     }
 
     @Override
-    public int deleteMultiFaq(Map<String, Object> idMap) {
+    synchronized public int deleteMultiFaq(Map<String, Object> idMap) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteMultiFaq(idMap);
     }
 
     @Override
-    public int deleteMultiNotice(Map<String, Object> idMap) {
+    synchronized public int deleteMultiNotice(Map<String, Object> idMap) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         return mapper.deleteMultiNotice(idMap);
     }
 
     @Override
-    public int updateProcessStatus(int id, int processId) {
+    synchronized public int updateProcessStatus(int id, int processId) {
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
         Map<String, Integer> map = new HashMap<>();
         map.put("id", id);

@@ -19,7 +19,7 @@ public class ContractDAOImpl implements ContractDAO {
     private SqlSession sqlSession;
 
     @Override
-    public int insertContract(ContractVO contractVO) {
+    synchronized public int insertContract(ContractVO contractVO) {
         ContractMapper mapper = sqlSession.getMapper(ContractMapper.class);
         if(mapper.insertContract(contractVO) == 0)
             return 0;

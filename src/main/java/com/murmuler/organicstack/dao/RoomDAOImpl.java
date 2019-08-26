@@ -133,7 +133,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
+    synchronized public int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = SUCCESS;
         result &= mapper.insertLocation(locationVO);
@@ -151,7 +151,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoomManageCost(int roomId, int[] manageIdList) {
+    synchronized public int insertRoomManageCost(int roomId, int[] manageIdList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
@@ -160,7 +160,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoomOption(int roomId, int[] optionIdList) {
+    synchronized public int insertRoomOption(int roomId, int[] optionIdList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("roomId", roomId);
@@ -169,7 +169,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoomHashtag(int roomId, String[] hashtagList) {
+    synchronized public int insertRoomHashtag(int roomId, String[] hashtagList) {
         for(String str : hashtagList)
             System.out.println("hash: "+str);
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
@@ -180,7 +180,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int insertRoomImage(int roomId, ArrayList<String> imgUrlList) {
+    synchronized public int insertRoomImage(int roomId, ArrayList<String> imgUrlList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
@@ -189,7 +189,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr, String isNotChangeDtAddr) {
+    synchronized public int updateRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO, String isNotChangeAddr, String isNotChangeDtAddr) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         int result = 1;
 
@@ -214,13 +214,13 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int updatePostType(Map<String, Integer> map) {
+    synchronized public int updatePostType(Map<String, Integer> map) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.updatePostType(map);
     }
 
     @Override
-    public int deleteManageCost(int roomId, int[] manageIdList) {
+    synchronized public int deleteManageCost(int roomId, int[] manageIdList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.deleteManageCost(roomId);
     }
@@ -232,31 +232,31 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public int deleteHashtag(int roomId, String[] hashtagList) {
+    synchronized public int deleteHashtag(int roomId, String[] hashtagList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return (mapper.deleteHashtag(roomId) >= 1 ? 1: 0);
     }
 
 
-    public int deleteRoomImage(int roomId, String[] imgUrlList) {
+    synchronized public int deleteRoomImage(int roomId, String[] imgUrlList) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return (mapper.deleteRoomImg(roomId) >= 1 ? 1: 0);
     }
 
     @Override
-    public int deleteRoomImage(int roomId) {
+    synchronized public int deleteRoomImage(int roomId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return (mapper.deleteRoomImg(roomId) >= 1 ? 1: 0);
     }
 
     @Override
-    public int updateMultiPostType(Map<String, Object> paramMap) {
+    synchronized public int updateMultiPostType(Map<String, Object> paramMap) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.updateMultiPostType(paramMap);
     }
 
     @Override
-    public int deleteRoom(int roomId) {
+    synchronized public int deleteRoom(int roomId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         return mapper.deleteRoom(roomId);
     }

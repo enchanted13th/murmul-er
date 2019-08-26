@@ -68,14 +68,14 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public int insertLocation(LocationVO locationVO) {
+    synchronized public int insertLocation(LocationVO locationVO) {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         mapper.insertLocation(locationVO);
         return mapper.selectOneRecentLocation();
     }
 
     @Override
-    public int insertReview(ReviewVO reviewVO) {
+    synchronized public int insertReview(ReviewVO reviewVO) {
         int res = 0;
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         if((res = mapper.insertReview(reviewVO)) > 0){
@@ -98,7 +98,7 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public void insertReviewHashtag(int reviewId, ArrayList<String> hashtagList) {
+    synchronized public void insertReviewHashtag(int reviewId, ArrayList<String> hashtagList) {
         System.out.print("hashtagList: ");
         for(String str : hashtagList)
             System.out.print(str+" ");
@@ -117,7 +117,7 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public int insertReviewImage(int reviewId, String image){
+    synchronized public int insertReviewImage(int reviewId, String image){
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("reviewId", reviewId);
@@ -126,7 +126,7 @@ public class ReviewDAOImpl implements ReviewDAO {
     }
 
     @Override
-    public int deleteMultiReview(Map<String, Object> idMap) {
+    synchronized public int deleteMultiReview(Map<String, Object> idMap) {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         return mapper.deleteMultiReview(idMap);
     }

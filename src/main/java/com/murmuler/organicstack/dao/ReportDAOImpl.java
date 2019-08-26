@@ -14,7 +14,7 @@ public class ReportDAOImpl implements ReportDAO {
     private SqlSession sqlSession;
 
     @Override
-    public int insertReport(int roomId, int reportTypeId, String content) {
+    synchronized public int insertReport(int roomId, int reportTypeId, String content) {
         ReportMapper mapper = sqlSession.getMapper(ReportMapper.class);
         Map<String, Object> map = new HashMap<>();
         map.put("roomId", roomId);
@@ -30,13 +30,13 @@ public class ReportDAOImpl implements ReportDAO {
     }
 
     @Override
-    public int deleteMultiReport(Map<String, Object> idMap) {
+    synchronized public int deleteMultiReport(Map<String, Object> idMap) {
         ReportMapper mapper = sqlSession.getMapper(ReportMapper.class);
         return mapper.deleteMultiReport(idMap);
     }
 
     @Override
-    public int updateProcessStatus(int id, int processId) {
+    synchronized public int updateProcessStatus(int id, int processId) {
         ReportMapper mapper = sqlSession.getMapper(ReportMapper.class);
         Map<String, Integer> map = new HashMap<>();
         map.put("id", id);
