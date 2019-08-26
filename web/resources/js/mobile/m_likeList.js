@@ -2,16 +2,14 @@ $(document).ready(function () {
     let itemLen = $('.divItem').length;
     $('#recentCnt').text(itemLen);
 
-    //let top = $('.imgHeart').css('top').split('px')[0] * 1;
-    // $('#like'+(i+1)).css('top', top + (122.333 * i) );
 
-    console.log('1: '+$('#roomImg1').val());
-    console.log('2: '+$('#roomImg2').val());
-    console.log('3: '+$('#roomImg3').val());
-    console.log('4: '+$('#roomImg4').val());
-    console.log('5: '+$('#roomImg5').val());
-
+    let text;
     for(let i=1; i <= itemLen; i++){
+        for(let j = 1; j <= $('#hashtagCnt'+i).val(); j++) {
+            text = $('#hashtag'+i+"-"+j).text();
+            if(text.length > 10)
+                $('#hashtag'+i+"-"+j).text(text.substring(0, 10) + "...");
+        }
         $.setImage($('#totCntImg'+i).val(), $('#roomId'+i).val());
     }
 
@@ -24,8 +22,6 @@ $(document).ready(function () {
         pager: false,
         captions: false
     });
-
-
 
     $('#btnLikeList').css('border-bottom', '6px solid #b6e2f8');
 })
