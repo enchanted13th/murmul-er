@@ -181,7 +181,7 @@ body {
     margin-top: 10px;
     margin-left: 10px;
     border: 0;
-    /*width: 358px;*/
+    width: calc(100% - 142px);
     height: 43px;
     font-size: 14pt;
 }
