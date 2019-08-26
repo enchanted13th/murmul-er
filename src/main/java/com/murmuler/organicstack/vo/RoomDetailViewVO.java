@@ -20,11 +20,11 @@ public class RoomDetailViewVO {
     private String title;
     private String rentType;
     private int periodNum;
-    private char periodUnit;
+    private String periodUnit;
     private String postType;
-    private int deposit;
-    private int monthlyCost;
-    private int manageCost;
+    private String deposit;
+    private String monthlyCost;
+    private String manageCost;
     private List<String> manages;
     private List<String> options;
     private boolean hashtagExist;

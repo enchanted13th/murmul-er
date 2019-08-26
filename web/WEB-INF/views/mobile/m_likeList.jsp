@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lectopia
-  Date: 2019-08-21
-  Time: 오후 4:46
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -15,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>안드로이드용 관심목록</title>
     <link rel="stylesheet" href="/resources/css/mobile/m_likeList.css"/>
-<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">--%>
     <script src="/resources/js/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script src="/resources/js/mobile/m_likeList.js"></script>
@@ -25,7 +17,7 @@
     <h4 class="headTitle alignCenter">관심목록</h4>
     <div class="content">
         <div>
-            <div class="divRecent">총 <span class="recentCnt"><span id="recentCnt"></span>개</span>의 관심 목록이 있습니다.</div>
+            <div class="divRecent">총 <span class="likeCnt"><span id="likeCnt"></span>개</span>의 관심 목록이 있습니다.</div>
         </div>
         <div class="divList">
             <c:forEach var="room" items="${roomArray}" varStatus="rm">
@@ -35,48 +27,17 @@
                     <div class="leftContent">
                         <div class="divPrice">
                             보증금
-                            <span id="deposit${rm.count}">
-                                <c:set var="deposit" value="${room.deposit/10000}"/>
-                                <c:choose>
-                                    <c:when test="${deposit == 0}">
-                                        없음
-                                    </c:when>
-                                    <c:when test="${deposit > 9999}">
-                                        ${fn:replace(deposit/10000-deposit/10000%1, '.0', '')}억 ${fn:replace(deposit%10000, '.0', '')}만
-                                    </c:when>
-                                    <c:otherwise>
-                                        ${fn:replace(deposit, '.0', '')}만
-                                    </c:otherwise>
-                                </c:choose>
-                            </span>
+                            <span id="deposit${rm.count}">${room.deposit}</span>
+                            <c:if test="${room.rentType!='전세'}">
                             / 월세
-                            <span id="monthlyCost${rm.count}">
-                                <c:choose>
-                                    <c:when test="${room.monthlyCost == 0}">
-                                        없음
-                                    </c:when>
-                                    <c:when test="${room.monthlyCost != 0}">
-                                        <fmt:formatNumber value="${room.monthlyCost/10000}" maxFractionDigits="0" />만원
-                                    </c:when>
-                                </c:choose>
-                            </span>
+                            <span id="monthlyCost${rm.count}">${room.monthlyCost}</span>
+                            </c:if>
                         </div>
                         <div>
                             <div class="divLocation">${room.sido} ${room.sigungu} ${room.roadName}</div>
                         </div>
                         <div class="divType">
-                             ${room.roomType} | ${room.rentType} | ${room.periodNum}
-                            <c:choose>
-                                <c:when test="${fn:contains(room.periodUnit, 'Y')}">
-                                    년 가능
-                                </c:when>
-                                <c:when test="${fn:contains(room.periodUnit, 'M')}">
-                                    개월 가능
-                                </c:when>
-                                <c:when test="${fn:contains(room.periodUnit, 'W')}">
-                                    주 가능
-                                </c:when>
-                            </c:choose>
+                             ${room.roomType} | ${room.rentType} | ${room.periodNum}${room.periodUnit} 가능
                         </div>
                         <div class="divhashtag">
                             <c:if test="${room.hashtags != '[]'}">

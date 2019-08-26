@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let itemLen = $('.divItem').length;
-    $('#recentCnt').text(itemLen);
+    $('#likeCnt').text(itemLen);
 
     //let top = $('.imgHeart').css('top').split('px')[0] * 1;
     // $('#like'+(i+1)).css('top', top + (122.333 * i) );
@@ -51,11 +51,8 @@ function clickLike(i, roomId) {
             console.log(i);
             document.getElementById("like" + i).parentElement.parentElement.remove();
             document.getElementById("line" + i).remove();
-            // $('#recentCnt').text($('.divItem').length);
-            $('#recentCnt').text($('#recentCnt').text()*1-1);
+            $('#likeCnt').text($('#likeCnt').text()*1-1);
         } else {
         }
     })
 }
-
-$

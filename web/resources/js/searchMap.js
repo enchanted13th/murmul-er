@@ -266,6 +266,19 @@ function filter(obj) {
 		return false;
 	}
 
+	let deposit;
+	if (obj.deposit.includes("없음")) {
+		deposit = 0;
+	} else if (obj.deposit.includes("억")) {
+		let temp = obj.deposit.split('억');
+		deposit = temp[0] * 10000;
+		if (temp[1] != null) {
+			deposit += temp[1].replace(/[^0-9]/g,"") * 1;
+		}
+	} else if (obj.deposit.includes("만")) {
+		deposit = obj.deposit.replace(/[^0-9]/g,"") * 1;
+	}
+
 	let depositRange = 99999999;
 	switch($('#deposit').val()) {
 		case '0' : depositRange = 0; break;
@@ -274,8 +287,21 @@ function filter(obj) {
 		case '3' : depositRange = 1000; break;
 	}
 
-	if (obj.deposit > depositRange) {
+	if (deposit > depositRange) {
 		return false;
+	}
+
+	let monthlyCost;
+	if (obj.monthlyCost.includes("없음")) {
+		monthlyCost = 0;
+	} else if (obj.monthlyCost.includes("억")) {
+		let temp = obj.monthlyCost.split('억');
+		monthlyCost = temp[0] * 10000;
+		if (temp[1] != null) {
+			monthlyCost += temp[1].replace(/[^0-9]/g,"") * 1;
+		}
+	} else if (obj.monthlyCost.includes("만")) {
+		monthlyCost = obj.monthlyCost.replace(/[^0-9]/g,"") * 1;
 	}
 
 	var monthlyCostRange = 99999;
@@ -286,7 +312,7 @@ function filter(obj) {
 		case '3' : monthlyCostRange = 100; break;
 	}
 
-	if (obj.monthlyCost > monthlyCostRange) {
+	if (monthlyCost > monthlyCostRange) {
 		return false;
 	}
 
@@ -314,23 +340,6 @@ $.changeTitle = function(title) {
 		title = temp + '...';
 	}
 	return title;
-}
-
-$.changeCost = function(cost){
-	cost += '';
-	let res = '';
-	if(cost === '0')
-		return '없음';
-	if(cost.length > 4) {
-		let uk = cost.substr(0, cost.length - 4);
-		res = uk + '억';
-		let man = parseInt(cost.substr(-4), 10);
-		if(man !== 0)
-			res += man + '만';
-	}
-	else
-		res = cost + '만';
-	return res;
 }
 
 function showRoom(roomId) {

@@ -6,7 +6,7 @@ import com.murmuler.organicstack.service.RoomService;
 import com.murmuler.organicstack.util.OptionRecord;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
-import com.murmuler.organicstack.vo.RoomSummaryViewVO;
+import com.murmuler.organicstack.vo.RoomMobileViewVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -31,7 +31,6 @@ import java.util.Map;
 @RequestMapping("/mobile")
 public class MobileController {
     private Log logger = LogFactory.getLog(MainController.class);
-    private static final int SEOKJUNG = 38;
 
     @Autowired
     private MypageService mypageService;
@@ -59,7 +58,7 @@ public class MobileController {
     @RequestMapping(value = "/like/{memberId}", method = RequestMethod.GET)
     public String testLike(@PathVariable int memberId,
                            HttpServletRequest request) {
-        List<RoomDetailViewVO> roomList = mypageService.getLikeRoomDetail(memberId);
+        List<RoomMobileViewVO> roomList = mypageService.getLikeRoomDetail(memberId);
         request.setAttribute("roomArray", roomList);
         return "mobile/m_likeList";
     }
@@ -76,7 +75,6 @@ public class MobileController {
         if(isActivity) {
             mav.addObject("isActivity", true);
         }
-
         HttpSession session = request.getSession();
         List<Integer> recentRoomList = (List<Integer>)session.getAttribute("recentRoom");
         if (recentRoomList == null) {
@@ -101,14 +99,12 @@ public class MobileController {
         roomService.modifyViews(Integer.parseInt(roomId), roomDetailViewVO.getViews() + 1);
 
         mav.addObject("likeList", likeRoomList);
-
         mav.addObject("roomId", roomId);
         mav.addObject("area", roomDetailViewVO.getArea());
         mav.addObject("floor", roomDetailViewVO.getFloor());
         mav.addObject("heating", roomDetailViewVO.getHeatType());
         mav.addObject("roomType", roomDetailViewVO.getRoomType());
         mav.addObject("jibun", roomDetailViewVO.getJibun());
-
         mav.addObject("bname1", roomDetailViewVO.getBname1());
         mav.addObject("bname2", roomDetailViewVO.getBname2());
         mav.addObject("sido", roomDetailViewVO.getSido());
@@ -118,26 +114,13 @@ public class MobileController {
         mav.addObject("detailAddr", roomDetailViewVO.getDetailAddr());
         mav.addObject("writeDate", roomDetailViewVO.getWriteDate());
         mav.addObject("periodNum", roomDetailViewVO.getPeriodNum());
-        String periodUnit = null;
-        char key = roomDetailViewVO.getPeriodUnit();
-        switch (key) {
-            case 'Y':
-                periodUnit = "년";
-                break;
-            case 'M':
-                periodUnit = "개월";
-                break;
-            case 'W':
-                periodUnit = "주";
-                break;
-        }
-        mav.addObject("periodUnit", periodUnit);
+        mav.addObject("periodUnit", roomDetailViewVO.getPeriodUnit());
         mav.addObject("title", roomDetailViewVO.getTitle());
         mav.addObject("hashtags", roomDetailViewVO.getHashtags());
         mav.addObject("rentType", roomDetailViewVO.getRentType());
-        mav.addObject("deposit", roomDetailViewVO.getDeposit() / 10000);
-        mav.addObject("monthlyCost", roomDetailViewVO.getMonthlyCost() / 10000);
-        mav.addObject("manageCost", roomDetailViewVO.getManageCost() / 10000);
+        mav.addObject("deposit", roomDetailViewVO.getDeposit());
+        mav.addObject("monthlyCost", roomDetailViewVO.getMonthlyCost());
+        mav.addObject("manageCost", roomDetailViewVO.getManageCost());
         mav.addObject("postType", roomDetailViewVO.getPostType());
         mav.addObject("roomImg", roomDetailViewVO.getRoomImg());
         mav.addObject("detail", roomDetailViewVO.getDetailExplain());
