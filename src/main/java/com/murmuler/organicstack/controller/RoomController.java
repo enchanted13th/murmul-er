@@ -448,6 +448,33 @@ public class RoomController {
         response.getWriter().print(res);
     }
 
+//    /* ----- 내 방 관리 -> 삭제 -> 내 방 관리 ----- */
+//    @RequestMapping(value = "/room/delete", method = RequestMethod.POST)
+//    public void eraseRoom(@RequestParam int roomId,
+//                          HttpServletResponse response) throws IOException {
+//        logger.info(String.format("eraseRoom method entered... roomId: %d", roomId));
+//        JSONObject res = new JSONObject();
+//        int result = roomService.removeRoom(roomId);
+//        if(result > 0) {
+//            // 폴더 및 파일 삭제하기
+//            File deleteFolder = new File(REPOSITORY_PATH, Constants.ROOM_IMG_PATH + roomId);
+//            if( deleteFolder.exists() ) {
+//                File[] deleteFileList = deleteFolder.listFiles();
+//                    for (int i = 0; i < deleteFileList.length; i++) {
+//                        deleteFileList[i].delete(); // 파일 삭제
+//                    }
+//                    if(deleteFolder.isDirectory()){
+//                        deleteFolder.delete(); // 폴더 삭제
+//                    }
+//            }
+//            res.put("deleteResult", "SUCCESS");
+//        } else {
+//            res.put("deleteResult", "DELETE_FAIL");
+//        }
+//        response.setContentType("application/json; charset=utf-8");
+//        response.getWriter().print(res);
+//    }
+
     @RequestMapping(value = "/post-status", method = RequestMethod.POST)
     public void changePost(@RequestParam int roomId,
                            @RequestParam String postType,
