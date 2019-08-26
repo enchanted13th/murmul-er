@@ -1,5 +1,4 @@
 var sock;
-var divBtnWidth = 820;
 
 var connectSock = function () {
     sock = new SockJS("/talkHandler");
@@ -35,18 +34,10 @@ $(document).ready(function () {
     (function() {
         setTimeout(function() {
             connectSock();
-            window.resizeTo(516, 820);
+            // window.resizeTo(516, 820);
+            window.resizeTo(516, 890);
         }, 500);
     })();
-
-    let BtnWidth = document.getElementById('divBottom' ).offsetWidth ;
-    document.getElementById('textInputDialog' ).style.width = BtnWidth - 142 + "px";
-
-    $( window ).resize( function() {
-        // console.log("변경");
-        divBtnWidth = document.getElementById('divBottom' ).offsetWidth ;
-        document.getElementById('textInputDialog' ).style.width = divBtnWidth - 142 + "px";
-    } );
 });
 
 $.fn.showTalkList = function () {
@@ -64,10 +55,8 @@ $.fn.cancel = function () {
 var showOption = function () {
     if ($("#divOption").is(":hidden")) {
         $("#divOption").slideDown(300);
-        window.resizeTo(divBtnWidth, 890);
     } else {
         $("#divOption").slideUp(300, function () {
-            window.resizeTo(divBtnWidth, 820);
         });
     }
 }
