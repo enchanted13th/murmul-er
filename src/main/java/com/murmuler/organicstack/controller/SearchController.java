@@ -216,7 +216,7 @@ public class SearchController {
                 }
             }
         } else {
-            data.put("res", "FAIL");
+            data.put("res", "REQUIRED_LOGIN");
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(data);
