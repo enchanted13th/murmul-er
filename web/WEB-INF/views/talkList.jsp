@@ -33,7 +33,7 @@
                                     <td rowspan="3" id="profileImg" class="profile" onclick="showTalk(${contactMember})">
                                         <img src="/resources/img/talk/profile.png"/></td>
                                     <th class="nickName" onclick="showTalk(${contactMember})">${talkInfo.nickname}</th>
-<%--                                    <td width="102px"><button class="exitChatRoom" onClick="deleteTalk(${contactMember})">나가기</button></td>--%>
+                                    <td width="102px"><button class="exitChatRoom" onClick="deleteTalk(${contactMember})">나가기</button></td>
                                     <td width="30px">
                                         <button id="btnMore" class="btnMore"><img src="/resources/img/talk/add.png"/></button>
                                     </td>

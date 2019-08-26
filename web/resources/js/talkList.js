@@ -82,14 +82,14 @@ $.fn.cancel = function () {
 }
 
 $.fn.showDelete = function() {
-    // $(this).click(function () {
-    //     let closeBtn = $(this).parents('div')[0].getElementsByClassName('exitChatRoom');
-    //     console.log(closeBtn);
-    //     /* 삭제하기 메뉴 띄우고 삭제 기능 추가하기 */
-    //     if ($(closeBtn).css('display') === 'none') {
-    //         $(closeBtn).css('display', 'table-cell');
-    //     } else {
-    //         $(closeBtn).css('display', 'none');
-    //     }
-    // })
+    $(this).click(function () {
+        let closeBtn = $(this).parents('div')[0].getElementsByClassName('exitChatRoom');
+        console.log(closeBtn);
+        /* 삭제하기 메뉴 띄우고 삭제 기능 추가하기 */
+        if ($(closeBtn).css('display') === 'none') {
+            $(closeBtn).css('display', 'table-cell');
+        } else {
+            $(closeBtn).css('display', 'none');
+        }
+    })
 }
