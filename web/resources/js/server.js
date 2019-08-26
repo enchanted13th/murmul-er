@@ -18,5 +18,5 @@ app.use(express.static('public'));
 app.use(express.static('node_modules/socket.io-client/dist'));
 
 app.listen(PORT_WEB, function() {
-    console.log('Server Running at port ' + PORT_WEB);
+    //console.log('Server Running at port ' + PORT_WEB);
 });

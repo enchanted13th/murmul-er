@@ -133,14 +133,14 @@ $.showLoginPopup = function (flag, url) {
             + '	 </div>'
             + '</div>').appendTo($('body'));
         popup.find('#login').click(function () {
-            if ($('#inputId').val() == '') return;
-            if ($('#inputPwd').val() == '') return;
+            if (defend($('#inputId').val()) == '') return;
+            if (defend($('#inputPwd').val()) == '') return;
             $.ajax('/member/login', {
                 type: 'POST',
-                data: {id: $('#inputId').val(), pwd: $('#inputPwd').val()}
+                data: {id: defend($('#inputId').val()), pwd: defend($('#inputPwd').val())}
             }).then(function (data, status) {
                 if (status === 'success') {
-                    console.log(data);
+                   // console.log(data);
                     switch (data.loginResult) {
                         case "SUCCESS":
                             Swal.fire({
@@ -289,13 +289,13 @@ $.showJoinPopup = function () {
 
         popup.find('#join').click(function () {
             if (!$.validJoinInfo()) return;
-            let email = $('#inputEmail').val() + "@" + $('#domain').val();
-            let phone = $('#frontNum').val() + "-" + $('#middleNum').val() + "-" + $('#backNum').val();
+            let email = defend($('#inputEmail').val()) + "@" + $('#domain').val();
+            let phone = $('#frontNum').val() + "-" + defend($('#middleNum').val()) + "-" + defend($('#backNum').val());
             $.ajax('/member/join', {
                 type: 'POST',
                 data: {
-                    id: $('#inputId').val(), pwd: $('#inputPw').val(),
-                    realname: $('#inputName').val(), nickname: $('#inputNickName').val(),
+                    id: defend($('#inputId').val()), pwd: defend($('#inputPw').val()),
+                    realname: defend($('#inputName').val()), nickname: defend($('#inputNickName').val()),
                     email: email, phone: phone
                 }
             }).then(function (data, status) {
@@ -321,7 +321,7 @@ $.showJoinPopup = function () {
             })
         });
         popup.find('#isdupli').click(function () {
-            let id = $('#inputId').val();
+            let id = defend($('#inputId').val());
             if(id.includes(" ")){
                 includeBlank("아이디 입력란")
                 return;
@@ -337,8 +337,8 @@ $.showJoinPopup = function () {
                 data: {id: id}
             }).then(function (data, status) {
                 if (status === 'success') {
-                    console.log(data);
-                    console.log(typeof data);
+                    // console.log(data);
+                    // console.log(typeof data);
                     switch (data.isDuplicatedId) {
                         case true:
                             Swal.fire('','이미 존재하는 아이디입니다.',"warning");
@@ -392,16 +392,16 @@ var includeBlank = function(type) {
 
 var isDuplicatedCheck = false;
 $.validJoinInfo = function () {
-    let id = $('#inputId').val();
-    let pwd = $('#inputPw').val();
-    let pwd2 = $('#inputPw2').val();
-    let realname = $('#inputName').val();
-    let nickname = $('#inputNickName').val();
-    let emailId = $('#inputEmail').val();
+    let id = defend($('#inputId').val());
+    let pwd = defend($('#inputPw').val());
+    let pwd2 = defend($('#inputPw2').val());
+    let realname = defend($('#inputName').val());
+    let nickname = defend($('#inputNickName').val());
+    let emailId = defend($('#inputEmail').val());
     let domain = $('#domain').val();
     let phone1 = $('#frontNum').val();
-    let phone2 = $('#middleNum').val();
-    let phone3 = $('#backNum').val();
+    let phone2 = defend($('#middleNum').val());
+    let phone3 = defend($('#backNum').val());
     let nameCheck = /[^ㄱ-힣a-zA-Z]/gi;
     let emailCheck = /[^0-9a-zA-Z-_]/gi;
 

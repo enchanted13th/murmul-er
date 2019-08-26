@@ -36,11 +36,11 @@ function placesSearchCB(data, status) {
         allAddr.longitude = data[0].x;
         // console.log(allAddr);
         if($("#hash1").val() !== "")
-            hashTagList.push($('#hash1').val());
+            defend(hashTagList.push($('#hash1').val()));
         if($("#hash2").val() !== "")
-            hashTagList.push($('#hash2').val());
+            defend(hashTagList.push($('#hash2').val()));
         if($("#hash3").val() !== "")
-            hashTagList.push($('#hash3').val());
+            defend(hashTagList.push($('#hash3').val()));
         dataSubmit();
     } else {
         // console.log("if조건에 안걸린다");
@@ -71,7 +71,7 @@ function dataSubmit(){
 
     let roomInfo = {
         allAddr: JSON.stringify(allAddr),
-        detailAddr: $('#inputDetailAddr').val(),
+        detailAddr: defend($('#inputDetailAddr').val()),
         area: $('#inputArea').val(),
         floor: $('#inputFloor').val(),
         periodNum: $('#inputPeriodNum').val(),
@@ -84,10 +84,10 @@ function dataSubmit(){
         roomType: $('#btnRt' + selectedRt).val(),
         heatType: $('#btnHeat' + selectedHeat).val(),
         optionList: optionListString,
-        title: $('#inputTitle').val(),
-        detail: $('#txtDetail').val(),
+        title: defend($('#inputTitle').val()),
+        detail: defend($('#txtDetail').val()),
         hashtagExist: hashtagExist,
-        hashtagList: hashtagListString,
+        hashtagList: defend(hashtagListString),
         // images: JSON.stringify(imgpath),
         imageList: imageListString,
     };
@@ -237,7 +237,7 @@ var getAddress = function () {
     new daum.Postcode({
         oncomplete: function (data) {
             allAddr = data;
-            console.log(allAddr);
+            //console.log(allAddr);
             $('#inputAddr').attr("value", data.roadAddress);
         }
     }).open();
@@ -290,12 +290,12 @@ $.clickEvent = function () {
 
 $.fn.clickSubmit = function() {
     $(this).click(function () {
-        console.log('클릭');
+        //console.log('클릭');
 
-        console.log($('#inputTitle').val());
-        console.log($('#hash1').val());
-        console.log($('#hash2').val());
-        console.log($('#hash3').val());
+        // console.log($('#inputTitle').val());
+        // console.log($('#hash1').val());
+        // console.log($('#hash2').val());
+        // console.log($('#hash3').val());
 
         var onlyNum = /^[0-9]*$/;
         let on1 = $('#inputSize').val();
@@ -656,11 +656,11 @@ $.fn.clickOp = function () {
                     optionList.splice(i, 1);
                 }
             }
-            console.log(optionList);
+            //console.log(optionList);
         } else {
             $(this).css('background-color', 'rgb(182, 226, 248)');
             optionList.push($(this).val());
-            console.log(optionList)
+            //console.log(optionList)
         }
     })
 }

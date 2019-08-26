@@ -55,11 +55,11 @@ function clickLike() {
             switch (data.res) {
                 case 'ADD':
                     $('#heartImg').attr('src', '/resources/img/etc/heartClick.png');
-                    console.log("찜 하기");
+                    //console.log("찜 하기");
                     break;
                 case 'REMOVE':
                     $('#heartImg').attr('src', '/resources/img/etc/heart.png');
-                    console.log("찜 취소");
+                    //console.log("찜 취소");
                     break;
                 case 'FAIL':
                     Swal.fire('찜 실패', '찜하기가 실패하였습니다.', 'error');

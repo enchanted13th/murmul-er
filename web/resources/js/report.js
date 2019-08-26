@@ -86,7 +86,7 @@ $.isValid = function () {
 $.requestReport = function(){
     $.ajax('/report', {
         type: 'POST',
-        data: {type: $('input[name=type]').val(), content: $('textarea[name=content]').val(), roomId: roomId}
+        data: {type: $('input[name=type]').val(), content: defend($('textarea[name=content]').val()), roomId: roomId}
     }).then(function (data, status) {
         if(status === 'success') {
             var obj = JSON.parse(data);
