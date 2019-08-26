@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#btnClose').cancel();
     $('.btnMore').showDelete();
     $('#divMid').scrollTop(0);
-    window.resizeTo(516, 820);
+    // window.resizeTo(300, 600);
     for (let i = 0; i < talkInfoList.length; i++) {
         (function(x) {
             setTimeout(function() {
