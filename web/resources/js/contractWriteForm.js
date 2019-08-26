@@ -150,7 +150,7 @@ $.fn.clickRegisterBtn = function() {
 $.fn.checkValid = function() {
 
     let checked = $('input[name="rentType"]:checked').val();
-    console.log("checked: "+ checked+" type: "+ typeof checked);
+    // console.log("checked: "+ checked+" type: "+ typeof checked);
 
     if($('#buildingName').isBlank('건물명')) return false;
     if($('#buildingArea').isBlank('건물 면적')) return false;
@@ -170,7 +170,7 @@ $.fn.checkValid = function() {
 
     switch (checked) {
         case 전세:
-            console.log("전세");
+            // console.log("전세");
             if($('#deposit').isBlank("보증금 항목")) return false;
             if(!$('#deposit').isNum($('#deposit').val())) return false;
             if(!checkSelBoxTop()) return false;
@@ -181,7 +181,7 @@ $.fn.checkValid = function() {
             break;
 
         case 월세:
-            console.log("월세");
+            // console.log("월세");
             if($('#monthlyCost').isBlank("월세 항목"))  return false;
             if(!$('#monthlyCost').isNum($('#monthlyCost').val())) return false;
             if(!$('#mcPayDayS').isChecked()) return false;
@@ -198,7 +198,7 @@ $.fn.checkValid = function() {
             break;
 
         case 보증금월세 :
-            console.log("보증금월세");
+            // console.log("보증금월세");
             if($('#deposit').isBlank("보증금 항목")) return false;
             if($('#monthlyCost').isBlank("월세 항목"))  return false;
             if(!$('#deposit').isNum($('#deposit').val())) return false;
@@ -231,7 +231,7 @@ $.fn.isValidTitle = function() {
 }
 
 var checkSelBoxTop= function() {
-    console.log("middlePayment val: "+$('#middlePayment').val()+", middlePayment type: "+ typeof $('#middlePayment').val());
+    // console.log("middlePayment val: "+$('#middlePayment').val()+", middlePayment type: "+ typeof $('#middlePayment').val());
     if($('#middlePayment').val() !== "") {
         if (!$('#middlePayment').isNum($('#middlePayment').val()))
             return false;

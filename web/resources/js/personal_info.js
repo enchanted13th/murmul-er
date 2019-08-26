@@ -23,16 +23,16 @@ $.infoUpdate = function () {
 }
 
 $.updateSubmit = function () {
-    let email = $('#inputEmail').val() + "@" + $('#domain').val();
-    let phone = $('#frontNum').val() + "-" + $('#middleNum').val() + "-" + $('#backNum').val();
+    let email = defend($('#inputEmail').val()) + "@" + defend($('#domain').val());
+    let phone = defend($('#frontNum').val()) + "-" + defend($('#middleNum').val()) + "-" + defend($('#backNum').val());
     $.ajax('/mypage/personal-info', {
         type: 'POST',
         data: {
-            realname: $('#inputName').val(),
-            nickname: $('#inputNickName').val(),
+            realname: defend($('#inputName').val()),
+            nickname: defend($('#inputNickName').val()),
             email: email,
             phone: phone,
-            pwd: $('#inputPwd').val()
+            pwd: defend($('#inputPwd').val())
         }
     }).then(function (data, status) {
         var obj = JSON.parse(data);
@@ -75,11 +75,11 @@ $.setFrontNum = function() {
 }
 
 $.validUpdateInfo = function () {
-    let nickname = $('#inputNickName').val();
-    let emailId = $('#inputEmail').val();
-    let domain = $('#domain').val();
+    let nickname = defend($('#inputNickName').val());
+    let emailId = defend($('#inputEmail').val());
+    let domain = defend($('#domain').val());
     let email = emailId + "@" + domain;
-    let pwd = $('#inputPwd').val();
+    let pwd = defend($('#inputPwd').val());
     let regExp = /[0-9a-zA-Z][0-9a-zA-Z\_\-\.\+]+[0-9a-zA-Z]@[0-9a-zA-Z][0-9a-zA-Z\_\-]*[0-9a-zA-Z](\.[a-zA-Z]{2,3}){1,2}/;
     // console.log(domain);
     if (nickname === "" || emailId === "" || pwd === "" || domain === "")

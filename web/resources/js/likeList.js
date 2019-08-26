@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#likeCnt').text($('.divItem').length);
     for (let i = 0; i < $('.divItem').length; i++) {
-        let title = $('#title' + (i + 1)).text();
+        let title = defend($('#title' + (i + 1)).text());
         if (title.length > 15) {
             $('#title' + (i + 1)).text(title.substring(0, 15) + "...");
         }

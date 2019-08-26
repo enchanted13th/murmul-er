@@ -32,7 +32,7 @@ var getAddress = function () {
 
 $.fn.selType = function () {
     $(this).click(function () {
-        console.log($(this).css('background-color'));
+        // console.log($(this).css('background-color'));
         if ($(this).css('background-color') == "rgb(255, 255, 255)") {
             $(this).css('background-color', '#4B88CC');
             $(this).css('color', '#FFFFFF');
