@@ -15,7 +15,7 @@
     for(let i = 0; i < btns.length; i++){
         btns.eq(i).val(btns.eq(i).text());
     }
-    $('.pageBtns > div').css('width', (pageBtns.length + 4) * 53);
+    $('.pageBtns > div').css('width', (pageBtns.length + 4) * 55);
 
 
     $('.pageBtns > div > button').click(function () {
