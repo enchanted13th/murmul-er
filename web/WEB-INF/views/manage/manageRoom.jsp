@@ -16,6 +16,7 @@
     <jsp:include page="manageSubtitle.jsp"/>
 
     <c:forEach var="data" items="${myRooms}" varStatus="status">
+        <c:set var="roomNum" value="${status.count}"/>
         <table class="tbList" id="tblist${status.index}">
             <tbody>
             <tr>
@@ -63,6 +64,11 @@
             </tbody>
         </table>
     </c:forEach>
+    <c:if test="${isExist==false}">
+        <div>
+            <div class="noContent">등록한 방이 없습니다.</div>
+        </div>
+    </c:if>
 </div>
 <script src="/resources/js/manageRoom.js"></script>
 </body>

@@ -44,13 +44,17 @@ public class RoomController {
         MemberVO member = (MemberVO) session.getAttribute("loginMember");
         logger.info(member);
         List<RoomSummaryViewVO> list = null;
+        ModelAndView mav = new ModelAndView();
         if(member!=null) {
             int memberId = member.getMemberId();
             list = roomService.getMyRooms(memberId);
+            mav.setViewName("manage/manageRoom");
+            mav.addObject("myRooms", list);
+            mav.addObject("isExist", list.size() != 0);
+        } else {
+            mav.setViewName("redirect:/");
         }
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("manage/manageRoom");
-        mav.addObject("myRooms", list);
+
         return mav;
     }
 
