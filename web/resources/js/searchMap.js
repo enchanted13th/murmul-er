@@ -145,18 +145,21 @@ $.showSubList = function(data){
 	   	let size = Object.keys(obj['item'+i]).length;
 		let temp = obj['item'+i].substring(1, size-1);
 		let res = eval("("+ temp +")");
+		let subList = ''
+			+ '<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
+			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
+			+ '	<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/manage/download?middlePath=/room/roomId_' + res.roomId + '&imageFileName='
+			+ res.roomImg + '" width="97%" height="100%"/></div>'
+			+ '		<p style="font-size: 15px;">' + res.roomType + ' | ' + res.rentType + ' | ' + res.period + ' 가능</p>'
+			+ '			<span style="font-size: 17px; font-weight: bold;">보증금 ' + res.deposit + ' </span>';
+		if(res.rentType!='전세') {
+			subList += '		/ <span style="font-size: 17px; font-weight: bold;">월세 ' + res.monthlyCost + '</span>'
+		}
+		subList += '	<p style="font-size: 16px; font-weight: 500;">' + $.changeTitle(res.title) + '</p>'
+			+ '</div>'
 		if (filter(res) !== false) {
 			$.boundsLocation(res);
-            $(''
-			+ '	<div class="item" id=' + res.roomId + ' style="float: left; width: ' + ($("#slideMenu").val() === '>' ? 47 : 95)
-			+ '%; height: 360px; display: inline-block;" onclick="showRoom(' + res.roomId + ')">'
-			+ '		<div class="roomImage" style="width: 100%; height: 60%;"><img src=' + '"/manage/download?middlePath=/room/roomId_' + res.roomId + '&imageFileName=' + res.roomImg + '"'
-			+ ' width="97%" height="100%"/></div>'
-			+ '			<p style="font-size: 15px;">' + res.roomType + ' | ' + res.rentType + ' | ' + res.period + ' 가능</p>'
-			+ '				<span style="font-size: 17px; font-weight: bold;">보증금 ' + $.changeCost(res.deposit) + ' / </span>'
-			+ '				<span style="font-size: 17px; font-weight: bold;">월세 ' + $.changeCost(res.monthlyCost) + '</span>'
-			+ '					<p style="font-size: 16px; font-weight: 500;">' + res.title + '</p>'
-			+ '	</div>').appendTo($('#itemsList'));
+            $(subList).appendTo($('#itemsList'));
 		} else {
 		}
 	}
@@ -210,8 +213,11 @@ function openOverlay(place) {
 		+ '		<div class="body">'
 		+ '			<div class="desc">'
 		+ '				<div class="content">[' + place.roomType + '] ' + $.changeTitle(place.title) + '</div>'
-		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + $.changeCost(place.deposit)
-		+ ' / 월세 ' + $.changeCost(place.monthlyCost) + ' )</div>'
+		+ '				<div class="cost content">' + place.rentType + ' ( 보증금 ' + place.deposit;
+	if(place.rentType!='전세') {
+		content += ' / 월세 ' + place.monthlyCost;
+	}
+	content += ' )</div>'
 		+ '				<div><a href="/searchRoom/' + place.roomId + '" target="_blank" class="link">방 보러가기</a></div>'
 		+ '         </div>'
 		+ '		</div>'

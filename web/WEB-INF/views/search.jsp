@@ -16,12 +16,10 @@
 <div class="wrap">
     <div class="mapWrap">
         <div class="map" id="map"></div>
-
         <div class="sub">
             <input type="button" class="slideMenu" id="slideMenu" value="<">
             <div class="itemsList" id="itemsList"></div>
         </div>
-
         <div class="searchWrap">
             <input id="mapInputBox" type="text" placeholder="아파트, 지역, 지하철, 학교검색">
             <button id="btnMapSearch" style="background-color:white;" onClick="searchPlaces()">&nbsp;</button>
@@ -29,24 +27,9 @@
         </div>
     </div>
 </div>
-
 <div class="filterWrap">
     <div class="filterMenuWrap">
         <table class="filterMenu">
-            <!-- <tr>
-                <td>나의 필터</td>
-                <td align="right">
-                     <label for="btnMyFilter" >세팅을 해주세요</label>
-                    <button id="btnMyFilter" name="btnMyFilter" value="btnMyFilter">></button>
-                </td>
-            </tr>
-            <tr>
-                <td>지역</td>
-                <td>
-                    <input type="text" name="address" class="tbAddress" id="tbAddress" disabled>
-                    <button id="btnAddressSearch" onClick="getAddress()">&nbsp;</button>
-                </td>
-            </tr> -->
             <tr>
                 <td>건물 유형</td>
                 <td>
@@ -88,34 +71,6 @@
                 </td>
             </tr>
         </table>
-    </div>
-
-    <div class="myFilterWrap">
-        <div class="divFilterSettingSave">
-            <button id="btnFilterSettingSave">현재 필터 세팅을 저장하기</button>
-        </div>
-        <div class="divFilterSettingLoad">
-            <div class="divFilterSettingLoadBtn">
-                <button id="btnFilterSettingLoad">필터 세팅 불러오기</button>
-            </div>
-            <div class="divMyFilterList">
-                <div class="divMyFilter" id="divMyFilter1">
-                    <input type="radio" name="myFilter" class="myFilterRadio"/>
-                    MY SETTING 1
-                    <button class="trashButton"></button>
-                </div>
-                <div class="divMyFilter" id="divMyFilter2">
-                    <input type="radio" name="myFilter" class="myFilterRadio"/>
-                    설입 30만 이하
-                    <button class="trashButton"></button>
-                </div>
-                <div class="divMyFilter" id="divMyFilter3">
-                    <input type="radio" name="myFilter" class="myFilterRadio"/>
-                    세팅을 해주세요
-                    <button class="trashButton"></button>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="wrapOption">
         <table class="filterOption">

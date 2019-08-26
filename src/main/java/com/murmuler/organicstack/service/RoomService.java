@@ -1,6 +1,8 @@
 package com.murmuler.organicstack.service;
 
+import com.murmuler.organicstack.vo.RoomDetailVO;
 import com.murmuler.organicstack.vo.RoomDetailViewVO;
+import com.murmuler.organicstack.vo.RoomSummaryVO;
 import com.murmuler.organicstack.vo.RoomSummaryViewVO;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public interface RoomService {
     int modifyViews(int roomId, int views);
     int modifyPostType(int roomId, String postType);
     int removeRoom(int roomId);
+    List<RoomSummaryViewVO> convertVoToViewVo(List<RoomSummaryVO> voList);
+    RoomDetailViewVO convertVoToViewVo(RoomDetailVO roomDetailVO);
     int getRoomIdByMemberId(int memberId);
     int modifyImg(int roomId, ArrayList<String> imgUrlList);
     int modifyMultiPostType(Map<String, Object> idMap);

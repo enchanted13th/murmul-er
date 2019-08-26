@@ -52,7 +52,7 @@
 	font-size: 12px;
 }
 
-.recentCnt {
+.recentCnt, .likeCnt {
 	font-weight: bold;
 	color: rgb(146, 189, 223);
 }

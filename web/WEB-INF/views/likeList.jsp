@@ -14,7 +14,7 @@
     <jsp:include page="mypageSubtitle.jsp"/>
     <div class="content">
         <div>
-            <div class="divRecent">총 <span class="recentCnt"><span id="recentCnt"></span>개</span>의 관심 목록이 있습니다.</div>
+            <div class="divRecent">총 <span class="likeCnt"><span id="likeCnt"></span>개</span>의 관심 목록이 있습니다.</div>
             <div class="divNotify">관심 목록은 최대 18개까지 저장됩니다.</div>
         </div>
 
@@ -27,10 +27,10 @@
                     <div class="divTitle" id="title${rm.count}">${room.title}</div>
                     <div class="divFloat">
                         <div class="divLocation">${room.sido} ${room.sigungu} ${room.roadname}</div>
-                        <div class="divPrice">${room.rentType} 보증금 <span id="deposit${rm.count}">${room.deposit}</span>/월세
-                            <span id="monthlyCost${rm.count}">${room.monthlyCost}</span></div>
+                        <div class="divPrice">보증금 <span id="deposit${rm.count}">${room.deposit} </span>
+                            <c:if test="${room.rentType!='전세'}">/ 월세 <span id="monthlyCost${rm.count}">${room.monthlyCost}</span></c:if></div>
                     </div>
-                    <div class="divSummary">${room.roomType}, ${room.area}m^2, 관리비 <span
+                    <div class="divSummary">${room.rentType}, ${room.roomType}, ${room.area}m^2, 관리비 <span
                             id="manageCost${rm.count}">${room.manageCost}</span><br/>
                     </div>
                 </div>
