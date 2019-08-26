@@ -1,6 +1,4 @@
-
-
-$(document).ready(function () {
+ $(document).ready(function () {
     $('.faq').click(function () {
         let id = $(this).attr('id');
         location.href ="/service/faq/" + id;

@@ -13,7 +13,6 @@ $(document).ready(function() {
     $.setRadioType('write');
 })
 
-
 $.calcSelectDay = function(){
     $('select.s1').change(changeDate);
     $('select.s2').change(changeDate);
@@ -22,7 +21,6 @@ $.calcSelectDay = function(){
     $('select.s5').change(changeDate);
     $('select.s6').change(changeDate);
 }
-
 
 $.initSelectDate = function(){
     $.settingYear();
@@ -120,7 +118,6 @@ $.fn.isWord = function() {
         }
     });
 }
-
 
 $.fn.onlyNum = function() {
     $(this).keyup(function(event) {
