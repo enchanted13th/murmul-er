@@ -88,10 +88,10 @@
         <h1 class="price">가격정보</h1>
         <table class="priceTb">
             <tr>
-                <td width=25%>월세</td>
-                <td width=25%>보증금</td>
-                <td width=25%>관리비</td>
-                <td width=20%>단기임대</td>
+                <td width=20%>월세</td>
+                <td width=20%>보증금</td>
+                <td width=50%>관리비</td>
+                <td width=10%>단기임대</td>
             </tr>
             <tr>
                 <c:choose>
