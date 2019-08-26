@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log("ready");
+    //console.log("ready");
     $.setImage();
     $.checkInsectLevel($('.insectVal'));
     $.checkNoiseLevel($('.noiseVal'));
@@ -92,7 +92,7 @@ $.setImage = function(){
         let middlePath = value[0];
         let fileName = value[1];
         let src = '/review/download?middlePath=' + encodeURI(middlePath) + '&imageFileName=' + encodeURI(fileName);
-        console.log(src);
+        //console.log(src);
         $('#preview' + i).attr('src', src);
     }
 }

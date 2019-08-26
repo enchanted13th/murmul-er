@@ -6,7 +6,7 @@ $(document).ready(function () {
     for (let i = 0; i < talkInfoList.length; i++) {
         (function(x) {
             setTimeout(function() {
-                console.log(talkInfoList[i]);
+                //console.log(talkInfoList[i]);
                 connectSock(talkInfoList[i].talkRoomId, talkInfoList[i].contactMember);
             }, 350 * x);
         })(i);
@@ -17,7 +17,7 @@ var sock;
 
 var connectSock = function (talkRoomId, contactMember) {
     sock = new SockJS("/talkHandler");
-    console.log(talkRoomId);
+    //console.log(talkRoomId);
 
     // onopen : connection이 맺어졌을 때의 callback
     sock.onopen = function () {
@@ -27,7 +27,7 @@ var connectSock = function (talkRoomId, contactMember) {
         sock.send(JSON.stringify({talkRoomId: talkRoomId, type: 'JOIN', sender: me, receiver: contactMember}));
         // onmessage : message를 받았을 때의 callback
         sock.onmessage = function (e) {
-            console.log(e);
+           // console.log(e);
             let newMessage = JSON.parse(e.data);
             if (me === newMessage.sender) newMessage.sender = contactMember;
             $('#member' + newMessage.sender).remove();
@@ -35,11 +35,11 @@ var connectSock = function (talkRoomId, contactMember) {
             for (let i = 0; i < talkInfoList.length; i++) {
                 if (talkInfoList[i].contactMember == newMessage.sender) {
                     nickname = talkInfoList[i].nickname;
-                    console.log(nickname);
+                    //console.log(nickname);
                 }
             }
 
-            console.log("new Message");
+            //console.log("new Message");
 
             let divRoom = $(''
                 + '<div class="divRoom" id="member' + newMessage.sender + '">'
@@ -84,7 +84,7 @@ $.fn.cancel = function () {
 $.fn.showDelete = function() {
     $(this).click(function () {
         let closeBtn = $(this).parents('div')[0].getElementsByClassName('exitChatRoom');
-        console.log(closeBtn);
+        //console.log(closeBtn);
         /* 삭제하기 메뉴 띄우고 삭제 기능 추가하기 */
         if ($(closeBtn).css('display') === 'none') {
             $(closeBtn).css('display', 'table-cell');

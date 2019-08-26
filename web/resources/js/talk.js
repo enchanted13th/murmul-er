@@ -61,7 +61,7 @@ var showOption = function () {
 }
 
 var submitMessage = function () {
-    let newMessage = $('#textInputDialog').val();
+    let newMessage = defend($('#textInputDialog').val());
     sock.send(JSON.stringify({
         talkRoomId: talkRoomId,
         type: 'CHAT',
@@ -99,7 +99,7 @@ var sendMessage = function (newMessage) {
             + '  </div>'
             + '</div>');
     }
-    if ($('#divMessage').val() != "") { // 첫 메세지인 경우
+    if (defend($('#divMessage').val()) != "") { // 첫 메세지인 경우
         dateDiv.appendTo($('#divContent'));
         dateFlag = newMessage.date;
         newDiv.appendTo($('#divContent:last-child'));
@@ -142,7 +142,7 @@ var receiveMessage = function (newMessage) {
             + '  </div>'
             + '</div>');
     }
-    if ($('#divMessage').val() != "") {
+    if (defend($('#divMessage').val()) != "") {
         dateDiv.appendTo($('#divContent'));
         dateFlag = newMessage.date;
         newDiv.appendTo($('#divContent:last-child'));
@@ -182,10 +182,10 @@ function uploadFile(input) {
         }).then(function (data, status) {
             if (status === 'success') {
                 let result = eval("(" + data + ")");
-                console.log(result);
+                //console.log(result);
                 if (result.uploadResult === "SUCCESS") {
                     let newMessageList = result.newMessageList;
-                    console.log(newMessageList);
+                    //console.log(newMessageList);
                     for (let i = 0; i < newMessageList.length; i++) {
                         let newMessage = newMessageList[i];
                         sock.send(JSON.stringify({

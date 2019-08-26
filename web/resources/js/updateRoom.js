@@ -100,7 +100,7 @@ function dataSubmit(){
     let roomInfo = {
         roomId: $('#roomId').val(),
         allAddr: JSON.stringify(allAddr),
-        detailAddr: $('#inputDetailAddr').val(),
+        detailAddr: defend($('#inputDetailAddr').val()),
         area: $('#inputArea').val(),
         floor: $('#inputFloor').val(),
         periodNum: $('#inputPeriodNum').val(),
@@ -113,10 +113,10 @@ function dataSubmit(){
         roomType: $('#btnRt' + selectedRt).val(),
         heatType: $('#btnHeat' + selectedHeat).val(),
         optionList: optionListString,
-        title: $('#inputTitle').val(),
-        detail: $('#txtDetail').val(),
+        title: defend($('#inputTitle').val()),
+        detail: defend($('#txtDetail').val()),
         hashtagExist: hashtagExist,
-        hashtagList: hashtagListString,
+        hashtagList: defend(hashtagListString),
         // images: JSON.stringify(imgpath),
         imageList: imageListString,
         isNotChangeAddr: isNotChangeAddr,
@@ -622,10 +622,10 @@ $.fn.clickSubmit = function(){
             } else if (on5 == "") {
                 Swal.fire("임대기간을 입력하세요.");
                 $('#inputPeriodNum').focus();
-            } else if ($('#inputTitle').val() == "") {
+            } else if (defend($('#inputTitle').val()) == "") {
                 Swal.fire("제목을 입력하세요.");
                 $('#inputTitle').focus();
-            } else if ($('#txtDetail').val() == "") {
+            } else if (defend($('#txtDetail').val()) == "") {
                 Swal.fire("상세 설명을 입력하세요.");
                 $('#txtDetail').focus();
             } else {
@@ -647,17 +647,17 @@ $.fn.clickSubmit = function(){
             return;
         }
 
-        if ($('#hash1').val() == "" && $('#hash2').val() == "" && $('#hash3').val() == "") {
+        if (defend($('#hash1').val()) == "" && defend($('#hash2').val()) == "" && defend($('#hash3').val()) == "") {
             hashtagExist = false;
         } else {
             hashtagExist = true;
         }
 
-        if($('#hash1').val() !== "")
+        if(defend($('#hash1').val()) !== "")
             hashTagList.push($('#hash1').val());
-        if($('#hash2').val() !== "")
+        if(defend($('#hash2').val()) !== "")
             hashTagList.push($('#hash2').val());
-        if($('#hash3').val() !== "")
+        if(defend($('#hash3').val()) !== "")
             hashTagList.push($('#hash3').val());
 
         if(isNotChangeAddr){
@@ -835,11 +835,11 @@ $.fn.clickOp = function () {
                     optionList.splice(i, 1);
                 }
             }
-            console.log(optionList);
+            //console.log(optionList);
         } else {
             $(this).css('background-color', 'rgb(182, 226, 248)');
             optionList.push($(this).val());
-            console.log(optionList)
+            //console.log(optionList)
         }
     })
 }

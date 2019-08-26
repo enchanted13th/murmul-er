@@ -80,7 +80,7 @@ $.resizeEvent = function() {
 
 $.setBounds = function(){
     let width = $(window).width();
-    console.log("width: "+ width);
+   // console.log("width: "+ width);
     if(width < 1070) return;
     let plus =  (width - 1070) / 2;
     $('.imgPreview').css('left', (imgLeft+plus));
@@ -98,21 +98,21 @@ function placesSearchCB (data, status, pagination) {
             formData.append("uploadFile", files[i]);
         }
         let sendData = {
-            title: $('#inputTitle').val(),
-            detailAddr: $('#inputDetail').val(),
+            title: defend($('#inputTitle').val()),
+            detailAddr: defend($('#inputDetail').val()),
             residencePeriod: $('#inputPeriod').val(),
             periodUnit: $('#selPeriod').val(),
             score: $('#score').text(),
-            content: $('#txtExplain').val(),
-            advantage: $('#txtGood').val(),
-            disadvantage: $('#txtBad').val(),
+            content: defend($('#txtExplain').val()),
+            advantage: defend($('#txtGood').val()),
+            disadvantage: defend($('#txtBad').val()),
             insectLevel: insectLevel,
             noiseLevel: noiseLevel,
             hashtagExist: hashtagExist,
-            totAddr: JSON.stringify(totAddr),
-            hashTag1: $('#hashTag1').val(),
-            hashTag2: $('#hashTag2').val(),
-            hashTag3: $('#hashTag3').val()
+            totAddr: defend(JSON.stringify(totAddr)),
+            hashTag1: defend($('#hashTag1').val()),
+            hashTag2: defend($('#hashTag2').val()),
+            hashTag3: defend($('#hashTag3').val())
         };
         if(formData.get("uploadFile") == null || $('.addimage').length != 1){
             Swal.fire('사진을 등록해주세요', '', 'warning');
@@ -279,13 +279,13 @@ function bad_b2() {
 }
 
 $.validForm = function (){
-    let title = $('#inputTitle').val();
-    let addr = $('#inputAddr').val();
-    let detail = $('#inputDetail').val();
+    let title =defend( $('#inputTitle').val());
+    let addr = defend($('#inputAddr').val());
+    let detail = defend($('#inputDetail').val());
     let period = $('#inputPeriod').val();
-    let explain = $('#txtExplain').val();
-    let good = $('#txtGood').val();
-    let bad = $('#txtBad').val();
+    let explain = defend($('#txtExplain').val());
+    let good = defend($('#txtGood').val());
+    let bad = defend($('#txtBad').val());
     if (title === "" || addr === "" || detail === "" || period === "" || explain === "" || good === "" || bad === ""){
         return false;
     }
@@ -372,7 +372,7 @@ $.setValueFromImg = function(){
 }
 
 function checkLength(obj, maxlength) {
-    let str = obj.value;
+    let str = defend(obj.value);
     let str_length = str.length;
 
     let max_length = maxlength;
