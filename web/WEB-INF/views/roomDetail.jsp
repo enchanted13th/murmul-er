@@ -162,13 +162,6 @@
         <button class="report" id="report" type="button"><img id="reportImg"src="/resources/img/etc/report.png" width="45px" height="45px"></button>
     </div>
 </div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/resources/js/roomDetailMap.js"></script>
-<script src="/resources/js/contact.js"></script>
-<script src="/resources/js/report.js"></script>
-<script src="/resources/js/roomDetail.js"></script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <script>
     let temp = "${options}";
     temp = temp.substring(1, temp.length - 1);
@@ -183,6 +176,13 @@
     let roomImgNum = "${roomImgNum}";
     let roomType = "${roomType}";
 </script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/resources/js/roomDetailMap.js"></script>
+<script src="/resources/js/contact.js"></script>
+<script src="/resources/js/report.js"></script>
+<script src="/resources/js/roomDetail.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 </body>
 </html>
 
