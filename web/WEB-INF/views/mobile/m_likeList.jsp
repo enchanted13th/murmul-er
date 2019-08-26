@@ -80,10 +80,11 @@
                         </div>
                         <div class="divhashtag">
                             <c:if test="${room.hashtags != '[]'}">
-                            <c:forEach var="hash" items="${room.hashtags}">
-                                <span class="hashTag">#${hash}</span>
+                            <c:forEach var="hash" items="${room.hashtags}" varStatus="hashCnt">
+                                <span id="hashtag${rm.count}-${hashCnt.count}" class="hashTag">#${hash}</span>
                             </c:forEach>
                             </c:if>
+                            <input type="hidden" id="hashtagCnt${rm.count}" value="${fn:length(room.hashtags)}">
                         </div>
                     </div>
                     </a>
