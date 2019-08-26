@@ -17,22 +17,6 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
-    <script>
-        let temp = "${options}";
-        temp = temp.substring(1, temp.length - 1);
-        let option = temp.split(", ");
-        let area = ${area}+"m² / ";
-        let pyeong = Math.round(${area/3.3}) + "평";
-        let sellerNickname = "${sellerNickname}";
-        let sellerPhone = "${sellerPhone}";
-        let sellerMemberId = ${memberId};
-        let roomId = ${roomId};
-        let likeList = ${likeList};
-        let roomImgNum = "${roomImgNum}";
-        let roomType = "${roomType}";
-        let isActivity = "${isActivity}";
-    </script>
 </head>
 <body>
 <div class="footer">
@@ -188,6 +172,21 @@
         <button id="showSellerInfo">판매자 연락처 보기</button>
     </div>
 </div>
+<script>
+    let temp = "${options}";
+    temp = temp.substring(1, temp.length - 1);
+    let option = temp.split(", ");
+    let area = ${area}+"m² / ";
+    let pyeong = Math.round(${area/3.3}) + "평";
+    let sellerNickname = "${sellerNickname}";
+    let sellerPhone = "${sellerPhone}";
+    let sellerMemberId = ${memberId};
+    let roomId = ${roomId};
+    let likeList = ${likeList};
+    let roomImgNum = "${roomImgNum}";
+    let roomType = "${roomType}";
+    let isActivity = "${isActivity}";
+</script>
 <script src="/resources/js/roomDetailMap.js"></script>
 <script src="/resources/js/mobile/m_roomDetail.js"></script>
 </body>
