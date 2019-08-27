@@ -223,17 +223,17 @@ $.showJoinPopup = function () {
             + '				<tr>'
             + '					<td>아이디</td>'
             + '					<td>'
-            + '						<input id="inputId" name="id" class="inputboxS" placeholder="아이디를 입력하세요" autocomplete="off" required/>'
+            + '						<input id="inputId" name="id" class="inputboxS" placeholder="아이디를 입력하세요" autocomplete="off" required maxlength="20"/>'
             + '						<button type="button" id="isdupli" name="isdupli" class="btn">중복 확인</button>'
             + '					</td>'
             + '				</tr>'
             + '				<tr>'
             + '					<td>비밀번호</td>'
-            + '					<td><input type="password" id="inputPw" name="pwd" class="inputbox" placeholder="비밀번호를 입력하세요" autocomplete="off" required/></td>'
+            + '					<td><input type="password" id="inputPw" name="pwd" class="inputbox" placeholder="비밀번호를 입력하세요" autocomplete="off" required maxlength="20"/></td>'
             + '				</tr>'
             + '				<tr>'
             + '					<td></td>'
-            + '					<td><input type="password" id="inputPw2" name="pwd2" class="inputbox" placeholder="비밀번호를  다시 입력하세요" autocomplete="off" required/></td>				'
+            + '					<td><input type="password" id="inputPw2" name="pwd2" class="inputbox" placeholder="비밀번호를  다시 입력하세요" autocomplete="off" required maxlength="20"/></td>				'
             + '				</tr>'
             + '				<tr>'
             + '					<td>이름</td>'
@@ -247,7 +247,7 @@ $.showJoinPopup = function () {
             + '				<tr>'
             + '					<td>이메일</td>'
             + '					<td>'
-            + '						<input id="inputEmail" name="emailId" class="inputboxS" placeholder="이메일을 입력하세요" autocomplete="off" required maxlength="30"/>'
+            + '						<input id="inputEmail" name="emailId" class="inputboxS" placeholder="이메일을 입력하세요" autocomplete="off" required maxlength="20"/>'
             + '						<span id="at" class="at">@</span>'
             + '						<select id="domain" name="domain" class="domain" name="domain" onchange="guitar()">'
             + '							<option selected>naver.com</option>'
@@ -265,7 +265,7 @@ $.showJoinPopup = function () {
             + '					<td>휴대번호</td>'
             + '					<td>'
             + '						<select class="frontNum" id="frontNum" name="phone1">'
-            + '							<option value="010">010</option>'
+            + '							<option value="010" selected>010</option>'
             + '			                <option value="011">011</option>'
             + '			                <option value="016">016</option>'
             + '			                <option value="017">017</option>'
@@ -273,9 +273,9 @@ $.showJoinPopup = function () {
             + '			                <option value="019">019</option>'
             + '		               </select>'
             + '		               <span>-</span>'
-            + '		               <input id="middleNum" name="phone2" class="inputNum" maxlength="4" autocomplete="off" required/>'
+            + '		               <input id="middleNum" name="phone2" class="inputNum" maxlength="4" autocomplete="off" onkeyup="$(this).onlyNum()" required/>'
             + '		               <span>-</span>'
-            + '		               <input id="backNum" name="phone3" class="inputNum" maxlength="4" autocomplete="off" required/>'
+            + '		               <input id="backNum" name="phone3" class="inputNum" maxlength="4" autocomplete="off" onkeyup="$(this).onlyNum()" required/>'
             + '	               </td>'
             + '				</tr>'
             + '			</table>'
@@ -379,7 +379,7 @@ $.showTalkList = function() {
 var guitar = function () {
     if ($('#domain').val() === '기타') {
         $('#domain').remove();
-        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required maxlength="20">' + '')
+        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required maxlength="15">' + '')
             .appendTo($('#at'));
         textbox.focus();
     }
@@ -391,6 +391,7 @@ var includeBlank = function(type) {
 }
 
 var isDuplicatedCheck = false;
+
 $.validJoinInfo = function () {
     let id = defend($('#inputId').val());
     let pwd = defend($('#inputPw').val());
@@ -398,38 +399,55 @@ $.validJoinInfo = function () {
     let realname = defend($('#inputName').val());
     let nickname = defend($('#inputNickName').val());
     let emailId = defend($('#inputEmail').val());
-    let domain = $('#domain').val();
+    let domain = defend($('#domain').val());
     let phone1 = $('#frontNum').val();
-    let phone2 = defend($('#middleNum').val());
-    let phone3 = defend($('#backNum').val());
-    // let nameCheck = /[^ㄱ-힣a-zA-Z]/gi;
-    // let emailCheck = /[^0-9a-zA-Z-_]/gi;
+    let phone2 = $('#middleNum').val();
+    let phone3 = $('#backNum').val();
+
+    // id : 영문자로 시작. 영어, 숫자, 특수문자(-_) 가능. 6-20자
+    let idRegExp = /^[a-zA-Z][0-9a-zA-Z_-]{5,19}$/;
+    // pwd : 영어, 숫자, 특수문자(~!#$^&*?) 가능. 6-20자
+    let pwdRegExp = /^[a-zA-Z0-9~!#$^&*?]{6,20}$/;
+    // name : 한글 2-10자
+    let nameRegExp = /^[가-힣]{2,10}$/;
+    // nick : 한글, 영어, 숫자, 특수문자(~!#$^&*?) 가능. 2-10자
+    let nickRegExp = /^[a-zA-Z0-9가-힣~!#$^&*?]{2,10}$/;
+    // email : 영어, 숫자, 특수문자(_) 가능. 3-20자
     let emailRegExp = /^[a-z0-9_]{3,20}@[a-z]{2,15}\.(com|net|co.kr|ac.kr|kr)$/;
-    let nicknameRegExp = /^[a-zA-Z0-9가-힣~!?#_*&^|]{2,10}$/;
-    let passwordRegExp = /^[a-zA-Z0-9~!?#*&^]{6,20}$/;
+    // phone : 숫자 10-11자
+    let phoneRegExp = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
 
     if (id === "" || pwd === "" || pwd2 === "" || realname === "" || nickname === "" || emailId === "" || domain === "" || phone1 === "" || phone2 === "" || phone3 === "")
         return false;
 
+    let email = emailId+"@"+domain;
+    let phone = phone1+"-"+phone2+"-"+phone3;
+    console.log("id", idRegExp.test(id));
+    console.log("pwd", pwdRegExp.test(pwd));
+    console.log("name", nameRegExp.test(realname));
+    console.log("nick", nickRegExp.test(nickname));
+    console.log("email", emailRegExp.test(email));
+    console.log("phone", phoneRegExp.test(phone));
+
+    let title = '';
+    let content = '';
+    let selector = '';
+    let isValid = true;
+
     if (id.length < 6 || id.length > 20) {
-        Swal.fire('','아이디는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
-        document.joinForm.id.focus();
-        return false;
+        return pleaseReenter('', '아이디는 최소 6자 이상, 최대 20자 이하입니다.', '#inputId');
+    }
+    if (!idRegExp.test(id)) {
+        return pleaseReenter('', '아이디는 최소 6자 이상, 최대 20자 이하입니다.', '#inputId');
     }
     if (!isDuplicatedCheck) {
-        Swal.fire('','아이디 중복 체크를 해주세요!',"warning");
-        document.joinForm.isdupli.focus();
-        return false;
+        return pleaseReenter('', '아이디 중복 체크를 해주세요!', '#inputId');
     }
     if (pwd.length < 6 || pwd.length > 20) {
-        Swal.fire('','비밀번호는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
-        document.joinForm.pwd.focus();
-        return false;
+        return pleaseReenter('','비밀번호는 최소 6자 이상, 최대 20자 이하입니다.', '#inputPw');
     }
     if (pwd !== pwd2) {
-        Swal.fire('','비밀번호 확인이 일치하지 않습니다.',"warning");
-        document.joinForm.pwd2.focus();
-        return false;
+        return pleaseReenter('','비밀번호 확인이 일치하지 않습니다.', '#inputPw2');
     }
     if(realname.includes(" ")){
         return includeBlank("이름 항목");
@@ -485,6 +503,18 @@ $.validJoinInfo = function () {
     return true;
 }
 
+var pleaseReenter = function (title, content, selector) {
+    Swal.fire({
+        title: title,
+        text: content,
+        type: "warning",
+        onAfterClose: () => {
+            $(selector).focus();
+        }
+    });
+    return false;
+}
+
 function isNumber(s) {
     s += ''; // 문자열로 변환
     s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
@@ -513,11 +543,22 @@ $.fn.clickCancelBtn = function (url) {
 
 function defend(value) {
     value = value+"";
+    value.trim();
     value = value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
     // value = value.replace(/\\(/gi, "& #40;").replace(/\\)/gi, "& #41;");
     value = value.replace(/'/gi, "&#39;");
     value = value.replace(/eval\\((.*)\\)/gi, "");
     value = value.replace(/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/gi, "\"\"");
-    value = value.replace(/script/gi, "");
+    value = value.replace(/<script>/gi, "");
+    value = value.replace(/<\/script>/gi, "");
     return value;
+}
+
+$.fn.onlyNum = function() {
+    $(this).keyup(function(event) {
+        if (!(event.keyCode >=37 && event.keyCode<=40)) {
+            let inputVal = $(this).val();
+            $(this).val(inputVal.replace(/[a-zㄱ-힣,~`!@#$%^&*()_\-+=|<>:;\\\[\]{}./]/gi,''));
+        }
+    });
 }
