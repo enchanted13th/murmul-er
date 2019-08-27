@@ -50,7 +50,7 @@ public class TalkController {
             return mav;
         }
         int me = memberVO.getMemberId();
-        String nickname = memberVO.getNickname();
+//        String nickname = memberVO.getNickname();
         boolean isExist = false;
 
         List<JSONObject> talkInfoList = new ArrayList<>();
@@ -88,41 +88,46 @@ public class TalkController {
     public ModelAndView showTalk(@PathVariable(value = "contactMember") int you,
                                  HttpServletRequest request) {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
-        if (memberVO == null) {
-            return null;
-        }
-
-        int me = memberVO.getMemberId();
-        List<MessageVO> dialogueList = talkHelper.readMessage(me, you);
-        String talkRoomId;
-        TalkRoom talkRoom;
-
-        if (dialogueList.size() == 0) {
-            talkRoom = TalkRoom.create();
-            talkRoomId = talkRoom.getId();
-            repository.addTalkRoom(talkRoom);
-            talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(me, you));
-            talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(you, me));
-        } else {
-            talkRoomId = dialogueList.get(0).getContent();
-            talkRoom = repository.getTalkRoom(talkRoomId);
-//            System.out.println(talkRoom);
-            if (talkRoom == null) {
-                talkRoom = TalkRoom.create();
-                talkRoom.setId(talkRoomId);
-                repository.addTalkRoom(talkRoom);
-            } else {
-                talkRoom.setId(talkRoomId);
-            }
-            dialogueList.remove(0);
-        }
-
         ModelAndView mav = new ModelAndView();
-        mav.addObject("contactMember", you);
-        mav.addObject("talkRoomId", talkRoomId);
-        mav.addObject("nickname", talkService.getNickname(you));
-        mav.addObject("dialogue", dialogueList);
-        mav.setViewName("talk");
+
+        if (memberVO == null) {
+            mav.setViewName("index");
+        }
+        else if (memberVO.getMemberId() == you) {
+            mav.setViewName("index");
+        }
+        else {
+            int me = memberVO.getMemberId();
+            List<MessageVO> dialogueList = talkHelper.readMessage(me, you);
+            String talkRoomId;
+            TalkRoom talkRoom;
+
+            if (dialogueList.size() == 0) {
+                talkRoom = TalkRoom.create();
+                talkRoomId = talkRoom.getId();
+                repository.addTalkRoom(talkRoom);
+                talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(me, you));
+                talkHelper.writeMessage("ID", talkRoomId, talkHelper.getFilePath(you, me));
+            } else {
+                talkRoomId = dialogueList.get(0).getContent();
+                talkRoom = repository.getTalkRoom(talkRoomId);
+//            System.out.println(talkRoom);
+                if (talkRoom == null) {
+                    talkRoom = TalkRoom.create();
+                    talkRoom.setId(talkRoomId);
+                    repository.addTalkRoom(talkRoom);
+                } else {
+                    talkRoom.setId(talkRoomId);
+                }
+                dialogueList.remove(0);
+            }
+            mav.addObject("contactMember", you);
+            mav.addObject("talkRoomId", talkRoomId);
+            mav.addObject("nickname", talkService.getNickname(you));
+            mav.addObject("dialogue", dialogueList);
+            mav.setViewName("talk");
+        }
+
         return mav;
     }
 
