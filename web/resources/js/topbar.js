@@ -289,7 +289,7 @@ $.showJoinPopup = function () {
 
         popup.find('#join').click(function () {
             if (!$.validJoinInfo()) return;
-            let email = defend($('#inputEmail').val()) + "@" + $('#domain').val();
+            let email = defend($('#inputEmail').val()) + "@" + defend($('#domain').val());
             let phone = $('#frontNum').val() + "-" + defend($('#middleNum').val()) + "-" + defend($('#backNum').val());
             $.ajax('/member/join', {
                 type: 'POST',
@@ -506,11 +506,11 @@ $.fn.clickCancelBtn = function (url) {
 
 function defend(value) {
     value = value+"";
-    value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    value = value.replaceAll("\\(", "& #40;").replaceAll("\\)", "& #41;");
-    value = value.replaceAll("'", "& #39;");
-    value = value.replaceAll("eval\\((.*)\\)", "");
-    value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-    value = value.replaceAll("script", "");
+    value = value.replace(/</gi, "&lt;").replace(/>/gi, "&gt;");
+    // value = value.replace(/\\(/gi, "& #40;").replace(/\\)/gi, "& #41;");
+    value = value.replace(/'/gi, "&#39;");
+    value = value.replace(/eval\\((.*)\\)/gi, "");
+    value = value.replace(/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/gi, "\"\"");
+    value = value.replace(/script/gi, "");
     return value;
 }

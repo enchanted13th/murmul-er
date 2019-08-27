@@ -88,7 +88,7 @@ public class RoomController {
                              HttpServletRequest request,
                              HttpServletResponse response) throws IOException {
         logger.info("called add method");
-
+        logger.info("hashtaglist : "+ hashtagList);
         Map<String, String> roomInfo = new HashMap<>();
         JSONParser parser = new JSONParser();
         JSONObject addrInfo = new JSONObject();
