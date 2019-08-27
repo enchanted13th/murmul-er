@@ -67,8 +67,6 @@ public class ContractController {
         return mav;
     }
 
-
-
     @RequestMapping(value = "/write")
     public ModelAndView showContractForm(@RequestParam int contactId,
                                          @RequestParam int roomId,
