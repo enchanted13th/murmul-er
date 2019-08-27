@@ -11,4 +11,6 @@ public interface ContractService {
     List<ContractVO> getMyContracts(int memberId);
 
     String getContractImageById(int contractId);
+
+    boolean isMyContract(int memberId, int contractId);
 }
