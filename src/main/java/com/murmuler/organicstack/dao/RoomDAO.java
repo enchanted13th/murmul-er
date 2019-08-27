@@ -22,6 +22,7 @@ public interface RoomDAO {
     int selectLocationIdByRoomId(int roomId);
     int selectRoomIdByMemberId(int memberId);
     int selectImgCntByRoomId(int roomId);
+    List<Integer> selectRoomIdListByMemberId(int memberId);
     int insertRoom(LocationVO locationVO, RoomVO roomVO, SaleInfoVO saleInfoVO);
     int insertRoomManageCost(int roomId, int[] manageIdList);
     int insertRoomOption(int roomId, int[] optionIdList);

@@ -112,6 +112,58 @@ public class SearchController {
         }
     }
 
+//    @RequestMapping(value = "/search", method = RequestMethod.GET)
+//    public void search(@RequestParam String southWest,
+//                       @RequestParam String northEast,
+//                       HttpServletResponse response) throws IOException {
+//        String[] temp = southWest.substring(1, southWest.length()-1).split(", ");
+//        BigDecimal south = new BigDecimal(temp[0]);
+//        BigDecimal west = new BigDecimal(temp[1]);
+//        temp = northEast.substring(1, northEast.length()-1).split(", ");
+//        BigDecimal north = new BigDecimal((temp[0]));
+//        BigDecimal east = new BigDecimal((temp[1]));
+//
+//        response.setCharacterEncoding("UTF-8");
+//        JSONObject roomListObject = new JSONObject();
+//        JSONObject roomInfo = new JSONObject();
+//
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("south", south);
+//        paramMap.put("west", west);
+//        paramMap.put("north", north);
+//        paramMap.put("east", east);
+//        List<RoomSummaryViewVO> roomList = roomService.getRoomsByLocation(paramMap);
+//
+////        System.out.println(roomList);
+//
+//        for (int i = 0; i < roomList.size(); i++) {
+//            roomInfo.put("roomId", "" + roomList.get(i).getRoomId());
+//            roomInfo.put("latitude", "" + roomList.get(i).getLatitude());
+//            roomInfo.put("longitude", "" + roomList.get(i).getLongitude());
+//            roomInfo.put("postType", roomList.get(i).getPostType());
+//            roomInfo.put("title", roomList.get(i).getTitle());
+//            roomInfo.put("address", roomList.get(i).getSido() + " " + roomList.get(i).getSigungu() + " " + roomList.get(i).getRoadname());
+//            roomInfo.put("period", roomList.get(i).getPeriodNum() + roomList.get(i).getPeriodUnit());
+//            roomInfo.put("roomType", roomList.get(i).getRoomType());
+//            roomInfo.put("rentType", roomList.get(i).getRentType());
+//            roomInfo.put("area", "" + roomList.get(i).getArea());
+//            roomInfo.put("deposit", roomList.get(i).getDeposit());
+//            roomInfo.put("monthlyCost", "" + roomList.get(i).getMonthlyCost());
+//            roomInfo.put("manageCost", "" + roomList.get(i).getManageCost());
+//            roomInfo.put("writeDate", roomList.get(i).getWriteDate());
+//            roomInfo.put("views", "" + roomList.get(i).getViews());
+//            roomInfo.put("roomImg", roomList.get(i).getRoomImg());
+//            roomInfo.put("roomOptions", roomService.getRoomOptions(roomList.get(i).getRoomId()));
+//
+//            roomListObject.put("item" + i, "\"" + roomInfo + "\"");
+//        }
+//        if (roomList != null) {
+//            response.getWriter().print(roomListObject);
+//        } else {
+//            response.getWriter().print("EMPTY");
+//        }
+//    }
+
     @RequestMapping(value = "/{room_id}", method = RequestMethod.GET)
     public ModelAndView detail(@PathVariable("room_id") String roomId, HttpServletRequest request) {
         HttpSession session = request.getSession();

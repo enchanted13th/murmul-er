@@ -129,6 +129,9 @@ $.fn.changePostType = function (callback){
     }).then(function (data, status) {
         if (status === 'success') {
             switch (data.result) {
+                case "XSS_FAIL" :
+                    callback(false);
+                    return;
                 case "UPDATE_FAIL" :
                     // console.log('update fail..');
                     callback(false);

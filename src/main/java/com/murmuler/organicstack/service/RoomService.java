@@ -15,6 +15,7 @@ public interface RoomService {
     List<RoomSummaryViewVO> getMyRooms(int id);
     Map<String, Object> getRoomInfo(int roomId);
     List<String> getRoomOptions(int roomId);
+    List<Integer> getRoomIdListByMemberId(int memberId);
     int addRoom(Map<String, String> roomInfo);
     int addImg(int roomId, ArrayList<String> imgUrlList);
     int modifyRoom(Map<String, String> roomInfo);

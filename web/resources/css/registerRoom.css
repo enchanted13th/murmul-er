@@ -56,6 +56,13 @@ table tr:last-child > td {
 }
 
 input[type=text] {
+     height: 25px;
+     font-size: 14px;
+     border: 1px solid #b6e2f8;
+     padding: 1px 15px;
+     margin: 5px 10px;
+ }
+input[type=number] {
     height: 25px;
     font-size: 14px;
     border: 1px solid #b6e2f8;

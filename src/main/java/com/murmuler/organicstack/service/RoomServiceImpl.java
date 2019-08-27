@@ -470,4 +470,9 @@ public class RoomServiceImpl implements RoomService {
     public int modifyMultiPostType(Map<String, Object> idMap) {
         return roomDAO.updateMultiPostType(idMap);
     }
+
+    @Override
+    public List<Integer> getRoomIdListByMemberId(int memberId) {
+        return roomDAO.selectRoomIdListByMemberId(memberId);
+    }
 }
