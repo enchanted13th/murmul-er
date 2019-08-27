@@ -1,0 +1,26 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*background-color: #6ace7c*/
+    background-color: #b6e2f8
+}
+
+.milk-404 {
+    max-height: 100vh;
+}
+
+#mouth-frown{
+    visibility: hidden;
+}
+
+a {
+    font-family: sans-serif;
+    font-size: .8em;
+    padding: 10px;
+}
