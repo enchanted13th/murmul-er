@@ -20,7 +20,7 @@
                 </tr>
                 <tr>
                     <td>이름</td>
-                    <td><input id="inputName" class="inputBox" name="realname" value="${realname}" readonly /></td>
+                    <td><input id="inputName" class="inputBox" name="realname" value="${realname}"/></td>
                 </tr>
                 <tr>
                     <td>닉네임</td>

@@ -32,7 +32,7 @@
                 </tr>
             </table>
             <div class="divbtn">
-                <button id="btnUpdate" class="btnUpdate" onclick="pwdUpdate()">변경</button>
+                <button id="btnUpdate" class="btnUpdate">변경</button>
             </div>
         </form>
     </div>
