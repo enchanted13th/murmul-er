@@ -1,66 +1,61 @@
+var curpwd = "";
+var newpwd1 = "";
+var newpwd2 = "";
+
 $(document).ready(function () {
     $('#btnChangePwd').css('border-bottom', '6px solid #b6e2f8');
+    $('#btnUpdate').click(function () {
+        $.changePwd();
+    })
 })
 
-var pwdUpdate = function () {
+$.changePwd = function(){
     if(!$.validPwd()) return;
-    let curpwd = defend($('#curpwd').val());
-    let newpwd = defend($('#newpwd1').val());
-    $.changePwd(curpwd, newpwd);
-}
-
-$.changePwd = function(curpwd, newpwd){
     $.ajax('/member/change-pwd', {
         type: 'POST',
-        data: { curpwd: curpwd, newpwd: newpwd }
+        data: { curpwd: curpwd, newpwd: newpwd1 }
     }).then(function(data, status) {
         if(status === 'success') {
-            // console.log(data);
             switch (data.pwdResult) {
                 case "SUCCESS":
-                    Swal.fire('비밀번호 변경이 완료되었습니다.', "", "success")
+                    Swal.fire('변경 완료', "비밀번호 변경이 완료되었습니다.", "success")
                         .then(function(){ location.href = ""; });
                     break;
                 case "WRONG_CURPWD":
-                    Swal.fire('현재 비밀번호가 일치하지 않습니다.', "", "error");
+                    swalFocus('변경 실패','현재 비밀번호가 일치하지 않습니다.', 'warning', '#curpwd');
                     break;
                 case "CHANGE_FAIL":
-                    Swal.fire('비밀번호 변경에 실패하였습니다.', "", "error");
+                    Swal.fire('변경 실패', "비밀번호 변경에 실패하였습니다.", "error");
                     break;
             }
         } else {
-            Swal.fire('비밀번호 변경에 실패하였습니다.', "", "error");
+            Swal.fire('연결 오류', "잠시 후 다시 시도해주세요.", "error");
         }
     })
 }
 
 $.validPwd = function(){
-    let curpwd = defend($('#curpwd').val());
-    let newpwd1 = defend($('#newpwd1').val());
-    let newpwd2 = defend($('#newpwd2').val());
+    curpwd = defend($('#curpwd').val());
+    newpwd1 = defend($('#newpwd1').val());
+    newpwd2 = defend($('#newpwd2').val());
+
+    // pwd : 영어, 숫자, 특수문자(~!#$^&*?) 가능. 6-20자
+    let pwdRegExp = /^[a-zA-Z0-9~!#$^&*?]{6,20}$/;
 
     if (curpwd === '' || newpwd1 === '' || newpwd2 === '') {
         return false;
     }
-    if(curpwd.length < 6 || curpwd.length > 20) {
-        Swal.fire('','비밀번호는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
-        document.updateForm.curpwd.focus();
-        return false;
+    if (!pwdRegExp.test(curpwd)) {
+        return pleaseReenter('비밀번호 유효조건','영어, 숫자, 특수문자(~!#$^&*?) 가능 / 6-20자', '#curpwd');
     }
-    if(newpwd1.length < 6 || newpwd1.length > 20) {
-        Swal.fire('','비밀번호는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
-        document.updateForm.newpwd1.focus();
-        return false;
+    if (!pwdRegExp.test(newpwd1)) {
+        return pleaseReenter('비밀번호 유효조건','영어, 숫자, 특수문자(~!#$^&*?) 가능 / 6-20자', '#newpwd1');
     }
-    if (defend($('#newpwd1').val()) !== defend($('#newpwd2').val())) {
-        Swal.fire('','변경할 비밀번호가 비밀번호 확인과 일치하지 않습니다.',"warning");
-        document.updateForm.newpwd1.focus();
-        return false;
+    if (newpwd1 !== newpwd2) {
+        return pleaseReenter('비밀번호 불일치','비밀번호 확인이 일치하지 않습니다.', '#newpwd2');
     }
     if(curpwd === newpwd1){
-        Swal.fire('','변경할 비밀번호가 이전 비밀번호와 동일합니다.',"warning");
-        document.updateForm.curpwd.focus();
-        return false;
+        return pleaseReenter('비밀번호 변경불가','변경할 비밀번호가 이전 비밀번호와 동일합니다.', '#newpwd1');
     }
     return true;
 }

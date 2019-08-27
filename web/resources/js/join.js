@@ -131,7 +131,7 @@ var joinSubmit = function () {
                     Swal.fire('','회원가입에 실패하셨습니다.',"error");
                     break;
                 case "ALREADY_EXIST":
-                    Swal.fire('', '이미 존재하는 아이디입니다.', 'warning');
+                    swalFocus('','이미 존재하는 아이디입니다.', 'warning', '#inputId');
                     break;
             }
         } else {
@@ -165,15 +165,6 @@ var isDuplicate = function () {
     })
 }
 
-var guitar = function () {
-    if ($('#domain').val() === '기타') {
-        $('#domain').remove();
-        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required maxlength="15">' + '')
-            .appendTo($('#at'));
-        textbox.focus();
-    }
-}
-
 $.validJoinInfo = function () {
     id = defend($('#inputId').val());
     pwd = defend($('#inputPw').val());
@@ -193,7 +184,7 @@ $.validJoinInfo = function () {
     // name : 한글만 2-10자
     let nameRegExp = /^[가-힣]{2,10}$/;
     // nick : 한글, 영어, 숫자, 특수문자(~!#$^&*?) 가능. 2-10자
-    let nickRegExp = /^[a-zA-Z0-9가-힣ㄱ-ㅎ~!#$^&*?]{2,10}$/;
+    let nickRegExp = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ~!#$^&*?]{2,10}$/;
     // email : 영어, 숫자, 특수문자(_) 가능. 5-20자
     let emailIdRegExp = /^[a-z0-9_]{5,20}$/;
     // domain : 영어만 2-15자 + .com|net|co.kr|ac.kr|kr 가능
