@@ -94,8 +94,18 @@ public class ReviewController {
     }
 
     @RequestMapping(value="/write", method= RequestMethod.GET)
-    public String reviewWrite(){
-        return "reviewWrite";
+    public ModelAndView reviewWrite(HttpServletRequest request){
+        ModelAndView mav = new ModelAndView();
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if (memberVO == null) {
+            mav.addObject("isRegistered", "NOT_LOGIN");
+        } else if (reviewService.isThisWhoRegisteredRoom(memberVO.getMemberId())) {
+            mav.addObject("isRegistered", "TRUE");
+        } else {
+            mav.addObject("isRegistered", "FALSE");
+        }
+        mav.setViewName("reviewWrite");
+        return mav;
     }
 
     @RequestMapping(value = "/write", method = RequestMethod.POST)

@@ -25,4 +25,6 @@ public interface ReviewMapper {
     List<String> selectHashTag(int reviewId);
 
     int deleteMultiReview(Map<String, Object> idMap);
+
+    List<ReviewVO> selectReviewListByMemberId(int memberId);
 }

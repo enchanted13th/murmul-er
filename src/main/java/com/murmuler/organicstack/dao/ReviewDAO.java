@@ -23,4 +23,6 @@ public interface ReviewDAO {
     int insertReviewImage(int roomId, String image);
 
     int deleteMultiReview(Map<String, Object> idMap);
+
+    List<ReviewVO> selectReviewListByMemberId(int memberId);
 }

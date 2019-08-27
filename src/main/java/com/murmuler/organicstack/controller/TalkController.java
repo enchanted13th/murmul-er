@@ -91,10 +91,10 @@ public class TalkController {
         ModelAndView mav = new ModelAndView();
 
         if (memberVO == null) {
-            mav.setViewName("index");
+            mav.setViewName("error");
         }
         else if (memberVO.getMemberId() == you) {
-            mav.setViewName("index");
+            mav.setViewName("error");
         }
         else {
             int me = memberVO.getMemberId();

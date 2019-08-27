@@ -130,4 +130,10 @@ public class ReviewDAOImpl implements ReviewDAO {
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
         return mapper.deleteMultiReview(idMap);
     }
+
+    @Override
+    public List<ReviewVO> selectReviewListByMemberId(int memberId) {
+        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
+        return mapper.selectReviewListByMemberId(memberId);
+    }
 }
