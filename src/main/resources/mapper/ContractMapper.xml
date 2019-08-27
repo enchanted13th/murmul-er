@@ -18,8 +18,12 @@
 
     <select id="selectMyContracts" resultType="com.murmuler.organicstack.vo.ContractVO">
         SELECT contract_id AS id, room_id AS roomId, contract_form AS contractForm,
-            contract_date AS contractDate, deposit, monthly_cost AS monthlyCost, stay_from AS stayFrom, stay_to AS stayTo
-        FROM contract_list_tb JOIN contract_tb USING(contract_id) WHERE member_id = #{memberId}
+            contract_date AS contractDate, ct.deposit AS deposit, ct.monthly_cost AS monthlyCost,
+            stay_from AS stayFrom, stay_to AS stayTo
+        FROM contract_list_tb AS cl
+        JOIN contract_tb AS ct USING(contract_id)
+        JOIN sale_tb USING(room_id)
+        WHERE cl.member_id = #{memberId} AND post_id = 1;
     </select>
 
     <select id="selectAddressByRoomId" resultType="string">
