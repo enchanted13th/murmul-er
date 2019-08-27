@@ -37,7 +37,7 @@ var searchRoomFromMap = function() {
 			northEast: bounds.getNorthEast().toString()
 		}, success: function (data) {
 			for (let i = 0; i < subData.length; i++){
-				console.log(subData[i]);
+				//console.log(subData[i]);
 				closeOverlay(subData[i]);
 			}
 			subData = [];
