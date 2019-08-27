@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     $('#btnLogo').click(function () {
         location.href = '/';
@@ -203,170 +202,6 @@ $.showLoginPopup = function (flag, url) {
     }
 }
 
-$.showJoinPopup = function () {
-    if ($('#menuPopup').length !== 0 || $('#loginPopup').length !== 0) {
-        $('body').find('.menuPopup').remove();
-    }
-    if ($('.menuPopup').length === 0) {
-        let popup = $(''
-            + '	<div id="joinPopup" class="menuPopup" >'
-            + '	<div class="joinPopup">'
-            + '		<div class="divClose">'
-            + '			<button onclick="$.showJoinPopup()">X</button>'
-            + '		</div>'
-            + '		<div class="logo">'
-            + '			<img src="/resources/img/topbar/logo.png"></img>'
-            + '		</div>'
-            + '		<h1 align="center">회 원 가 입</h1>'
-            + '		<form name="joinForm" method="post" onsubmit="return false;">'
-            + '			<table class="tbInfo">'
-            + '				<tr>'
-            + '					<td>아이디</td>'
-            + '					<td>'
-            + '						<input id="inputId" name="id" class="inputboxS" placeholder="아이디를 입력하세요" autocomplete="off" required maxlength="20"/>'
-            + '						<button type="button" id="isdupli" name="isdupli" class="btn">중복 확인</button>'
-            + '					</td>'
-            + '				</tr>'
-            + '				<tr>'
-            + '					<td>비밀번호</td>'
-            + '					<td><input type="password" id="inputPw" name="pwd" class="inputbox" placeholder="비밀번호를 입력하세요" autocomplete="off" required maxlength="20"/></td>'
-            + '				</tr>'
-            + '				<tr>'
-            + '					<td></td>'
-            + '					<td><input type="password" id="inputPw2" name="pwd2" class="inputbox" placeholder="비밀번호를  다시 입력하세요" autocomplete="off" required maxlength="20"/></td>				'
-            + '				</tr>'
-            + '				<tr>'
-            + '					<td>이름</td>'
-            + '					<td><input id="inputName" name="realname" class="inputbox" placeholder="이름을 입력하세요" autocomplete="off" required maxlength="10"/></td>'
-            + '				</tr>'
-            + '				<tr>'
-            + '					<td>닉네임</td>'
-            + '					<td><input id="inputNickName" name="nickname" class="inputbox" placeholder="닉네임을 입력하세요" autocomplete="off" required maxlength="10"/></td>'
-            + '				</tr>'
-            + '				'
-            + '				<tr>'
-            + '					<td>이메일</td>'
-            + '					<td>'
-            + '						<input id="inputEmail" name="emailId" class="inputboxS" placeholder="이메일을 입력하세요" autocomplete="off" required maxlength="20"/>'
-            + '						<span id="at" class="at">@</span>'
-            + '						<select id="domain" name="domain" class="domain" name="domain" onchange="guitar()">'
-            + '							<option selected>naver.com</option>'
-            + '							<option>hanmail.net</option>'
-            + '							<option>gmail.com</option>'
-            + '							<option>nate.com</option>'
-            + '							<option>icloud.com</option>'
-            + '							<option>empas.com</option>'
-            + '							<option>기타</option>'
-            + '						</select>'
-            + '					</td>'
-            + '				</tr>'
-            + '				'
-            + '				<tr>'
-            + '					<td>휴대번호</td>'
-            + '					<td>'
-            + '						<select class="frontNum" id="frontNum" name="phone1">'
-            + '							<option value="010" selected>010</option>'
-            + '			                <option value="011">011</option>'
-            + '			                <option value="016">016</option>'
-            + '			                <option value="017">017</option>'
-            + '			                <option value="018">018</option>'
-            + '			                <option value="019">019</option>'
-            + '		               </select>'
-            + '		               <span>-</span>'
-            + '		               <input id="middleNum" name="phone2" class="inputNum" maxlength="4" autocomplete="off" onkeyup="$(this).onlyNum()" required/>'
-            + '		               <span>-</span>'
-            + '		               <input id="backNum" name="phone3" class="inputNum" maxlength="4" autocomplete="off" onkeyup="$(this).onlyNum()" required/>'
-            + '	               </td>'
-            + '				</tr>'
-            + '			</table>'
-            + '			<div class="btns">'
-            + '				<button class="btn" id="join">가입하기</button>'
-            + '			</div>'
-            + '		</form>'
-            + '	</div>'
-            + '</div>'
-            + '').appendTo($('body'));
-
-        popup.find('#join').click(function () {
-            if (!$.validJoinInfo()) return;
-            let email = defend($('#inputEmail').val()) + "@" + defend($('#domain').val());
-            let phone = $('#frontNum').val() + "-" + defend($('#middleNum').val()) + "-" + defend($('#backNum').val());
-            $.ajax('/member/join', {
-                type: 'POST',
-                data: {
-                    id: defend($('#inputId').val()), pwd: defend($('#inputPw').val()),
-                    realname: defend($('#inputName').val()), nickname: defend($('#inputNickName').val()),
-                    email: email, phone: phone
-                }
-            }).then(function (data, status) {
-                if (status === 'success') {
-                    //console.log(data);
-                    switch (data.joinResult) {
-                        case "SUCCESS":
-                            Swal.fire('','회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.',"success");
-                            $.showLoginPopup();
-                            break;
-                        case "JOIN_FAIL":
-                            Swal.fire('','회원가입에 실패하셨습니다.',"error");
-                            break;
-                        case "ALREADY_EXIST":
-                            Swal.fire('', '이미 존재하는 아이디입니다.', 'warning');
-                            break;
-                    }
-                } else {
-                    Swal.fire('연결 오류', '잠시 후 다시 시도해주세요.', 'error');
-                    // alert(1);
-                }
-                isDuplicatedCheck = false;
-            })
-        });
-        popup.find('#isdupli').click(function () {
-            let id = defend($('#inputId').val());
-            if(id.includes(" ")){
-                includeBlank("아이디 입력란")
-                return;
-            }
-            if (id.length < 6 || id.length > 20) {
-                Swal.fire('','아이디는 최소 6자 이상, 최대 20자 이하입니다.',"warning");
-                document.joinForm.id.focus();
-                return;
-            }
-            document.joinForm.pwd.focus();
-            $.ajax('/member/duplicateId', {
-                type: 'POST',
-                data: {id: id}
-            }).then(function (data, status) {
-                if (status === 'success') {
-                    // console.log(data);
-                    // console.log(typeof data);
-                    switch (data.isDuplicatedId) {
-                        case true:
-                            Swal.fire('','이미 존재하는 아이디입니다.',"warning");
-                            break;
-                        case false:
-                            Swal.fire('','아이디 등록이 가능합니다!',"success");
-                            isDuplicatedCheck = true;
-                            break;
-                    }
-                }
-            })
-        })
-
-        popup.find('#inputId').change(function(){
-            isDuplicatedCheck = false;
-        })
-
-        document.joinForm.id.focus();
-        let wh = $(window).height();
-        let ph = 681;
-        let top = (wh - ph) / 2;
-        if (top < 0) top = 0;
-        popup.children('div').css('margin-top', top);
-    } else {
-        $('body').find('.menuPopup').remove();
-    }
-}
-
 $.showTalkList = function() {
     let width = 450;
     let height = 830;
@@ -374,133 +209,6 @@ $.showTalkList = function() {
     let popupY = (window.screen.height / 2) - (height / 2);
     window.open("http://www.murmul-er.com:8080/talk", "", "status=no, width="+width+"px, height="+height+"px, left="+popupX+"px, top="+popupY+"px");
     // window.open("/talk", "", "status=no, width="+width+"px, height="+height+"px, left="+popupX+"px, top="+popupY+"px");
-}
-
-var guitar = function () {
-    if ($('#domain').val() === '기타') {
-        $('#domain').remove();
-        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required maxlength="15">' + '')
-            .appendTo($('#at'));
-        textbox.focus();
-    }
-}
-
-var includeBlank = function(type) {
-    Swal.fire('',type+'에 공백 문자를 입력할 수 없습니다.');
-    return false;
-}
-
-var isDuplicatedCheck = false;
-
-$.validJoinInfo = function () {
-    let id = defend($('#inputId').val());
-    let pwd = defend($('#inputPw').val());
-    let pwd2 = defend($('#inputPw2').val());
-    let realname = defend($('#inputName').val());
-    let nickname = defend($('#inputNickName').val());
-    let emailId = defend($('#inputEmail').val());
-    let domain = defend($('#domain').val());
-    let phone1 = $('#frontNum').val();
-    let phone2 = $('#middleNum').val();
-    let phone3 = $('#backNum').val();
-
-    // id : 영문자로 시작. 영어, 숫자, 특수문자(-_) 가능. 6-20자
-    let idRegExp = /^[a-zA-Z][0-9a-zA-Z_-]{5,19}$/;
-    // pwd : 영어, 숫자, 특수문자(~!#$^&*?) 가능. 6-20자
-    let pwdRegExp = /^[a-zA-Z0-9~!#$^&*?]{6,20}$/;
-    // name : 한글 2-10자
-    let nameRegExp = /^[가-힣]{2,10}$/;
-    // nick : 한글, 영어, 숫자, 특수문자(~!#$^&*?) 가능. 2-10자
-    let nickRegExp = /^[a-zA-Z0-9가-힣~!#$^&*?]{2,10}$/;
-    // email : 영어, 숫자, 특수문자(_) 가능. 3-20자
-    let emailRegExp = /^[a-z0-9_]{3,20}@[a-z]{2,15}\.(com|net|co.kr|ac.kr|kr)$/;
-    // phone : 숫자 10-11자
-    let phoneRegExp = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
-
-    if (id === "" || pwd === "" || pwd2 === "" || realname === "" || nickname === "" || emailId === "" || domain === "" || phone1 === "" || phone2 === "" || phone3 === "")
-        return false;
-
-    let email = emailId+"@"+domain;
-    let phone = phone1+"-"+phone2+"-"+phone3;
-    console.log("id", idRegExp.test(id));
-    console.log("pwd", pwdRegExp.test(pwd));
-    console.log("name", nameRegExp.test(realname));
-    console.log("nick", nickRegExp.test(nickname));
-    console.log("email", emailRegExp.test(email));
-    console.log("phone", phoneRegExp.test(phone));
-
-    let title = '';
-    let content = '';
-    let selector = '';
-    let isValid = true;
-
-    if (id.length < 6 || id.length > 20) {
-        return pleaseReenter('', '아이디는 최소 6자 이상, 최대 20자 이하입니다.', '#inputId');
-    }
-    if (!idRegExp.test(id)) {
-        return pleaseReenter('', '아이디는 최소 6자 이상, 최대 20자 이하입니다.', '#inputId');
-    }
-    if (!isDuplicatedCheck) {
-        return pleaseReenter('', '아이디 중복 체크를 해주세요!', '#inputId');
-    }
-    if (pwd.length < 6 || pwd.length > 20) {
-        return pleaseReenter('','비밀번호는 최소 6자 이상, 최대 20자 이하입니다.', '#inputPw');
-    }
-    if (pwd !== pwd2) {
-        return pleaseReenter('','비밀번호 확인이 일치하지 않습니다.', '#inputPw2');
-    }
-    if(realname.includes(" ")){
-        return includeBlank("이름 항목");
-    }
-    if(nameCheck.test(realname)){
-        Swal.fire('','이름 항목에는 한글,영문만 입력가능합니다.',"warning");
-        document.joinForm.realname.focus();
-        return false;
-    }
-    if (realname === '' || realname.length > 10 || realname.length < 2) {
-        Swal.fire('','이름은 최소 2자 이상, 최대 10자 이하입니다.');
-        document.joinForm.realname.focus();
-        return false;
-    }
-    if (nickname === '' || nickname.length > 13) {
-        Swal.fire('','닉네임은 최소 1자이상, 최대 10자 이하입니다.',"warning");
-        document.joinForm.nickname.focus();
-        return false;
-    }
-    if(emailId.includes(" ")){
-        return includeBlank("이메일 입력란");
-    }
-    if (emailId === '') {
-        Swal.fire('','이메일을 등록해주세요.',"warning");
-        document.joinForm.emailId.focus();
-        return false;
-    }
-    if(emailId.length < 5){
-        Swal.fire('','이메일은 최소 5자 이상, 최대 30자 이하입니다.','warning');
-        return false;
-    }
-    if(emailCheck.test(emailId)){
-        Swal.fire('올바르지 않은 이메일 양식입니다.','영문자와 숫자만 입력하여주세요.',"warning");
-        document.joinForm.emailId.focus();
-        return false;
-    }
-    if(phone2.includes(" ")){
-        return includeBlank("휴대번호 입력란");
-    }
-    if(phone3.includes(" ")){
-        return includeBlank("휴대번호 입력란");
-    }
-    if (!isNumber(phone2)) {
-        Swal.fire('','휴대번호는 숫자만 입력해주세요.',"warning");
-        document.joinForm.phone2.focus();
-        return false;
-    }
-    if (!isNumber(phone3)) {
-        Swal.fire('','휴대번호는 숫자만 입력해주세요.',"warning");
-        document.joinForm.phone3.focus();
-        return false;
-    }
-    return true;
 }
 
 var pleaseReenter = function (title, content, selector) {
@@ -513,6 +221,17 @@ var pleaseReenter = function (title, content, selector) {
         }
     });
     return false;
+}
+
+var swalFocus = function (title, content, type, selector) {
+    Swal.fire({
+        title: title,
+        text: content,
+        type: type,
+        onAfterClose: () => {
+            $(selector).focus();
+        }
+    });
 }
 
 function isNumber(s) {
