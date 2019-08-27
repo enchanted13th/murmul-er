@@ -424,35 +424,75 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/update/{roomId}", method = RequestMethod.GET)
-    public ModelAndView updateRoom(@PathVariable int roomId){
+    public ModelAndView updateRoom(@PathVariable int roomId,
+                                   HttpServletRequest request){
 
-        Map<String, Object> room = roomService.getRoomInfo(roomId);
-
-//        logger.info("roomVO: "+ room.get("roomVO"));
+        MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
+        int memberId = member.getMemberId();
+        List<Integer> list;
+        list = roomService.getRoomIdListByMemberId(memberId);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("/manage/updateRoom");
-        mav.addObject("room", room);
-        mav.addObject("roomId", roomId);
-        return mav;
+        if(list == null){
+            mav.setViewName("/error");
+            return mav;
+        }
+        else if(list.contains(roomId) == true){
+            int result = roomService.removeRoom(roomId);
+            if(result > 0) {
+                Map<String, Object> room = roomService.getRoomInfo(roomId);
+                mav.setViewName("/manage/updateRoom");
+                mav.addObject("room", room);
+                mav.addObject("roomId", roomId);
+                return mav;
+            } else {
+                mav.setViewName("/error");
+                return mav;
+            }
+        }else{
+            mav.setViewName("/error");
+            return mav;
+        }
     }
 
     /* ----- 내 방 관리 -> 삭제 -> 내 방 관리 ----- */
     @RequestMapping(value = "/room/delete", method = RequestMethod.POST)
     public void eraseRoom(@RequestParam int roomId,
+                          HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         logger.info(String.format("eraseRoom method entered... roomId: %d", roomId));
         JSONObject res = new JSONObject();
-        int result = roomService.removeRoom(roomId);
-        if(result > 0) {
-            res.put("deleteResult", "SUCCESS");
-        } else {
+
+        // 세션 정보 가져와서 삭제 할 roomId가 member_id로 roomId 찾은후
+        // 제거할 roomId가 포함된다면 삭제 진행
+        // 없으면 DELETE_FAIL 보내주기
+
+        MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
+        int memberId = member.getMemberId();
+        List<Integer> list;
+        list = roomService.getRoomIdListByMemberId(memberId);
+
+//        System.out.println("list ; " + list);
+
+        if(list == null){
             res.put("deleteResult", "DELETE_FAIL");
         }
+        else if(list.contains(roomId) == true){
+            int result = roomService.removeRoom(roomId);
+            if(result > 0) {
+                res.put("deleteResult", "SUCCESS");
+            } else {
+                res.put("deleteResult", "DELETE_FAIL");
+            }
+        }else{
+            res.put("deleteResult", "DELETE_FAIL");
+        }
+
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
     }
 
 //    /* ----- 내 방 관리 -> 삭제 -> 내 방 관리 ----- */
+//    /* ----- 방 삭제시 폴더, 파일 삭제 적용 ----- */
 //    @RequestMapping(value = "/room/delete", method = RequestMethod.POST)
 //    public void eraseRoom(@RequestParam int roomId,
 //                          HttpServletResponse response) throws IOException {
@@ -482,27 +522,42 @@ public class RoomController {
     @RequestMapping(value = "/post-status", method = RequestMethod.POST)
     public void changePost(@RequestParam int roomId,
                            @RequestParam String postType,
+                           HttpServletRequest request,
                            HttpServletResponse response) throws IOException {
         logger.info(String.format("changePost method entered... ri: %d, pt: %s", roomId, postType));
         JSONObject res = new JSONObject();
-        int result = roomService.modifyPostType(roomId, postType);
-        switch (result) {
-            case PostStatusRecord.POST_UPDATE_FAIL :
-              res.put("result", "UPDATE_FAIL");
-              break;
-            case PostStatusRecord.POST_POSTING :
-              res.put("result", "POSTING");
-              break;
-            case PostStatusRecord.POST_END_POSTING :
-              res.put("result", "END_POSTING");
-              break;
-            case PostStatusRecord.POST_DEAL_COMPLETE :
-              res.put("result", "DEAL_COMPLETE");
-              break;
-            case PostStatusRecord.POST_NO_POSTING :
-              res.put("result", "NO_POSTING");
-              break;
+
+        MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
+        int memberId = member.getMemberId();
+        List<Integer> list;
+        list = roomService.getRoomIdListByMemberId(memberId);
+        if(list == null){
+            res.put("result", "XSS_FAIL");
         }
+        else if(list.contains(roomId) == true){
+            System.out.println("deleteResult, true");
+            int result = roomService.modifyPostType(roomId, postType);
+            switch (result) {
+                case PostStatusRecord.POST_UPDATE_FAIL :
+                    res.put("result", "UPDATE_FAIL");
+                    break;
+                case PostStatusRecord.POST_POSTING :
+                    res.put("result", "POSTING");
+                    break;
+                case PostStatusRecord.POST_END_POSTING :
+                    res.put("result", "END_POSTING");
+                    break;
+                case PostStatusRecord.POST_DEAL_COMPLETE :
+                    res.put("result", "DEAL_COMPLETE");
+                    break;
+                case PostStatusRecord.POST_NO_POSTING :
+                    res.put("result", "NO_POSTING");
+                    break;
+            }
+        }else{
+            res.put("result", "XSS_FAIL");
+        }
+
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
     }

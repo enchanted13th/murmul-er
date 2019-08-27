@@ -26,6 +26,7 @@ public interface RoomMapper {
     RoomVO selectRoomInfo(int roomId);
     SaleInfoVO selectRoomSaleInfo(int roomId);
     int selectImgCntByRoomId(int roomId);
+    List<Integer> selectRoomIdListByMemberId(int memberId);
 
     int insertLocation(LocationVO locationVO);
     int insertRoom(RoomVO roomVO);

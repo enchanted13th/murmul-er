@@ -44,9 +44,15 @@ function placesSearchCB(data, status) {
         dataSubmit();
     } else {
         // console.log("if조건에 안걸린다");
-        Swal.fire("","없는 주소입니다.","error");
+        Swal.fire({
+            title: "",
+            text: "없는 주소입니다.",
+            type: "error",
+            onAfterClose: () => {
+                $('#inputAddr').focus();
+            }
+        });
     }
-
 }
 
 function convertList(list){
@@ -94,7 +100,7 @@ function dataSubmit(){
     // console.log(roomInfo);
 
     if(formData.get("uploadFile") == null){
-        Swal.fire('사진을 등록해주세요', '', 'warning');
+        return pleaseReenter('', '사진을 등록해주세요', '#tdImg');
     }else{
         $('#lastBtn').attr('disabled', true);
         $('#cancel').attr('disabled', true);
@@ -123,7 +129,6 @@ function dataSubmit(){
                                         break;
                                     case "FAIL" :
                                         Swal.fire('파일 등록 실패', '등록할 수 없습니다.', 'error');
-                                        break;
                                 }
                             } else {
                                 Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
@@ -161,8 +166,8 @@ function readURL(input) {
             let imgName = input.files[i-1].name;
             let fileExt = imgName.slice(imgName.indexOf(".") + 1).toLowerCase(); // 파일 확장자를 잘라내고, 비교를 위해 소문자로
 
-            if(fileExt != "jpg" && fileExt != "png" &&  fileExt != "gif" &&  fileExt != "bmp"){
-                Swal.fire('', '파일 첨부는 이미지 파일(jpg, png, gif, bmp)만 등록이 가능합니다,', 'warning');
+            if(fileExt != "jpg" &&  fileExt != "jpeg" && fileExt != "png" &&  fileExt != "bmp"){
+                Swal.fire('', '파일 첨부는 이미지 파일(jpg, jpeg, png, bmp)만 등록이 가능합니다,', 'warning');
                 return;
             }
 
@@ -311,9 +316,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnRt1').scrollIntoView();
-            Swal.fire("매물종류를 선택하세요.");
-            return;
+            return pleaseReenter('', '매물종류를 선택하세요.', '#btnRt1');
         }
 
         check = 0;
@@ -323,9 +326,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnRi1').scrollIntoView();
-            Swal.fire("금액을 선택하세요.");
-            return;
+            return pleaseReenter('', "금액을 선택하세요.", '#btnRi1');
         }
 
         check = 0;
@@ -333,9 +334,15 @@ $.fn.clickSubmit = function() {
             check++;
         }
         if(check == 0){
-            document.getElementById('inputDeposit').scrollIntoView();
-            Swal.fire("가격정보중 잘못된 입력값이 있습니다.");
-            return;
+            if($('#inputDeposit').val() <= 210000){
+                return pleaseReenter("보증금/월세/관리비를 확인하세요.", "210000이하로 입력하세요.", '#inputDeposit');
+            }
+            if($('#inputPrice').val() <= 210000){
+                return pleaseReenter("보증금/월세/관리비를 확인하세요.", "210000이하로 입력하세요.", '#inputPrice');
+            }
+            if($('#inputAdminFee').val() <= 210000){
+                return pleaseReenter("보증금/월세/관리비를 확인하세요.", "210000이하로 입력하세요.", '#inputAdminFee');
+            }
         }
 
         check = 0;
@@ -345,9 +352,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnAF1').scrollIntoView();
-            Swal.fire("관리비를 선택하세요.");
-            return;
+            return pleaseReenter("", "관리비를 선택하세요.", '#btnAF1');
         }
 
         if ($('#btnAF2').css('background-color') === "rgb(182, 226, 248)") {
@@ -358,9 +363,7 @@ $.fn.clickSubmit = function() {
                 }
             }
             if (check == 0) {
-                document.getElementById('btnAFL1').scrollIntoView();
-                Swal.fire("관리비 포함 항목을 선택하세요.");
-                return;
+                return pleaseReenter("", "관리비 포함 항목을 선택하세요.", '#btnAF1');
             }
         }
 
@@ -371,9 +374,8 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnHeat1').scrollIntoView();
-            Swal.fire("난방 종류를 선택하세요.");
-            return;
+            return pleaseReenter("", "난방 종류를 선택하세요.", '#btnHeat1');
+
         }
 
         check = 0;
@@ -383,9 +385,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnAnimal1').scrollIntoView();
-            Swal.fire("반려 동물 여부를 선택하세요.");
-            return;
+            return pleaseReenter("", "반려 동물 여부를 선택하세요.", '#btnAnimal1');
         }
 
         check = 0;
@@ -395,9 +395,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnParking1').scrollIntoView();
-            Swal.fire("주차장 여부를 선택하세요.");
-            return;
+            return pleaseReenter("", "주차장 여부를 선택하세요.", '#btnParking1');
         }
 
         check = 0;
@@ -407,9 +405,7 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnEv1').scrollIntoView();
-            Swal.fire("엘리베이터 여부를 선택하세요.");
-            return;
+            return pleaseReenter("", "엘리베이터 여부를 선택하세요.", '#btnEv1');
         }
 
         check = 0;
@@ -419,42 +415,45 @@ $.fn.clickSubmit = function() {
             }
         }
         if (check == 0) {
-            document.getElementById('btnOption1').scrollIntoView();
-            Swal.fire("옵션 항목을 선택하세요.");
-            return;
+            return pleaseReenter("", "옵션 항목을 선택하세요.", '#btnOption1');
         }
+        if(on1 <= 0){
+            return pleaseReenter("면적을 확인하세요.", "양수를 입력하세요.", '#inputSize');
+        }
+
+        let num_check = /^[-]?\d*$/g;
+        if(!num_check.test($('#inputFloor').val())){
+            return pleaseReenter("층수를 확인하세요.", "정수를 입력하세요.", '#inputFloor');
+        }
+        if($('#inputFloor').val() == ""){
+            return pleaseReenter("", "층수를 입력하세요.", '#inputFloor');
+        }
+
         if (!onlyNum.test(on2) || !onlyNum.test(on3) || !onlyNum.test(on4) || !onlyNum.test(on5)) {
-            Swal.fire("숫자만 입력하세요.");
             if (!onlyNum.test(on2)) {
-                $('#inputDeposit').focus();
+                return pleaseReenter("금액을 확인하세요.","양의 정수를 입력하세요.", '#inputDeposit');
             } else if (!onlyNum.test(on3)) {
-                $('#inputPrice').focus();
+                return pleaseReenter("금액을 확인하세요.","양의 정수를 입력하세요.", '#inputPrice');
             } else if (!onlyNum.test(on4)) {
-                $('#inputAdminFee').focus();
+                return pleaseReenter("관리비를 확인하세요.","양의 정수를 입력하세요.", '#inputAdminFee');
             } else {
-                $('#inputPeriodNum').focus();
+                return pleaseReenter("임대기간을 확인하세요.","양의 정수를 입력하세요.", '#inputPeriodNum');
             }
             return;
         }
         if (on1 == "" || on3 == "" || on5 == "" || $('#inputTitle').val() == "" || $('#txtDetail').val() == "" || $('#inputAddr').val() == "") {
             if ($('#inputAddr').val() == "") {
-                Swal.fire("주소를 입력하세요.");
-                $('#inputAddr').focus();
+                return pleaseReenter("","주소를 입력하세요.", '#inputAddr');
             } else if (on1 == "") {
-                Swal.fire("면적을 입력하세요.");
-                $('#inputSize').focus();
+                return pleaseReenter("","면적을 입력하세요.", '#inputSize');
             } else if (on3 == "") {
-                Swal.fire("금액을 입력하세요.");
-                $('#inputPrice').focus();
+                return pleaseReenter("","금액을 입력하세요.", '#inputPrice');
             } else if (on5 == "") {
-                Swal.fire("임대기간을 입력하세요.");
-                $('#inputPeriodNum').focus();
+                return pleaseReenter("","임대기간을 입력하세요.", '#inputPeriodNum');
             } else if ($('#inputTitle').val() == "") {
-                Swal.fire("제목을 입력하세요.");
-                $('#inputTitle').focus();
+                return pleaseReenter("","제목을 입력하세요.", '#inputTitle');
             } else if ($('#txtDetail').val() == "") {
-                Swal.fire("상세 설명을 입력하세요.");
-                $('#txtDetail').focus();
+                return pleaseReenter("","상세 설명을 입력하세요.", '#txtDetail');
             } else {
                 ;
             }
@@ -463,34 +462,40 @@ $.fn.clickSubmit = function() {
         }
         if (on4 == "") {
             if ($('#btnAF2').css('background-color') === "rgb(182, 226, 248)") {
-                Swal.fire("관리비를 입력하세요.");
-                $('#inputAdminFee').focus();
-                return;
+                return pleaseReenter("","관리비를 입력하세요.", '#inputAdminFee');
             }
         }
 
         if(defend($('#inputDetailAddr').val()).length > 100) {
-            Swal.fire("상세 주소는 100자를 넘을 수 없습니다.");
-            return;
+            return pleaseReenter("","상세 주소는 30자를 넘을 수 없습니다.", '#inputDetailAddr');
         }
 
         if(defend($('#inputTitle').val()).length > 150) {
-            Swal.fire("제목은 150자를 넘을 수 없습니다.");
-            return;
+            return pleaseReenter("","제목은 50자를 넘을 수 없습니다.", '#inputTitle');
         }
 
-        let hash1 = $('#hash1').val();
-        let hash2 = $('#hash2').val();
-        let hash3 = $('#hash3').val();
+        let hash1 = defend($('#hash1').val());
+        let hash2 = defend($('#hash2').val());
+        let hash3 = defend($('#hash3').val());
 
-        if (defend(hash1).length > 13 || defend(hash2).length > 13 || defend(hash3).length > 13) {
-            Swal.fire("해시태그는 13자를 넘을 수 없습니다.");
-            return;
+        if(hash1.includes('#') == true || hash2.includes('#') == true || hash3.includes('#') == true){
+            if(hash1.includes('#') == true){
+                return pleaseReenter("해시태그를 확인하세요.","#은 사용할 수 없습니다.", '#hash1');
+            }
+            if(hash2.includes('#') == true){
+                return pleaseReenter("해시태그를 확인하세요.","#은 사용할 수 없습니다.", '#hash2');
+            }
+            if(hash3.includes('#') == true){
+                return pleaseReenter("해시태그를 확인하세요.","#은 사용할 수 없습니다.", '#hash3');
+            }
+        }
+
+        if (hash1.length > 30 || hash2.length > 30 || hash3.length > 30) {
+            return pleaseReenter("","해시태그는 10자를 넘을 수 없습니다.", '#hash1');
         }
 
         if($('.addimage').length<2 || $('.addimage').length>10){
-            Swal.fire("사진을 2~10장 올려주세요");
-            return;
+            return pleaseReenter("","사진을 2~10장 올려주세요", '.addimage');
         }
 
 
