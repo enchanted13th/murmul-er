@@ -237,17 +237,17 @@ $.showJoinPopup = function () {
             + '				</tr>'
             + '				<tr>'
             + '					<td>이름</td>'
-            + '					<td><input id="inputName" name="realname" class="inputbox" placeholder="이름을 입력하세요" autocomplete="off" required/></td>'
+            + '					<td><input id="inputName" name="realname" class="inputbox" placeholder="이름을 입력하세요" autocomplete="off" required maxlength="10"/></td>'
             + '				</tr>'
             + '				<tr>'
             + '					<td>닉네임</td>'
-            + '					<td><input id="inputNickName" name="nickname" class="inputbox" placeholder="닉네임을 입력하세요" autocomplete="off" required/></td>'
+            + '					<td><input id="inputNickName" name="nickname" class="inputbox" placeholder="닉네임을 입력하세요" autocomplete="off" required maxlength="10"/></td>'
             + '				</tr>'
             + '				'
             + '				<tr>'
             + '					<td>이메일</td>'
             + '					<td>'
-            + '						<input id="inputEmail" name="emailId" class="inputboxS" placeholder="이메일을 입력하세요" autocomplete="off" required/>'
+            + '						<input id="inputEmail" name="emailId" class="inputboxS" placeholder="이메일을 입력하세요" autocomplete="off" required maxlength="30"/>'
             + '						<span id="at" class="at">@</span>'
             + '						<select id="domain" name="domain" class="domain" name="domain" onchange="guitar()">'
             + '							<option selected>naver.com</option>'
@@ -379,7 +379,7 @@ $.showTalkList = function() {
 var guitar = function () {
     if ($('#domain').val() === '기타') {
         $('#domain').remove();
-        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required>' + '')
+        let textbox = $('' + '<input type="text" id="domain" name="domain" class="tdomain textbox" required maxlength="20">' + '')
             .appendTo($('#at'));
         textbox.focus();
     }
@@ -436,13 +436,13 @@ $.validJoinInfo = function () {
         document.joinForm.realname.focus();
         return false;
     }
-    if (realname === '' || realname.length > 10) {
-        Swal.fire('','이름은 10자 이하입니다.');
+    if (realname === '' || realname.length > 10 || realname.length < 2) {
+        Swal.fire('','이름은 최소 2자 이상, 최대 10자 이하입니다.');
         document.joinForm.realname.focus();
         return false;
     }
     if (nickname === '' || nickname.length > 13) {
-        Swal.fire('','닉네임은 10자 이하입니다.',"warning");
+        Swal.fire('','닉네임은 최소 1자이상, 최대 10자 이하입니다.',"warning");
         document.joinForm.nickname.focus();
         return false;
     }
@@ -454,8 +454,11 @@ $.validJoinInfo = function () {
         document.joinForm.emailId.focus();
         return false;
     }
+    if(emailID.length < 5){
+        Swal.fire('','이메일은 최소 5자 이상, 최대 30자 이하입니다.','warning');
+    }
     if(emailCheck.test(emailId)){
-        Swal.fire('','올바르지 않은 이메일 양식입니다.',"warning");
+        Swal.fire('올바르지 않은 이메일 양식입니다.','영문자와 숫자만 입력하여주세요.',"warning");
         document.joinForm.emailId.focus();
         return false;
     }
