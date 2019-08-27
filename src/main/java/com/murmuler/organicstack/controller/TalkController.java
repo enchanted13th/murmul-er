@@ -106,7 +106,7 @@ public class TalkController {
         } else {
             talkRoomId = dialogueList.get(0).getContent();
             talkRoom = repository.getTalkRoom(talkRoomId);
-            System.out.println(talkRoom);
+//            System.out.println(talkRoom);
             if (talkRoom == null) {
                 talkRoom = TalkRoom.create();
                 talkRoom.setId(talkRoomId);

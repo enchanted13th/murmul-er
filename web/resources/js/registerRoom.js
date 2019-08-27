@@ -469,10 +469,16 @@ $.fn.clickSubmit = function() {
             }
         }
 
-        if($('.addimage').length<2 || $('.addimage').length>10){
-            Swal.fire("사진을 2~10장 올려주세요");
+        if(defend($('#inputDetailAddr').val()).length > 100) {
+            Swal.fire("상세 주소는 100자를 넘을 수 없습니다.");
             return;
         }
+
+        if(defend($('#inputTitle').val()).length > 150) {
+            Swal.fire("제목은 150자를 넘을 수 없습니다.");
+            return;
+        }
+
         let hash1 = $('#hash1').val();
         let hash2 = $('#hash2').val();
         let hash3 = $('#hash3').val();
@@ -481,6 +487,12 @@ $.fn.clickSubmit = function() {
             Swal.fire("해시태그는 13자를 넘을 수 없습니다.");
             return;
         }
+
+        if($('.addimage').length<2 || $('.addimage').length>10){
+            Swal.fire("사진을 2~10장 올려주세요");
+            return;
+        }
+
 
         if (hash1 == "" && hash2 == "" && hash3 == "") {
             hashtagExist = false;
@@ -543,12 +555,10 @@ $.fn.clickRi = function () {
 
         if(selectedRi == 1) {
             $('#inputPrice').attr("readonly", true);
-            $('#inputDeposit').attr("placeholder", "전세");
             $('#inputDeposit').val("");
             $('#inputPrice').val("0");
         }else{
             $('#inputPrice').removeAttr('readonly');
-            $('#inputDeposit').attr("placeholder", "보증금");
             $('#inputDeposit').val("");
             $('#inputPrice').val("");
         }

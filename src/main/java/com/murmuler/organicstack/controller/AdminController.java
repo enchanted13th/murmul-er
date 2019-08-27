@@ -87,7 +87,7 @@ public class AdminController {
         List<String> idList = new ArrayList<>();
         for(String id : ids)
             idList.add(id);
-        System.out.println(idList);
+//        System.out.println(idList);
         Map<String, Object> idMap = new HashMap<>();
         idMap.put("ids", idList);
         int res = roomService.modifyMultiPostType(idMap);
@@ -107,7 +107,7 @@ public class AdminController {
         logger.info("called delete All method");
         String[] ids = del_ids.split(",");
         int res = 0;
-        System.out.println("fromWhere: "+ fromWhere);
+        logger.info("fromWhere: "+ fromWhere);
         List<String> idList = new ArrayList<>();
         for(String id : ids)
             idList.add(id);

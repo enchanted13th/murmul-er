@@ -136,7 +136,7 @@ public class MypageController {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         if(memberVO != null) {
             List<ContractVO> contracts = contractService.getMyContracts(memberVO.getMemberId());
-            System.out.println(contracts);
+//            System.out.println(contracts);
             mav.addObject("contracts", contracts);
             mav.setViewName("myContractList");
         }

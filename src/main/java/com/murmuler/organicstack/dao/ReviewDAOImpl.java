@@ -82,7 +82,7 @@ public class ReviewDAOImpl implements ReviewDAO {
             //int reviewId = mapper.selectOneRecentReview();
             int reviewId = reviewVO.getId();
             res = reviewId;
-            System.out.println("hash: "+reviewVO.getHashTagList());
+//            System.out.println("hash: "+reviewVO.getHashTagList());
             if(reviewVO.getHashTagList() != null) {
                 insertReviewHashtag(reviewId, reviewVO.getHashTagList());
             }

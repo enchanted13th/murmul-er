@@ -27,10 +27,10 @@ public class ReportTest {
 
     @Test
     public void selectReportTypeRecordTest(){
-        System.out.println(reportTypeRecord);
+//        System.out.println(reportTypeRecord);
         reportTypeRecord.initReportType();
         int reportTypeId = reportTypeRecord.getId("정보가 다른 매물");
-        System.out.println("reportTypeId : " + reportTypeId);
+//        System.out.println("reportTypeId : " + reportTypeId);
         assertEquals(2, reportTypeId);
     }
 

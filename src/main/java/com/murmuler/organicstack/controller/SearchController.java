@@ -82,7 +82,7 @@ public class SearchController {
         paramMap.put("east", east);
         List<RoomSummaryViewVO> roomList = roomService.getRoomsByLocation(paramMap);
 
-        System.out.println(roomList);
+//        System.out.println(roomList);
 
         for (int i = 0; i < roomList.size(); i++) {
             roomInfo.put("roomId", "" + roomList.get(i).getRoomId());

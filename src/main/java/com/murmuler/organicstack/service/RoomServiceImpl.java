@@ -95,14 +95,14 @@ public class RoomServiceImpl implements RoomService {
         locationVO.setLatitude(new BigDecimal(roomInfo.get("latitude")));
         locationVO.setLongitude(new BigDecimal(roomInfo.get("longitude")));
         locationVO.setDetailAddr(roomInfo.get("detailAddr"));
-        System.out.println(locationVO);
+//        System.out.println(locationVO);
 
         /* ----- 방 정보 등록 (room) ----- */
         roomVO.setArea(Double.parseDouble(roomInfo.get("area")));
         roomVO.setFloor(Integer.parseInt(roomInfo.get("floor")));
         roomVO.setHeatType(heatingTypeRecord.getId(roomInfo.get("heatType")));
         roomVO.setRoomType(roomTypeRecord.getId(roomInfo.get("roomType")));
-        System.out.println(roomVO);
+//        System.out.println(roomVO);
 
         /* ----- 판매 정보 등록 (sale) ----- */
         saleInfoVO.setTitle(roomInfo.get("title"));
@@ -118,7 +118,7 @@ public class RoomServiceImpl implements RoomService {
         saleInfoVO.setMemberId(Integer.parseInt(roomInfo.get("memberId")));
         String hashtagExist = roomInfo.get("hashtagExist").equals("true") ? "Y" : "N";
         saleInfoVO.setHashtagExist(hashtagExist);
-        System.out.println(saleInfoVO);
+//        System.out.println(saleInfoVO);
 
         int roomId = roomDAO.insertRoom(locationVO, roomVO, saleInfoVO);
         if(roomId == roomDAO.FAIL)
@@ -130,11 +130,11 @@ public class RoomServiceImpl implements RoomService {
             int[] manageIdList = new int[temp.length];
             for (int i = 0; i < temp.length; i++) {
                 manageIdList[i] = manageCostRecord.getId(temp[i]);
-                System.out.println("관리항목 : " + manageIdList[i]);
+//                System.out.println("관리항목 : " + manageIdList[i]);
             }
             result = result && (roomDAO.insertRoomManageCost(roomId, manageIdList) > 0);
         }
-        System.out.println("manage"+result);
+//        System.out.println("manage"+result);
         if (!roomInfo.get("optionList").equals("")) {
             temp = roomInfo.get("optionList").split(",");
             int[] optionIdList = new int[temp.length];
@@ -143,14 +143,14 @@ public class RoomServiceImpl implements RoomService {
             }
             result = result && (roomDAO.insertRoomOption(roomId, optionIdList) > 0);
         }
-        System.out.println("option"+result);
-        System.out.println(hashtagExist);
+//        System.out.println("option"+result);
+//        System.out.println(hashtagExist);
         if (hashtagExist.equals("Y")) {
             String[] hashtagList = roomInfo.get("hashtagList").split(",");
-            System.out.println(hashtagList);
+//            System.out.println(hashtagList);
             result = result && (roomDAO.insertRoomHashtag(roomId, hashtagList) > 0);
         }
-        System.out.println("hash"+result);
+//        System.out.println("hash"+result);
 //        String[] imgUrlList = roomInfo.get("imgUrlList").split(",");
 //        roomDAO.insertRoomImage(roomId, imgUrlList);
         if (result == false) return roomDAO.FAIL;
