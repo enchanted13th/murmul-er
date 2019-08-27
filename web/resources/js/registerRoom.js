@@ -473,12 +473,21 @@ $.fn.clickSubmit = function() {
             Swal.fire("사진을 2~10장 올려주세요");
             return;
         }
+        let hash1 = $('#hash1').val();
+        let hash2 = $('#hash2').val();
+        let hash3 = $('#hash3').val();
 
-        if ($('#hash1').val() == "" && $('#hash2').val() == "" && $('#hash3').val() == "") {
+        if (defend(hash1).length > 13 || defend(hash2).length > 13 || defend(hash3).length > 13) {
+            Swal.fire("해시태그는 13자를 넘을 수 없습니다.");
+            return;
+        }
+
+        if (hash1 == "" && hash2 == "" && hash3 == "") {
             hashtagExist = false;
         } else {
             hashtagExist = true;
         }
+
 
         Swal.fire({
             title: "방 등록",
