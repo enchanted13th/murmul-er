@@ -5,6 +5,7 @@
 <script src="/resources/js/jquery-3.4.1.min.js"></script>
 <script src="/resources/sweetalert2/sweetalert2.min.js"></script>
 <script src="/resources/js/topbar.js"></script>
+<script src="/resources/js/join.js"></script>
 <script>
     let islogin = ('${loginMember.memberId}' == '' ? false : true);
 //    console.log(islogin);

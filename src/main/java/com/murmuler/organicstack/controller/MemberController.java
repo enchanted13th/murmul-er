@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 
 
 @Controller
@@ -77,7 +77,7 @@ public class MemberController {
                 ",\n\t email : "+email+", phone : "+phone);
 
         String gender = (int)(Math.random() * 2) == 0 ? "M" : "F";
-        MemberVO member = new MemberVO(0, id, realname, gender, new Date(0), phone, pwd, email, nickname);
+        MemberVO member = new MemberVO(0, id, realname, gender, new Date(), phone, pwd, email, nickname);
 
         JSONObject res = new JSONObject();
 

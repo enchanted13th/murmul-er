@@ -3,7 +3,7 @@ package com.murmuler.organicstack.vo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class MemberVO {
     public MemberVO(int memberId, String id, String name, String gender, Date birth, String phone, String pwd, String email, String nickname) {
         if (id == null || id.equals("")) id = "empty";
         if (name == null || id.equals("")) name = "empty";
-        if (birth == null) birth = new Date(0);
+        if (birth == null) birth = new Date();
         if (phone == null || phone.equals("")) phone = "empty";
         if (pwd == null || pwd.equals("")) pwd = "empty";
         if (email == null || email.equals("")) email = "empty";
