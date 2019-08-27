@@ -27,4 +27,14 @@ public class ContractServiceImpl implements ContractService {
     public String getContractImageById(int contractId) {
         return dao.selectContractImageById(contractId);
     }
+
+    @Override
+    public boolean isMyContract(int memberId, int contractId) {
+        List<ContractVO> list = dao.selectMyContracts(memberId);
+        for(ContractVO contract : list) {
+            if(contract.getId() == contractId)
+                return true;
+        }
+        return false;
+    }
 }

@@ -147,13 +147,27 @@ public class MypageController {
     }
 
     @RequestMapping("/contract/view")
-    public ModelAndView showContractImage(@RequestParam int contractId){
+    public ModelAndView showContractImage(@RequestParam int contractId,
+                                          HttpServletRequest request){
         logger.info("show contract image entered...");
         ModelAndView mav = new ModelAndView();
-        String image = contractService.getContractImageById(contractId);
-        mav.setViewName("myContractView");
-        mav.addObject("contractId", contractId);
-        mav.addObject("image", image);
+        MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
+        if(memberVO == null) {  // 세션이 없으면 에러 페이지 반환
+            mav.setViewName("error");
+            return mav;
+        }
+        int memberId = memberVO.getMemberId();
+        if(contractService.isMyContract(memberId, contractId)) {    // 내 계약서가 맞을 때
+            String image = contractService.getContractImageById(contractId);
+            mav.setViewName("myContractView");
+            mav.addObject("contractId", contractId);
+            mav.addObject("image", image);
+        }
+        else {  // 내 계약서가 아니면 에러 페이지 반환
+            mav.setViewName("error");
+            return mav;
+        }
+
         return mav;
     }
 
