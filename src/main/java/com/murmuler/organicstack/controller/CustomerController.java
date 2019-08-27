@@ -51,7 +51,7 @@ public class CustomerController {
             if(page >= total-2) startpage = total - 4;
         }
 
-        System.out.println(startpage +", "+ page +", "+total);
+//        System.out.println(startpage +", "+ page +", "+total);
         mav.addObject("curpage", page);
         mav.addObject("startpage", startpage);
         mav.addObject("total", total);

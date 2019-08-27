@@ -29,13 +29,13 @@ public class CustomerTest {
     public void searchNoticeListTest(){
 //        자바단에서 page 계산해서 넘겨주기!! -> (page-1)*listSize 이 값이 0이라서 0으로 테스트함
         List<NoticeVO> list = dao.searchNoticeList(0);
-        for(NoticeVO noticeVO : list){
-            System.out.println(noticeVO.getId());
-            System.out.println(noticeVO.getTitle());
-            System.out.println(noticeVO.getContent());
-            System.out.println(noticeVO.getWriteDate());
-            System.out.println("=======================================================");
-        }
+//        for(NoticeVO noticeVO : list){
+//            System.out.println(noticeVO.getId());
+//            System.out.println(noticeVO.getTitle());
+//            System.out.println(noticeVO.getContent());
+//            System.out.println(noticeVO.getWriteDate());
+//            System.out.println("=======================================================");
+//        }
         assertNotNull(list);
     }
 
@@ -43,12 +43,12 @@ public class CustomerTest {
     public void searchFaqListTest(){
 //        자바단에서 page 계산해서 넘겨주기!! -> (page-1)*listSize 이 값이 0이라서 0으로 테스트함
         List<FaqVO> list = dao.searchFaqList(0);
-        for(FaqVO faqVO : list){
-            System.out.println(faqVO.getId());
-            System.out.println(faqVO.getTitle());
-            System.out.println(faqVO.getContent());
-            System.out.println("=======================================================");
-        }
+//        for(FaqVO faqVO : list){
+//            System.out.println(faqVO.getId());
+//            System.out.println(faqVO.getTitle());
+//            System.out.println(faqVO.getContent());
+//            System.out.println("=======================================================");
+//        }
         assertNotNull(list);
     }
 

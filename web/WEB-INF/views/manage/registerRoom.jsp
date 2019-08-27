@@ -41,7 +41,7 @@
 			<tr>
 				<td class="tbSubtitle">상세 주소</td>
 				<td>
-					<input type="text" id="inputDetailAddr" class="fullTextbox"/>
+					<input type="text" id="inputDetailAddr" class="fullTextbox" maxlength="100"/>
 				</td>
 			</tr>
 		</table>
@@ -73,7 +73,7 @@
 					<button id="btnRi2" value="월세">월세</button>
 					<button id="btnRi3" value="단기">단기</button>
 					<input type="text" id="inputDeposit" class="alignRight" placeholder="보증금" onkeyup="$(this).onlyNum()"/>
-					<label id="slash">/</label>
+					<label id="slash">만원/</label>
 					<input type="text" id="inputPrice" class="alignRight" placeholder="월세 or 가격" onkeyup="$(this).onlyNum()"/>
 					<label>만원</label>
 				</td>
@@ -165,7 +165,7 @@
 			<tr>
 				<td class="tbSubtitle">제목</td>
 				<td class="tdContent">
-					<input type=text id="inputTitle" class="fullTextbox" style="text-align:center" placeholder="예) 서울대입구역 도보 5분거리에 위치한 좋은 방이에요."/>
+					<input type=text id="inputTitle" class="fullTextbox" style="text-align:center" placeholder="예) 서울대입구역 도보 5분거리에 위치한 좋은 방이에요." maxlength="150"/>
 				</td>
 			</tr>
 			<tr>
@@ -177,9 +177,9 @@
 			<tr>
 				<td class="tbSubtitle">해시태그</td>
 				<td>
-					<span class="tag">#</span><input type="text" class="hash" id="hash1"/>
-					<span class="tag">#</span><input type="text" class="hash" id="hash2"/>
-					<span class="tag">#</span><input type="text" class="hash" id="hash3"/>
+					<span class="tag">#</span><input type="text" class="hash" id="hash1" maxlength="13"/>
+					<span class="tag">#</span><input type="text" class="hash" id="hash2" maxlength="13"/>
+					<span class="tag">#</span><input type="text" class="hash" id="hash3" maxlength="13"/>
 				</td>
 			</tr>
 		</table>

@@ -119,7 +119,7 @@ public class MemberController {
         MemberVO member = (MemberVO)session.getAttribute("loginMember");
         if (member == null) {
             res.put("pwdResult", "CHANGE_FAIL");
-            System.out.println("member null..");
+//            System.out.println("member null..");
         } else {
             String pwd = member.getPwd();
             if (!pwd.equals(curpwd)) {
@@ -132,11 +132,11 @@ public class MemberController {
                     session.setAttribute("loginMember", member);
                 } else {
                     res.put("pwdResult", "CHANGE_FAIL");
-                    System.out.println("update fail...");
+//                    System.out.println("update fail...");
                 }
             }
         }
-        System.out.println(res.get("pwdResult"));
+//        System.out.println(res.get("pwdResult"));
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
     }

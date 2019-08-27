@@ -171,8 +171,8 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     synchronized public int insertRoomHashtag(int roomId, String[] hashtagList) {
-        for(String str : hashtagList)
-            System.out.println("hash: "+str);
+//        for(String str : hashtagList)
+//            System.out.println("hash: "+str);
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("roomId", roomId);
@@ -198,8 +198,8 @@ public class RoomDAOImpl implements RoomDAO {
             result &= mapper.updateLocation(locationVO);
         }
         else {
-            System.out.println("In DAO locaionVO.getdetailAddr: "+ locationVO.getDetailAddr());
-            System.out.println("locationVO: "+ locationVO);
+//            System.out.println("In DAO locaionVO.getdetailAddr: "+ locationVO.getDetailAddr());
+//            System.out.println("locationVO: "+ locationVO);
             if(isNotChangeDtAddr.equals("false"))
                 result &= mapper.updateDetailLocation(locationVO);
         }

@@ -95,7 +95,7 @@ public class RoomController {
         JSONObject res = new JSONObject();
         try {
             addrInfo = (JSONObject) parser.parse(allAddr);
-            System.out.println("addrInfo : "+addrInfo);
+//            logger.info("addrInfo : "+addrInfo);
         } catch (Exception e) {}
         roomInfo.put("sido", (String) addrInfo.get("sido"));
         roomInfo.put("sigungu", (String) addrInfo.get("sigungu"));
@@ -144,12 +144,12 @@ public class RoomController {
         int result;
         if((result=roomService.addRoom(roomInfo)) == RoomDAO.FAIL) {
             res.put("registerResult", "FAIL");
-            System.out.println("FAIL");
+            logger.info("ROOM REGISTER FAIL");
         }
         else {
             res.put("registerResult", "SUCCESS");
             res.put("roomId", result);
-            System.out.println("SUCCESS");
+            logger.info("ROOM REGISTER SUCCESS");
         }
         response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(res);
@@ -412,11 +412,11 @@ public class RoomController {
 
         if(roomService.modifyRoom(roomInfo) >= 0) {
             res.put("updateResult", "SUCCESS");
-            System.out.println("SUCCESS");
+            logger.info("ROOM UPDATE SUCCESS");
         }
         else {
             res.put("updateResult", "FAIL");
-            System.out.println("FAIL");
+            logger.info("ROOM UPDATE FAIL");
         }
 
         response.setContentType("application/json; charset=utf-8");
@@ -428,7 +428,7 @@ public class RoomController {
 
         Map<String, Object> room = roomService.getRoomInfo(roomId);
 
-        System.out.println("roomVO: "+ room.get("roomVO"));
+//        logger.info("roomVO: "+ room.get("roomVO"));
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/manage/updateRoom");
         mav.addObject("room", room);
