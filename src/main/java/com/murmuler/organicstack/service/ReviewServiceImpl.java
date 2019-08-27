@@ -1,8 +1,10 @@
 package com.murmuler.organicstack.service;
 
 import com.murmuler.organicstack.dao.ReviewDAO;
+import com.murmuler.organicstack.dao.RoomDAO;
 import com.murmuler.organicstack.vo.LocationVO;
 import com.murmuler.organicstack.vo.ReviewVO;
+import com.murmuler.organicstack.vo.RoomSummaryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewDAO reviewDAO;
+
+    @Autowired
+    private RoomDAO roomDAO;
 
     @Override
     public ReviewVO getReviewListByReviewId(int reviewId) {
@@ -125,5 +130,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public int removeMultiReivew(Map<String, Object> idMap) {
         return reviewDAO.deleteMultiReview(idMap);
+    }
+
+    @Override
+    public boolean isThisWhoRegisteredRoom(int memberId) {
+        List<RoomSummaryVO> list = roomDAO.selectMyRooms(memberId);
+        if (list.size() == 0)
+            return false;
+        else
+            return true;
     }
 }

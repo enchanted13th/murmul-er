@@ -165,17 +165,10 @@ $.showLoginPopup = function (flag, url) {
                             })
                             break;
                         case "WRONG_ID":
-                            Swal.fire('로그인 실패','존재하지 않는 아이디입니다.', 'error')
-                                .then(function(){
-                                    Swal.close();
-                                    document.loginForm.id.focus();
-                            });
+                            swalFocus('로그인 실패','존재하지 않는 아이디입니다.', 'error', '#inputId');
                             break;
                         case "WRONG_PWD":
-                            Swal.fire('로그인 실패','비밀번호가 틀렸습니다.', 'error')
-                                .then(function(){
-                                document.loginForm.pwd.focus();
-                            });
+                            swalFocus('로그인 실패','비밀번호가 틀렸습니다.', 'error', '#inputPwd');
                             break;
                         case "ADMIN_LOGIN":
                             Swal.fire('','관리자 페이지로 이동합니다.',"success")
@@ -190,7 +183,7 @@ $.showLoginPopup = function (flag, url) {
         popup.find('#join').click(function () {
             $.showJoinPopup();
         })
-        document.loginForm.id.focus();
+        $('#inputId').focus();
         let wh = $(window).height();
         let ph = 470;
         let top = (wh - ph) / 2;

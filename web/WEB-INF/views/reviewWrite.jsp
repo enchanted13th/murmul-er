@@ -156,7 +156,25 @@
         </div>
     </form>
 </div>
-
+<script>
+    let isRegistered = "${isRegistered}";
+    switch (isRegistered) {
+        case "NOT_LOGIN":
+            Swal.fire('로그인 필요', '로그인하지 않으면 작성할 수 없습니다.', 'error')
+                .then(function () {
+                    location.href="/review?page=1&order=latest";
+                })
+            break;
+        case "TRUE":
+            Swal.fire('리뷰 작성 불가', '방을 등록한 사람은 리뷰를 작성할 수 없습니다.', 'error')
+                .then(function () {
+                    location.href="/review?page=1&order=latest";
+                })
+            break;
+        case "FALSE":
+            break;
+    }
+</script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f53634808f210457972e36ebc256ed0&libraries=services"></script>
 <script src="/resources/js/reviewWrite.js"></script>

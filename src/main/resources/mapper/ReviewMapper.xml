@@ -82,4 +82,8 @@
         )
     </delete>
 
+    <select id="selectReviewListByMemberId" resultType="com.murmuler.organicstack.vo.ReviewVO">
+        SELECT review_id AS id FROM review_tb WHERE member_id = #{memberId}
+    </select>
+
 </mapper>

@@ -20,4 +20,6 @@ public interface ReviewService {
     public int addImg(int reviewId, String image);
 
     int removeMultiReivew(Map<String, Object> idMap);
+
+    boolean isThisWhoRegisteredRoom(int memberId);
 }
