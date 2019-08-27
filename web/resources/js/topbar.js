@@ -402,8 +402,11 @@ $.validJoinInfo = function () {
     let phone1 = $('#frontNum').val();
     let phone2 = defend($('#middleNum').val());
     let phone3 = defend($('#backNum').val());
-    let nameCheck = /[^ㄱ-힣a-zA-Z]/gi;
-    let emailCheck = /[^0-9a-zA-Z-_]/gi;
+    // let nameCheck = /[^ㄱ-힣a-zA-Z]/gi;
+    // let emailCheck = /[^0-9a-zA-Z-_]/gi;
+    let emailRegExp = /^[a-z0-9_]{3,20}@[a-z]{2,15}\.(com|net|co.kr|ac.kr|kr)$/;
+    let nicknameRegExp = /^[a-zA-Z0-9가-힣~!?#_*&^|]{2,10}$/;
+    let passwordRegExp = /^[a-zA-Z0-9~!?#*&^]{6,20}$/;
 
     if (id === "" || pwd === "" || pwd2 === "" || realname === "" || nickname === "" || emailId === "" || domain === "" || phone1 === "" || phone2 === "" || phone3 === "")
         return false;
@@ -454,8 +457,9 @@ $.validJoinInfo = function () {
         document.joinForm.emailId.focus();
         return false;
     }
-    if(emailID.length < 5){
+    if(emailId.length < 5){
         Swal.fire('','이메일은 최소 5자 이상, 최대 30자 이하입니다.','warning');
+        return false;
     }
     if(emailCheck.test(emailId)){
         Swal.fire('올바르지 않은 이메일 양식입니다.','영문자와 숫자만 입력하여주세요.',"warning");
