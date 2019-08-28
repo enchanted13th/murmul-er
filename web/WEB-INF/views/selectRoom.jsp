@@ -16,6 +16,9 @@
     var contactId = ${contactId};
 </script>
 <div class="roomBtns">
+    <div>
+        <span class="guide">계약서는 임대인,전대인만 작성할 수 있습니다.</span>
+    </div>
     <c:forEach var="room" items="${myRoom}">
         <div class="roomBtn">
             <button class="selectRoom" value="${room.roomId}">${room.roadname}/${room.title} - ${room.deposit}/${room.monthlyCost}</button>
