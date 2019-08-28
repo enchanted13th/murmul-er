@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -121,35 +122,29 @@ public class CustomerController {
     public void inquiry(@RequestParam("emailId") String emailId,
                         @RequestParam("emailDomain") String emailDomain,
                         @RequestParam("content") String content,
-                        @RequestParam("agree") String agree,
+                        @RequestParam("agree") boolean agree,
                         HttpServletResponse response) throws IOException {
 
         JSONObject jobj = new JSONObject();
-        String emailRegExp = "^[a-z0-9_]{3,15}$";
-        String domainRegExp = "[a-z]{2,10}.(com|net|co.kr|ac.kr|kr|org)$";
-        if(!(emailId==null || emailId.equals(""))) {
-            if(emailId.matches(emailRegExp)) {
-                if(!(emailDomain==null || emailDomain.equals(""))) {
-                    if(emailDomain.matches(domainRegExp)) {
-                        if(!(content==null || content.equals(""))) {
-                            if(agree.equals("true")) {
-                                String email = emailId + "@" + emailDomain;
-                                int result = customerService.addInquiry(email, content);
-                                if (result == 1) { // 문의 등록 성공
-                                    jobj.put("inquiryResult", "SUCCESS");
-                                } else {
-                                    jobj.put("inquiryResult", "INQUIRY_FAIL");
-                                }
-                            }
-                        }
-                    }
-                }
+        String email = emailId + "@" + emailDomain;
+        String emailRegExp = "^[a-z0-9_]{5,20}@[a-z]{2,15}\\.(com|net|co.kr|ac.kr|kr)$";
+
+        if (!agree || content == null || content.trim().equals("")) {
+            jobj.put("inquiryResult", "VALIDATE_FAIL");
+        }
+        else if (Pattern.matches(emailRegExp, email)) {
+            int result = customerService.addInquiry(email, content);
+            if (result > 0) { // 문의 등록 성공
+                jobj.put("inquiryResult", "SUCCESS");
+            } else {
+                jobj.put("inquiryResult", "INQUIRY_FAIL");
             }
         }
         else {
             jobj.put("inquiryResult", "VALIDATE_FAIL");
         }
-        response.setContentType("text/html; charset=utf-8");
+
+        response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(jobj);
     }
 

@@ -46,7 +46,7 @@ public class TalkController {
         MemberVO memberVO = (MemberVO) request.getSession().getAttribute("loginMember");
         ModelAndView mav = new ModelAndView();
         if (memberVO == null) {
-            mav.setViewName("redirect:/");
+            mav.setViewName("error");
             return mav;
         }
         int me = memberVO.getMemberId();

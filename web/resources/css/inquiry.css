@@ -1,103 +1,109 @@
 @charset "UTF-8";
 
-.wrap .inquiryForm {
-	width: 100%;
+.wrap > .inquiryForm {
+	width: 85%;
 	border: 2px solid #b6e2f8;
 	border-radius: 10px;
-	margin: 40px 0px;
+	margin: 40px auto;
 }
 
-.wrap .inquiryForm>.formTitle {
+.wrap > .inquiryForm > .top-explain {
+	width: 85%;
+	margin: 20px auto 0 auto;
+	color: #78b9f8;
+}
+
+.wrap > .inquiryForm .emailForm {
 	margin: 0 auto;
-	margin: 30px 25px;
-}
-
-.wrap .inquiryForm>.emailForm {
-	margin: 40px;
+	width: 85%;
 	text-align: center;
 }
 
-.wrap .inquiryForm .emailForm>.email {
-	margin: 20px 80px;
+.wrap > .inquiryForm .emailForm > .email {
+	margin: 20px 0;
 	font-size: 20px;
 	font-weight: bold;
 	float: left;
+	line-height: 46px;
 }
 
-.wrap .inquiryForm .emailForm>.domain {
+.wrap > .inquiryForm .emailForm > .domain {
 	font-size: 16pt;
 	font-weight: bold;
 }
 
-.wrap .inquiryForm .emailForm>.emailinput {
+.wrap > .inquiryForm .emailForm > .inputBox {
+	width: 200px;
 	margin: 20px 20px;
-	height: 30px;
-	font-size: 18pt;
+	font-size: 15pt;
+	line-height: 40px;
+	border: 2px solid rgb(233, 233, 233);
 }
 
-.wrap .inquiryForm .emailForm>.emaildomain {
-	margin: 20px 20px;
-	height: 30px;
-	font-size: 18pt;
-}
-
-.wrap .inquiryForm>.contentForm {
+.wrap > .inquiryForm .contentForm {
+	margin: 0 auto;
+	width: 85%;
 	text-align: center;
-	margin: 30px 0px;
 }
 
-.wrap .inquiryForm .content {
+.wrap > .inquiryForm .contentForm > .content {
 	text-align: left;
-	margin: 20px 80px;
 	font-size: 20px;
 	font-weight: bold;
 }
 
-.wrap .inquiryForm .bottom {
-	margin: 25px 80px;
+.wrap > .inquiryForm .contentForm > #inputContent {
+	margin: 20px 0;
+	width: 100%;
+	resize: none;
+	height: 400px;
+	font-size: 15pt;
+	border: 2px solid rgb(233, 233, 233);
+
 }
 
-.wrap .inquiryForm .bottom>.agree {
-	margin-top: 5px;
+.wrap > .inquiryForm .bottom {
+	margin: 0 auto;
+	width: 85%;
+}
+
+.wrap > .inquiryForm .bottom > .agree {
+	margin-top: 25px;
+}
+
+.wrap > .inquiryForm .bottom > .info {
+	font-size: 17px;
 	width: 25px;
 	height: 25px;
 }
 
-.wrap .inquiryForm .bottom>.info {
-	font-size: 20px;
-	width: 25px;
-	height: 25px;
-}
-
-.wrap .inquiryForm .check {
+.wrap > .inquiryForm .check {
 	margin: 20px 20px;
 	background-color: #d9d9d9;
 	font-weight: bold;
-	font-size: 20px;
-	border-radius: 15px;
+	font-size: 17px;
+	border-radius: 10px;
+	padding: 3px 30px;
 }
-
-.contentForm>textarea {
-	margin: 20px 80px;
-	resize: none;
-	width: 85%;
-	height: 400px;
-	font-size: 18pt;
+.wrap > .inquiryForm .check:hover {
+	cursor: pointer;
+	background-color: #e5e5e5;
 }
 
 .wrap .submit {
 	float: right;
-	background-color: #b6e2f8;
-	color: white;
-	font-size: 25px;
+	background-color: #fff;
+	font-size: 17px;
 	border-radius: 10px;
 	margin-top: 15px;
-	border: 0;
+	border: 2px solid rgb(182, 226, 248);
 	outline: 0;
+	padding: 3px 30px;
 }
 
 .wrap .submit:hover {
 	cursor: pointer;
+	background-color: rgb(182, 226, 248);
 }
 
 #termPopup {

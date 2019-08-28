@@ -1,37 +1,26 @@
+var emailId = "";
+var domain = "";
+var content = "";
+var agree = false;
+
 $(document).ready(function () {
     $('.submit').click(function () {
-        let email = $('#inputEmail').val();
-        let domain = $('#inputDomain').val();
-        let content = $('#inputContent').val();
-        let agree = $('#agree')[0].checked;
-
-        if (!(email == "" || domain == "" || content == "" || agree == false)) {
-            if (validate()) {
-                $.ajax('/service/support', {
-                    type: 'POST',
-                    data: {
-                        emailId: $('#inputEmail').val(),
-                        emailDomain: $('#inputDomain').val(),
-                        content: $('#inputContent').val(),
-                        agree: $('#agree')[0].checked,
-                    }
-                }).then(function (data, status) {
-                    if (status === 'success') {
-                        var obj = JSON.parse(data);
-                        switch (obj.inquiryResult) {
-                            case "SUCCESS":
-                                Swal.fire('문의 등록이 완료되었습니다.', null, "success").then(function () {
-                                    location.href = "";
-                                })
-                                break;
-                            case "INQUIRY_FAIL":
-                                Swal.fire('문의 등록에 실패하였습니다.', null, "error");
-                                break;
-                        }
-                    }
-                })
+        if(!validate()) return;
+        Swal.fire({
+            title: "문의하기",
+            text: "내용을 관리자에게 전송하시겠습니까?",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.value) {
+                $.inquirySubmit();
             }
-        }
+        })
+
     })
     $('.check').click(function () {
         $.termPopup();
@@ -39,8 +28,34 @@ $(document).ready(function () {
     $('#btnSupport').css('border-bottom', '6px solid #b6e2f8');
 });
 
-var clickTerm = function () {
-    $.termPopup();
+$.inquirySubmit = function () {
+    $.ajax('/service/support', {
+        type: 'POST',
+        data: {
+            emailId: emailId,
+            emailDomain: domain,
+            content: content,
+            agree: agree,
+        }
+    }).then(function (data, status) {
+        if (status === 'success') {
+            switch (data.inquiryResult) {
+                case "SUCCESS":
+                    Swal.fire('등록 성공', '문의 등록이 완료되었습니다.', "success").then(function () {
+                        location.href = "";
+                    })
+                    break;
+                case "INQUIRY_FAIL":
+                    Swal.fire('등록 실패', '문의 등록에 실패하였습니다.', "error");
+                    break;
+                case "VALIDATE_FAIL":
+                    Swal.fire('유효성 실패', "유효 조건을 확인해주세요.", "error");
+                    break;
+            }
+        } else {
+            Swal.fire('연결 실패', '잠시후 다시 시도해주세요.', 'error');
+        }
+    })
 }
 
 $.termPopup = function () {
@@ -49,7 +64,7 @@ $.termPopup = function () {
         // console.log($('.inquiryForm').position());
 //		$(document.body).css('overflow', 'hidden');
         let popup = $(''
-            + '	<div id="termPopup" class="menuPopup" onClick="clickTerm()">'
+            + '	<div id="termPopup" class="menuPopup" onClick="$.termPopup()">'
             + '		<div class="termWrap">'
             + '			<div id="termContent" style="padding: 10px 30px 10px 30px;">'
             + '				<p style="font-size:20px; font-weight:bold">개인정보 수집 및 이용에 대한 동의 – 1:1문의</p>'
@@ -82,20 +97,22 @@ $.termPopup = function () {
 }
 
 var validate = function () {
-    let email = defend($('#inputEmail').val());
-    let domain = defend($('#inputDomain').val());
-    let emailRegExp = /^[a-z0-9_]{3,15}$/;
-    let domainRegExp = /[a-z]{2,10}\.(com|net|co.kr|ac.kr|kr|org)$/;
+    emailId = defend($('#inputEmail').val());
+    domain = defend($('#inputDomain').val());
+    content = defend($('#inputContent').val());
+    agree = $('#agree')[0].checked;
 
-    if (!((/^[a-z]/).test(email) && (emailRegExp).test(email))) {
-        Swal.fire('숫자와 영문자로 구성된 이메일을 입력해주세요.', null, "warning");
+    if (emailId === "" || domain === "" || content === "" || agree === false)
         return false;
-    }
 
-    if (!(domainRegExp).test(domain)) {
-        Swal.fire('올바른 도메인을 입력해주세요.', null, "warning");
-        return false;
-    }
+    let emailIdRegExp = /^[a-z0-9_]{5,20}$/;
+    let domainRegExp = /^[a-z]{2,15}\.(com|net|co.kr|ac.kr|kr)$/;
 
+    if (!emailIdRegExp.test(emailId)) {
+        return pleaseReenter('이메일아이디 유효조건','영어, 숫자, 특수문자(_) 가능 / 5-20자', '#inputEmail');
+    }
+    if (!domainRegExp.test(domain)) {
+        return pleaseReenter('이메일도메인 유효조건','영어만 2-15자 + .com / net / co.kr / ac.kr / kr 가능', '#inputDomain');
+    }
     return true;
 }

@@ -15,12 +15,15 @@
     <jsp:include page="csSubtitle.jsp"/>
 
     <div class="inquiryForm">
+        <div class="top-explain">
+            * 답변 받을 이메일을 적고, 문의 내용을 작성해주세요.
+        </div>
         <form name="inquiryForm" onsubmit="return false;">
             <div class="emailForm">
                 <span class="email">이메일</span>
-                <input class="emailinput" id="inputEmail" type="text" required autocomplete="off"/>
+                <input class="inputBox" id="inputEmail" type="text" required autocomplete="off" maxlength="20"/>
                 <span class="domain">@</span>
-                <input class="emaildomain" id="inputDomain" type="text" required autocomplete="off"/>
+                <input class="inputBox" id="inputDomain" type="text" required autocomplete="off" maxlength="21"/>
             </div>
             <div class="contentForm">
                 <div class="content">문의내용</div>
@@ -28,7 +31,7 @@
             </div>
             <div class="bottom">
                 <input class="agree" id="agree" type="checkbox" required/>
-                <span class="info">개인정보 수집  및 이용에 대해 동의합니다.</span>
+                <span class="info">개인정보 수집 및 이용에 대해 동의합니다.</span>
                 <button class="check" type="button">약관확인</button>
                 <button class="submit">문의하기</button>
             </div>
