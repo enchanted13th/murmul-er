@@ -475,4 +475,10 @@ public class RoomServiceImpl implements RoomService {
     public List<Integer> getRoomIdListByMemberId(int memberId) {
         return roomDAO.selectRoomIdListByMemberId(memberId);
     }
+
+    @Override
+    public List<RoomSummaryViewVO> getMyPostingRoom(int memberId) {
+        List<RoomSummaryVO> list = roomDAO.selectMyPostingRooms(memberId);
+        return convertVoToViewVo(list);
+    }
 }

@@ -52,4 +52,6 @@ public interface RoomMapper {
     int updateMultiPostType(Map<String, Object> paramMap);
 
     List<RoomDetailVO> selectRoomByLikesDetail(Map<String, Integer> map);
+
+    List<RoomSummaryVO> selectMyPostingRoomById(int memberId);
 }
