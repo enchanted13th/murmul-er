@@ -54,8 +54,7 @@ public class CsDAOImpl implements CsDAO {
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("content", content);
-        int cnt = mapper.insertInquiry(map);
-        return cnt;
+        return mapper.insertInquiry(map);
     }
 
     @Override
