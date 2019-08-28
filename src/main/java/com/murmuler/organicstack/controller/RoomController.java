@@ -423,31 +423,39 @@ public class RoomController {
         response.getWriter().print(res);
     }
 
+//    @RequestMapping(value = "/update/{roomId}", method = RequestMethod.GET)
+//    public ModelAndView updateRoom(@PathVariable int roomId){
+//
+//        Map<String, Object> room = roomService.getRoomInfo(roomId);
+//
+////        logger.info("roomVO: "+ room.get("roomVO"));
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("/manage/updateRoom");
+//        mav.addObject("room", room);
+//        mav.addObject("roomId", roomId);
+//        return mav;
+//    }
+
     @RequestMapping(value = "/update/{roomId}", method = RequestMethod.GET)
     public ModelAndView updateRoom(@PathVariable int roomId,
-                                   HttpServletRequest request){
+                                   HttpServletRequest request) {
 
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
         int memberId = member.getMemberId();
         List<Integer> list;
         list = roomService.getRoomIdListByMemberId(memberId);
         ModelAndView mav = new ModelAndView();
+
         if(list == null){
             mav.setViewName("/error");
             return mav;
         }
         else if(list.contains(roomId) == true){
-            int result = roomService.removeRoom(roomId);
-            if(result > 0) {
-                Map<String, Object> room = roomService.getRoomInfo(roomId);
-                mav.setViewName("/manage/updateRoom");
-                mav.addObject("room", room);
-                mav.addObject("roomId", roomId);
-                return mav;
-            } else {
-                mav.setViewName("/error");
-                return mav;
-            }
+            Map<String, Object> room = roomService.getRoomInfo(roomId);
+            mav.setViewName("/manage/updateRoom");
+            mav.addObject("room", room);
+            mav.addObject("roomId", roomId);
+            return mav;
         }else{
             mav.setViewName("/error");
             return mav;
@@ -535,7 +543,6 @@ public class RoomController {
             res.put("result", "XSS_FAIL");
         }
         else if(list.contains(roomId) == true){
-            System.out.println("deleteResult, true");
             int result = roomService.modifyPostType(roomId, postType);
             switch (result) {
                 case PostStatusRecord.POST_UPDATE_FAIL :
