@@ -47,7 +47,7 @@ public class ContractController {
                                    @RequestParam String forwhat,
                                    HttpServletRequest request){
         MemberVO member = (MemberVO)request.getSession().getAttribute("loginMember");
-        List<RoomSummaryViewVO> myRoom = roomService.getMyRooms(member.getMemberId());
+        List<RoomSummaryViewVO> myRoom = roomService.getMyPostingRoom(member.getMemberId());
 
         ModelAndView mav = new ModelAndView();
         if(forwhat == null) {

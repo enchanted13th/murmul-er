@@ -270,6 +270,13 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
+    public List<RoomSummaryVO> selectMyPostingRooms(int memberId) {
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        List<RoomSummaryVO> list = mapper.selectMyPostingRoomById(memberId);
+        return list;
+    }
+
+    @Override
     public List<Integer> selectRoomIdListByMemberId(int memberId) {
         RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
         List<Integer> list = mapper.selectRoomIdListByMemberId(memberId);

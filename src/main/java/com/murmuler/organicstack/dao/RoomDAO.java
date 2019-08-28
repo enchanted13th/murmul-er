@@ -40,4 +40,5 @@ public interface RoomDAO {
     int updateMultiPostType(Map<String, Object> paramMap);
 
     List<RoomDetailVO> selectRoomByLikesDetail(Map<String, Integer> map);
+    List<RoomSummaryVO> selectMyPostingRooms(int memberId);
 }
