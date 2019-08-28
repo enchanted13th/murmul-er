@@ -31,10 +31,11 @@ public class ReviewVO {
     private String roadname;
     private String detailAddr;
     private ArrayList<String> hashTagList;
+    private int memberId;
 
     public ReviewVO(int id, Date writeDate, String title, String content, int locationId, int residencePeriod,
                     String periodUnit, int score, String advantage, String disadvantage, char insectLevel, char noiseLevel, String hashtagExist, String image,
-                    String sido, String sigungu, String roadname, String detail_addr, ArrayList<String> hashTagList) {
+                    String sido, String sigungu, String roadname, String detail_addr, ArrayList<String> hashTagList, int memberId) {
         if (writeDate == null)
             writeDate = new Date(new java.util.Date().getTime());
         if (title == null || title.equals(""))
@@ -53,9 +54,6 @@ public class ReviewVO {
             roadname = "empty";
         if(detail_addr == null || detail_addr.equals(""))
             detail_addr = "empty";
-        if(hashTagList == null){
-            hashTagList = new ArrayList<String>();
-        }
         this.id = id;
         this.writeDate = writeDate;
         this.title = title;
@@ -71,6 +69,7 @@ public class ReviewVO {
         this.hashtagExist = hashtagExist;
         this.image = image;
         this.hashTagList = hashTagList;
+        this.memberId = memberId;
     }
 
 }

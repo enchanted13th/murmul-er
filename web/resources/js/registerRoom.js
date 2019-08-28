@@ -44,14 +44,7 @@ function placesSearchCB(data, status) {
         dataSubmit();
     } else {
         // console.log("if조건에 안걸린다");
-        Swal.fire({
-            title: "",
-            text: "없는 주소입니다.",
-            type: "error",
-            onAfterClose: () => {
-                $('#inputAddr').focus();
-            }
-        });
+        swalFocus("", "없는 주소입니다.", "error", "#inputAddr");
     }
 }
 
@@ -62,11 +55,6 @@ function convertList(list){
         if(i < list.length-1) listString += ",";
     }
     return listString;
-}
-
-function defence(string) {
-    // replace string
-    return string;
 }
 
 function dataSubmit(){

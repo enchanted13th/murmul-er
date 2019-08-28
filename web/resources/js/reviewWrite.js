@@ -6,6 +6,7 @@ var noiseLevel;
 var hashtagExist;
 var ps = new kakao.maps.services.Places();
 var imgLeft;
+var sendData = {};
 
 var x = 'x';
 var formData = new FormData();
@@ -97,7 +98,7 @@ function placesSearchCB (data, status, pagination) {
         for(let i = 0; i < files.length; i++){
             formData.append("uploadFile", files[i]);
         }
-        let sendData = {
+        sendData = {
             title: defend($('#inputTitle').val()),
             detailAddr: defend($('#inputDetail').val()),
             residencePeriod: $('#inputPeriod').val(),
@@ -109,7 +110,7 @@ function placesSearchCB (data, status, pagination) {
             insectLevel: insectLevel,
             noiseLevel: noiseLevel,
             hashtagExist: hashtagExist,
-            totAddr: defend(JSON.stringify(totAddr)),
+            totAddr: JSON.stringify(totAddr),
             hashTag1: defend($('#hashTag1').val()),
             hashTag2: defend($('#hashTag2').val()),
             hashTag3: defend($('#hashTag3').val())
@@ -118,44 +119,18 @@ function placesSearchCB (data, status, pagination) {
             Swal.fire('사진을 등록해주세요', '', 'warning');
             return;
         }
-        $.ajax('/review/write', {
-            type: 'POST',
-            data: sendData
-        }).then(function (data, status) {
-            if (status === 'success') {
-                var obj = JSON.parse(data)
-                switch (obj.reviewWriteResult) {
-                    case "SUCCESS":
-                        formData.append("reviewId", obj.reviewId);
-                        $.ajax({
-                            url: '/review/uploadImage',
-                            processData: false,
-                            contentType: false,
-                            data: formData,
-                            enctype: 'multipart/form-data',
-                            dataType: 'json',
-                            type: 'POST'
-                        }).then(function (data, status) {
-                            if (status === "success") {
-                                switch (data.uploadResult) {
-                                    case "SUCCESS" :
-                                        Swal.fire('리뷰 등록이 완료되었습니다.', "", "success").then(function () {
-                                            location.href = "/review?page=1&order=latest";
-                                        })
-                                        break;
-                                    case "FAIL" :
-                                        Swal.fire('파일 등록 실패', '등록할 수 없습니다.', 'error');
-                                        break;
-                                }
-                            } else {
-                                Swal.fire('파일 연결 실패', '잠시후 다시 시도해주세요.', 'error');
-                            }
-                        });
-                        break;
-                    case "WRITE_FAIL":
-                        Swal.fire('리뷰 등록에 실패하였습니다.', "", "error");
-                        break;
-                }
+        Swal.fire({
+            title: "리뷰 등록",
+            text: "리뷰를 등록하시겠습니까?",
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.value) {
+                $.reviewSubmit();
             }
         })
     }else {
@@ -163,6 +138,77 @@ function placesSearchCB (data, status, pagination) {
             location.href = "";
         })
     }
+}
+
+$.reviewSubmit = function () {
+    $('#btnUpdate').attr('disabled', true);
+    $('#btnCancel').attr('disabled', true);
+    $.ajax('/review/write', {
+        type: 'POST',
+        data: sendData
+    }).then(function (data, status) {
+        if (status === 'success') {
+            let jobj = JSON.parse(data);
+            switch (jobj.reviewWriteResult) {
+                case "SUCCESS":
+                    formData.append("reviewId", jobj.reviewId);
+                    $.ajax({
+                        url: '/review/uploadImage',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        enctype: 'multipart/form-data',
+                        dataType: 'json',
+                        type: 'POST'
+                    }).then(function (data, status) {
+                        if (status === "success") {
+                            switch (data.uploadResult) {
+                                case "SUCCESS" :
+                                    Swal.fire('등록 완료', "리뷰 등록이 완료되었습니다.", "success").then(function () {
+                                        location.href = "/review?page=1&order=latest";
+                                    })
+                                    break;
+                                case "FAIL" :
+                                    Swal.fire('등록 실패', '등록할 수 없습니다.', 'error').then(function () {
+                                        $('#btnUpdate').attr('disabled', false);
+                                        $('#btnCancel').attr('disabled', false);
+                                    })
+                                    break;
+                            }
+                        } else {
+                            Swal.fire('연결 오류', '잠시 후 다시 시도해주세요.', 'error').then(function () {
+                                $('#btnUpdate').attr('disabled', false);
+                                $('#btnCancel').attr('disabled', false);
+                            })
+                        }
+                    });
+                    break;
+                case "WRITE_FAIL":
+                    Swal.fire('등록 실패', "리뷰 등록에 실패하였습니다.", "error").then(function () {
+                        $('#btnUpdate').attr('disabled', false);
+                        $('#btnCancel').attr('disabled', false);
+                    })
+                    break;
+                case "NOT_LOGIN":
+                    Swal.fire('로그인 필요', '로그인하지 않으면 작성할 수 없습니다.', 'error')
+                        .then(function () {
+                            location.href="/review?page=1&order=latest";
+                        })
+                    break;
+                case "UNABLE_TO_WRITE":
+                    Swal.fire('리뷰 작성 불가', '방을 등록한 사람은 리뷰를 작성할 수 없습니다.', 'error')
+                        .then(function () {
+                            location.href="/review?page=1&order=latest";
+                        })
+                    break;
+            }
+        } else {
+            Swal.fire('연결 오류', '잠시 후 다시 시도해주세요.', 'error').then(function () {
+                $('#btnUpdate').attr('disabled', false);
+                $('#btnCancel').attr('disabled', false);
+            })
+        }
+    })
 }
 
 var isEmpty = function(str) {

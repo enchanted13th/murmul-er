@@ -5,6 +5,7 @@ import com.murmuler.organicstack.util.Constants;
 import com.murmuler.organicstack.vo.MemberVO;
 import com.murmuler.organicstack.vo.ReviewVO;
 //import oracle.jdbc.driver.Const;
+import oracle.jdbc.driver.Const;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -126,83 +127,90 @@ public class ReviewController {
                                   @RequestParam("hashTag3") String hashTag3,
                                   HttpServletRequest request,
                                   HttpServletResponse response) throws IOException{
-
-        JSONObject json = (JSONObject) JSONValue.parse(totAddr);
-        json.put("detailAddr", detailAddr);
-        Map<String, String> locationInfo = new HashMap<String, String>();
-        locationInfo.put("sido", (String)json.get("sido"));
-        locationInfo.put("sigungu", (String)json.get("sigungu"));
-        locationInfo.put("bname", (String)json.get("bname"));
-        locationInfo.put("bname1", (String)json.get("bname1"));
-        locationInfo.put("bname2", (String)json.get("bname2"));
-
-        String jibunAddressEnglish = (String)json.get("jibunAddressEnglish");
-        String[] jibunAddress =  jibunAddressEnglish.split(",");
-        String jibun = jibunAddress[0];
-        json.put("jibun",jibun);
-        locationInfo.put("jibun", (String)json.get("jibun"));
-
-        locationInfo.put("roadName", (String)json.get("roadname"));
-
-        String roadAddressEnglish = (String)json.get("roadAddressEnglish");
-        String[] roadAddress =  roadAddressEnglish.split(",");
-        String roadJibun = roadAddress[0];
-        json.put("roadJibun", roadJibun);
-        locationInfo.put("roadJibun", (String)json.get("roadJibun"));
-
-        locationInfo.put("detailAddr", (String)json.get("detailAddr"));
-        locationInfo.put("latitude", (String)json.get("latitude"));
-        locationInfo.put("longitude", (String)json.get("longitude"));
+        logger.info("review write method entered...");
         MemberVO member = (MemberVO) request.getSession().getAttribute("loginMember");
-
-        int locationId = reviewService.addLocation(locationInfo);
-        boolean hashTagExist = false;
-        if(hashtagExist.equals("Y")){
-            hashTagExist = true;
-        }
-
-        ArrayList<String> hashTagList = null;
-        if(hashTagExist) {
-             hashTagList = new ArrayList<String>();
-            if (!hashTag1.equals("")) {
-                hashTagList.add(hashTag1);
-            }
-            if (!hashTag2.equals("")) {
-                hashTagList.add(hashTag2);
-            }
-            if (!hashTag3.equals("")) {
-                hashTagList.add(hashTag3);
-            }
-        }
-        int res = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashtagExist,"","","","","", hashTagList));
-        JSONObject jObj = new JSONObject();
-        if (res > 0) { // 문의 등록 성공
-            jObj.put("reviewWriteResult", "SUCCESS");
-            jObj.put("reviewId", res);
+        JSONObject res = new JSONObject();
+        if (member == null) {
+            res.put("reviewWriteResult", "NOT_LOGIN");
+        } else if (reviewService.isThisWhoRegisteredRoom(member.getMemberId())) {
+            res.put("reviewWriteResult", "UNABLE_TO_WRITE");
         } else {
-            jObj.put("reviewWriteResult", "WRITE_FAIL");
+            int memberId = member.getMemberId();
+            JSONObject json = (JSONObject) JSONValue.parse(totAddr);
+            json.put("detailAddr", detailAddr);
+            Map<String, String> locationInfo = new HashMap<String, String>();
+            locationInfo.put("sido", (String)json.get("sido"));
+            locationInfo.put("sigungu", (String)json.get("sigungu"));
+            locationInfo.put("bname", (String)json.get("bname"));
+            locationInfo.put("bname1", (String)json.get("bname1"));
+            locationInfo.put("bname2", (String)json.get("bname2"));
+
+            String jibunAddressEnglish = (String)json.get("jibunAddressEnglish");
+            String[] jibunAddress =  jibunAddressEnglish.split(",");
+            String jibun = jibunAddress[0];
+            json.put("jibun",jibun);
+            locationInfo.put("jibun", (String)json.get("jibun"));
+
+            locationInfo.put("roadName", (String)json.get("roadname"));
+
+            String roadAddressEnglish = (String)json.get("roadAddressEnglish");
+            String[] roadAddress =  roadAddressEnglish.split(",");
+            String roadJibun = roadAddress[0];
+            json.put("roadJibun", roadJibun);
+            locationInfo.put("roadJibun", (String)json.get("roadJibun"));
+
+            locationInfo.put("detailAddr", (String)json.get("detailAddr"));
+            locationInfo.put("latitude", (String)json.get("latitude"));
+            locationInfo.put("longitude", (String)json.get("longitude"));
+
+
+            int locationId = reviewService.addLocation(locationInfo);
+            boolean hashTagExist = false;
+            if(hashtagExist.equals("Y")){
+                hashTagExist = true;
+            }
+
+            ArrayList<String> hashTagList = null;
+            if(hashTagExist) {
+                hashTagList = new ArrayList<>();
+                if (!hashTag1.trim().equals("")) {
+                    hashTagList.add(hashTag1);
+                }
+                if (!hashTag2.trim().equals("")) {
+                    hashTagList.add(hashTag2);
+                }
+                if (!hashTag3.trim().equals("")) {
+                    hashTagList.add(hashTag3);
+                }
+            }
+            int result = reviewService.addReview(new ReviewVO(1, Date.valueOf("2019-08-11"), title,content,locationId,Integer.parseInt(residencePeriod),periodUnit,Integer.parseInt(score),advantage,disadvantage,insectLevel.charAt(0),noiseLevel.charAt(0),hashtagExist,"","","","","", hashTagList, memberId));
+
+            if (result > 0) { // 문의 등록 성공
+                res.put("reviewWriteResult", "SUCCESS");
+                res.put("reviewId", result);
+            } else {
+                res.put("reviewWriteResult", "WRITE_FAIL");
+            }
         }
-        response.setContentType("text/html; charset=utf-8");
-        response.getWriter().print(jObj);
+        response.setContentType("application/html; charset=utf-8");
+        response.getWriter().print(res);
     }
 
     @ResponseBody
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void uploadImage(@RequestParam MultipartFile[] uploadFile,
                             @RequestParam String reviewId,
-                            HttpServletRequest request,
                             HttpServletResponse response) throws IOException {
-
+        logger.info("review upload img entered...");
         String image="";
         String uploadFolder = Constants.REPOSITORY_PATH;
-        String uploadFolderPath = "review/reviewId_" + reviewId;
+        String uploadFolderPath = Constants.REVIEW_IMG_PATH + reviewId;
+        JSONObject res = new JSONObject();
 
         File uploadPath = new File(uploadFolder, uploadFolderPath);
         if(uploadPath.exists() == false){
             uploadPath.mkdirs();
         }
-
-        JSONObject res = new JSONObject();
 
         int i=0;
         for(MultipartFile multipartFile : uploadFile){
