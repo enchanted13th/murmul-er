@@ -1,6 +1,7 @@
 package com.murmuler.organicstack.dao;
 
 import com.murmuler.organicstack.mybatis.ReviewMapper;
+import com.murmuler.organicstack.mybatis.RoomMapper;
 import com.murmuler.organicstack.vo.LocationVO;
 import com.murmuler.organicstack.vo.ReviewVO;
 import org.apache.ibatis.session.SqlSession;
@@ -69,16 +70,17 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     synchronized public int insertLocation(LocationVO locationVO) {
-        ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
-        mapper.insertLocation(locationVO);
-        return mapper.selectOneRecentLocation();
+        RoomMapper mapper = sqlSession.getMapper(RoomMapper.class);
+        int result = mapper.insertLocation(locationVO);
+        if (result == 0) return 0;
+        else return locationVO.getId();
     }
 
     @Override
     synchronized public int insertReview(ReviewVO reviewVO) {
-        int res = 0;
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
-        if((res = mapper.insertReview(reviewVO)) > 0){
+        int res = mapper.insertReview(reviewVO);
+        if(res > 0){
             //int reviewId = mapper.selectOneRecentReview();
             int reviewId = reviewVO.getId();
             res = reviewId;
@@ -99,11 +101,8 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     @Override
     synchronized public void insertReviewHashtag(int reviewId, ArrayList<String> hashtagList) {
-        System.out.print("hashtagList: ");
-        for(String str : hashtagList)
-            System.out.print(str+" ");
         ReviewMapper mapper = sqlSession.getMapper(ReviewMapper.class);
-        Map<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("reviewId", reviewId);
         paramMap.put("hashtagList", hashtagList);
         mapper.insertReviewHashtag(paramMap);

@@ -43,8 +43,8 @@
     </select>
 
     <insert id="insertReview" parameterType="com.murmuler.organicstack.vo.ReviewVO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO review_tb (review_title, review_content, location_id, residence_period, period_unit, score, advantage, disadvantage, insect_level, noise_level, hashtag_exist, review_img)
-        VALUES (#{title}, #{content}, #{locationId}, #{residencePeriod}, #{periodUnit}, #{score}, #{advantage}, #{disadvantage}, #{insectLevel}, #{noiseLevel}, #{hashtagExist}, #{image})
+        INSERT INTO review_tb (review_title, review_content, location_id, residence_period, period_unit, score, advantage, disadvantage, insect_level, noise_level, hashtag_exist, review_img, member_id)
+        VALUES (#{title}, #{content}, #{locationId}, #{residencePeriod}, #{periodUnit}, #{score}, #{advantage}, #{disadvantage}, #{insectLevel}, #{noiseLevel}, #{hashtagExist}, #{image}, #{memberId})
     </insert>
 
     <select id="selectReviewTotalCnt" resultType="int">

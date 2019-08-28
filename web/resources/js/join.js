@@ -124,14 +124,14 @@ var joinSubmit = function () {
             //console.log(data);
             switch (data.joinResult) {
                 case "SUCCESS":
-                    Swal.fire('','회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.',"success");
+                    Swal.fire('가입 성공','회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.',"success");
                     $.showLoginPopup();
                     break;
                 case "JOIN_FAIL":
-                    Swal.fire('','회원가입에 실패하셨습니다.',"error");
+                    Swal.fire('가입 실패','회원가입에 실패하셨습니다.',"error");
                     break;
                 case "ALREADY_EXIST":
-                    swalFocus('','이미 존재하는 아이디입니다.', 'warning', '#inputId');
+                    swalFocus('아이디 중복','이미 존재하는 아이디입니다.', 'warning', '#inputId');
                     break;
             }
         } else {
